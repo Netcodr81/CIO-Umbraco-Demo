@@ -1,0 +1,39 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+<header class='cio-header'>
+  <a href='/' aria-label='Home' class='cio-header__logo-link'>
+    @* <img src="..." alt="..." class='cio-header__logo-img' /> *@
+  </a>
+  <section class='cio-header__search'>
+    <form>
+      <div class='cio-header__search-form'>
+        <input type='text' placeholder='Search...' class='cio-header__search-input' />
+        <button type='submit' class='cio-header__search-button' aria-label='Search'>
+          @* <Icon name='mdi:magnify' height={24} width={24} /> *@
+        </button>
+      </div>
+    </form>
+  </section>
+  <button id='menu-toggle' aria-label='Toggle Menu' class='cio-header__menu-toggle'>
+   Menu
+  </button>
+  <!--Non Mobile Menu -->
+  <nav class='cio-header__nav'>
+    <ul class='cio-header__nav-list'>
+      <li><a href='/'>Home</a></li>
+    </ul>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <nav id='mobile-menu' class='cio-mobile-menu'>
+    <div class='cio-mobile-menu__close-container'>
+      <button id='mobile-menu-close-button' class='cio-mobile-menu__close-button' aria-label='Close menu'>
+        @* <Icon name='mdi:close' height={20} width={20} /> *@
+        <span>&times;</span>
+      </button>
+    </div>
+    <ul class='cio-mobile-menu__list'>
+      <li><a href='/'>Home</a></li>
+    </ul>
+  </nav>
+</header>

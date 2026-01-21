@@ -7,8 +7,11 @@
         <CompressionEnabled>false</CompressionEnabled> <!-- Disable compression. E.g. for umbraco backoffice files. These files should be precompressed by node and not let dotnet handle it -->
     </PropertyGroup>
 
+
     <ItemGroup>
+        <PackageReference Include="Our.Iconic" Version="17.0.0" />
         <PackageReference Include="Umbraco.Cms" Version="17.1.0"/>
+        <PackageReference Include="Umbraco.Forms" Version="17.0.3" />
     </ItemGroup>
 
     <ItemGroup>

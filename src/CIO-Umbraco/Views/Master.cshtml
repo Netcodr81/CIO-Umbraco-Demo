@@ -1,0 +1,51 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+	Layout = null;
+    var pageTitle = Model.Value<string>("pageTitle");
+    var metaTitle = Model.Value<string>("metaTitle");
+    var metaDescription = Model.Value<string>("metaDescription");
+
+    var finalTitle =
+        !string.IsNullOrWhiteSpace(metaTitle) ? metaTitle :
+        !string.IsNullOrWhiteSpace(pageTitle) ? pageTitle :
+        Model.Name;
+
+    var defaultDescription = "Office of the Chief Information Officer";
+    var finalDescription =
+        !string.IsNullOrWhiteSpace(metaDescription)
+            ? metaDescription
+            : defaultDescription;
+    
+}
+
+<!doctype html>
+<html lang='en' class='h-full'>
+  <head>
+    <meta charset='UTF-8' />
+    <title>@finalTitle ?? "Nebraska OCIO | OCIO - Innovation in Technology"</title>
+    <link rel='canonical' href='https://cio.nebraska.gov/' />
+    <meta name='description' content='@finalDescription' />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <link rel='icon' type='image/x-icon' href='/favicon.ico' />
+    <link rel="stylesheet" href="/css/styles.css"/>
+    <link
+      rel='stylesheet'
+      href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap'
+    />
+   
+    <title>@finalTitle</title>
+    <link rel='icon' type='image/x-icon' href='/favicon.ico' />
+  </head>
+
+  <body class='main-layout'>
+   @await Html.PartialAsync("layout/Banner")
+   @await Html.PartialAsync("layout/Header")
+    <main id='main-content' class='main-content'>
+      @RenderBody()
+    </main>
+   @await Html.PartialAsync("layout/Footer")
+
+   <script src="~/scripts/main.js"></script>
+  </body>
+</html>
