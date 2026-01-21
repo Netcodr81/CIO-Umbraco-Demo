@@ -1,9 +1,17 @@
-﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+﻿@using CIO_Umbraco.Utilities
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject ISiteSettingsAccessor siteSettingsAccessor
 
+@{
+  var siteSettings = siteSettingsAccessor.Get();
+
+  var bannerText = siteSettings?.BannerText ?? string.Empty;
+  var bannerIcon = siteSettings?.BannerIcon?.Url();
+}
 <div class='cio-banner'>
   <section class='cio-banner__section' aria-label='Official government website'>
     <div class='cio-banner__container'>
-      <p class='cio-banner__text'>@Model.Value("bannerText")</p>
+      @if(bannerIcon is not null){<img src="@bannerIcon" width="19" height="13"/>}<p class='cio-banner__text'>@bannerText</p>
     </div>
   </section>
 </div>

@@ -483,6 +483,7 @@ dfn {
   max-width: 85rem; 
   padding: 0 1rem; 
   margin: 0 auto; 
+  gap: 10px; 
 }
 
 .cio-banner__text {
@@ -729,6 +730,7 @@ dfn {
     align-items: center;
     gap: 0.25rem; /* 4px */
     color: inherit;
+    font-size: 0.99rem;
 }
 
 /* Social Section */
@@ -741,13 +743,31 @@ dfn {
 }
 
 .cio-footer__logo {
-    height: 36px; /* Example height */
+    height: auto; 
     width: auto;
+    object-fit: contain;
+    max-height: 5.31rem;
 }
 
 .cio-footer__social-icons {
     display: flex;
-    gap: 1rem; /* 16px */
+    gap: 1rem; /* 16px */   
+}
+
+.cio-footer__icon-wrap {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--footer-icon-bg, #1e40af);
+  border-radius: 9999px;
+}
+.cio-footer__icon-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
 }
 
 /* Copyright Section */
@@ -756,6 +776,7 @@ dfn {
     align-items: center;
     background-color: #002D42; /* ocio-blue-800 */
     color: white;
+    font-size: .9rem;
 }
 
 .cio-footer__copyright-content {

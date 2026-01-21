@@ -58,14 +58,6 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual string Header => this.Value<string>(_publishedValueFallback, "header");
 
 		///<summary>
-		/// Banner Text
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("bannerText")]
-		public virtual string BannerText => global::Umbraco.Cms.Web.Common.PublishedModels.PageBase.GetBannerText(this, _publishedValueFallback);
-
-		///<summary>
 		/// Hide from Navigation
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]

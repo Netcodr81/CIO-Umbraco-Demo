@@ -1,3 +1,5 @@
+using CIO_Umbraco.Utilities;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.CreateUmbracoBuilder()
@@ -5,6 +7,8 @@ builder.CreateUmbracoBuilder()
     .AddWebsite()
     .AddComposers()
     .Build();
+
+builder.Services.AddScoped<ISiteSettingsAccessor, SiteSettingsAccessor>();
 
 WebApplication app = builder.Build();
 

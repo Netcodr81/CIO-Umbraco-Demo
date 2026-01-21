@@ -22,11 +22,6 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 	/// <summary>Page Base</summary>
 	public partial interface IPageBase : IPublishedContent
 	{
-		/// <summary>Banner Text</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		string BannerText { get; }
-
 		/// <summary>Hide from Navigation</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		bool HideFromNavigation { get; }
@@ -82,19 +77,6 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		}
 
 		// properties
-
-		///<summary>
-		/// Banner Text
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("bannerText")]
-		public virtual string BannerText => GetBannerText(this, _publishedValueFallback);
-
-		/// <summary>Static getter for Banner Text</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		public static string GetBannerText(IPageBase that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "bannerText");
 
 		///<summary>
 		/// Hide from Navigation
