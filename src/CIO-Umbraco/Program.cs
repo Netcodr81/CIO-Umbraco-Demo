@@ -9,6 +9,7 @@ builder.CreateUmbracoBuilder()
     .Build();
 
 builder.Services.AddScoped<ISiteSettingsAccessor, SiteSettingsAccessor>();
+builder.Services.AddSingleton<ISvgRenderer, FileSvgRenderer>();
 
 WebApplication app = builder.Build();
 
