@@ -18,7 +18,7 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Report a Problem</summary>
+	/// <summary>Report A Problem</summary>
 	[PublishedModel("reportAProblem")]
 	public partial class ReportAproblem : PublishedContentModel, IPageBase
 	{
@@ -50,7 +50,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Hide from Navigation
+		/// Hide From Navigation
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[ImplementPropertyType("hideFromNavigation")]

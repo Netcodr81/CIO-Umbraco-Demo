@@ -22,7 +22,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 	/// <summary>Page Base</summary>
 	public partial interface IPageBase : IPublishedContent
 	{
-		/// <summary>Hide from Navigation</summary>
+		/// <summary>Hide From Navigation</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		bool HideFromNavigation { get; }
 
@@ -79,13 +79,13 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Hide from Navigation
+		/// Hide From Navigation
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[ImplementPropertyType("hideFromNavigation")]
 		public virtual bool HideFromNavigation => GetHideFromNavigation(this, _publishedValueFallback);
 
-		/// <summary>Static getter for Hide from Navigation</summary>
+		/// <summary>Static getter for Hide From Navigation</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		public static bool GetHideFromNavigation(IPageBase that, IPublishedValueFallback publishedValueFallback) => that.Value<bool>(publishedValueFallback, "hideFromNavigation");
 

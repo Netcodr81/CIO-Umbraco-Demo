@@ -18,7 +18,7 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Home</summary>
+	/// <summary>Home </summary>
 	[PublishedModel("home")]
 	public partial class Home : PublishedContentModel, IPageBase
 	{
@@ -58,7 +58,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual string Header => this.Value<string>(_publishedValueFallback, "header");
 
 		///<summary>
-		/// Hide from Navigation
+		/// Hide From Navigation
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[ImplementPropertyType("hideFromNavigation")]

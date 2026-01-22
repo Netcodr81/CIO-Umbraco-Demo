@@ -1,10 +1,17 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+﻿
+@using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject ISiteSettingsAccessor siteSettingsAccessor
+
 @{
-	Layout = null;
+    Layout = null;
     var pageTitle = Model.Value<string>("pageTitle");   
     var metaDescription = Model.Value<string>("metaDescription");
-       
+
+    var siteSettings = siteSettingsAccessor.Get();
+
+    var showBanner = siteSettings?.DisplayBanner ?? true;
+
 }
 
 <!doctype html>
@@ -26,7 +33,11 @@
   </head>
 
   <body class='main-layout'>
-   @await Html.PartialAsync("layout/Banner")
+    @if (showBanner)
+    {
+        @await Html.PartialAsync("layout/Banner")
+    }
+   
    @await Html.PartialAsync("layout/Header")
     <main id='main-content' class='main-content'>
       @RenderBody()

@@ -2,9 +2,7 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @inject ISiteSettingsAccessor siteSettingsAccessor
 @{
-    // In a real scenario, you would fetch this data from Umbraco.
-    // For now, we'll use static examples.
-
+    
     var siteSettings = siteSettingsAccessor.Get();
 
     var footerLogoUrl = siteSettings?.FooterLogo?.Url();
@@ -53,13 +51,14 @@
         <div class="cio-footer__social-icons">
             @foreach (var iconLink in iconLinks)
             {
+                
                 if (iconLink.Content is IconLink link)
                 {
                     <a class="cio-footer__icon-link" href="@link.Url" target="_blank" rel="noopener noreferrer">
-                        @*  <span class="cio-footer__icon-wrap">
-                                <img class="cio-footer__icon-img" src="@iconUrl" alt="" loading="lazy" />
+                         @* <span class="cio-footer__icon-wrap">
+                                <img class="cio-footer__icon-img" src="@link.Url" alt="" loading="lazy" />
                             </span> *@
-                       <inline-svg media-item="link.Icon" fill-color="#fff" height="50" width="50"></inline-svg>
+                       <inline-svg media-item="link.Icon" fill="#fff" height="50" width="50"></inline-svg>
                     </a>
                 }
             }
