@@ -522,8 +522,10 @@ dfn {
 }
 
 .cio-header__logo-img {
-  width: 15rem; /* w-60 */
-  object-fit: cover;
+  height:50px;
+  width:auto;
+  max-width: 160px;
+  object-fit: contain;
 }
 
 .cio-header__search {

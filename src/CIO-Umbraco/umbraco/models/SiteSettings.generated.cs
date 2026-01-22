@@ -97,11 +97,27 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops FooterLogo => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "footerLogo");
 
 		///<summary>
+		/// Header Logo
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("headerLogo")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops HeaderLogo => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "headerLogo");
+
+		///<summary>
 		/// Icon Links
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("iconLinks")]
 		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel IconLinks => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListModel>(_publishedValueFallback, "iconLinks");
+
+		///<summary>
+		/// Navigation Menu
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("navigationMenu")]
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem> NavigationMenu => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem>>(_publishedValueFallback, "navigationMenu");
 	}
 }

@@ -1,8 +1,14 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject ISiteSettingsAccessor siteSettingsAccessor;
+
+@{
+    var siteSettings = siteSettingsAccessor.Get();
+    var headerLogo = siteSettings.HeaderLogo;
+}
 
 <header class='cio-header'>
   <a href='/' aria-label='Home' class='cio-header__logo-link'>
-    @* <img src="..." alt="..." class='cio-header__logo-img' /> *@
+    <img src="@headerLogo.Content.Url()" alt="..." class='cio-header__logo-img' />
   </a>
   <section class='cio-header__search'>
     <form>
@@ -19,9 +25,7 @@
   </button>
   <!--Non Mobile Menu -->
   <nav class='cio-header__nav'>
-    <ul class='cio-header__nav-list'>
-      <li><a href='/'>Home</a></li>
-    </ul>
+    @await Html.PartialAsync("navigation/NavigationMenu")
   </nav>
 
   <!-- Mobile Menu -->

@@ -1,0 +1,23 @@
+﻿@using Umbraco.Community.UmbNav.Core.Models
+@inject ISiteSettingsAccessor siteSettingsAccessor
+
+@{
+    var systemSettings = siteSettingsAccessor.Get();
+    var navItems = systemSettings.NavigationMenu;
+}
+
+@if (navItems.Any())
+{
+    <ul class='cio-header__nav-list'>
+        @foreach(var item in navItems)
+        {
+            if (item.Children.Any())
+            {
+                <button>@item.Name</button>
+            }
+            <li>
+                <a href="@item.Url" target="@item.Target">@item.Name</a>
+            </li>
+        }
+    </ul>
+}
