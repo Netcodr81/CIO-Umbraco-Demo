@@ -1,4 +1,5 @@
 ﻿
+@using CIO_Umbraco.Utilities
 @using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @inject ISiteSettingsAccessor siteSettingsAccessor
@@ -45,6 +46,6 @@
    @await Html.PartialAsync("layout/Footer")
 
    <script src="~/scripts/main.js"></script>
-    @RenderSection("scripts", required: false)
-  </body>
+  <script src="~/scripts/navigation.js"></script>
+   </body>
 </html>

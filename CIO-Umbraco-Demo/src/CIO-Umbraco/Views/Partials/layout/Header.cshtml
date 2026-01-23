@@ -1,4 +1,5 @@
-﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+﻿@using CIO_Umbraco.Utilities
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @inject ISiteSettingsAccessor siteSettingsAccessor;
 
 @{
@@ -13,9 +14,9 @@
   <section class='cio-header__search'>
     <form>
       <div class='cio-header__search-form'>
-        <input type='text' placeholder='Search...' class='cio-header__search-input' />
+        <input type='text' class='cio-header__search-input' />
         <button type='submit' class='cio-header__search-button' aria-label='Search'>
-          @* <Icon name='mdi:magnify' height={24} width={24} /> *@
+            <svg-icon src="icons/magnify.svg" svg-width="24" svg-height="24" svg-viewbox="0 0 24 24" svg-fill="#000"></svg-icon>
         </button>
       </div>
     </form>
@@ -24,20 +25,8 @@
    Menu
   </button>
   <!--Non Mobile Menu -->
-  <nav class='cio-header__nav'>
     @await Html.PartialAsync("navigation/NavigationMenu")
-  </nav>
 
   <!-- Mobile Menu -->
-  <nav id='mobile-menu' class='cio-mobile-menu'>
-    <div class='cio-mobile-menu__close-container'>
-      <button id='mobile-menu-close-button' class='cio-mobile-menu__close-button' aria-label='Close menu'>
-        @* <Icon name='mdi:close' height={20} width={20} /> *@
-        <span>&times;</span>
-      </button>
-    </div>
-    <ul class='cio-mobile-menu__list'>
-      <li><a href='/'>Home</a></li>
-    </ul>
-  </nav>
+  @await Html.PartialAsync("navigation/MobileMenu")
 </header>
