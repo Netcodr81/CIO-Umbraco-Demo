@@ -23,7 +23,7 @@
     <meta name='description' content='@metaDescription' />
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <link rel='icon' type='image/x-icon' href='/favicon.ico' />
-    <link rel="stylesheet" href="/css/styles.css"/>
+    <link rel="stylesheet" href="/css/styles.css"/>    
     <link
       rel='stylesheet'
       href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap'
@@ -45,5 +45,6 @@
    @await Html.PartialAsync("layout/Footer")
 
    <script src="~/scripts/main.js"></script>
+    @RenderSection("scripts", required: false)
   </body>
 </html>

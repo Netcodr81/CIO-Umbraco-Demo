@@ -8,16 +8,62 @@
 
 @if (navItems.Any())
 {
-    <ul class='cio-header__nav-list'>
-        @foreach(var item in navItems)
+    <ul class='cio__nav-list'>
+        @foreach (var item in navItems)
         {
             if (item.Children.Any())
             {
-                <button>@item.Name</button>
+                <li class="cio__nav-dropdown">
+                    <button class="dropdown-toggle cio__dropdown">
+                        <span>@item.Name</span>
+                    </button>
+                    <div>
+                        <ul>
+                            @foreach (var child in item.Children)
+                            {
+                                <li>
+                                    <a href="@child.Url" target="@child.Target">@child.Name</a>
+                                </li>
+                            }
+                            )
+                        </ul>
+                    </div>
+                </li>
             }
-            <li>
-                <a href="@item.Url" target="@item.Target">@item.Name</a>
-            </li>
+            else
+            {
+                <li>
+                    <a href="@item.Url" target="@item.Target">@item.Name</a>
+                </li>
+            }
+
         }
     </ul>
 }
+
+
+@section scripts {
+    <script>
+
+    </script>
+}
+
+<style>
+    .cio__nav-list {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .cio__nav-dropdown {
+        position: relative;
+        transition: transform 300ms ease-in-out;
+    }
+
+    .cio__dropdown {
+        display:flex;
+        gap: 0.5rem;
+        align-items: center;
+        cursor: pointer;
+    }
+</style>
