@@ -50,19 +50,12 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Header
+		/// Home Grid
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("header")]
-		public virtual string Header => this.Value<string>(_publishedValueFallback, "header");
-
-		///<summary>
-		/// Hide From Navigation
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[ImplementPropertyType("hideFromNavigation")]
-		public virtual bool HideFromNavigation => global::Umbraco.Cms.Web.Common.PublishedModels.PageBase.GetHideFromNavigation(this, _publishedValueFallback);
+		[ImplementPropertyType("homeGrid")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel HomeGrid => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel>(_publishedValueFallback, "homeGrid");
 
 		///<summary>
 		/// Meta Description
@@ -79,14 +72,6 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("metaTitle")]
 		public virtual string MetaTitle => global::Umbraco.Cms.Web.Common.PublishedModels.PageBase.GetMetaTitle(this, _publishedValueFallback);
-
-		///<summary>
-		/// Navigation Title
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("navigationTitle")]
-		public virtual string NavigationTitle => global::Umbraco.Cms.Web.Common.PublishedModels.PageBase.GetNavigationTitle(this, _publishedValueFallback);
 
 		///<summary>
 		/// Page Title

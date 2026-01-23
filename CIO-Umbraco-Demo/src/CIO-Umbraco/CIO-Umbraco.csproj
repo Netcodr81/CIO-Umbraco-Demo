@@ -29,6 +29,7 @@
         <PackageReference Include="Our.Iconic" Version="17.0.0" />
         <PackageReference Include="Umbraco.Cms" Version="17.1.0" />
         <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice" Version="17.1.0" />
+        <PackageReference Include="Umbraco.Community.BlockPreview" Version="5.2.0" />
         <PackageReference Include="Umbraco.Community.UmbNav" Version="4.0.2" />
         <PackageReference Include="Umbraco.Forms" Version="17.1.0" />
     </ItemGroup>
