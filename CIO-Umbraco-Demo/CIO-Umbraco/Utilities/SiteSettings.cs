@@ -6,18 +6,18 @@ namespace CIO_Umbraco.Utilities;
 
 public interface ISiteSettingsAccessor
 {
-    SiteSettings? Get();
+    //SiteSettings? Get();
 }
 
 public sealed class SiteSettingsAccessor(UmbracoHelper umbracoHelper) : ISiteSettingsAccessor
 {
-   public SiteSettings? Get()
-    {
+   //public SiteSettings? Get()
+   // {
         
-        return umbracoHelper
-            .ContentAtRoot()
-            .SelectMany(x => x.DescendantsOrSelf<SiteSettings>())
-            .FirstOrDefault();
-    }
+   //     return umbracoHelper
+   //         .ContentAtRoot()
+   //         .SelectMany(x => x.DescendantsOrSelf<SiteSettings>())
+   //         .FirstOrDefault();
+   // }
 }
 

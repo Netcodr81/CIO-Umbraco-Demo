@@ -8,9 +8,9 @@
 <html lang='en' class='h-full'>
 <head>
     <meta charset='UTF-8' />
-    <title>@(pageTitle ?? "Nebraska OCIO | OCIO - Innovation in Technology")</title>
+    @* <title>@(pageTitle ?? "Nebraska OCIO | OCIO - Innovation in Technology")</title> *@
     <link rel='canonical' href='https://cio.nebraska.gov/' />
-    <meta name='description' content='@metaDescription' />
+    @* <meta name='description' content='@metaDescription' /> *@
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <link rel='icon' type='image/x-icon' href='/favicon.ico' />
     <link rel="stylesheet" href="/css/styles.css"/>    
@@ -23,16 +23,16 @@
 </head>
 
 <body class='main-layout'>
-@if (showBanner)
+@* @if (showBanner)
 {
     @await Html.PartialAsync("layout/Banner")
-}
+} *@
    
-@await Html.PartialAsync("layout/Header")
+@* @await Html.PartialAsync("layout/Header") *@
 <main id='main-content' class='main-content'>
     @RenderBody()
 </main>
-@await Html.PartialAsync("layout/Footer")
+@* @await Html.PartialAsync("layout/Footer") *@
 
 <script src="~/scripts/main.js"></script>
 <script src="~/scripts/navigation.js"></script>
