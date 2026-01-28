@@ -1,0 +1,67 @@
+﻿@using CIO_Umbraco.Utilities
+@using Umbraco.Community.UmbNav.Core.Models
+@inject ISiteSettingsAccessor siteSettingsAccessor
+
+@{
+    var systemSettings = siteSettingsAccessor.Get();
+    var navItems = systemSettings.NavigationMenu;
+}
+
+@if (navItems.Any())
+{
+    <nav class='cio-header__nav'>
+        <ul class='cio__nav-list'>
+            @foreach (var item in navItems)
+            {
+                if (item.Children.Any())
+                {
+                    <li class="cio__nav-dropdown">
+                        <button class="dropdown-toggle cio__dropdown">
+                            <label>@item.Name</label>
+                            <span class="chevron-icon">
+                                <svg-icon src="icons/chevron-down.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white"></svg-icon>
+
+                            </span>
+                        </button>
+                        <div class="cio__dropdown-list hidden">
+                            <ul>
+                                @foreach (var child in item.Children)
+                                {
+                                    <li>
+                                        <a href="@child.Url" target="@child.Target">
+                                            @child.Name
+                                            @if (child.Target == "_blank")
+                                            {
+                                                <span>
+                                                    <svg-icon src="icons/open-in-new.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white"></svg-icon>
+                                                </span>
+                                            }
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li class="cio-nav__link">
+                        <a href="@item.Url" target="@item.Target">
+                            @item.Name
+                            @if (item.Target == "_blank")
+                            {
+                                <span>
+                                    <svg-icon src="icons/open-in-new.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white"></svg-icon>
+                                </span>
+                            }
+
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+}
+
+
