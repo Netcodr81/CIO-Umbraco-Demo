@@ -1,52 +1,16 @@
-using CIO_Umbraco.Utilities;
-using Umbraco.Cms.Core.PropertyEditors;
-using Umbraco.Community.BlockPreview.Extensions;
-
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
     .AddWebsite()
     .AddComposers()
-    .AddBlockPreview(options =>
-    {
-        options.BlockGrid = new()
-        {
-            Enabled = true,
-            ContentTypes = [],
-            IgnoredContentTypes = [],
-            ViewLocations = [],
-            Stylesheets = []
-        };
-
-        options.BlockList = new()
-        {
-            Enabled = true,
-            ContentTypes = [],
-            IgnoredContentTypes = [],
-            ViewLocations = [],
-            Stylesheets = []
-        };
-
-        options.RichText = new()
-        {
-            Enabled = true,
-            ContentTypes = [],
-            IgnoredContentTypes = [],
-            ViewLocations = [],
-            Stylesheets = []
-        };
-        
-    })
     .Build();
-
-builder.Services.AddScoped<ISiteSettingsAccessor, SiteSettingsAccessor>();
-builder.Services.AddSingleton<ISvgRenderer, FileSvgRenderer>();
 
 WebApplication app = builder.Build();
 
 await app.BootUmbracoAsync();
 
+app.UseHttpsRedirection();
 
 app.UseUmbraco()
     .WithMiddleware(u =>

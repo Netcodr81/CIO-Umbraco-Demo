@@ -1,0 +1,19 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<Section>>
+
+@{
+   
+    var backgroundColor = Model.Content.BackgroundColor.Color;
+    var padding = Model.Content.Padding;
+    var customClasses = Model.Content.CustomClasses;
+    var container = Model.Content.IsFullWidth ? "container-fluid" : "container";
+
+    var style = !string.IsNullOrWhiteSpace(backgroundColor)
+        ? $"--section-bg: {backgroundColor};"
+        : null;
+}
+
+<section class="@padding @customClasses" style="@style">
+    <div class="@container">
+        @await Html.GetBlockGridHtmlAsync(Model.Content.Rows)
+    </div>
+</section>

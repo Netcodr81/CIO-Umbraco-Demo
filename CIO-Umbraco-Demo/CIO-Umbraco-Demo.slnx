@@ -1,3 +1,4 @@
 <Solution>
-  <Project Path="CIO-Umbraco/CIO-Umbraco.csproj" Id="918de065-def1-43ec-bb5e-e9d862c31f3d" />
+  <Folder Name="/src/" />
+  <Project Path="src/CIO-Umbraco/CIO-Umbraco.csproj" Id="918de065-def1-43ec-bb5e-e9d862c31f3d" />
 </Solution>
