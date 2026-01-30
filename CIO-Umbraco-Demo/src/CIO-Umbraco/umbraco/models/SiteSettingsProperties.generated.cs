@@ -18,9 +18,19 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
+	// Mixin Content Type with alias "siteSettingsProperties"
+	/// <summary>Site Settings Properties</summary>
+	public partial interface ISiteSettingsProperties : IPublishedElement
+	{
+		/// <summary>Site Name</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string SiteName { get; }
+	}
+
 	/// <summary>Site Settings Properties</summary>
 	[PublishedModel("siteSettingsProperties")]
-	public partial class SiteSettingsProperties : PublishedElementModel
+	public partial class SiteSettingsProperties : PublishedElementModel, ISiteSettingsProperties
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -55,6 +65,11 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("siteName")]
-		public virtual string SiteName => this.Value<string>(_publishedValueFallback, "siteName");
+		public virtual string SiteName => GetSiteName(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Site Name</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetSiteName(ISiteSettingsProperties that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "siteName");
 	}
 }

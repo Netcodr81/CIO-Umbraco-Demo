@@ -18,9 +18,19 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
+	// Mixin Content Type with alias "headerProperties"
+	/// <summary>Header Properties</summary>
+	public partial interface IHeaderProperties : IPublishedElement
+	{
+		/// <summary>HeaderLogo</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		global::Umbraco.Cms.Core.Models.MediaWithCrops HeaderLogo { get; }
+	}
+
 	/// <summary>Header Properties</summary>
 	[PublishedModel("headerProperties")]
-	public partial class HeaderProperties : PublishedElementModel
+	public partial class HeaderProperties : PublishedElementModel, IHeaderProperties
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -48,5 +58,18 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		}
 
 		// properties
+
+		///<summary>
+		/// HeaderLogo
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("headerLogo")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops HeaderLogo => GetHeaderLogo(this, _publishedValueFallback);
+
+		/// <summary>Static getter for HeaderLogo</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static global::Umbraco.Cms.Core.Models.MediaWithCrops GetHeaderLogo(IHeaderProperties that, IPublishedValueFallback publishedValueFallback) => that.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(publishedValueFallback, "headerLogo");
 	}
 }

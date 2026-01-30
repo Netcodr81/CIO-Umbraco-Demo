@@ -18,9 +18,32 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
+	// Mixin Content Type with alias "seoProperties"
+	/// <summary>SEO Properties</summary>
+	public partial interface ISeoProperties : IPublishedElement
+	{
+		/// <summary>Is Followable</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		bool IsFollowable { get; }
+
+		/// <summary>Is Indexable</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		bool IsIndexable { get; }
+
+		/// <summary>Meta Description</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string MetaDescription { get; }
+
+		/// <summary>Meta Title</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string MetaTitle { get; }
+	}
+
 	/// <summary>SEO Properties</summary>
 	[PublishedModel("seoProperties")]
-	public partial class SeoProperties : PublishedElementModel
+	public partial class SeoProperties : PublishedElementModel, ISeoProperties
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -54,14 +77,22 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[ImplementPropertyType("isFollowable")]
-		public virtual bool IsFollowable => this.Value<bool>(_publishedValueFallback, "isFollowable");
+		public virtual bool IsFollowable => GetIsFollowable(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Is Followable</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		public static bool GetIsFollowable(ISeoProperties that, IPublishedValueFallback publishedValueFallback) => that.Value<bool>(publishedValueFallback, "isFollowable");
 
 		///<summary>
 		/// Is Indexable: Set this to true if you want robots to be able to index this page
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[ImplementPropertyType("isIndexable")]
-		public virtual bool IsIndexable => this.Value<bool>(_publishedValueFallback, "isIndexable");
+		public virtual bool IsIndexable => GetIsIndexable(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Is Indexable</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		public static bool GetIsIndexable(ISeoProperties that, IPublishedValueFallback publishedValueFallback) => that.Value<bool>(publishedValueFallback, "isIndexable");
 
 		///<summary>
 		/// Meta Description: Enter the meta description for this page
@@ -69,7 +100,12 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("metaDescription")]
-		public virtual string MetaDescription => this.Value<string>(_publishedValueFallback, "metaDescription");
+		public virtual string MetaDescription => GetMetaDescription(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Meta Description</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetMetaDescription(ISeoProperties that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "metaDescription");
 
 		///<summary>
 		/// Meta Title: Enter the meta title for this page. If this is blank the name will be used.
@@ -77,6 +113,11 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("metaTitle")]
-		public virtual string MetaTitle => this.Value<string>(_publishedValueFallback, "metaTitle");
+		public virtual string MetaTitle => GetMetaTitle(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Meta Title</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetMetaTitle(ISeoProperties that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "metaTitle");
 	}
 }
