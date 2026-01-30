@@ -9,15 +9,12 @@
     max-width: 1140px;
     margin-inline: auto;
     padding-inline: 1rem;
+    background-color: var(--section-bg, transparent)
 }
 
 .container-fluid {
     width: 100%;
     padding-inline: 1rem;
-}
-
-.section {
-    background-color: var(--section-bg, transparent);
 }
 
 /* -----------------------------
@@ -29,40 +26,40 @@
 }
 
 /* GUTTERS */
-.no-gutter {
+.g-0 {
     gap: 0;
 }
 
-.extra-small-gutter {
+.g-1 {
     gap: 0.25rem;
 }
 
-.small-gutter {
+.g-2 {
     gap: 0.5rem;
 }
 
-.medium-gutter {
+.g-3 {
     gap: 1rem;
 }
 
-.large-gutter {
+.g-4 {
     gap: 1.5rem;
 }
 
-.extra-large-gutter {
+.g-5 {
     gap: 3rem;
 }
 
 /* ALIGNMENT */
-.top-alignment {
+.align-items-start {
     align-items: flex-start;
 }
 
-.center-alignment {
+.align-items-center {
     align-items: center;
 }
 
-.bottom-alignment {
+.align-items-end {
     align-items: flex-end;
 }
 
@@ -123,18 +120,17 @@
 /* -----------------------------
    SPACING
 ------------------------------ */
-.small-padding {
+.py-3 {
     padding-block: 1rem;
 }
 
-.medium-padding {
+.py-5 {
     padding-block: 3rem;
 }
 
-.large-padding {
+.py-7 {
     padding-block: 5rem;
 }
-
 
 /* -----------------------------
    TYPOGRAPHY HELPERS
