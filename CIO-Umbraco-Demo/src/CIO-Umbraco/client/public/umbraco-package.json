@@ -1,17 +1,54 @@
 {
-    "$schema": "../../umbraco-package-schema.json",
+    "$schema": "../../../umbraco-package-schema.json",
     "name": "My Dashboard",
     "version": "0.1.0",
     "extensions": [
         {
             "type": "dashboard",
-            "alias": "My.Dashboard.MyExtension",
-            "name": "My Dashboard",
-            "element": "/App_Plugins/client/client.js",
-            "elementName": "my-element",
+            "alias": "My.Dashboard.MyTypeScriptExtension",
+            "name": "My TypeScript Extension",
+            "element": "/App_Plugins/client/my-element/my-element.js",
+            "weight": 998,
             "meta": {
-                "label": "My Dashboard",
-                "pathname": "my-dashboard"
+                "label": "My TypeScript Extension",
+                "pathname": "my-typescript-extension"
+            },
+            "conditions": [
+                {
+                    "alias": "Umb.Condition.SectionAlias",
+                    "match": "Umb.Section.Content"
+                }
+            ]
+        },
+        {
+            "type": "dashboard",
+            "alias": "my.welcome.dashboard",
+            "name": "My Welcome Dashboard",
+            "element": "/App_Plugins/client/welcome-dashboard/welcome-dashboard.element.js",
+            "elementName": "my-welcome-dashboard",
+            "weight": 999,
+            "meta": {
+                "label": "Welcome Dashboard",
+                "pathname": "welcome-dashboard"
+            },
+            "conditions": [
+                {
+                    "alias": "Umb.Condition.SectionAlias",
+                    "match": "Umb.Section.Content"
+                }
+            ]
+        },
+        {
+            "type": "propertyEditorUi",
+            "alias": "My.PropertyEditorUi.Suggestions",
+            "name": "My Suggestions Property Editor UI",
+            "element": "/App_Plugins/Suggestions/dist/suggestions.js",
+            "elementName": "my-suggestions-property-editor-ui",
+            "meta": {
+                "label": "Suggestions",
+                "icon": "icon-list",
+                "group": "common",
+                "propertyEditorSchemaAlias": "Umbraco.Plain.String"
             }
         }
     ]

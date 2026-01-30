@@ -3,12 +3,12 @@ import { defineConfig } from "vite";
 export default defineConfig({
   build: {
     lib: {
-      entry: "src/my-element.ts", // your web component source file
+      entry: ["src/welcome-dashboard/welcome-dashboard.element.ts", "src/my-element/my-element.ts", "src/suggestions-property-editor-ui.element.ts"], // your web component source file
       formats: ["es"],
     },
     outDir: "../wwwroot/App_Plugins/client", // all compiled files will be placed here
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: false,
     rollupOptions: {
       external: [/^@umbraco/], // ignore the Umbraco Backoffice package in the build
     },
