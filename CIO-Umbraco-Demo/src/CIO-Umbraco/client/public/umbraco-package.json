@@ -1,55 +1,104 @@
 {
-    "$schema": "../../../umbraco-package-schema.json",
-    "name": "My Dashboard",
-    "version": "0.1.0",
-    "extensions": [
+  "$schema": "../../../umbraco-package-schema.json",
+  "name": "My Dashboard",
+  "version": "0.1.0",
+  "extensions": [
+    {
+      "type": "dashboard",
+      "alias": "My.Dashboard.MyTypeScriptExtension",
+      "name": "My TypeScript Extension",
+      "element": "/App_Plugins/client/my-element.js",
+      "weight": 998,
+      "meta": {
+        "label": "My TypeScript Extension",
+        "pathname": "my-typescript-extension"
+      },
+      "conditions": [
         {
-            "type": "dashboard",
-            "alias": "My.Dashboard.MyTypeScriptExtension",
-            "name": "My TypeScript Extension",
-            "element": "/App_Plugins/client/my-element/my-element.js",
-            "weight": 998,
-            "meta": {
-                "label": "My TypeScript Extension",
-                "pathname": "my-typescript-extension"
-            },
-            "conditions": [
-                {
-                    "alias": "Umb.Condition.SectionAlias",
-                    "match": "Umb.Section.Content"
-                }
-            ]
-        },
-        {
-            "type": "dashboard",
-            "alias": "my.welcome.dashboard",
-            "name": "My Welcome Dashboard",
-            "element": "/App_Plugins/client/welcome-dashboard/welcome-dashboard.element.js",
-            "elementName": "my-welcome-dashboard",
-            "weight": 999,
-            "meta": {
-                "label": "Welcome Dashboard",
-                "pathname": "welcome-dashboard"
-            },
-            "conditions": [
-                {
-                    "alias": "Umb.Condition.SectionAlias",
-                    "match": "Umb.Section.Content"
-                }
-            ]
-        },
-        {
-            "type": "propertyEditorUi",
-            "alias": "My.PropertyEditorUi.Suggestions",
-            "name": "My Suggestions Property Editor UI",
-            "element": "/App_Plugins/Suggestions/dist/suggestions.js",
-            "elementName": "my-suggestions-property-editor-ui",
-            "meta": {
-                "label": "Suggestions",
-                "icon": "icon-list",
-                "group": "common",
-                "propertyEditorSchemaAlias": "Umbraco.Plain.String"
-            }
+          "alias": "Umb.Condition.SectionAlias",
+          "match": "Umb.Section.Content"
         }
-    ]
+      ]
+    },
+    {
+      "type": "dashboard",
+      "alias": "my.welcome.dashboard",
+      "name": "My Welcome Dashboard",
+      "element": "/App_Plugins/client/welcome-dashboard.element.js",
+      "elementName": "my-welcome-dashboard",
+      "weight": 999,
+      "meta": {
+        "label": "Welcome Dashboard",
+        "pathname": "welcome-dashboard"
+      },
+      "conditions": [
+        {
+          "alias": "Umb.Condition.SectionAlias",
+          "match": "Umb.Section.Content"
+        }
+      ]
+    },
+    {
+      "type": "propertyEditorUi",
+      "alias": "My.PropertyEditorUi.Suggestions",
+      "name": "My Suggestions Property Editor UI",
+      "element": "/App_Plugins/client/suggestions-property-editor-ui.element.js",
+      "elementName": "my-suggestions-property-editor-ui",
+      "meta": {
+        "settings": {
+          "properties": [
+            {
+              "alias": "disabled",
+              "label": "Disabled",
+              "description": "Disables the suggestion button",
+              "propertyEditorUiAlias": "Umb.PropertyEditorUi.Toggle"
+            },
+            {
+              "alias": "placeholder",
+              "label": "Placeholder text",
+              "description": "A nice placeholder description to help out our editor!",
+              "propertyEditorUiAlias": "Umb.PropertyEditorUi.TextBox"
+            },
+            {
+              "alias": "maxChars",
+              "label": "Max characters allowed",
+              "description": "The maximum number of allowed characters in a suggestion",
+              "propertyEditorUiAlias": "Umb.PropertyEditorUi.Integer"
+            }
+          ],
+          "defaultData": [
+            {
+              "alias": "disabled",
+              "value": true
+            },
+            {
+              "alias": "placeholder",
+              "value": "Write a suggestion"
+            },
+            {
+              "alias": "maxChars",
+              "value": 50
+            }
+          ]
+        },
+        "label": "Suggestions",
+        "icon": "icon-list",
+        "group": "common",
+        "propertyEditorSchemaAlias": "Umbraco.Plain.String"
+      }
+    },
+    {
+      "type": "propertyEditorUi",
+      "alias": "CIO.PropertyEditorUi.DropdownListWithLabel",
+      "name": "Dropdown List With Label",
+      "element": "/App_Plugins/client/dropdown-list-with-label.element.js",
+      "elementName": "cio-property-editor-ui-dropdown-list-with-label",
+      "meta": {
+        "label": "Dropdown List With Label",
+        "icon": "icon-list",
+        "group": "common",
+        "propertyEditorSchemaAlias": "Umbraco.Plain.String"
+      }
+    }
+  ]
 }

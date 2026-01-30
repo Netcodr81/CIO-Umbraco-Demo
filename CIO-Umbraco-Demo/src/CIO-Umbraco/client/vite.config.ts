@@ -3,7 +3,12 @@ import { defineConfig } from "vite";
 export default defineConfig({
   build: {
     lib: {
-      entry: ["src/welcome-dashboard/welcome-dashboard.element.ts", "src/my-element/my-element.ts", "src/suggestions-property-editor-ui.element.ts"], // your web component source file
+      entry: [
+        "src/welcome-dashboard/welcome-dashboard.element.ts",
+         "src/my-element/my-element.ts",
+          "src/suggestions-property-editor-ui.element.ts",
+          "src/dropdown-list-with-label/dropdown-list-with-label.ts"
+        ], // your web component source file
       formats: ["es"],
     },
     outDir: "../wwwroot/App_Plugins/client", // all compiled files will be placed here
