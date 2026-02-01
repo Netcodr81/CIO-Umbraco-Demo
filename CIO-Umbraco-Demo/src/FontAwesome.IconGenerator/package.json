@@ -1,0 +1,17 @@
+{
+  "name": "fontawesome.icongenerator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node generate-icons.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "fast-glob": "^3.3.3"
+  }
+}

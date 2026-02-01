@@ -1,0 +1,13 @@
+{
+    "$schema": "../../umbraco-package-schema.json",
+    "name": "Material Design Icons",
+    "version": "0.1.0",
+    "extensions": [
+        {
+            "type": "icons",
+            "alias": "MD.Icons",
+            "name": "Material Design Icons",
+            "js": "/App_Plugins/MaterialDesign/Icons/index.js"
+        }
+    ]
+}
