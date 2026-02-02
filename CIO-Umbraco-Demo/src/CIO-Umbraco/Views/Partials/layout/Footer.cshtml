@@ -1,15 +1,21 @@
-﻿@using Umbraco.Cms.Core.Models
+﻿@using CIO_Umbraco.Extensions
+@using CIO_Umbraco.Utilities
+@using Umbraco.Community.UmbNav.Core.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core.Models
+
 @{
+    var siteSettings = Model.GetSiteSettings();
+   
+    var footerLogoUrl = siteSettings?.FooterLogo?.Url();
 
-    // var siteSettings = siteSettingsAccessor.Get();
+    var footerLinks = siteSettings?.SocialLinks;
 
-    // var footerLogoUrl = siteSettings?.FooterLogo?.Url();
+    var copyrightText = siteSettings?.CopyrightText;
 
-    // var footerLinks = siteSettings?.FooterLinks;
+    var socialLinks = siteSettings?.SocialLinks;
 
-    // var copyrightText = siteSettings?.CopyrightText;
-
-    // var iconLinks = siteSettings?.IconLinks;
+    
 }
 
 <footer class="cio-footer">
@@ -28,12 +34,12 @@
         </svg>
     </div>
     <section class="cio-footer__links">
-      @*   @foreach (var block in footerLinks)
+        @foreach (var block in footerLinks)
         {
             if (block.Content is Link link)
             {
                 <a href="@link.Url" class="cio-footer__link-item" target="_blank" rel="noopener noreferrer">
-                    @link.Text
+                    @link.Name
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                          fill="currentColor">
                         <path d="M14 3v2h3.59l-9.83 9.83l1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7Z">
@@ -41,12 +47,12 @@
                     </svg>
                 </a>
             }
-        } *@
+        }
     </section>
     <section class="cio-footer__social">
-       @*  <img src="@footerLogoUrl" alt="CIO Logo" class="cio-footer__logo" />
+        <img src="@footerLogoUrl" alt="CIO Logo" class="cio-footer__logo" />
         <div class="cio-footer__social-icons">
-            @foreach (var iconLink in iconLinks)
+            @foreach (var iconLink in socialLinks)
             {
 
                 if (iconLink.Content is IconLink link)
@@ -57,12 +63,11 @@
                 }
             }
 
-        </div> *@
+        </div>
     </section>
     <section class="cio-footer__copyright">
         <div class="cio-footer__copyright-content">
-            @* <p>@copyrightText</p> *@
-            <p>Copyright</p>
+            <p>@copyrightText</p>           
         </div>
     </section>
 </footer>

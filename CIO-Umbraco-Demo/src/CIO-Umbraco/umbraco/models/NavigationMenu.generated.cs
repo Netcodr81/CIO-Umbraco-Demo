@@ -18,9 +18,19 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
+	// Mixin Content Type with alias "navigationMenu"
+	/// <summary>Navigation Menu</summary>
+	public partial interface INavigationMenu : IPublishedElement
+	{
+		/// <summary>Menu</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem> Menu { get; }
+	}
+
 	/// <summary>Navigation Menu</summary>
 	[PublishedModel("navigationMenu")]
-	public partial class NavigationMenu : PublishedElementModel
+	public partial class NavigationMenu : PublishedElementModel, INavigationMenu
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -55,6 +65,11 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("menu")]
-		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem> Menu => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem>>(_publishedValueFallback, "menu");
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem> Menu => GetMenu(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Menu</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem> GetMenu(INavigationMenu that, IPublishedValueFallback publishedValueFallback) => that.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem>>(publishedValueFallback, "menu");
 	}
 }

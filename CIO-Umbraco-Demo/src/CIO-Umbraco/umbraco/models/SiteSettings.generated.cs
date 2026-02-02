@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Site Settings</summary>
 	[PublishedModel("siteSettings")]
-	public partial class SiteSettings : PublishedContentModel, IBannerProperties, IFooterProperties, IHeaderProperties, ISeoProperties, ISiteSettingsProperties
+	public partial class SiteSettings : PublishedContentModel, IBannerProperties, IFooterProperties, IHeaderProperties, INavigationMenu, ISeoProperties, ISiteSettingsProperties
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -73,12 +73,28 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual bool ShowBanner => global::Umbraco.Cms.Web.Common.PublishedModels.BannerProperties.GetShowBanner(this, _publishedValueFallback);
 
 		///<summary>
-		/// Footer Content: Create the footer content using the block grid editor
+		/// Copyright Text: This will be the copy right text displayed in the footer
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("footerContent")]
-		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel FooterContent => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties.GetFooterContent(this, _publishedValueFallback);
+		[ImplementPropertyType("copyrightText")]
+		public virtual string CopyrightText => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties.GetCopyrightText(this, _publishedValueFallback);
+
+		///<summary>
+		/// Footer Logo: The logo displayed in the footer
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("footerLogo")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops FooterLogo => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties.GetFooterLogo(this, _publishedValueFallback);
+
+		///<summary>
+		/// Social Links: Add the social links that will be displayed in the footer.
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("socialLinks")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel SocialLinks => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties.GetSocialLinks(this, _publishedValueFallback);
 
 		///<summary>
 		/// HeaderLogo
@@ -87,6 +103,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("headerLogo")]
 		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops HeaderLogo => global::Umbraco.Cms.Web.Common.PublishedModels.HeaderProperties.GetHeaderLogo(this, _publishedValueFallback);
+
+		///<summary>
+		/// Menu: Create the navigation menu by adding nodes and child nodes
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("menu")]
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem> Menu => global::Umbraco.Cms.Web.Common.PublishedModels.NavigationMenu.GetMenu(this, _publishedValueFallback);
 
 		///<summary>
 		/// Is Followable: Set this to true if you want robots to be able to follow this page

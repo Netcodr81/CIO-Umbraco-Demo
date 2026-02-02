@@ -1,10 +1,11 @@
-﻿@* @using CIO_Umbraco.Utilities
+﻿@using CIO_Umbraco.Extensions
+@using CIO_Umbraco.Utilities
 @using Umbraco.Community.UmbNav.Core.Models
-@inject ISiteSettingsAccessor siteSettingsAccessor
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @{
-    var systemSettings = siteSettingsAccessor.Get();
-    var navItems = systemSettings.NavigationMenu;
+    var siteSettings = Model.GetSiteSettings();
+    var navItems = siteSettings.Menu;
 }
 
 
@@ -76,4 +77,4 @@
 
         </ul>
     }
-</nav> *@
+</nav>
