@@ -27,6 +27,11 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		string CopyrightText { get; }
 
+		/// <summary>Footer Links</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		global::Umbraco.Cms.Core.Models.Blocks.BlockListModel FooterLinks { get; }
+
 		/// <summary>Footer Logo</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
@@ -81,6 +86,19 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		public static string GetCopyrightText(IFooterProperties that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "copyrightText");
+
+		///<summary>
+		/// Footer Links
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("footerLinks")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel FooterLinks => GetFooterLinks(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Footer Links</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static global::Umbraco.Cms.Core.Models.Blocks.BlockListModel GetFooterLinks(IFooterProperties that, IPublishedValueFallback publishedValueFallback) => that.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListModel>(publishedValueFallback, "footerLinks");
 
 		///<summary>
 		/// Footer Logo: The logo displayed in the footer

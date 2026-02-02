@@ -81,6 +81,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual string CopyrightText => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties.GetCopyrightText(this, _publishedValueFallback);
 
 		///<summary>
+		/// Footer Links
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("footerLinks")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel FooterLinks => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties.GetFooterLinks(this, _publishedValueFallback);
+
+		///<summary>
 		/// Footer Logo: The logo displayed in the footer
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
