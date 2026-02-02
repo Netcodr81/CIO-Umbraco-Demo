@@ -6,31 +6,10 @@
     var model = Model;
     string? backgroundValue = ViewData["AreaBackgroundColors"]?.ToString();
 
-    static bool IsCssColor(string? value)
-        => !string.IsNullOrWhiteSpace(value)
-           && (value.StartsWith("#")
-               || value.StartsWith("rgb", StringComparison.OrdinalIgnoreCase)
-               || value.StartsWith("hsl", StringComparison.OrdinalIgnoreCase)
-               || value.StartsWith("var(", StringComparison.OrdinalIgnoreCase));
 
     var areaClasses = $"blockgrid-area area-{Model.ColumnSpan} {Model.Alias}";
-    var styleAttribute = string.Empty;
-
-    if (!string.IsNullOrWhiteSpace(backgroundValue))
-    {
-        if (IsCssColor(backgroundValue))
-        {
-            styleAttribute = $"--layout-area-bg: {backgroundValue};";
-        }
-        else
-        {
-            areaClasses += $" {backgroundValue}";
-        }
-    }
-    else
-    {
-        areaClasses += " bg-body";
-    }
+    var styleAttribute = backgroundValue != null ? $"background-color:{backgroundValue}" : string.Empty;
+  
 }
 
 <!-- START - AREA -->

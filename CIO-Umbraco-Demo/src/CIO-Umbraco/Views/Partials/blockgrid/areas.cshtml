@@ -7,28 +7,11 @@
     var dataAreas = string.Join(' ', Model.Areas.Select(a => a.Alias));
 
     string? layoutAreaBackground = ViewData["AreaBackgroundColors"]?.ToString();
+   
 
-    static bool IsCssColor(string? value)
-        => !string.IsNullOrWhiteSpace(value)
-           && (value.StartsWith("#")
-               || value.StartsWith("rgb", StringComparison.OrdinalIgnoreCase)
-               || value.StartsWith("hsl", StringComparison.OrdinalIgnoreCase)
-               || value.StartsWith("var(", StringComparison.OrdinalIgnoreCase));
-
-    var containerClasses = "areas grid container";
-    var containerStyle = string.Empty;
-
-    if (!string.IsNullOrWhiteSpace(layoutAreaBackground))
-    {
-        if (IsCssColor(layoutAreaBackground))
-        {
-            containerStyle = $"--layout-area-bg: {layoutAreaBackground};";
-        }
-        else
-        {
-            containerClasses += $" {layoutAreaBackground}";
-        }
-    }
+    var containerClasses = "areas grid";
+    var containerStyle = layoutAreaBackground != null ? $"background-color:{layoutAreaBackground}" : string.Empty;
+   
 }
 
 <div class="@containerClasses" style="@containerStyle" data-areas="@dataAreas" data-ContentUdi="@Model.ContentKey" data-Content="@Model.Content" data-GridColumns="@Model.GridColumns">

@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Home Page</summary>
 	[PublishedModel("homePage")]
-	public partial class HomePage : PublishedContentModel, IPageContent, IPageProperties
+	public partial class HomePage : PublishedContentModel, IPageBackground, IPageBackgroundImage, IPageContent, IPageProperties
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -48,6 +48,22 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		}
 
 		// properties
+
+		///<summary>
+		/// Color
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("color")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor Color => global::Umbraco.Cms.Web.Common.PublishedModels.PageBackground.GetColor(this, _publishedValueFallback);
+
+		///<summary>
+		/// Background Image
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("backgroundImage")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops BackgroundImage => global::Umbraco.Cms.Web.Common.PublishedModels.PageBackgroundImage.GetBackgroundImage(this, _publishedValueFallback);
 
 		///<summary>
 		/// Block Grid Editor: ![CDATA[Hover 'Block Grid Editor' then click the 3 dots to switch to Sort Mode (a simplified view for rearranging the page). The Block Grid Editor allows you to add Layout Blocks consisting of one or more Areas which in turn may contain Feature Blocks such as Text or Images]]

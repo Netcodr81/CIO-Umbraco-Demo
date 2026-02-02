@@ -4,9 +4,15 @@
     if (Model?.Any() != true) { return; }
 
     var layout = Model.Any(item => item.Content.ContentType.Alias.StartsWith("layout", StringComparison.InvariantCultureIgnoreCase));
+
+    string? backgroundValue = ViewData["AreaBackgroundColors"]?.ToString();
+
+    var containerStyle = backgroundValue != null ? $"background-color:{backgroundValue}" : string.Empty;
+
+
 }
 
-<div class="@(layout ? "layout-" : "feature-")items d-flex flex-column @(layout ? "gap-0" : "gap-3")">
+<div class="d-flex flex-column @(layout ? "gap-0" : "gap-3")" style="@containerStyle">
     @foreach (var item in Model)
     {
         var partialViewName = "blockgrid/Components/" + item.Content.ContentType.Alias;
