@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Content Page</summary>
 	[PublishedModel("contentPage")]
-	public partial class ContentPage : PublishedContentModel, IPageBuilder
+	public partial class ContentPage : PublishedContentModel, IPageBackground, IPageBackgroundImage, IPageContent, IPageProperties
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -50,11 +50,51 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Page Content
+		/// Color
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("pageContent")]
-		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel PageContent => global::Umbraco.Cms.Web.Common.PublishedModels.PageBuilder.GetPageContent(this, _publishedValueFallback);
+		[ImplementPropertyType("color")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor Color => global::Umbraco.Cms.Web.Common.PublishedModels.PageBackground.GetColor(this, _publishedValueFallback);
+
+		///<summary>
+		/// Background Image
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("backgroundImage")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops BackgroundImage => global::Umbraco.Cms.Web.Common.PublishedModels.PageBackgroundImage.GetBackgroundImage(this, _publishedValueFallback);
+
+		///<summary>
+		/// Block Grid Editor: ![CDATA[Hover 'Block Grid Editor' then click the 3 dots to switch to Sort Mode (a simplified view for rearranging the page). The Block Grid Editor allows you to add Layout Blocks consisting of one or more Areas which in turn may contain Feature Blocks such as Text or Images]]
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("contentGrid")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel ContentGrid => global::Umbraco.Cms.Web.Common.PublishedModels.PageContent.GetContentGrid(this, _publishedValueFallback);
+
+		///<summary>
+		/// Page Description: {![CDATA[This will appear in pages]]}
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("pageDescription")]
+		public virtual string PageDescription => global::Umbraco.Cms.Web.Common.PublishedModels.PageProperties.GetPageDescription(this, _publishedValueFallback);
+
+		///<summary>
+		/// Page Title: {![CDATA[This will appear in pages]]}
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("pageTitle")]
+		public virtual string PageTitle => global::Umbraco.Cms.Web.Common.PublishedModels.PageProperties.GetPageTitle(this, _publishedValueFallback);
+
+		///<summary>
+		/// Title Short: {![CDATA[This will appear in navigation]]}
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("titleShort")]
+		public virtual string TitleShort => global::Umbraco.Cms.Web.Common.PublishedModels.PageProperties.GetTitleShort(this, _publishedValueFallback);
 	}
 }

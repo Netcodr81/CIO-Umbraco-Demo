@@ -18,14 +18,24 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Row</summary>
-	[PublishedModel("row")]
-	public partial class Row : PublishedElementModel
+	// Mixin Content Type with alias "pageContent"
+	/// <summary>Page Content</summary>
+	public partial interface IPageContent : IPublishedElement
+	{
+		/// <summary>Block Grid Editor</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel ContentGrid { get; }
+	}
+
+	/// <summary>Page Content</summary>
+	[PublishedModel("pageContent")]
+	public partial class PageContent : PublishedElementModel, IPageContent
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		public new const string ModelTypeAlias = "row";
+		public new const string ModelTypeAlias = "pageContent";
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
@@ -34,14 +44,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 			=> PublishedModelUtility.GetModelContentType(contentTypeCache, ModelItemType, ModelTypeAlias);
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(IPublishedContentTypeCache contentTypeCache, Expression<Func<Row, TValue>> selector)
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(IPublishedContentTypeCache contentTypeCache, Expression<Func<PageContent, TValue>> selector)
 			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(contentTypeCache), selector);
 #pragma warning restore 0109
 
 		private IPublishedValueFallback _publishedValueFallback;
 
 		// ctor
-		public Row(IPublishedElement content, IPublishedValueFallback publishedValueFallback)
+		public PageContent(IPublishedElement content, IPublishedValueFallback publishedValueFallback)
 			: base(content, publishedValueFallback)
 		{
 			_publishedValueFallback = publishedValueFallback;
@@ -50,35 +60,16 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Align
+		/// Block Grid Editor: ![CDATA[Hover 'Block Grid Editor' then click the 3 dots to switch to Sort Mode (a simplified view for rearranging the page). The Block Grid Editor allows you to add Layout Blocks consisting of one or more Areas which in turn may contain Feature Blocks such as Text or Images]]
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("align")]
-		public virtual string Align => this.Value<string>(_publishedValueFallback, "align");
+		[ImplementPropertyType("contentGrid")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel ContentGrid => GetContentGrid(this, _publishedValueFallback);
 
-		///<summary>
-		/// Columns
-		///</summary>
+		/// <summary>Static getter for Block Grid Editor</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("columns")]
-		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel Columns => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel>(_publishedValueFallback, "columns");
-
-		///<summary>
-		/// Custom Classes
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("customClasses")]
-		public virtual string CustomClasses => this.Value<string>(_publishedValueFallback, "customClasses");
-
-		///<summary>
-		/// Gutter
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("gutter")]
-		public virtual string Gutter => this.Value<string>(_publishedValueFallback, "gutter");
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel GetContentGrid(IPageContent that, IPublishedValueFallback publishedValueFallback) => that.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel>(publishedValueFallback, "contentGrid");
 	}
 }

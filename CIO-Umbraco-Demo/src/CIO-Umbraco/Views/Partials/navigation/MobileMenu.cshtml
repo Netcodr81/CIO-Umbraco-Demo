@@ -19,7 +19,7 @@
         <ul class="mobile-menu-list">
             @foreach (var item in navItems)
             {
-                if (item.Children.Any())
+                if (item?.Children?.Any() == true)
                 {
                     <li class="wrapper-item">
                         <details>

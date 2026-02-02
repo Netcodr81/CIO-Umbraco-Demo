@@ -14,7 +14,7 @@
         <ul class='cio__nav-list'>
             @foreach (var item in navItems)
             {
-                if (item.Children.Any())
+                if (item?.Children?.Any() == true)
                 {
                     <li class="cio__nav-dropdown">
                         <button class="dropdown-toggle cio__dropdown">

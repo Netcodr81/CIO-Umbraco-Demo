@@ -1,5 +1,0 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<Column>>
-
-<div class="@Model.Content.Mobile @Model.Content.Tablet @Model.Content.Desktop @Model.Content.CustomClasses">
-    @await Html.GetBlockGridHtmlAsync(Model.Content.Content)
-</div>
