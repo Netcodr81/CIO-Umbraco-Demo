@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Site Settings</summary>
 	[PublishedModel("siteSettings")]
-	public partial class SiteSettings : PublishedContentModel, IBannerProperties, IFooterProperties, IHeaderProperties, INavigationMenu, ISeoProperties, ISiteSettingsProperties
+	public partial class SiteSettings : PublishedContentModel, IBannerProperties, IFooterProperties_hhcfhohx, IHeaderProperties, INavigationMenu, ISeoProperties, ISiteSettingsProperties
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -78,7 +78,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("copyrightText")]
-		public virtual string CopyrightText => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties.GetCopyrightText(this, _publishedValueFallback);
+		public virtual string CopyrightText => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties_hhcfhohx.GetCopyrightText(this, _publishedValueFallback);
 
 		///<summary>
 		/// Footer Links
@@ -86,7 +86,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("footerLinks")]
-		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel FooterLinks => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties.GetFooterLinks(this, _publishedValueFallback);
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel FooterLinks => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties_hhcfhohx.GetFooterLinks(this, _publishedValueFallback);
 
 		///<summary>
 		/// Footer Logo: The logo displayed in the footer
@@ -94,7 +94,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("footerLogo")]
-		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops FooterLogo => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties.GetFooterLogo(this, _publishedValueFallback);
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops FooterLogo => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties_hhcfhohx.GetFooterLogo(this, _publishedValueFallback);
 
 		///<summary>
 		/// Social Links: Add the social links that will be displayed in the footer.
@@ -102,7 +102,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("socialLinks")]
-		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel SocialLinks => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties.GetSocialLinks(this, _publishedValueFallback);
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel SocialLinks => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties_hhcfhohx.GetSocialLinks(this, _publishedValueFallback);
 
 		///<summary>
 		/// HeaderLogo

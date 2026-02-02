@@ -34,6 +34,8 @@ public class InlineSvgTagHelper(ISvgRenderer svgRenderer) : TagHelper
 
     public string? Fill { get; set; } = "none";
 
+    public string BackgroundColor { get; set; } = "transparent";
+
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
@@ -69,11 +71,16 @@ public class InlineSvgTagHelper(ISvgRenderer svgRenderer) : TagHelper
                 newSvgTag = Regex.Replace(newSvgTag, "fill=\"[^\"]*\"", $"fill=\"{Fill}\"", RegexOptions.IgnoreCase)
                     .Replace("<svg", $"<svg fill=\"{Fill}\"");
 
+            if (!string.IsNullOrWhiteSpace(BackgroundColor))
+                newSvgTag = Regex.Replace(newSvgTag, "style=\"[^\"]*\"", $"style=\"background-color:{BackgroundColor}\"", RegexOptions.IgnoreCase)
+                    .Replace("<svg", $"<svg style=\"background-color:{BackgroundColor}\"");
+
             // Remove duplicate attributes if any were added
             newSvgTag = Regex.Replace(newSvgTag, "(class=\"[^\"]*\"){2,}", $"class=\"{Class}\"");
             newSvgTag = Regex.Replace(newSvgTag, "(width=\"[^\"]*\"){2,}", $"width=\"{Width}\"");
             newSvgTag = Regex.Replace(newSvgTag, "(height=\"[^\"]*\"){2,}", $"height=\"{Height}\"");
             newSvgTag = Regex.Replace(newSvgTag, "(fill=\"[^\"]*\"){2,}", $"fill=\"{Fill}\"");
+            newSvgTag = Regex.Replace(newSvgTag, "(style=\"[^\"]*\"){2,}", $"style=\"background-color:{BackgroundColor}\"");
 
 
             svgContent = svgContent.Replace(svgTag, newSvgTag);
