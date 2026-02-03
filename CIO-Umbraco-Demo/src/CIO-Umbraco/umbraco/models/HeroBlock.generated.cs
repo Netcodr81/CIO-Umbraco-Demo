@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Hero Block</summary>
 	[PublishedModel("heroBlock")]
-	public partial class HeroBlock : PublishedElementModel
+	public partial class HeroBlock : PublishedElementModel, IButton
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -66,20 +66,28 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops BackgroundImage => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "backgroundImage");
 
 		///<summary>
-		/// Call To Action Text
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("callToActionText")]
-		public virtual string CallToActionText => this.Value<string>(_publishedValueFallback, "callToActionText");
-
-		///<summary>
 		/// Call To Action Url
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("callToActionUrl")]
 		public virtual global::Umbraco.Cms.Core.Models.Link CallToActionUrl => this.Value<global::Umbraco.Cms.Core.Models.Link>(_publishedValueFallback, "callToActionUrl");
+
+		///<summary>
+		/// Header: Enter the title.
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("header")]
+		public virtual string Header => this.Value<string>(_publishedValueFallback, "header");
+
+		///<summary>
+		/// Heading Color
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("headingColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor HeadingColor => this.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(_publishedValueFallback, "headingColor");
 
 		///<summary>
 		/// Sub Header
@@ -90,11 +98,67 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual string SubHeader => this.Value<string>(_publishedValueFallback, "subHeader");
 
 		///<summary>
-		/// Header: Enter the title.
+		/// Subheading Color
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("title")]
-		public virtual string Title => this.Value<string>(_publishedValueFallback, "title");
+		[ImplementPropertyType("subheadingColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor SubheadingColor => this.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(_publishedValueFallback, "subheadingColor");
+
+		///<summary>
+		/// Background Color
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("buttonBackgroundColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor ButtonBackgroundColor => global::Umbraco.Cms.Web.Common.PublishedModels.Button.GetButtonBackgroundColor(this, _publishedValueFallback);
+
+		///<summary>
+		/// Background Hover Color
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("buttonBackgroundHoverColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor ButtonBackgroundHoverColor => global::Umbraco.Cms.Web.Common.PublishedModels.Button.GetButtonBackgroundHoverColor(this, _publishedValueFallback);
+
+		///<summary>
+		/// Icon
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("buttonIcon")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops ButtonIcon => global::Umbraco.Cms.Web.Common.PublishedModels.Button.GetButtonIcon(this, _publishedValueFallback);
+
+		///<summary>
+		/// Icon Location
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("buttonIconLocation")]
+		public virtual string ButtonIconLocation => global::Umbraco.Cms.Web.Common.PublishedModels.Button.GetButtonIconLocation(this, _publishedValueFallback);
+
+		///<summary>
+		/// Text
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("buttonText")]
+		public virtual string ButtonText => global::Umbraco.Cms.Web.Common.PublishedModels.Button.GetButtonText(this, _publishedValueFallback);
+
+		///<summary>
+		/// Text Color
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("buttonTextColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor ButtonTextColor => global::Umbraco.Cms.Web.Common.PublishedModels.Button.GetButtonTextColor(this, _publishedValueFallback);
+
+		///<summary>
+		/// Text Hover Color
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("buttonTextHoverColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor ButtonTextHoverColor => global::Umbraco.Cms.Web.Common.PublishedModels.Button.GetButtonTextHoverColor(this, _publishedValueFallback);
 	}
 }

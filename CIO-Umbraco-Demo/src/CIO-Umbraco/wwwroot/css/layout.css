@@ -68,7 +68,6 @@
 
 .blockgrid-area {
     background-color: var(--layout-area-bg, transparent);
-    padding: 1rem;
 }
 
     .grid .g-col-1 {

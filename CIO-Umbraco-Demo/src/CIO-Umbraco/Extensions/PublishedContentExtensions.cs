@@ -16,4 +16,24 @@ public static class PublishedContentExtensions
         var homePage = GetHomePage(publishedContent);
         return homePage?.FirstChild<SiteSettings>();
     }
+
+    public static string GetPageBackgroundColor(this IPublishedContent content, string defaultColor = "#f3f7fc")
+    {
+
+        if (content is HomePage homePage && !string.IsNullOrWhiteSpace(homePage?.Color?.Color))
+        {
+
+            defaultColor = homePage?.Color?.Color ?? defaultColor;
+        }
+
+        if (content is ContentPage pageContent && !string.IsNullOrWhiteSpace(pageContent?.Color?.Color))
+        {
+
+            defaultColor = pageContent?.Color?.Color ?? defaultColor;
+        }
+
+        return defaultColor;
+    }
+
+
 }

@@ -12,7 +12,7 @@
 
 }
 
-<div class="d-flex flex-column @(layout ? "gap-0" : "gap-3")" style="@containerStyle">
+<div class="d-flex flex-column @(layout ? "gap-0" : "gap-3")">
     @foreach (var item in Model)
     {
         var partialViewName = "blockgrid/Components/" + item.Content.ContentType.Alias;

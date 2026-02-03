@@ -14,7 +14,7 @@
    
 }
 
-<div class="@containerClasses" style="@containerStyle" data-areas="@dataAreas" data-ContentUdi="@Model.ContentKey" data-Content="@Model.Content" data-GridColumns="@Model.GridColumns">
+<div class="@containerClasses" data-areas="@dataAreas" data-ContentUdi="@Model.ContentKey" data-Content="@Model.Content" data-GridColumns="@Model.GridColumns">
     @foreach (var area in Model.Areas)
     {
         @await Html.GetPreviewBlockGridItemAreaHtmlAsync(area)

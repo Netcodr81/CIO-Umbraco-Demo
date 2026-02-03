@@ -5,15 +5,31 @@
     Layout = null;
 
     var siteSettings = Model.GetSiteSettings();
+    var backgroundColor = Model.GetPageBackgroundColor();
+    var currentPage = Umbraco.AssignedContentItem;
+    var title = "";
+    var description = "";
+
+    if (currentPage is HomePage homePage)
+    {
+        title = homePage?.PageTitle ?? "Nebraska OCIO";
+        description = homePage?.PageDescription ?? "Office of the Chief Information Officer";
+    }
+
+    if (currentPage is ContentPage contentPage)
+    {
+        title = contentPage?.PageTitle ?? "Nebraska OCIO";
+        description = contentPage?.PageDescription ?? "Office of the Chief Information Officer";
+    }
 }
 
 <!doctype html>
 <html lang='en' class='h-full'>
 <head>
     <meta charset='UTF-8' />
-    @* <title>@(pageTitle ?? "Nebraska OCIO | OCIO - Innovation in Technology")</title> *@
+    <title>@($"{title} | OCIO - Innovation in Technology")</title>
     <link rel='canonical' href='https://cio.nebraska.gov/' />
-    @* <meta name='description' content='@metaDescription' /> *@
+    <meta name='description' content='@description' />
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <link rel='icon' type='image/x-icon' href='/favicon.ico' />
     <link rel="stylesheet" href="/css/styles.css"/>  
@@ -22,6 +38,8 @@
         rel='stylesheet'
         href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap'
     />
+    
+    <link rel="stylesheet" href="~/CIO-Umbraco.styles.css"  asp-append-version="true"/>
       
     <link rel='icon' type='image/x-icon' href='/favicon.ico' />
 </head>
@@ -33,7 +51,7 @@
 }
    
 @await Html.PartialAsync("layout/Header")
-<main id='main-content' class='main-content'>
+    <main id='main-content' class='main-content' style="background-color: @backgroundColor;">
     @RenderBody()
 </main>
 @await Html.PartialAsync("layout/Footer")
