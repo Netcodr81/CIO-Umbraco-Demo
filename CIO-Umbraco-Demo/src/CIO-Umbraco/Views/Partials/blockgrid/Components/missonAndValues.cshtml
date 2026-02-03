@@ -1,0 +1,18 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.MissonAndValues>>
+@using Umbraco.Extensions;
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+}
+
+<div class="mission-and-value__columns-container p-5">
+    <div class="grid-container main-content">
+    <h2 class="mission-and-value__header">@content.HeaderText</h2>
+    <div class="grid g-col-12 g-col-md-6 w-100">
+        <p class="g-col-12 g-col-md-6">@content.SubheaderText</p>
+            <p class="g-col-12 g-col-md-6">test</p>
+    </div>
+    </div>
+</div>
