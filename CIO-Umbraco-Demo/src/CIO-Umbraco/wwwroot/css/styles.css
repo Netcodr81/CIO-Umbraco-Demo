@@ -23,6 +23,8 @@ body {
 	height: 100% !important;
 }
 
+
+
 *,
 *::before,
 *::after {
@@ -997,3 +999,11 @@ dfn {
 }
 
 
+.blockgrid-area {
+    display: flex;
+}
+
+.blockgrid-area > .d-flex.flex-column {
+    height: 100%;
+    flex: 1;
+}

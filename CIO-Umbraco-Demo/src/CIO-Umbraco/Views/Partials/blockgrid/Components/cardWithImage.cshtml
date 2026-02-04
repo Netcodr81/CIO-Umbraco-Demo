@@ -1,0 +1,51 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.CardWithImage>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+}
+
+<div class="card-with-image__container">
+    <div class="card-with-image__image">
+        <img src="@content.Image.GetCropUrl()" name="@content.Image.Name"/>
+    </div>
+    <div class="card-with-image__header">
+        <h3>@content.HeaderText</h3>
+    </div>
+    <div class="card-with-image__body">
+        @content.BodyText
+    </div>
+
+    <div class="card-with-image__footer">
+        @if (content.Link is not null)
+        {
+            <a class="card-with-image__button" href="@content.Link.Url" target="@content.Link.Target" name="@content.Link.Name">
+                @if (content.ButtonIcon is not null)
+                {
+                    if (content.ButtonIconLocation == "Prepend")
+                    {
+                        <inline-svg media-item="content.ButtonIcon"></inline-svg>
+                        @content.ButtonText
+                    }
+                    else
+                    {
+                        @content.ButtonText
+                        <inline-svg media-item="content.ButtonIcon"></inline-svg>
+                    }
+                }
+                else
+                {
+                    @content.ButtonText
+                }
+            </a>
+        }
+        else
+        {
+            <a class="card-with-image__button" href="@content.Link.Url" target="@content.Link.Target" name="@content.Link.Name">
+                @content.ButtonText
+            </a>
+        }
+
+    </div>
+</div>
