@@ -1,0 +1,56 @@
+﻿:root {
+    --icon-button-text-color: #ffffff;
+    --icon-button-text-hover-color:#00607f;
+    --icon-button-background-color: #00607f;
+    --icon-button-background-hover-color: #bbd4dd;
+    --icon-button-icon-hover-color: #00607f;
+}
+
+.icon-button-card__container,
+a.icon-button-card__container {
+    cursor: pointer;
+    padding: 1.5rem;
+    border-radius: .5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .5s ease-in-out;
+    background-color: var(--icon-button-background-color);
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.icon-button-card__container:hover {
+    background-color: var(--icon-button-background-hover-color)
+}
+
+.icon-button-card__card-body {
+    height: 7.5rem;
+}
+
+
+.icon-button-card__card-body > svg {
+    transition: fill .5s ease-in-out;
+}
+
+
+
+.icon-button-card__link {
+    color: var(--icon-button-text-color);
+    font-size: 1.24rem;
+    font-weight: 700;
+    line-height: 1.5;
+    max-width: 88ex;
+    margin-bottom: 0;
+    margin-top: 0;
+    text-decoration: none;
+    transition: color .5s ease-in-out;
+}
+
+.icon-button-card__container:hover .icon-button-card__link {
+    color: var(--icon-button-text-hover-color);
+}
+

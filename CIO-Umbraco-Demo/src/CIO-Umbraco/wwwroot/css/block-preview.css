@@ -1,0 +1,248 @@
+﻿:root {
+    --section-header-size: 1.99rem;
+    --section-header-line-height: 1.2;
+    --section-header-font-weight: 700;
+    --section-header-margin-bottom: 2.5rem;
+    --section-header-accent-color: #ffc44d;
+    --section-header-text-color: #000000;
+    --hero-block-btn-color: #FFC44D;
+    --hero-block-btn-hover-color: #e3bf77;
+    --hero-block-btn-text-color: #000000;
+    --hero-block-btn-text-hover-color: #000000;
+    --hero-block-heading-text-color: #ffffff;
+    --hero-block-subheading-text-color: #ffffff;
+
+    --icon-button-text-color: #ffffff;
+    --icon-button-text-hover-color: #00607f;
+    --icon-button-background-color: #00607f;
+    --icon-button-background-hover-color: #bbd4dd;
+    --icon-button-icon-hover-color: #00607f;
+}
+
+/* Section Header */
+
+.section-header {
+    font-size: var(--section-header-size);
+    line-height: var(--section-header-line-height);
+    font-weight: var(--section-header-font-weight);
+    margin-bottom: var(--section-header-margin-bottom);
+    color: var(--section-header-text-color);
+}
+
+.section-header:after {
+    display: block;
+    width: 5rem;
+    max-width: 100%;
+    height: 4px;
+    margin-top: 1.5rem;
+    background-color: var(--section-header-accent-color);
+    content: "";
+}
+
+/* Hero Block */
+
+.hero-block__wrapper {
+    position: relative;
+    width: 100%;
+    height: 42rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-block__overlay {
+    position: absolute;
+    inset: 0rem;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.hero-block__cta-callout {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 48rem;
+    padding-inline: 1rem;
+}
+
+.hero-block__heading {
+    font-size: 2.49rem;
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--hero-block-heading-text-color);
+}
+
+.hero-block__subheader {
+    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+    font-size: 1.24rem;
+    line-height: 1.5;
+    color: var(--hero-block-subheading-text-color);
+}
+
+.hero-block__btn-container {
+    display: flex;
+    margin-top: 2rem;
+    gap: 0.75rem;
+}
+
+.hero-block__btn {
+    background-color: var(--hero-block-btn-color);
+    text-decoration: none;
+    color: var(--hero-block-btn-text-color);
+    padding-inline: 2rem;
+    padding-block: 1rem;
+    border-radius: calc(infinity * 1px);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.hero-block__btn:hover {
+    background-color: var(--hero-block-btn-hover-color);
+    transition: background-color ease-in-out 0.5s;
+    color: var(--hero-block-btn-text-hover-color);
+}
+
+.usa-hero__svg-back {
+    fill: #4d90a5;
+}
+
+.usa-hero__svg-mid {
+    fill: #ffc44d;
+}
+
+.usa-hero__svg-fore {
+    fill: #f3f7fc;
+}
+
+.hero-block__svg {
+    position: absolute;
+    left: 0rem;
+    right: 0rem;
+    bottom: -9px;
+    width: 100%;
+    pointer-events: none;
+}
+
+.hero-block__svg > svg {
+    width: 100%;
+    height: 103px;
+}
+
+/* Mission and Values */
+.mission-and-value__columns-container {
+    margin-top: 4em;
+    margin-bottom: 0;
+}
+
+.grid-container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1400px;
+}
+
+.main-content {
+    font-size: 1.24rem;
+    line-height: 1.5;
+}
+
+@media(min-width: 64em) {
+    .grid-container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+.mission-and-value__header {
+    font-size: 1.99rem;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+}
+
+.mission-and-value__header:after {
+    display: block;
+    width: 5rem;
+    max-width: 100%;
+    height: 4px;
+    margin-top: 1.5rem;
+    background-color: #ffc44d;
+    content: "";
+}
+
+.mission-and-value__subheader {
+    font-weight: 700;
+    line-height: 1.5;
+    max-width: 88ex;
+    font-size: 1.24rem;
+}
+
+.mission-and-value__value-list {
+    list-style: none;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    padding-inline-start: 40px;
+    padding-left: 3ch;
+    display: block;
+    font-size: 0.80em;
+    margin-top: 0;
+}
+
+.mission-and-value__list-item > p {
+    margin-top: 0 !important;
+}
+
+/* Icon Button Card */
+
+.icon-button-card__container,
+a.icon-button-card__container {
+    cursor: pointer;
+    padding: 1.5rem;
+    border-radius: .5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .5s ease-in-out;
+    background-color: var(--icon-button-background-color);
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.icon-button-card__container:hover {
+    background-color: var(--icon-button-background-hover-color)
+}
+
+.icon-button-card__card-body {
+    height: 7.5rem;
+}
+
+
+.icon-button-card__card-body > svg {
+    transition: fill .5s ease-in-out;
+}
+
+
+
+.icon-button-card__link {
+    color: var(--icon-button-text-color);
+    font-size: 1.24rem;
+    font-weight: 700;
+    line-height: 1.5;
+    max-width: 88ex;
+    margin-bottom: 0;
+    margin-top: 0;
+    text-decoration: none;
+    transition: color .5s ease-in-out;
+}
+
+.icon-button-card__container:hover .icon-button-card__link {
+    color: var(--icon-button-text-hover-color);
+}

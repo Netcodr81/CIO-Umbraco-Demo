@@ -1,0 +1,26 @@
+﻿:root {
+    --section-header-size: 1.99rem;
+    --section-header-line-height: 1.2;
+    --section-header-font-weight: 700;
+    --section-header-margin-bottom: 2.5rem;
+    --section-header-accent-color: #ffc44d;
+    --section-header-text-color: #000000;
+}
+
+.section-header {
+    font-size: var(--section-header-size);
+    line-height: var(--section-header-line-height);
+    font-weight: var(--section-header-font-weight);
+    margin-bottom: var(--section-header-margin-bottom);
+    color: var(--section-header-text-color);
+}
+
+.section-header:after {
+    display: block;
+    width: 5rem;
+    max-width: 100%;
+    height: 4px;
+    margin-top: 1.5rem;
+    background-color: var(--section-header-accent-color);
+    content: "";
+}

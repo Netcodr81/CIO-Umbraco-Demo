@@ -1,3 +1,5 @@
+using Slimsy.DependencyInjection;
+using Umbraco.Cms.Web.Common.PublishedModels;
 using Umbraco.Community.BlockPreview.Extensions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -5,7 +7,39 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
     .AddWebsite()
-    .AddBlockPreview()
+    .AddSlimsy()
+    .AddBlockPreview(options =>
+    {
+        options.BlockGrid = new()
+        {
+            Enabled = true,
+            Stylesheets = [
+                "/css/styles.css",
+                "/css/layout.css",
+                "/css/block-preview.css"
+            ],
+            IgnoredContentTypes = [NavigationMenu.ModelTypeAlias]
+
+        };
+        options.BlockList = new()
+        {
+            Enabled = true,
+            Stylesheets = [
+                "/css/styles.css",
+                "/css/layout.css",
+                "/css/block-preview.css"
+            ],
+        };
+        options.RichText = new()
+        {
+            Enabled = true,
+            Stylesheets = [
+                "/css/styles.css",
+                "/css/layout.css",
+                "/css/block-preview.css"
+            ],
+        };
+    })
     .AddComposers()
     .Build();
 

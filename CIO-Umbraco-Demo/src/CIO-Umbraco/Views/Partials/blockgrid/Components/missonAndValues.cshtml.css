@@ -4,22 +4,11 @@
     
 }
 
-.grid-container {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1400px;
-}
+
 
 .main-content {
     font-size: 1.24rem;
     line-height: 1.5;
-}
-
-@media(min-width: 64em) {
-    .grid-container {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
 }
 
 .mission-and-value__header {
@@ -37,4 +26,27 @@
     margin-top: 1.5rem;
     background-color: #ffc44d;
     content: "";
+}
+
+.mission-and-value__subheader {
+    font-weight: 700;
+    line-height: 1.5;
+    max-width: 88ex;
+    font-size: 1.24rem;
+}
+
+.mission-and-value__value-list {
+    list-style: none;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    padding-inline-start: 40px;
+    padding-left: 3ch;
+    display: block;
+    font-size: 0.80em;
+    margin-top: 0;
+
+}
+
+.mission-and-value__list-item > p {
+    margin-top: 0 !important;
 }
