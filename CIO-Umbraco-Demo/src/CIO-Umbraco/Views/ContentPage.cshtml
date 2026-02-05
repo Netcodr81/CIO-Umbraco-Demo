@@ -1,7 +1,13 @@
-﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.ContentPage>
+﻿@using CIO_Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.ContentPage>
 
 @{
     Layout = "Main.cshtml";
+
+    var layoutSpacing = Model.GenerateLayoutSpacingStyles();
+
+    ViewData["LayoutSpacingStyles"] = layoutSpacing;
+
 }
 
 @await Html.GetBlockGridHtmlAsync(Model.ContentGrid)

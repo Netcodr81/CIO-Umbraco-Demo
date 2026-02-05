@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Section</summary>
 	[PublishedModel("section")]
-	public partial class Section : PublishedElementModel, ISectionBackground
+	public partial class Section : PublishedElementModel, ILayoutSpacing, ISectionBackground
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -56,6 +56,70 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("content")]
 		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel Content => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockGridModel>(_publishedValueFallback, "content");
+
+		///<summary>
+		/// Bottom Margin
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("bottomMargin")]
+		public virtual string BottomMargin => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSpacing.GetBottomMargin(this, _publishedValueFallback);
+
+		///<summary>
+		/// Bottom Padding
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("bottomPadding")]
+		public virtual string BottomPadding => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSpacing.GetBottomPadding(this, _publishedValueFallback);
+
+		///<summary>
+		/// Left Margin
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("leftMargin")]
+		public virtual string LeftMargin => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSpacing.GetLeftMargin(this, _publishedValueFallback);
+
+		///<summary>
+		/// Left Padding
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("leftPadding")]
+		public virtual string LeftPadding => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSpacing.GetLeftPadding(this, _publishedValueFallback);
+
+		///<summary>
+		/// Right Margin
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("rightMargin")]
+		public virtual string RightMargin => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSpacing.GetRightMargin(this, _publishedValueFallback);
+
+		///<summary>
+		/// Right Padding
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("rightPadding")]
+		public virtual string RightPadding => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSpacing.GetRightPadding(this, _publishedValueFallback);
+
+		///<summary>
+		/// Top Margin
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("topMargin")]
+		public virtual string TopMargin => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSpacing.GetTopMargin(this, _publishedValueFallback);
+
+		///<summary>
+		/// Top Padding
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("topPadding")]
+		public virtual string TopPadding => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSpacing.GetTopPadding(this, _publishedValueFallback);
 
 		///<summary>
 		/// Color
