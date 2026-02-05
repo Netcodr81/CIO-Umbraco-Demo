@@ -319,15 +319,15 @@ a.icon-button-card__container {
 
 /* Newsroom Block */
 .newsroom__columns-container {
-    margin-top: 4em;
     margin-bottom: 0;
 }
 
 .newsroom__header {
-    font-size: 1.99rem;
-    line-height: 1.2;
-    font-weight: 700;
-    margin-bottom: 2.5rem;
+    color: var(--newsroom-header-text-color);
+    font-size: var(--newsroom-header-font-size);
+    line-height: var(--newsroom-header-line-height);
+    font-weight: var(--newsroom-header-font-weight);
+    margin-bottom: var(--newsroom-header-font-margin-bottom);
 }
 
 .newsroom__header:after {
@@ -336,20 +336,24 @@ a.icon-button-card__container {
     max-width: 100%;
     height: 4px;
     margin-top: 1.5rem;
-    background-color: #ffc44d;
+    background-color: var(--newsroom-header-accent-color);
     content: "";
 }
 
 .newsroom__container {
-    background-color: #f3f7fc;
+    background-color: var(--newsroom-background-color);
 }
 
 .newsroom__divider {
-    border-top: #b4babd;
+    /* Ensure the rule produces a visible line — set border style and width */
+    border: none;
+    border-top: 1px solid #b3b3b3;
+    height: 0; /* keep semantic HR height behavior */
+    margin: 1rem 0; /* give some vertical spacing */
 }
 
 .newsroom__list-items {
-    color: #00607f;
+    color: var(--newsroom-button-background-color);
     padding-left: 0;
     width: 100%;
     margin-bottom: 2.5rem;
@@ -359,11 +363,34 @@ a.icon-button-card__container {
     margin-bottom: .7rem;
 }
 
+.newsroom__button {
+    background: var(--newsroom-background-color);
+    border-radius: calc(infinity * 1px);
+    border: 2px solid var(--newsroom-button-text-color);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: var(--newsroom-button-text-color);
+}
+
+.newsroom__button:hover {
+    border-color: var(--newsroom-button-text-hover-color);
+    background-color: var(--newsroom-button-background-hover-color);
+    color: #004d66;
+}
+
 .newsroom__list-item h4 {
     font-weight: 700;
     font-size: 1.24rem;
     line-height: 1.4;
     display: block;
+    color: var( --newsroom-link-color);
+}
+
+.newsroom__list-item h4:hover {
+    color: var(--newsroom-link-hover-color);
 }
 
 .newsroom__list-item p {
@@ -373,16 +400,15 @@ a.icon-button-card__container {
     line-height: 1.5;
     margin-bottom: .5rem;
     margin-top: .5rem;
-    color: #000;
+    color: var( --newsroom-description-color);
+    min-width: 100%;
 }
 
-.newsroom__button {
-    background: #f3f7fc;
-    border-radius: calc(infinity * 1px);
-    border: 2px solid #00607f;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 10px 20px;
-    cursor: pointer;
+.newsroom__list-item a {
+    color: var(--newsroom-link-color);
+    transition: color .15s ease;
+}
+
+.newsroom__list-item a:hover {
+    color: var(--newsroom-link-hover-color);
 }
