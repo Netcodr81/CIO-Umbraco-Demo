@@ -4,11 +4,37 @@
     if (Model.Content is null) return;
 
     var content = Model.Content;
+
+    var headerTextColor = content.HeaderTextColor?.Color ?? "#1b1b1b";
+    var headerTextHoverColor = content.HeaderTexHoverColor?.Color ?? "#1b1b1b";
+    var bodyTextColor = content.BodyTextColor?.Color ?? "#1b1b1b";
+    var bodyTextHoverColor = content.BodyTextHoverColor?.Color ?? "#1b1b1b";
+    var backgroundColor = content.CardBackgroundColor?.Color ?? "#fff";
+    var backgroundHoverColor = content.CardBackgroundHoverColor?.Color ?? "#fff";
+    var iconHoverColor = content.IconHoverColor?.Color ?? "#fff";
+    var buttonTextColor = content.ButtonTextColor?.Color ?? "#fff";
+    var buttonTextHoverColor = content.ButtonTextHoverColor?.Color ?? "#fff";
+    var buttonBackgroundColor = content.ButtonBackgroundColor?.Color ?? "#00607f";
+    var buttonBackgroundHoverColor = content.ButtonBackgroundHoverColor?.Color ?? "#004d66";
+
+    var cssVariables = $@"
+        --card-with-image-header-text-color: {headerTextColor};
+        --card-with-image-header-text-hover-color: {headerTextHoverColor};
+        --card-with-image-body-text-color: {bodyTextColor};
+        --card-with-image-body-text-hover-color: {bodyTextHoverColor};
+        --card-with-image-background-color: {backgroundColor};
+        --card-with-image-background-hover-color: {backgroundHoverColor};
+        --card-with-image-icon-hover-color: {iconHoverColor};
+        --card-with-image-button-text-color: {buttonTextColor};
+        --card-with-image-button-text-hover-color: {buttonTextHoverColor};
+        --card-with-image-button-background-color: {buttonBackgroundColor};
+        --card-with-image-button-background-hover-color: {buttonBackgroundHoverColor};
+    ";
 }
 
-<div class="card-with-image__container">
+<div class="card-with-image__container" styles="@cssVariables">
     <div class="card-with-image__image">
-        <img src="@content.Image.GetCropUrl()" name="@content.Image.Name"/>
+        <img src="@content?.Image?.GetCropUrl()" name="@content?.Image?.Name" />
     </div>
     <div class="card-with-image__header">
         <h3>@content.HeaderText</h3>
@@ -20,18 +46,19 @@
     <div class="card-with-image__footer">
         @if (content.Link is not null)
         {
+
             <a class="card-with-image__button" href="@content.Link.Url" target="@content.Link.Target" name="@content.Link.Name">
                 @if (content.ButtonIcon is not null)
                 {
                     if (content.ButtonIconLocation == "Prepend")
                     {
-                        <inline-svg media-item="content.ButtonIcon"></inline-svg>
+                        <inline-svg media-item="content.ButtonIcon" width="16" height="16" fill="@content?.IconColor?.Color"></inline-svg>
                         @content.ButtonText
                     }
                     else
                     {
                         @content.ButtonText
-                        <inline-svg media-item="content.ButtonIcon"></inline-svg>
+                        <inline-svg media-item="content.ButtonIcon" width="16" height="16" fill="@content?.IconColor?.Color"></inline-svg>
                     }
                 }
                 else

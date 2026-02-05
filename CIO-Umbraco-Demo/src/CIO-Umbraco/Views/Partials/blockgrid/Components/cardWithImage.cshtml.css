@@ -1,5 +1,19 @@
-﻿.card-with-image__container {
-    background-color: #fff;
+﻿:root {
+    --card-with-image-header-text-color: #1b1b1b;
+    --card-with-image-header-text-hover-color: #1b1b1b;
+    --card-with-image-body-text-color: #1b1b1b;
+    --card-with-image-body-text-hover-color: #1b1b1b;
+    --card-with-image-background-color: #fff;
+    --card-with-image-background-hover-color: #fff;
+    --card-with-image-icon-hover-color: #fff;
+    --card-with-image-button-text-color: #fff;
+    --card-with-image-button-text-hover-color: #ffffff;
+    --card-with-image-button-background-color: #00607f;
+    --card-with-image-button-background-hover-color: #004d66;
+}
+
+.card-with-image__container {
+    background-color: var(--card-with-image-background-color);
     margin-bottom: 1rem;
     max-width: none;
     font-size: 1.24rem;
@@ -14,7 +28,6 @@
 
 @media(min-width:40em) {
     .card-with-image__container {
-        
         margin-bottom: 2rem;
     }
 }
@@ -26,14 +39,14 @@
     overflow: hidden;
 }
 
-.card-with-image__image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    border-top-left-radius: .5rem;
-    border-top-right-radius: .5rem;
-}
+    .card-with-image__image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-top-left-radius: .5rem;
+        border-top-right-radius: .5rem;
+    }
 
 .card-with-image__header {
     padding-top: 1.5rem;
@@ -41,9 +54,8 @@
     padding-right: 1.5rem;
     padding-bottom: .5rem;
     font-size: 1.24rem;
-    color: #1b1b1b;
+    color: var(--card-with-image-header-text-color);
     line-height: 1.5;
-
 }
 
 .card-with-image__body {
@@ -53,7 +65,7 @@
     padding-bottom: .5rem;
     flex-basis: auto;
     font-size: 1.24rem;
-    color: #1b1b1b;
+    color: var(--card-with-image-body-text-color);
     flex: 1;
 }
 
@@ -66,8 +78,8 @@
 
 .card-with-image__button {
     line-height: 1;
-    color: #fff;
-    background-color: #00607f;
+    color: var(--card-with-image-button-text-color);
+    background-color: var(--card-with-image-button-background-color);
     align-items: center;
     border-radius: 99rem;
     cursor: pointer;
@@ -79,4 +91,11 @@
     text-decoration: none;
     width: 100%;
     text-align: center;
+    font-size: .99rem;
 }
+
+    .card-with-image__button:hover {
+        color: var(--card-with-image-button-text-hover-color);
+        background-color: var(--card-with-image-button-background-hover-color);
+        transition: background-color 0.5s ease-in-out;
+    }
