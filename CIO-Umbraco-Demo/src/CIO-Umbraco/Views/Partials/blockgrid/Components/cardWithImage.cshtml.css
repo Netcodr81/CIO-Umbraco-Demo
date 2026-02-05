@@ -1,18 +1,4 @@
-﻿:root {
-    --card-with-image-header-text-color: #1b1b1b;
-    --card-with-image-header-text-hover-color: #1b1b1b;
-    --card-with-image-body-text-color: #1b1b1b;
-    --card-with-image-body-text-hover-color: #1b1b1b;
-    --card-with-image-background-color: #fff;
-    --card-with-image-background-hover-color: #fff;
-    --card-with-image-icon-hover-color: #fff;
-    --card-with-image-button-text-color: #fff;
-    --card-with-image-button-text-hover-color: #ffffff;
-    --card-with-image-button-background-color: #00607f;
-    --card-with-image-button-background-hover-color: #004d66;
-}
-
-.card-with-image__container {
+﻿.card-with-image__container {
     background-color: var(--card-with-image-background-color);
     margin-bottom: 1rem;
     max-width: none;

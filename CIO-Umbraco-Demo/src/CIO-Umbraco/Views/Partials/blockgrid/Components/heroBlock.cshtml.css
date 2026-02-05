@@ -1,14 +1,4 @@
-﻿/* Hero block */
-:root {
-    --hero-block-btn-color: #FFC44D;
-    --hero-block-btn-hover-color: #e3bf77;
-    --hero-block-btn-text-color: #000000;
-    --hero-block-btn-text-hover-color: #000000;
-    --hero-block-heading-text-color: #ffffff;
-    --hero-block-subheading-text-color: #ffffff;
-}
-
-.hero-block__wrapper {
+﻿.hero-block__wrapper {
     position: relative;
     width: 100%;
     height: 42rem;

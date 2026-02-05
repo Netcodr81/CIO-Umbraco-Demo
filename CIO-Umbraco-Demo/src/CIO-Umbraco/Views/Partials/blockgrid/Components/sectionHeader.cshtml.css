@@ -1,12 +1,4 @@
-﻿:root {
-    --section-header-size: 1.99rem;
-    --section-header-line-height: 1.2;
-    --section-header-font-weight: 700;
-    --section-header-margin-bottom: 2.5rem;
-    --section-header-accent-color: #ffc44d;
-    --section-header-text-color: #000000;
-}
-
+﻿
 .section-header {
     font-size: var(--section-header-size);
     line-height: var(--section-header-line-height);
