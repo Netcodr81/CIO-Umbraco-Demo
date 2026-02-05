@@ -1,7 +1,7 @@
 ﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.IconButtonCard>>
 
 @{
-    if (Model.Content is null) return;
+    if (Model?.Content is null) return;
 
     var content = Model.Content;
 
@@ -20,13 +20,13 @@
     ";
 }
 
-<a class="icon-button-card__container" href="@content.Link.Url" target="@content.Link.Target" style="@cssVariables">
+<a class="icon-button-card__container" href="@content?.Link?.Url" target="@content?.Link?.Target" style="@cssVariables">
     <div class="icon-button-card__card-body">
-        <inline-svg media-item="@content.Icon" width="120" height="120" fill="@content?.IconColor?.Color"></inline-svg>
+        <inline-svg media-item="@content?.Icon" width="120" height="120" fill="@content?.IconColor?.Color"></inline-svg>
     </div>
     <div class="icon-button-card__card-header">
         <span class="icon-button-card__link">
-            @content.Text
+            @content?.Text
         </span>
     </div>
 </a>

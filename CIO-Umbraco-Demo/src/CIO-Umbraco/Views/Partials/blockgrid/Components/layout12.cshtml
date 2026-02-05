@@ -3,10 +3,12 @@
 @using Umbraco.Cms.Core.PropertyEditors.ValueConverters;
 
 @{
-      
-    var areasBackgroundColour = Model.Settings?.Value<ColorPickerValueConverter.PickedColor>("color");
-    
-    ViewData["AreaBackgroundColors"] = areasBackgroundColour;
+    var areasBackgroundColor = Model.Settings?.Value<ColorPickerValueConverter.PickedColor>("color");
+
+
+    var backgroundColor = areasBackgroundColor != null ? $"background-color:{areasBackgroundColor}" : "";
 }
 
-@await Html.GetPreviewBlockGridItemAreasHtmlAsync(Model)
+<div style="@backgroundColor">
+    @await Html.GetPreviewBlockGridItemAreasHtmlAsync(Model)
+</div>

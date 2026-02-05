@@ -2,17 +2,17 @@
 @inherits UmbracoViewPage<BlockGridItem<ContentModels.Section>>
 
 @{
-    if (Model.Content is null) return;
+    if (Model?.Content is null) return;
 
     var content = Model.Content;
-    var backgroundColor = content.Color.Color ?? "#f3f7fc";
+    var backgroundColor = content?.Color?.Color ?? "#f3f7fc";
 
-    var layoutStyles = content.GenerateLayoutSpacingStyles();
+    var layoutStyles = content?.GenerateLayoutSpacingStyles();
 
 }
 <section class="w-100" style="background-color: @backgroundColor; @layoutStyles">
 
     <div class="grid-container p-5 ">
-        @await Html.GetBlockGridHtmlAsync(content.Content)
+        @await Html.GetBlockGridHtmlAsync(content?.Content)
     </div>
 </section>

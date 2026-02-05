@@ -2,7 +2,7 @@
 @using Umbraco.Extensions;
 
 @{
-    if (Model.Content is null) return;
+    if (Model?.Content is null) return;
 
     var content = Model.Content;
 }
@@ -14,14 +14,14 @@
             <p class="g-col-12 g-col-md-6 mission-and-value__subheader">@content.SubheaderText</p>
             <div class="g-col-12 g-col-md-6 mt-0">
                 <ul class="mission-and-value__value-list">
-                    @if (content.ValueItems.Any())
+                    @if (content?.ValueItems?.Any() == true)
                     {
                         foreach (var item in content.ValueItems)
                         {
                             var listItem = item.Content as IconListItem;
                             <li class="d-flex align-items-center gap-3 mission-and-value__list-item">
                               
-                                <inline-svg media-item="listItem.Icon" fill="@listItem.IconColor?.Color" width="24" height="24"></inline-svg>
+                                <inline-svg media-item="listItem?.Icon" fill="@listItem?.IconColor?.Color" width="24" height="24"></inline-svg>
                                 @listItem?.Text
                             </li>
                         }

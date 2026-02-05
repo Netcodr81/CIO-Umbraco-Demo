@@ -1,7 +1,7 @@
 ﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.CardWithImage>>
 
 @{
-    if (Model.Content is null) return;
+    if (Model?.Content is null) return;
 
     var content = Model.Content;
 
@@ -37,14 +37,14 @@
         <img src="@content?.Image?.GetCropUrl()" name="@content?.Image?.Name" />
     </div>
     <div class="card-with-image__header">
-        <h3>@content.HeaderText</h3>
+        <h3>@content?.HeaderText</h3>
     </div>
     <div class="card-with-image__body">
-        @content.BodyText
+        @content?.BodyText
     </div>
 
     <div class="card-with-image__footer">
-        @if (content.Link is not null)
+        @if (content?.Link is not null)
         {
 
             <a class="card-with-image__button" href="@content.Link.Url" target="@content.Link.Target" name="@content.Link.Name">
@@ -53,7 +53,7 @@
                     if (content.ButtonIconLocation == "Prepend")
                     {
                         <inline-svg media-item="content.ButtonIcon" width="16" height="16" fill="@content?.IconColor?.Color"></inline-svg>
-                        @content.ButtonText
+                        @content?.ButtonText
                     }
                     else
                     {
@@ -69,8 +69,8 @@
         }
         else
         {
-            <a class="card-with-image__button" href="@content.Link.Url" target="@content.Link.Target" name="@content.Link.Name">
-                @content.ButtonText
+            <a class="card-with-image__button" href="@content?.Link?.Url" target="@content?.Link?.Target" name="@content?.Link?.Name">
+                @content?.ButtonText
             </a>
         }
 

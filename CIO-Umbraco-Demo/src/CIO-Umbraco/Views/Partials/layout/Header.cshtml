@@ -5,12 +5,12 @@
 
 @{
      var siteSettings = Model.GetSiteSettings();
-     var headerLogo = siteSettings.HeaderLogo;
+     var headerLogo = siteSettings?.HeaderLogo;
 }
 
 <header class='cio-header'>
     <a href='/' aria-label='Home' class='cio-header__logo-link'>
-        <img src="@headerLogo.Content.Url()" alt="..." class='cio-header__logo-img' />
+        <img src="@headerLogo?.Content?.Url()" alt="..." class='cio-header__logo-img' />
     </a>
     <section class='cio-header__search'>
         <form>

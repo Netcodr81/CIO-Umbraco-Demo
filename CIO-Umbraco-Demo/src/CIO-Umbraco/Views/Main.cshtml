@@ -46,7 +46,7 @@
 </head>
 
 <body class='main-layout'>
-@if (siteSettings.ShowBanner)
+@if (siteSettings?.ShowBanner ?? true)
 {
     @await Html.PartialAsync("layout/Banner")
 }

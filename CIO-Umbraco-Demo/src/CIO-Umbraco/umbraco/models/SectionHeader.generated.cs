@@ -18,9 +18,49 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
+	// Mixin Content Type with alias "sectionHeader"
+	/// <summary>Section Header</summary>
+	public partial interface ISectionHeader : IPublishedElement
+	{
+		/// <summary>Section Header Accent Color</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor SectionHeaderAccentColor { get; }
+
+		/// <summary>Section Header Font Size</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string SectionHeaderFontSize { get; }
+
+		/// <summary>Section Header Font Weight</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string SectionHeaderFontWeight { get; }
+
+		/// <summary>Section Header Line Height</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string SectionHeaderLineHeight { get; }
+
+		/// <summary>Section Header Margin Bottom</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string SectionHeaderMarginBottom { get; }
+
+		/// <summary>Section Header Text</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string SectionHeaderText { get; }
+
+		/// <summary>Section Header Text Color</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor SectionHeaderTextColor { get; }
+	}
+
 	/// <summary>Section Header</summary>
 	[PublishedModel("sectionHeader")]
-	public partial class SectionHeader : PublishedElementModel
+	public partial class SectionHeader : PublishedElementModel, ISectionHeader
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -50,59 +90,94 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Accent Color
+		/// Section Header Accent Color
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("accentColor")]
-		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor AccentColor => this.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(_publishedValueFallback, "accentColor");
+		[ImplementPropertyType("sectionHeaderAccentColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor SectionHeaderAccentColor => GetSectionHeaderAccentColor(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Section Header Accent Color</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor GetSectionHeaderAccentColor(ISectionHeader that, IPublishedValueFallback publishedValueFallback) => that.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(publishedValueFallback, "sectionHeaderAccentColor");
 
 		///<summary>
-		/// Font Size
+		/// Section Header Font Size
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("fontSize")]
-		public virtual string FontSize => this.Value<string>(_publishedValueFallback, "fontSize");
+		[ImplementPropertyType("sectionHeaderFontSize")]
+		public virtual string SectionHeaderFontSize => GetSectionHeaderFontSize(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Section Header Font Size</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetSectionHeaderFontSize(ISectionHeader that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "sectionHeaderFontSize");
 
 		///<summary>
-		/// Font Weight
+		/// Section Header Font Weight
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("fontWeight")]
-		public virtual string FontWeight => this.Value<string>(_publishedValueFallback, "fontWeight");
+		[ImplementPropertyType("sectionHeaderFontWeight")]
+		public virtual string SectionHeaderFontWeight => GetSectionHeaderFontWeight(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Section Header Font Weight</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetSectionHeaderFontWeight(ISectionHeader that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "sectionHeaderFontWeight");
 
 		///<summary>
-		/// Line Height
+		/// Section Header Line Height
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("lineHeight")]
-		public virtual string LineHeight => this.Value<string>(_publishedValueFallback, "lineHeight");
+		[ImplementPropertyType("sectionHeaderLineHeight")]
+		public virtual string SectionHeaderLineHeight => GetSectionHeaderLineHeight(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Section Header Line Height</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetSectionHeaderLineHeight(ISectionHeader that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "sectionHeaderLineHeight");
 
 		///<summary>
-		/// Margin Bottom
+		/// Section Header Margin Bottom
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("marginBottom")]
-		public virtual string MarginBottom => this.Value<string>(_publishedValueFallback, "marginBottom");
+		[ImplementPropertyType("sectionHeaderMarginBottom")]
+		public virtual string SectionHeaderMarginBottom => GetSectionHeaderMarginBottom(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Section Header Margin Bottom</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetSectionHeaderMarginBottom(ISectionHeader that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "sectionHeaderMarginBottom");
 
 		///<summary>
-		/// Text
+		/// Section Header Text
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("text")]
-		public virtual string Text => this.Value<string>(_publishedValueFallback, "text");
+		[ImplementPropertyType("sectionHeaderText")]
+		public virtual string SectionHeaderText => GetSectionHeaderText(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Section Header Text</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetSectionHeaderText(ISectionHeader that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "sectionHeaderText");
 
 		///<summary>
-		/// Text Color
+		/// Section Header Text Color
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("textColor")]
-		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor TextColor => this.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(_publishedValueFallback, "textColor");
+		[ImplementPropertyType("sectionHeaderTextColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor SectionHeaderTextColor => GetSectionHeaderTextColor(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Section Header Text Color</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor GetSectionHeaderTextColor(ISectionHeader that, IPublishedValueFallback publishedValueFallback) => that.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(publishedValueFallback, "sectionHeaderTextColor");
 	}
 }

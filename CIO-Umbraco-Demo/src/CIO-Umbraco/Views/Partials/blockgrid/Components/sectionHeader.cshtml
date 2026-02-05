@@ -1,16 +1,16 @@
 ﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.SectionHeader>>
 
 @{
-    if (Model.Content is null) return;
+    if (Model?.Content is null) return;
 
     var content = Model.Content;
 
-    var fontSize = !string.IsNullOrWhiteSpace(content.FontSize) ? content.FontSize : "1.99rem";
-    var lineHeight = !string.IsNullOrWhiteSpace(content.LineHeight) ? content.LineHeight : "1.2";
-    var fontWeight = !string.IsNullOrWhiteSpace(content.FontWeight) ? content.FontWeight : "700";
-    var marginBottom = !string.IsNullOrWhiteSpace(content.MarginBottom) ? content.MarginBottom : "2.5rem"; 
-    var accentColor = content.AccentColor?.Color ?? "#ffc44d";
-    var textColor = content.TextColor?.Color ?? "#000000";
+    var fontSize = !string.IsNullOrWhiteSpace(content.SectionHeaderFontSize) ? content.SectionHeaderFontSize : "1.99rem";
+    var lineHeight = !string.IsNullOrWhiteSpace(content.SectionHeaderLineHeight) ? content.SectionHeaderLineHeight : "1.2";
+    var fontWeight = !string.IsNullOrWhiteSpace(content.SectionHeaderFontWeight) ? content.SectionHeaderFontWeight : "700";
+    var marginBottom = !string.IsNullOrWhiteSpace(content.SectionHeaderMarginBottom) ? content.SectionHeaderMarginBottom : "2.5rem";
+    var accentColor = content.SectionHeaderAccentColor?.Color ?? "#ffc44d";
+    var textColor = content.SectionHeaderTextColor?.Color ?? "#000000";
 
 
     var cssVariables = $@"
@@ -23,4 +23,4 @@
     ";
 }
 
-<h2 class="section-header" style="@cssVariables">@content.Text</h2>
+<h2 class="section-header" style="@cssVariables">@content.SectionHeaderText</h2>

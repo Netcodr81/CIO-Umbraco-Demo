@@ -36,12 +36,12 @@
         </svg>
     </div>
     <section class="cio-footer__links">
-        @foreach (var block in footerLinks)
+        @foreach (var block in footerLinks!)
         {
             if (block.Content is SingleLink link)
             {
-                <a href="@link.Link.Url" class="cio-footer__link-item" target="_blank" rel="noopener noreferrer">
-                    @link.Link.Name
+                <a href="@link?.Link?.Url" class="cio-footer__link-item" target="_blank" rel="noopener noreferrer">
+                    @link?.Link?.Name
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                          fill="currentColor">
                         <path d="M14 3v2h3.59l-9.83 9.83l1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7Z">
@@ -54,13 +54,13 @@
     <section class="cio-footer__social">
         <img src="@footerLogoUrl" alt="CIO Logo" class="cio-footer__logo" />
         <div class="cio-footer__social-icons">
-            @foreach (var iconLink in socialLinks)
+            @foreach (var iconLink in socialLinks!)
             {
 
                 if (iconLink.Content is SocialLink link)
                 {
-                    <a class="cio-footer__icon-link" href="@link.Link.Url" target="_blank" rel="noopener noreferrer">
-                        <inline-svg media-item="link.Icon" fill="@link.Color?.Color" background-color="@link.BackgroundColor?.Color" height="35" width="35"></inline-svg>
+                    <a class="cio-footer__icon-link" href="@link?.Link?.Url" target="_blank" rel="noopener noreferrer">
+                        <inline-svg media-item="link?.Icon" fill="@link?.Color?.Color" background-color="@link?.BackgroundColor?.Color" height="35" width="35"></inline-svg>
                     </a>
                 }
             }

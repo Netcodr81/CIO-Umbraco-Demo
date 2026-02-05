@@ -34,7 +34,6 @@
 	--hero-block-btn-text-hover-color: #000000;
 	--hero-block-heading-text-color: #ffffff;
 	--hero-block-subheading-text-color: #ffffff;
-
 	--icon-button-text-color: #ffffff;
 	--icon-button-text-hover-color: #00607f;
 	--icon-button-background-color: #00607f;
@@ -52,6 +51,22 @@
 	--card-with-image-button-text-hover-color: #ffffff;
 	--card-with-image-button-background-color: #00607f;
 	--card-with-image-button-background-hover-color: #004d66;
+
+	--newsroom-header-text-color: #000;
+	--newsroom-header-font-size: 1.99rem;
+	--newsroom-header-line-height: 1.2;
+	--newsroom-header-font-weight: 700;
+	--newsroom-header-font-margin-bottom: 2.5rem;
+	--newsroom-header-accent-color: #ffc44d;
+	--newsroom-background-color: #f3f7fc;
+	--newsroom-button-background-color: #00607f;
+	--newsroom-button-background-hover-color: #f3f7fc;
+	--newsroom-button-text-color: #00607f;
+	--newsroom-button-text-hover-color: #004d66;
+	--newsroom-icon-hover-color: #004d66;
+    --newsroom-description-color: #000;
+    --newsroom-link-color: #00607f;
+    --newsroom-link-hover-color: #004d66;
 }
 
 
@@ -1044,3 +1059,9 @@ dfn {
     height: 100%;
     flex: 1;
 }
+
+.newsroom__list-item a:hover svg,
+.newsroom__list-item a:hover svg * {
+	fill: var(--newsroom-link-hover-color);
+}
+

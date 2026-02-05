@@ -1,0 +1,35 @@
+﻿.newsroom__list-item h4 {
+    font-weight: 700;
+    font-size: 1.24rem;
+    line-height: 1.4;
+    display: block;
+    color: var( --newsroom-link-color);
+}
+
+.newsroom__list-item h4:hover {
+    color: var(--newsroom-link-hover-color);
+}
+
+.newsroom__list-item p {
+    font-weight: normal;
+    font-size: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    color: var( --newsroom-description-color);
+    min-width: 100%;
+}
+
+.newsroom__list-item a {
+    color: var(--newsroom-link-color);
+    transition: color .15s ease;
+}
+
+.newsroom__list-item a:hover {
+    color: var(--newsroom-link-hover-color);
+}
+
+
+
+

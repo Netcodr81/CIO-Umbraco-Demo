@@ -5,7 +5,7 @@
 
 @{
     var siteSettings = Model.GetSiteSettings();
-    var navItems = siteSettings.Menu;
+    var navItems = siteSettings?.Menu;
 }
 
 
@@ -14,7 +14,7 @@
         <button aria-label="Close menu">×</button>
     </div>
 
-    @if (navItems.Any())
+    @if (navItems?.Any() == true)
     {
         <ul class="mobile-menu-list">
             @foreach (var item in navItems)
@@ -60,11 +60,11 @@
                 {
                     <li class="mobile-menu-list-item">
 
-                        <a href="@item.Url" target="@item.Target">
-                            @item.Name
+                        <a href="@item?.Url" target="@item?.Target">
+                            @item?.Name
 
                         </a>
-                        @if (item.Target == "_blank")
+                        @if (item?.Target == "_blank")
                         {
                             <p>
                                 <svg-icon src="icons/open-in-new.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="#565c65"></svg-icon>

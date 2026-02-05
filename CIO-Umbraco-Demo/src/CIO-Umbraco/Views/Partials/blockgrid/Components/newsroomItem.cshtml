@@ -1,0 +1,53 @@
+﻿@inherits UmbracoViewPage<BlockListItem<ContentModels.NewsroomItem>>
+
+@{
+    if (Model?.Content is null) return;
+
+    var content = Model.Content;
+
+    var iconHoverColor = content?.IconHoverColor?.Color ?? "#004d66";
+    var descriptionColor = content?.DescriptionColor?.Color ?? "#000";
+    var linkColor = content?.LinkColor?.Color ?? "#00607f";
+    var linkHoverColor = content?.LinkHoverColor?.Color ?? "#004d66";
+
+    var cssVariables = $@"
+        --newsroom-icon-hover-color: {iconHoverColor};
+        --newsroom-description-color: {descriptionColor};
+        --newsroom-link-color: {linkColor};
+        --newsroom-link-hover-color: {linkHoverColor};
+    ";
+}
+
+<li class="d-flex newsroom__list-item flex-column w-100" style="@cssVariables">
+    <a href="@content?.Link?.Url" target="@content?.Link?.Target">
+        @if (content?.Icon is not null)
+        {
+            @if (content.IconLocation == "Prepend")
+            {
+                                   
+                <h4>
+                    <inline-svg media-item="@content?.Icon" height="16" width="16" fill="currentColor"></inline-svg>
+                    @content?.Link?.Name
+                </h4>
+                                  
+            }
+            else
+            {
+                <h4>
+                    @content?.Link?.Name
+                    <inline-svg media-item="@content?.Icon" height="16" width="16" fill="currentColor"></inline-svg>
+                </h4>
+                                  
+                                   
+            }
+                               
+        }
+        else
+        {
+            @content?.Link?.Name
+        }
+    </a>
+    <p>
+        @content?.Description
+    </p>
+</li>

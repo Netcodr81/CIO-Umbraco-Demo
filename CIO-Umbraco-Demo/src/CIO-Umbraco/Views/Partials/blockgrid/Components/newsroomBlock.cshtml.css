@@ -1,0 +1,58 @@
+﻿.newsroom__columns-container {
+    margin-bottom: 0;
+}
+
+.newsroom__header {
+    color: var(--newsroom-header-text-color);
+    font-size: var(--newsroom-header-font-size);
+    line-height: var(--newsroom-header-line-height);
+    font-weight: var(--newsroom-header-font-weight);
+    margin-bottom: var(--newsroom-header-font-margin-bottom);
+}
+
+.newsroom__header:after {
+    display: block;
+    width: 5rem;
+    max-width: 100%;
+    height: 4px;
+    margin-top: 1.5rem;
+    background-color: var(--newsroom-header-accent-color);
+    content: "";
+}
+
+.newsroom__container { background-color: var(--newsroom-background-color); }
+
+.newsroom__divider {
+    /* Ensure the rule produces a visible line — set border style and width */
+    border: none;
+    border-top: 1px solid #b3b3b3;
+    height: 0; /* keep semantic HR height behavior */
+    margin: 1rem 0; /* give some vertical spacing */
+}
+
+.newsroom__list-items {
+    color: var(--newsroom-button-background-color);
+    padding-left: 0;
+    width: 100%;
+    margin-bottom: 2.5rem;
+}
+
+.newsroom__list-items li { margin-bottom: .7rem; }
+
+.newsroom__button {
+    background: var(--newsroom-background-color);
+    border-radius: calc(infinity * 1px);
+    border: 2px solid var(--newsroom-button-text-color);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: var(--newsroom-button-text-color);
+}
+
+.newsroom__button:hover {
+    border-color: var(--newsroom-button-text-hover-color);
+    background-color: var(--newsroom-button-background-hover-color);
+    color: #004d66;
+}
