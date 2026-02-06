@@ -54,8 +54,14 @@ Navigate to the `src/CIO-Umbraco` folder and open the `appsettings.Development.j
 cd src/CIO-Umbraco
 dotnet restore
 dotnet build
-dotnet run
+dotnet run (or dotnet watch for hot reload)
 ```
+
+*Note VS Code Users*: If you have the C# Dev Kit installed you can launch the app using the Solution Explorer. To enable hot reload do the following:
+
+1. Open the settings using `ctrl + shift + p`
+2. Search for `hot reload`
+3. Ensure `Experimental -> Debug -> Hot reload` option is checked.
 
 The application will start and be available at `https://localhost:44384` (or the port specified in your launch settings).
 
