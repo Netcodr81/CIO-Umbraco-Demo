@@ -1,10 +1,11 @@
-﻿@using CIO_Umbraco.Utilities
+﻿@using CIO_Umbraco.Extensions
+@using CIO_Umbraco.Utilities
 @using Umbraco.Community.UmbNav.Core.Models
-@inject ISiteSettingsAccessor siteSettingsAccessor
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @{
-    var systemSettings = siteSettingsAccessor.Get();
-    var navItems = systemSettings.NavigationMenu;
+    var siteSettings = Model.GetSiteSettings();
+    var navItems = siteSettings?.Menu ?? [];
 }
 
 @if (navItems.Any())
@@ -13,11 +14,11 @@
         <ul class='cio__nav-list'>
             @foreach (var item in navItems)
             {
-                if (item.Children.Any())
+                if (item?.Children?.Any() == true)
                 {
                     <li class="cio__nav-dropdown">
                         <button class="dropdown-toggle cio__dropdown">
-                            <label>@item.Name</label>
+                            <label name="@item.Name">@item.Name</label>
                             <span class="chevron-icon">
                                 <svg-icon src="icons/chevron-down.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white"></svg-icon>
 
@@ -47,9 +48,9 @@
                 else
                 {
                     <li class="cio-nav__link">
-                        <a href="@item.Url" target="@item.Target">
-                            @item.Name
-                            @if (item.Target == "_blank")
+                        <a href="@item?.Url" target="@item?.Target">
+                            @item?.Name
+                            @if (item?.Target == "_blank")
                             {
                                 <span>
                                     <svg-icon src="icons/open-in-new.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white"></svg-icon>

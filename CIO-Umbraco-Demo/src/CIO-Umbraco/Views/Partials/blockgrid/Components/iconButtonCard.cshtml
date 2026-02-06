@@ -1,0 +1,32 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.IconButtonCard>>
+
+@{
+    if (Model?.Content is null) return;
+
+    var content = Model.Content;
+
+    var textColor = content.TextColor?.Color ?? "#ffffff";
+    var textHoverColor = content.TextHoverColor?.Color ?? "#00607f";
+    var backgroundColor = content.BackgroundColor?.Color ?? "#00607f";
+    var backgroundHoverColor = content.BackgroundHoverColor?.Color ?? "#bbd4dd";
+    var iconHoverColor = content.IconHoverColor?.Color ?? "#00607f";
+
+    var cssVariables = $@"
+       --icon-button-text-color: {textColor};
+       --icon-button-text-hover-color: {textHoverColor};
+       --icon-button-background-color: {backgroundColor};
+       --icon-button-background-hover-color: {backgroundHoverColor};
+       --icon-button-icon-hover-color: {iconHoverColor};
+    ";
+}
+
+<a class="icon-button-card__container" href="@content?.Link?.Url" target="@content?.Link?.Target" style="@cssVariables">
+    <div class="icon-button-card__card-body">
+        <inline-svg media-item="@content?.Icon" width="120" height="120" fill="@content?.IconColor?.Color"></inline-svg>
+    </div>
+    <div class="icon-button-card__card-header">
+        <span class="icon-button-card__link">
+            @content?.Text
+        </span>
+    </div>
+</a>

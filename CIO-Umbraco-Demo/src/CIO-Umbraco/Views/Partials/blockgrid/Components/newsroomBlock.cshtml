@@ -1,0 +1,62 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.NewsroomBlock>>
+
+@{
+    if (Model?.Content is null) return;
+
+    var content = Model.Content;
+
+    var headerTextColor = content.SectionHeaderTextColor?.Color ?? "#000";
+    var headerFontSize = !string.IsNullOrWhiteSpace(content.SectionHeaderFontSize) ? content.SectionHeaderFontSize : "1.99rem";
+    var headerLineHeight = !string.IsNullOrWhiteSpace(content.SectionHeaderLineHeight) ? content.SectionHeaderLineHeight : "1.2";
+    var headerFontWeight = !string.IsNullOrWhiteSpace(content?.SectionHeaderFontWeight) ? content.SectionHeaderFontWeight : "700";
+    var headerMarginBottom = !string.IsNullOrWhiteSpace(content?.SectionHeaderMarginBottom) ? content.SectionHeaderMarginBottom : "2.5rem";
+    var headerAccentColor = content?.SectionHeaderAccentColor?.Color ?? "#ffc44d";
+    var backgroundColor = content?.NewsroomBackgroundColor?.Color ?? " #f3f7fc";
+    var buttonBackgroundColor = content?.ButtonBackgroundColor?.Color ?? "#00607f";
+    var buttonBackgroundHoverColor = content?.ButtonBackgroundHoverColor?.Color ?? "#004d66";
+    var buttonTextColor = content?.ButtonTextColor?.Color ?? "#00607f";
+    var buttonTextHoverColor = content?.ButtonTextHoverColor?.Color ?? "#004d66";
+
+    var cssVariables = $@"
+        --newsroom-header-text-color: {headerTextColor};
+        --newsroom-header-font-size: {headerFontSize};
+        --newsroom-header-line-height: {headerLineHeight};
+        --newsroom-header-font-weight: {headerFontWeight};
+        --newsroom-header-font-margin-bottom: {headerMarginBottom};
+        --newsroom-header-accent-color: {headerAccentColor};
+        --newsroom-background-color: {backgroundColor};
+        --newsroom-button-background-color: {buttonBackgroundColor};
+        --newsroom-button-background-hover-color: {buttonBackgroundHoverColor};
+        --newsroom-button-text-color: {buttonTextColor};
+        --newsroom-button-text-hover-color: {buttonTextHoverColor};
+    ";
+    
+}
+
+<div class="newsroom__columns-container p-5" style="@cssVariables">
+    <div class="grid-container main-content newsroom__container">
+        <h2 class="newsroom__header">@content?.SectionHeaderText</h2>
+        <hr class="newsroom__divider"/>
+        @if (content.Items.Any())
+        {
+            <ul class="newsroom__list-items">
+                @for (int i = 0; i < content.Items.Count; i++)
+                {
+                    var item = content.Items[i];
+
+                   @await Html.PartialAsync("newsroomItem", item)
+
+                    @if (i < content.Items.Count - 1)
+                    {
+                        <hr class="newsroom__divider" />
+                    }
+                }
+            </ul>
+        }
+   
+        
+        <a class="newsroom__button" href="@content?.Link?.Url" target="@content?.Link?.Target">
+            @content?.ButtonText
+        </a>
+    </div>
+</div>

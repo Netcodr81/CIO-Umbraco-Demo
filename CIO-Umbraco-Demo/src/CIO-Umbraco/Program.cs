@@ -1,5 +1,5 @@
-using CIO_Umbraco.Utilities;
-using Umbraco.Cms.Core.PropertyEditors;
+using Slimsy.DependencyInjection;
+using Umbraco.Cms.Web.Common.PublishedModels;
 using Umbraco.Community.BlockPreview.Extensions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -7,46 +7,47 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
     .AddWebsite()
-    .AddComposers()
+    .AddSlimsy()
     .AddBlockPreview(options =>
     {
         options.BlockGrid = new()
         {
             Enabled = true,
-            ContentTypes = [],
-            IgnoredContentTypes = [],
-            ViewLocations = [],
-            Stylesheets = []
-        };
+            Stylesheets = [
+                "/css/styles.css",
+                "/css/layout.css",
+                "/css/block-preview.css"
+            ],
+            IgnoredContentTypes = [NavigationMenu.ModelTypeAlias]
 
+        };
         options.BlockList = new()
         {
             Enabled = true,
-            ContentTypes = [],
-            IgnoredContentTypes = [],
-            ViewLocations = [],
-            Stylesheets = []
+            Stylesheets = [
+                "/css/styles.css",
+                "/css/layout.css",
+                "/css/block-preview.css"
+            ],
         };
-
         options.RichText = new()
         {
             Enabled = true,
-            ContentTypes = [],
-            IgnoredContentTypes = [],
-            ViewLocations = [],
-            Stylesheets = []
+            Stylesheets = [
+                "/css/styles.css",
+                "/css/layout.css",
+                "/css/block-preview.css"
+            ],
         };
-        
     })
+    .AddComposers()
     .Build();
-
-builder.Services.AddScoped<ISiteSettingsAccessor, SiteSettingsAccessor>();
-builder.Services.AddSingleton<ISvgRenderer, FileSvgRenderer>();
 
 WebApplication app = builder.Build();
 
 await app.BootUmbracoAsync();
 
+app.UseHttpsRedirection();
 
 app.UseUmbraco()
     .WithMiddleware(u =>

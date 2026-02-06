@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 document.addEventListener('DOMContentLoaded', function () {
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
 

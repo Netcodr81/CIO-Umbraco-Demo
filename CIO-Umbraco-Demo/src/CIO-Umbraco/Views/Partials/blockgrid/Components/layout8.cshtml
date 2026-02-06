@@ -1,0 +1,13 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters;
+
+@{
+    var areasBackgroundColor = Model.Settings?.Value<ColorPickerValueConverter.PickedColor>("color");
+
+
+    var backgroundColor = areasBackgroundColor != null ? $"background-color:{areasBackgroundColor}" : "";
+}
+
+<div style="@backgroundColor">
+    @await Html.GetPreviewBlockGridItemAreasHtmlAsync(Model)
+</div>

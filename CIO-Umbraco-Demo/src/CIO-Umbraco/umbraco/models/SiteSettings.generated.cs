@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Site Settings</summary>
 	[PublishedModel("siteSettings")]
-	public partial class SiteSettings : PublishedContentModel
+	public partial class SiteSettings : PublishedContentModel, IBannerProperties, IFooterProperties_hhcfhohx, IHeaderProperties, INavigationMenu, ISeoProperties, ISiteSettingsProperties
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -55,7 +55,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("bannerIcon")]
-		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops BannerIcon => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "bannerIcon");
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops BannerIcon => global::Umbraco.Cms.Web.Common.PublishedModels.BannerProperties.GetBannerIcon(this, _publishedValueFallback);
 
 		///<summary>
 		/// Banner Text
@@ -63,22 +63,22 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("bannerText")]
-		public virtual string BannerText => this.Value<string>(_publishedValueFallback, "bannerText");
+		public virtual string BannerText => global::Umbraco.Cms.Web.Common.PublishedModels.BannerProperties.GetBannerText(this, _publishedValueFallback);
 
 		///<summary>
-		/// Copyright Text
+		/// Show Banner
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[ImplementPropertyType("showBanner")]
+		public virtual bool ShowBanner => global::Umbraco.Cms.Web.Common.PublishedModels.BannerProperties.GetShowBanner(this, _publishedValueFallback);
+
+		///<summary>
+		/// Copyright Text: This will be the copy right text displayed in the footer
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("copyrightText")]
-		public virtual string CopyrightText => this.Value<string>(_publishedValueFallback, "copyrightText");
-
-		///<summary>
-		/// Display Banner
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
-		[ImplementPropertyType("displayBanner")]
-		public virtual bool DisplayBanner => this.Value<bool>(_publishedValueFallback, "displayBanner");
+		public virtual string CopyrightText => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties_hhcfhohx.GetCopyrightText(this, _publishedValueFallback);
 
 		///<summary>
 		/// Footer Links
@@ -86,38 +86,76 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("footerLinks")]
-		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel FooterLinks => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListModel>(_publishedValueFallback, "footerLinks");
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel FooterLinks => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties_hhcfhohx.GetFooterLinks(this, _publishedValueFallback);
 
 		///<summary>
-		/// Footer Logo
+		/// Footer Logo: The logo displayed in the footer
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("footerLogo")]
-		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops FooterLogo => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "footerLogo");
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops FooterLogo => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties_hhcfhohx.GetFooterLogo(this, _publishedValueFallback);
 
 		///<summary>
-		/// Header Logo
+		/// Social Links: Add the social links that will be displayed in the footer.
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("socialLinks")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel SocialLinks => global::Umbraco.Cms.Web.Common.PublishedModels.FooterProperties_hhcfhohx.GetSocialLinks(this, _publishedValueFallback);
+
+		///<summary>
+		/// HeaderLogo
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("headerLogo")]
-		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops HeaderLogo => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "headerLogo");
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops HeaderLogo => global::Umbraco.Cms.Web.Common.PublishedModels.HeaderProperties.GetHeaderLogo(this, _publishedValueFallback);
 
 		///<summary>
-		/// Icon Links
+		/// Menu: Create the navigation menu by adding nodes and child nodes
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("iconLinks")]
-		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel IconLinks => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListModel>(_publishedValueFallback, "iconLinks");
+		[ImplementPropertyType("menu")]
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem> Menu => global::Umbraco.Cms.Web.Common.PublishedModels.NavigationMenu.GetMenu(this, _publishedValueFallback);
 
 		///<summary>
-		/// Navigation Menu
+		/// Is Followable: Set this to true if you want robots to be able to follow this page
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[ImplementPropertyType("isFollowable")]
+		public virtual bool IsFollowable => global::Umbraco.Cms.Web.Common.PublishedModels.SeoProperties.GetIsFollowable(this, _publishedValueFallback);
+
+		///<summary>
+		/// Is Indexable: Set this to true if you want robots to be able to index this page
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[ImplementPropertyType("isIndexable")]
+		public virtual bool IsIndexable => global::Umbraco.Cms.Web.Common.PublishedModels.SeoProperties.GetIsIndexable(this, _publishedValueFallback);
+
+		///<summary>
+		/// Meta Description: Enter the meta description for this page
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("navigationMenu")]
-		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem> NavigationMenu => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem>>(_publishedValueFallback, "navigationMenu");
+		[ImplementPropertyType("metaDescription")]
+		public virtual string MetaDescription => global::Umbraco.Cms.Web.Common.PublishedModels.SeoProperties.GetMetaDescription(this, _publishedValueFallback);
+
+		///<summary>
+		/// Meta Title: Enter the meta title for this page. If this is blank the name will be used.
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("metaTitle")]
+		public virtual string MetaTitle => global::Umbraco.Cms.Web.Common.PublishedModels.SeoProperties.GetMetaTitle(this, _publishedValueFallback);
+
+		///<summary>
+		/// Site Name: Enter the name of this site. This will appear in the browser title.
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.1.0+2832436")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("siteName")]
+		public virtual string SiteName => global::Umbraco.Cms.Web.Common.PublishedModels.SiteSettingsProperties.GetSiteName(this, _publishedValueFallback);
 	}
 }

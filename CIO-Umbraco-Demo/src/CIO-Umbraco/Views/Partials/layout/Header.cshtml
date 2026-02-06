@@ -1,32 +1,33 @@
-﻿@using CIO_Umbraco.Utilities
+﻿@using CIO_Umbraco.Extensions
+@using CIO_Umbraco.Utilities
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
-@inject ISiteSettingsAccessor siteSettingsAccessor;
+
 
 @{
-    var siteSettings = siteSettingsAccessor.Get();
-    var headerLogo = siteSettings.HeaderLogo;
+     var siteSettings = Model.GetSiteSettings();
+     var headerLogo = siteSettings?.HeaderLogo;
 }
 
 <header class='cio-header'>
-  <a href='/' aria-label='Home' class='cio-header__logo-link'>
-    <img src="@headerLogo.Content.Url()" alt="..." class='cio-header__logo-img' />
-  </a>
-  <section class='cio-header__search'>
-    <form>
-      <div class='cio-header__search-form'>
-        <input type='text' class='cio-header__search-input' />
-        <button type='submit' class='cio-header__search-button' aria-label='Search'>
-            <svg-icon src="icons/magnify.svg" svg-width="24" svg-height="24" svg-viewbox="0 0 24 24" svg-fill="#000"></svg-icon>
-        </button>
-      </div>
-    </form>
-  </section>
-  <button id='menu-toggle' aria-label='Toggle Menu' class='cio-header__menu-toggle'>
-   Menu
-  </button>
-  <!--Non Mobile Menu -->
+    <a href='/' aria-label='Home' class='cio-header__logo-link'>
+        <img src="@headerLogo?.Content?.Url()" alt="..." class='cio-header__logo-img' />
+    </a>
+    <section class='cio-header__search'>
+        <form>
+            <div class='cio-header__search-form'>
+                <input type='text' class='cio-header__search-input' />
+                <button type='submit' class='cio-header__search-button' aria-label='Search'>
+                    <svg-icon src="icons/magnify.svg" svg-width="24" svg-height="24" svg-viewbox="0 0 24 24" svg-fill="#000"></svg-icon>
+                </button>
+            </div>
+        </form>
+    </section>
+    <button id='menu-toggle' aria-label='Toggle Menu' class='cio-header__menu-toggle'>
+        Menu
+    </button>
+    <!--Non Mobile Menu -->
     @await Html.PartialAsync("navigation/NavigationMenu")
 
-  <!-- Mobile Menu -->
-  @await Html.PartialAsync("navigation/MobileMenu")
+    <!-- Mobile Menu -->
+    @await Html.PartialAsync("navigation/MobileMenu")
 </header>
