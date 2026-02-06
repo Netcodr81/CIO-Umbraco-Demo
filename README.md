@@ -8,7 +8,6 @@ A .NET 10 Umbraco CMS application.
 Before getting started, ensure you have the following installed:
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (LocalDB, Express, or full version)
 - A code editor such as [Visual Studio 2022](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/)
 
 ## Getting Started
