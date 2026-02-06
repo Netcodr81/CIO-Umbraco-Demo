@@ -4,16 +4,15 @@
 
 @{
     var model = Model;
-    string? backgroundValue = ViewData["AreaBackgroundColors"]?.ToString();
-    string? layoutSpacing = ViewData["LayoutSpacingStyles"]?.ToString(); 
+    string? backgroundValue = ViewData["AreaBackgroundColors"]?.ToString(); 
 
 
     var areaClasses = $"blockgrid-area area-{Model.ColumnSpan} {Model.Alias}";
     var styleAttribute = backgroundValue != null ? $"background-color:{backgroundValue}" : string.Empty;
-  
+
 }
 
 <!-- START - AREA -->
-<div class="@areaClasses" style="@styleAttribute; @layoutSpacing">
+<div class="@areaClasses" style="@styleAttribute;">
     @await Html.GetPreviewBlockGridItemsHtmlAsync(Model)
 </div>
