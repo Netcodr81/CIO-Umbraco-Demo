@@ -1,0 +1,65 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.SideNavigation>>
+
+@{
+	if (Model?.Content is null) return;
+	var content = Model.Content;
+	var navItems = content?.SideMenu?.ToList() ?? [];
+}
+
+@if(!navItems.Any())
+{
+	<nav class="side-navigation">
+        <ul class='sideNavigation__nav-list'>
+            @foreach (var item in navItems)
+            {
+                if (item?.Children?.Any() == true)
+                {
+                    <li class="sideNavigation__nav-dropdown">
+                        <button class="dropdown-toggle sideNavigation__dropdown">
+                            <label name="@item.Name">@item.Name</label>
+                            <span class="chevron-icon">
+                                <svg-icon src="icons/chevron-down.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white"></svg-icon>
+
+                            </span>
+                        </button>
+                        <div class="sideNavigation__dropdown-list">
+                            <ul>
+                                @foreach (var child in item.Children)
+                                {
+                                    <li>
+                                        <a href="@child.Url" target="@child.Target">
+                                            @child.Name
+                                            @if (child.Target == "_blank")
+                                            {
+                                                <span>
+                                                    <svg-icon src="icons/open-in-new.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white"></svg-icon>
+                                                </span>
+                                            }
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li class="sideNavigation-nav__link">
+                        <a href="@item?.Url" target="@item?.Target">
+                            @item?.Name
+                            @if (item?.Target == "_blank")
+                            {
+                                <span>
+                                    <svg-icon src="icons/open-in-new.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white"></svg-icon>
+                                </span>
+                            }
+
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+	</nav>
+}
+

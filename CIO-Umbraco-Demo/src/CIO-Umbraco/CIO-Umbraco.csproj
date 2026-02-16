@@ -6,6 +6,9 @@
     <RootNamespace>CIO_Umbraco</RootNamespace>
     <CompressionEnabled>false</CompressionEnabled> <!-- Disable compression. E.g. for umbraco backoffice files. These files should be precompressed by node and not let dotnet handle it -->
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Views\Partials\blockgrid\Components\sideNavigation.cshtml.css" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AndrewK.Umbraco.Dictionary" Version="17.0.2" />
