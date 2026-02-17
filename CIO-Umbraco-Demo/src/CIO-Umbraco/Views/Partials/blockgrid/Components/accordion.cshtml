@@ -1,0 +1,26 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<Accordion>>
+
+@{
+    if (Model?.Content is null)
+    {
+        return;
+    }
+
+    var content = Model.Content;
+}
+
+
+<div class="accordion__container">
+    @foreach (var item in content.AccordionItems!)
+    {
+        if (item.Content is AccordionItem accordionItem)
+        {
+            <button class="accordion__button">
+                @accordionItem.DrawerTitle
+            </button>
+            <div class="accordion__drawer">
+                @accordionItem.DrawerContent
+            </div>
+        }
+    }
+</div>
