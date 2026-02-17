@@ -23,9 +23,6 @@
 				<li class="sideNavigation__nav-dropdown">
 					<button class="dropdown-toggle sideNavigation__dropdown" type="button">
 						<label name="@navItem.Name">@navItem.Name</label>
-						<span class="chevron-icon">
-							<svg-icon src="icons/chevron-down.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white"></svg-icon>
-						</span>
 					</button>
 					<div class="sideNavigation__dropdown-list">
 						<ul>
@@ -54,7 +51,7 @@
 
 @if(navItems.Any())
 {
-	<nav class="side-navigation">
+	<nav class="sideNavigation__container">
         <ul class='sideNavigation__nav-list'>
 			@RenderNavItems(navItems)
         </ul>
