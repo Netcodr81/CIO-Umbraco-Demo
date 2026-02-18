@@ -18,23 +18,26 @@
 				continue;
 			}
 
+			var currentPath = Context.Request.Path.ToString().ToLowerInvariant();
+			var navUrl = (navItem?.Url as string)?.ToLowerInvariant() ?? string.Empty;
+			var isCurrent = !string.IsNullOrEmpty(navUrl) && currentPath.Contains(navUrl.TrimEnd('/'));
+
 			if (navItem?.Children?.Count > 0)
 			{
-				<li class="sideNavigation__nav-dropdown">
-					<button class="dropdown-toggle sideNavigation__dropdown" type="button">
-						<label name="@navItem.Name">@navItem.Name</label>
-					</button>
-					<div class="sideNavigation__dropdown-list">
-						<ul>
-							@RenderNavItems((IEnumerable<dynamic?>)navItem.Children)
-						</ul>
-					</div>
+				<li class="sideNavigation__item">
+					<a href="@navItem.Url" target="@navItem.Target" class="@(isCurrent ? "current" : null)">
+						@navItem.Name
+					</a>
+					<ul class="sideNavigation__sublist" style="@(isCurrent ? "display:block;" : "display:none;")">
+						@RenderNavItems((IEnumerable<dynamic?>)navItem.Children)
+					</ul>
 				</li>
 			}
 			else
 			{
-				<li class="sideNavigation__nav-link">
-					<a href="@navItem?.Url" target="@navItem?.Target">
+				var isChildCurrent = !string.IsNullOrEmpty(navUrl) && currentPath.Equals(navUrl);
+				<li class="sideNavigation__item">
+					<a href="@navItem?.Url" target="@navItem?.Target" style="@(isChildCurrent ? "font-weight:bold;" : null)">
 						@navItem?.Name
 						@if (navItem?.Target == "_blank")
 						{
@@ -51,10 +54,12 @@
 
 @if(navItems.Any())
 {
-	<nav class="sideNavigation__container">
-        <ul class='sideNavigation__nav-list'>
-			@RenderNavItems(navItems)
+    <div class="side-navigation-container">
+    <nav>
+        <ul class='sideNavigation-sidenav'>
+            @RenderNavItems(navItems)
         </ul>
-	</nav>
+    </nav>
+    </div>
 }
 
