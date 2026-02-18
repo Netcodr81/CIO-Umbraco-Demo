@@ -31,6 +31,13 @@
     justify-content: center;
 }
 
+/* Allow hero to break out of constrained section containers (e.g., .grid-container) */
+.hero-block__wrapper--fullbleed {
+	width: 100vw;
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+}
+
 .hero-block__overlay {
     position: absolute;
     inset: 0rem;

@@ -9,9 +9,11 @@
 
     var layoutStyles = content?.GenerateLayoutSpacingStyles();
 
+    var containerStyle = content?.ApplyGridContainer == true ? "grid-container" : string.Empty;
+
 }
 <section class="w-100" style="background-color: @backgroundColor; @layoutStyles">
-    <div class="grid-container p-5">
+    <div class="@containerStyle">
         @await Html.GetBlockGridHtmlAsync(content?.Content)
     </div>
 </section>

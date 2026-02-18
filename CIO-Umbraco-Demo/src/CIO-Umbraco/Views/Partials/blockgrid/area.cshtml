@@ -6,8 +6,9 @@
     var model = Model;
     string? backgroundValue = ViewData["AreaBackgroundColors"]?.ToString(); 
 
+    var alias = Model.Alias ?? string.Empty;
 
-    var areaClasses = $"blockgrid-area area-{Model.ColumnSpan} {Model.Alias}";
+	var areaClasses = $"blockgrid-area area-{Model.ColumnSpan} {alias}";
     var styleAttribute = backgroundValue != null ? $"background-color:{backgroundValue}" : string.Empty;
 
 }
