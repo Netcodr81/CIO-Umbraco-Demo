@@ -1,4 +1,4 @@
-﻿@* @inherits UmbracoViewPage<BlockGridItem<HeroBlock>>
+﻿@inherits UmbracoViewPage<BlockGridItem<HeroBlock>>
 @using Umbraco.Extensions;
 
 @{
@@ -7,7 +7,7 @@
     var heroContent = Model.Content;
     var backgroundImageUrl = heroContent.BackgroundImage?.GetCropUrl();
 
-    var ctaLink = heroContent.CallToActionUrl;
+    var ctaLink = heroContent.CtaLink;
     var ctaUrl = ctaLink?.Url;
     var ctaTarget = string.IsNullOrWhiteSpace(ctaLink?.Target) ? "_self" : ctaLink.Target;
 
@@ -15,7 +15,7 @@
     var buttonBackgroundHoverColor = heroContent?.ButtonBackgroundHoverColor?.Color ?? "e3bf77";
     var buttonTextColor = heroContent?.ButtonTextColor?.Color ?? "#000000";
     var buttonTextHoverColor = heroContent?.ButtonTextHoverColor?.Color ?? "#000000";
-    var headingTextColor = heroContent?.HeadingColor?.Color ?? "#ffffff";
+    var headingTextColor = heroContent?.SubheadingColor?.Color ?? "#ffffff";
     var subheadingColor = heroContent?.SubheadingColor?.Color ?? "#ffffff";
 
     var cssVariables = $@"
@@ -34,7 +34,7 @@
     <div class="hero-block__overlay"></div>
     <div class="hero-block__cta-callout">
         <h1 class="hero-block__heading">@heroContent?.Header</h1>
-        <p class="hero-block__subheader">@heroContent?.SubHeader</p>
+        <p class="hero-block__subheader">@heroContent?.Subheading</p>
         <div class="hero-block__btn-container">
             <a href="@ctaUrl" target="@ctaTarget" class="hero-block__btn" role='button'>
                 @if (heroContent?.ButtonIcon is not null)
@@ -74,4 +74,4 @@
             </path>
         </svg>
     </div>
-</div> *@
+</div>

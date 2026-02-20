@@ -1,4 +1,4 @@
-﻿@* @inherits UmbracoViewPage<BlockGridItem<ContentModels.MissonAndValues>>
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.MissionAndValues>>
 @using Umbraco.Extensions;
 
 @{
@@ -14,9 +14,9 @@
             <p class="g-col-12 g-col-md-6 mission-and-value__subheader">@content.SubheaderText</p>
             <div class="g-col-12 g-col-md-6 mt-0">
                 <ul class="mission-and-value__value-list">
-                    @if (content?.ValueItems?.Any() == true)
+                    @if (content?.Items?.Any() == true)
                     {
-                        foreach (var item in content.ValueItems)
+                        foreach (var item in content.Items)
                         {
                             var listItem = item.Content as IconListItem;
                             <li class="d-flex align-items-center mission-and-value__list-item gap-3">
@@ -32,4 +32,4 @@
             </div>
         </div>
     </div>
-</div> *@
+</div>
