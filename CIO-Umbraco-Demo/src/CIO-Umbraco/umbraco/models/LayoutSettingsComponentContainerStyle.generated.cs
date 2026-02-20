@@ -18,14 +18,24 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Side Navigation Block</summary>
-	[PublishedModel("sideNavigation")]
-	public partial class SideNavigation : PublishedElementModel
+	// Mixin Content Type with alias "layoutSettingsComponentContainerStyle"
+	/// <summary>Layout Settings Component - Container Style</summary>
+	public partial interface ILayoutSettingsComponentContainerStyle : IPublishedElement
+	{
+		/// <summary>Container Style</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string ContainerStyle { get; }
+	}
+
+	/// <summary>Layout Settings Component - Container Style</summary>
+	[PublishedModel("layoutSettingsComponentContainerStyle")]
+	public partial class LayoutSettingsComponentContainerStyle : PublishedElementModel, ILayoutSettingsComponentContainerStyle
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
-		public new const string ModelTypeAlias = "sideNavigation";
+		public new const string ModelTypeAlias = "layoutSettingsComponentContainerStyle";
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
@@ -34,14 +44,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 			=> PublishedModelUtility.GetModelContentType(contentTypeCache, ModelItemType, ModelTypeAlias);
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
 		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(IPublishedContentTypeCache contentTypeCache, Expression<Func<SideNavigation, TValue>> selector)
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(IPublishedContentTypeCache contentTypeCache, Expression<Func<LayoutSettingsComponentContainerStyle, TValue>> selector)
 			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(contentTypeCache), selector);
 #pragma warning restore 0109
 
 		private IPublishedValueFallback _publishedValueFallback;
 
 		// ctor
-		public SideNavigation(IPublishedElement content, IPublishedValueFallback publishedValueFallback)
+		public LayoutSettingsComponentContainerStyle(IPublishedElement content, IPublishedValueFallback publishedValueFallback)
 			: base(content, publishedValueFallback)
 		{
 			_publishedValueFallback = publishedValueFallback;
@@ -50,11 +60,16 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Side Menu
+		/// Container Style
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("sideMenu")]
-		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem> SideMenu => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Community.UmbNav.Core.Models.UmbNavItem>>(_publishedValueFallback, "sideMenu");
+		[ImplementPropertyType("containerStyle")]
+		public virtual string ContainerStyle => GetContainerStyle(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Container Style</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetContainerStyle(ILayoutSettingsComponentContainerStyle that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "containerStyle");
 	}
 }

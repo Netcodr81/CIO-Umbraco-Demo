@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Layout Settings</summary>
 	[PublishedModel("layoutSettings")]
-	public partial class LayoutSettings : PublishedElementModel, ILayoutSettingsComponentBackgroundImage, ILayoutSettingsComponentColorPicker
+	public partial class LayoutSettings : PublishedElementModel, ILayoutSettingsComponentBackgroundImage, ILayoutSettingsComponentColorPicker, ILayoutSettingsComponentContainerStyle
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -86,5 +86,13 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
 		[ImplementPropertyType("layoutSettingsColourShades")]
 		public virtual decimal LayoutSettingsColourShades => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSettingsComponentColorPicker.GetLayoutSettingsColourShades(this, _publishedValueFallback);
+
+		///<summary>
+		/// Container Style
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("containerStyle")]
+		public virtual string ContainerStyle => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSettingsComponentContainerStyle.GetContainerStyle(this, _publishedValueFallback);
 	}
 }

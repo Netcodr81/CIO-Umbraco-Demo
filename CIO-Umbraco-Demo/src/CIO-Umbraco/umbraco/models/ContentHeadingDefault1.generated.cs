@@ -18,9 +18,24 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
+	// Mixin Content Type with alias "contentHeadingDefault1"
+	/// <summary>Page Settings</summary>
+	public partial interface IContentHeadingDefault1 : IPublishedElement
+	{
+		/// <summary>Page Background Color</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor PageBackgroundColor { get; }
+
+		/// <summary>Page Background Image</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		global::Umbraco.Cms.Core.Models.MediaWithCrops PageSettingsBackgroundImagePicker { get; }
+	}
+
 	/// <summary>Page Settings</summary>
 	[PublishedModel("contentHeadingDefault1")]
-	public partial class ContentHeadingDefault1 : PublishedElementModel
+	public partial class ContentHeadingDefault1 : PublishedElementModel, IContentHeadingDefault1
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -55,7 +70,12 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("pageBackgroundColor")]
-		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor PageBackgroundColor => this.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(_publishedValueFallback, "pageBackgroundColor");
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor PageBackgroundColor => GetPageBackgroundColor(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Page Background Color</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor GetPageBackgroundColor(IContentHeadingDefault1 that, IPublishedValueFallback publishedValueFallback) => that.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(publishedValueFallback, "pageBackgroundColor");
 
 		///<summary>
 		/// Page Background Image
@@ -63,6 +83,11 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("pageSettingsBackgroundImagePicker")]
-		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops PageSettingsBackgroundImagePicker => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "pageSettingsBackgroundImagePicker");
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops PageSettingsBackgroundImagePicker => GetPageSettingsBackgroundImagePicker(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Page Background Image</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static global::Umbraco.Cms.Core.Models.MediaWithCrops GetPageSettingsBackgroundImagePicker(IContentHeadingDefault1 that, IPublishedValueFallback publishedValueFallback) => that.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(publishedValueFallback, "pageSettingsBackgroundImagePicker");
 	}
 }

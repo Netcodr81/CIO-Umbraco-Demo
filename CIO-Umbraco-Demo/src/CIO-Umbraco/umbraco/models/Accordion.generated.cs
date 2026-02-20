@@ -18,7 +18,7 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Accordion</summary>
+	/// <summary>Accordion Block</summary>
 	[PublishedModel("accordion")]
 	public partial class Accordion : PublishedElementModel
 	{

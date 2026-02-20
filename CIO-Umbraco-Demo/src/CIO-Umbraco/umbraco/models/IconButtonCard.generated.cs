@@ -18,7 +18,7 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Icon Button Card</summary>
+	/// <summary>Icon Button Card Block</summary>
 	[PublishedModel("iconButtonCard")]
 	public partial class IconButtonCard : PublishedElementModel
 	{

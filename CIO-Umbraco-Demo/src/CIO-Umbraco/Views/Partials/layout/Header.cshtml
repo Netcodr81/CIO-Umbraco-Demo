@@ -7,6 +7,7 @@
 }
 
 <header class='cio-header'>
+    <div class="cio-header__top">
     <a href='/' aria-label='Home' class='cio-header__logo-link'>
         <img src="@headerLogo?.Content?.Url()" alt="..." class='cio-header__logo-img' />
     </a>
@@ -23,6 +24,7 @@
     <button id='menu-toggle' aria-label='Toggle Menu' class='cio-header__menu-toggle'>
         Menu
     </button>
+    </div>
     <!--Non Mobile Menu -->
     @await Html.PartialAsync("navigation/NavigationMenu")
 

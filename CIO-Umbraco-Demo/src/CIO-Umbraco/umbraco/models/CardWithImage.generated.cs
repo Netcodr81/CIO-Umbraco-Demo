@@ -18,7 +18,7 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Card With Image</summary>
+	/// <summary>Card With Image Block</summary>
 	[PublishedModel("cardWithImage")]
 	public partial class CardWithImage : PublishedElementModel
 	{
