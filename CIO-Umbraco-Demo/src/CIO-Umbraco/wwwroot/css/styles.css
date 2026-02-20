@@ -720,6 +720,7 @@ dfn {
 	color: #64748b; /* slate-400 */
 	text-decoration: underline;
 	text-underline-offset: 1px;
+	background-color: #fff;
 }
 
 .cio-footer__link-item {

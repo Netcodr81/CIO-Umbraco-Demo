@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Text.Encodings.Web;
 
-namespace CIO_Umbraco.TagHelpers;
+namespace TagHelpers;
 
 [HtmlTargetElement("svg-icon")]
 public class SvgIconTagHelper(IWebHostEnvironment env) : TagHelper

@@ -1,4 +1,4 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.SectionHeader>>
+﻿@* @inherits UmbracoViewPage<BlockGridItem<ContentModels.SectionHeader>>
 
 @{
     if (Model?.Content is null) return;
@@ -23,4 +23,4 @@
     ";
 }
 
-<h2 class="section-header" style="@cssVariables">@content.SectionHeaderText</h2>
+<h2 class="section-header" style="@cssVariables">@content.SectionHeaderText</h2> *@
