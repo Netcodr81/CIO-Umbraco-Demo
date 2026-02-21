@@ -1,0 +1,14 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Home>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    Layout = "_Layout.cshtml";
+    var content = Model.ContentGrid;
+
+    var pageStyles = Model.BackgroundColor?.Color != null ? $"background-color:{Model.BackgroundColor?.Color}" : "background-color:#f3f7fc";
+}
+
+<!-- START - BLOCK GRID -->
+
+@await Html.GetBlockGridHtmlAsync(Model.ContentGrid)
+
+<!-- END - BLOCK GRID -->

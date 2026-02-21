@@ -1,21 +1,39 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.CardWithImage>>
+﻿@using System.Text
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.CardWithImage>>
 
 @{
     if (Model?.Content is null) return;
 
     var content = Model.Content;
 
-    var headerTextColor = content.HeaderTextColor?.Color ?? "#1b1b1b";
-    var headerTextHoverColor = content.HeaderTexHoverColor?.Color ?? "#1b1b1b";
-    var bodyTextColor = content.BodyTextColor?.Color ?? "#1b1b1b";
-    var bodyTextHoverColor = content.BodyTextHoverColor?.Color ?? "#1b1b1b";
+    var headerTextColor = content.CardHeaderTextColor?.Color ?? "#1b1b1b";
+    var headerTextHoverColor = content.CardHeaderTextHoverColor?.Color ?? "#1b1b1b";
+    var bodyTextColor = content.CardBodyTextColor?.Color ?? "#1b1b1b";
+    var bodyTextHoverColor = content.CardBodyTextHoverColor?.Color ?? "#1b1b1b";
     var backgroundColor = content.CardBackgroundColor?.Color ?? "#fff";
     var backgroundHoverColor = content.CardBackgroundHoverColor?.Color ?? "#fff";
-    var iconHoverColor = content.IconHoverColor?.Color ?? "#fff";
-    var buttonTextColor = content.ButtonTextColor?.Color ?? "#fff";
-    var buttonTextHoverColor = content.ButtonTextHoverColor?.Color ?? "#fff";
-    var buttonBackgroundColor = content.ButtonBackgroundColor?.Color ?? "#00607f";
-    var buttonBackgroundHoverColor = content.ButtonBackgroundHoverColor?.Color ?? "#004d66";
+    var iconHoverColor = content.CardIconHoverColor?.Color ?? "#fff";
+    var buttonTextColor = content.CardButtonTextColor?.Color ?? "#fff";
+    var buttonTextHoverColor = content.CardButtonTextHoverColor?.Color ?? "#fff";
+    var buttonBackgroundColor = content.CardButtonBackgroundColor?.Color ?? "#00607f";
+    var buttonBackgroundHoverColor = content.CardButtonBackgroundHoverColor?.Color ?? "#004d66";
+
+    var heightVariables = new StringBuilder();
+
+    if(!string.IsNullOrWhiteSpace(content.MinHeight))
+    {
+        heightVariables.Append($"min-height:{content.MinHeight}");
+    }
+
+    if (!string.IsNullOrWhiteSpace(content.MaxHeight))
+    {
+        heightVariables.Append($"max-height:{content.MaxHeight}");
+    }
+
+    if (!string.IsNullOrWhiteSpace(content.Height))
+    {
+        heightVariables.Append($"height:{content.Height}");
+    }
 
     var cssVariables = $@"
         --card-with-image-header-text-color: {headerTextColor};
@@ -32,7 +50,7 @@
     ";
 }
 
-<div class="card-with-image__container" style="@cssVariables">
+<div class="card-with-image__container" style="@cssVariables @heightVariables.ToString()">
     <div class="card-with-image__image">
         <img src="@content?.Image?.GetCropUrl()" name="@content?.Image?.Name" />
     </div>

@@ -1,0 +1,36 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.MissionAndValues>>
+@using Umbraco.Extensions;
+
+@{
+    if (Model?.Content is null) return;
+
+    var content = Model.Content;
+}
+
+<div class="mission-and-value__columns-container">
+    <div class="main-content container">
+        <h2 class="mission-and-value__header">@content.HeaderText</h2>
+        <div class="g-col-12 g-col-md-6 w-100 grid">
+            <p class="g-col-12 g-col-md-6 mission-and-value__subheader">@content.SubheaderText</p>
+            <div class="g-col-12 g-col-md-6 mt-0">
+                <ul class="mission-and-value__value-list">
+                    @if (content?.Items?.Any() == true)
+                    {
+                        foreach (var item in content.Items)
+                        {
+                            var listItem = item.Content as IconListItem;
+                            <li class="mission-and-value__list-item" style="display:flex;gap:10px;">
+                              
+                                <inline-svg media-item="listItem?.Icon" fill="@listItem?.IconColor?.Color" width="24"
+                                            height="24"></inline-svg>
+                               @listItem?.Text
+                               
+                            </li>
+                        }
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

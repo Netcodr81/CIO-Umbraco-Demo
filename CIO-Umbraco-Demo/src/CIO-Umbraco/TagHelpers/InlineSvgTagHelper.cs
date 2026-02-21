@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace CIO_Umbraco.TagHelpers;
+namespace TagHelpers;
 
-using CIO_Umbraco.Utilities;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Umbraco.Cms.Core.Models.PublishedContent;
+using Utilities;
 
 [HtmlTargetElement("inline-svg")]
 public class InlineSvgTagHelper(ISvgRenderer svgRenderer) : TagHelper

@@ -1,0 +1,25 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.InfoCardGrid>>
+
+@{
+    if(Model.Content is null)
+    {
+        return;
+    }
+
+    var content = Model.Content;
+}
+
+<div class="row">
+
+    @if (content.Cards.Any())
+    {
+        @foreach (var card in content.Cards)
+        {
+            if (card is CardWithImage)
+            {
+                @await Html.PartialAsync("cardWithImage", card)
+            }
+        }
+    }
+  
+</div>

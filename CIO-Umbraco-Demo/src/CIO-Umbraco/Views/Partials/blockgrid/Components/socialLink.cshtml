@@ -1,5 +1,4 @@
-﻿@using CIO_Umbraco.Extensions
-@inherits UmbracoViewPage<BlockListItem<ContentModels.SocialLink>>
+﻿@inherits UmbracoViewPage<BlockListItem<ContentModels.SocialLink>>
 
 @{
 	if (Model?.Content is null)
@@ -11,6 +10,6 @@
 }
 
 	
-<a class="social-link" href="@content?.Link?.Url" target="_blank" rel="noopener noreferrer">
-	<inline-svg media-item="content?.Icon" fill="@content?.Color?.Color" background-color="@content?.BackgroundColor?.Color" height="35" width="35"></inline-svg>
+<a class="social-link" href="@content?.Link?.Url" target="@(content?.Link?.Target ?? "_blank")" rel="noopener noreferrer">
+	<inline-svg media-item="content?.Icon" fill="@content?.FillColor?.Color" background-color="@content?.BackgroundColor?.Color" height="35" width="35"></inline-svg>
 </a>

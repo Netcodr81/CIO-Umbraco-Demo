@@ -1,13 +1,14 @@
-﻿@using CIO_Umbraco.Extensions
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.ContentPage>
-
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
 @{
-    Layout = "Main.cshtml";
+    Layout = "_Layout.cshtml";
+    var content = Model.ContentGrid;
 
-    var layoutSpacing = Model.GenerateLayoutSpacingStyles();
-
-    ViewData["LayoutSpacingStyles"] = layoutSpacing;
-
+    var pageStyles = Model.PageBackgroundColor?.Color != null ? $"background-color:{Model.PageBackgroundColor?.Color}" : "background-color:#f3f7fc";
 }
 
+<!-- START - BLOCK GRID -->
 @await Html.GetBlockGridHtmlAsync(Model.ContentGrid)
+
+<!-- END - BLOCK GRID -->

@@ -3,16 +3,11 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridArea>
 
 @{
-    var model = Model;
-    string? backgroundValue = ViewData["AreaBackgroundColors"]?.ToString(); 
-
-
-    var areaClasses = $"blockgrid-area area-{Model.ColumnSpan} {Model.Alias}";
-    var styleAttribute = backgroundValue != null ? $"background-color:{backgroundValue}" : string.Empty;
-
+    var areaBackgroundColors = ViewData["AreaBackgroundColors"] as string; // Retrieve data from ViewData
 }
 
+
 <!-- START - AREA -->
-<div class="@areaClasses" style="@styleAttribute;">
+<div class="area-@Model.ColumnSpan @Model.Alias">
     @await Html.GetPreviewBlockGridItemsHtmlAsync(Model)
 </div>

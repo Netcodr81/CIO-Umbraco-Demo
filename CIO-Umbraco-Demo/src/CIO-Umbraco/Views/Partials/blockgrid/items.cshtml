@@ -1,18 +1,17 @@
 ﻿@using Umbraco.Cms.Core.Models.Blocks
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IEnumerable<BlockGridItem>>
 @{
-    if (Model?.Any() != true) { return; }
-
+    if (Model?.Any() != true)
+    {
+        return;
+    }
+   
+    // Declare the layout variable outside the loop
     var layout = Model.Any(item => item.Content.ContentType.Alias.StartsWith("layout", StringComparison.InvariantCultureIgnoreCase));
-
-    string? backgroundValue = ViewData["AreaBackgroundColors"]?.ToString();
-
-    var containerStyle = backgroundValue != null ? $"background-color:{backgroundValue}" : string.Empty;
-
-
+   
 }
 
-<div class="d-flex flex-column @(layout ? "gap-0" : "gap-3")">
+<div class="@(layout ? "layout-" : "feature-")items d-flex flex-column @(layout ? "gap-0" : "gap-3")">
     @foreach (var item in Model)
     {
         var partialViewName = "blockgrid/Components/" + item.Content.ContentType.Alias;
@@ -24,7 +23,7 @@
         {
             <p>
                 <strong>Could not render component of type: @(item.Content.ContentType.Alias)</strong>
-                <br />
+                <br/>
                 This likely happened because the partial view <em>@partialViewName</em> could not be found.
             </p>
         }

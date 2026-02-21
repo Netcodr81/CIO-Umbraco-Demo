@@ -1,13 +1,10 @@
-﻿@using CIO_Umbraco.Extensions
-@using CIO_Umbraco.Utilities
-@using Umbraco.Community.UmbNav.Core.Models
+﻿
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
-@using Umbraco.Cms.Core.Models
 @using SocialLink = Umbraco.Cms.Web.Common.PublishedModels.SocialLink
 
 
 @{
-	var siteSettings = Model.GetSiteSettings();
+	var siteSettings = Model.Root().FirstChild<SiteSettings>();
 
 	var footerLogoUrl = siteSettings?.FooterLogo?.Url();
 
