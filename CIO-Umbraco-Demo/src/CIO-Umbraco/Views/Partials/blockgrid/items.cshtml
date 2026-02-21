@@ -8,6 +8,7 @@
    
     // Declare the layout variable outside the loop
     var layout = Model.Any(item => item.Content.ContentType.Alias.StartsWith("layout", StringComparison.InvariantCultureIgnoreCase));
+   
 }
 
 <div class="@(layout ? "layout-" : "feature-")items d-flex flex-column @(layout ? "gap-0" : "gap-3")">

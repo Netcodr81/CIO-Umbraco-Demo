@@ -42,4 +42,11 @@
 
 .mission-and-value__list-item > p {
     margin-top: 0 !important;
+    display:inline;
 }
+
+.mission-and-value__list-item > svg {
+    display: inline-block;
+    flex: 0 0 auto;
+}
+

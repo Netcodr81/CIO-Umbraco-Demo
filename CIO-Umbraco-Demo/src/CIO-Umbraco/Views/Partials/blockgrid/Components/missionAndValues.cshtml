@@ -8,7 +8,7 @@
 }
 
 <div class="mission-and-value__columns-container">
-    <div class="grid-container main-content">
+    <div class="main-content container">
         <h2 class="mission-and-value__header">@content.HeaderText</h2>
         <div class="g-col-12 g-col-md-6 w-100 grid">
             <p class="g-col-12 g-col-md-6 mission-and-value__subheader">@content.SubheaderText</p>
@@ -19,11 +19,12 @@
                         foreach (var item in content.Items)
                         {
                             var listItem = item.Content as IconListItem;
-                            <li class="d-flex align-items-center mission-and-value__list-item gap-3">
-
+                            <li class="mission-and-value__list-item" style="display:flex;gap:10px;">
+                              
                                 <inline-svg media-item="listItem?.Icon" fill="@listItem?.IconColor?.Color" width="24"
                                             height="24"></inline-svg>
-                                @listItem?.Text
+                               @listItem?.Text
+                               
                             </li>
                         }
 

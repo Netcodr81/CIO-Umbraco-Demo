@@ -1,5 +1,6 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
 @using Umbraco.Cms.Core.PropertyEditors.ValueConverters;
+@using System.Text;
 
 @{
     // No layout by default
@@ -11,34 +12,73 @@
         return;
     }
 
+    var layoutSettings = Model.Settings as LayoutSettings;
     // Get layout settings
-    var backgroundColour = Model.Settings?.Value<ColorPickerValueConverter.PickedColor>("layoutSettingsColourPicker");
-    var colorLabel = backgroundColour?.Label;
+    var backgroundColor = Model.Settings?.Value<ColorPickerValueConverter.PickedColor>("layoutSettingsColourPicker");
+    var colorLabel = backgroundColor?.Label;
     var colorShades = Model.Settings?.Value<decimal>("layoutSettingsColourShades");
     var colorOpacity = Model.Settings?.Value<decimal>("layoutSettingsColourOpacity");
     var backgroundImage = Model.Settings?.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("layoutSettingsBackgroundImagePicker");
 
-    var backgroundColorClass = "";
-    if (backgroundColour != null && colorLabel != null && colorShades != null)
+    var styleAttributes = new StringBuilder();
+
+    if(backgroundColor is not null)
     {
-        backgroundColorClass = $"bg-{colorLabel}-{colorShades}-rgb";
+        styleAttributes.Append($"background-color:{backgroundColor};");
     }
 
-    var backgroundOpacityClass = "";
-    if (colorOpacity != null)
-    {
-        var opacityValue = Math.Round(colorOpacity.Value * 100);
-        backgroundOpacityClass = $"bg-opacity-{opacityValue}";
-    }
 
-    var styleAttribute = "";
     if (backgroundImage != null)
     {
-        styleAttribute = $"background-image: url({backgroundImage.MediaUrl()});";
+        styleAttributes.Append($"background-image: url({backgroundImage.MediaUrl()});");
+    }
+
+    // Padding 
+
+    if (!string.IsNullOrWhiteSpace(layoutSettings.PaddingTop))
+    {
+        styleAttributes.Append($"padding-top:{layoutSettings.PaddingTop};");
+    }
+
+    if (!string.IsNullOrWhiteSpace(layoutSettings.PaddingBottom))
+    {
+        styleAttributes.Append($"padding-bottom:{layoutSettings.PaddingBottom};");
+    }
+
+    if (!string.IsNullOrWhiteSpace(layoutSettings.PaddingLeft))
+    {
+        styleAttributes.Append($"padding-left:{layoutSettings.PaddingLeft};");
+    }
+
+    if (!string.IsNullOrWhiteSpace(layoutSettings.PaddingRight))
+    {
+        styleAttributes.Append($"padding-right:{layoutSettings.PaddingRight};");
+    }
+
+    // Margin
+
+    if (!string.IsNullOrWhiteSpace(layoutSettings.MarginTop))
+    {
+        styleAttributes.Append($"margin-top:{layoutSettings.MarginTop};");
+    }
+
+    if (!string.IsNullOrWhiteSpace(layoutSettings.MarginBottom))
+    {
+        styleAttributes.Append($"margin-bottom:{layoutSettings.MarginBottom};");
+    }
+
+    if (!string.IsNullOrWhiteSpace(layoutSettings.MarginLeft))
+    {
+        styleAttributes.Append($"margin-left:{layoutSettings.MarginLeft};");
+    }
+
+    if (!string.IsNullOrWhiteSpace(layoutSettings.MarginRight))
+    {
+        styleAttributes.Append($"margin-right:{layoutSettings.MarginRight};");
     }
 }
-<div class="layout-item py-3 @backgroundColorClass @backgroundOpacityClass"
-     data-bgimage="@backgroundImage?.MediaUrl()" style="@styleAttribute"
+<div class="layout-item"
+     data-bgimage="@backgroundImage?.MediaUrl()" style="@styleAttributes.ToString()"
      data-block-alias="@Model.Content.ContentType.Alias">
     @RenderBody()
 </div>

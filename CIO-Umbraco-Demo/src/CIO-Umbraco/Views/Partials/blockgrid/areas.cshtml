@@ -11,13 +11,14 @@
     }
     var layoutSettings = Model.Settings as LayoutSettings;
     var containerStyle = layoutSettings.ContainerStyle;
+  
 
 }
 
 
 
 <!-- START - AREAS -->
-<div class="areas @containerStyle grid" data-areas="@dataAreas" data-ContentUdi="@Model.ContentKey" data-Content="@Model.Content" data-GridColumns="@Model.GridColumns">
+<div  class="areas @containerStyle grid" data-areas="@dataAreas" data-ContentUdi="@Model.ContentKey" data-Content="@Model.Content" data-GridColumns="@Model.GridColumns">
     @foreach (var area in Model.Areas)
     {
         @await Html.GetPreviewBlockGridItemAreaHtmlAsync(area)

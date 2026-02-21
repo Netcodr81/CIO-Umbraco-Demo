@@ -178,6 +178,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual string HeaderText => this.Value<string>(_publishedValueFallback, "headerText");
 
 		///<summary>
+		/// Height
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("height")]
+		public virtual string Height => this.Value<string>(_publishedValueFallback, "height");
+
+		///<summary>
 		/// Icon Color
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
@@ -200,5 +208,21 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("link")]
 		public virtual global::Umbraco.Cms.Core.Models.Link Link => this.Value<global::Umbraco.Cms.Core.Models.Link>(_publishedValueFallback, "link");
+
+		///<summary>
+		/// Max Height
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("maxHeight")]
+		public virtual string MaxHeight => this.Value<string>(_publishedValueFallback, "maxHeight");
+
+		///<summary>
+		/// Min Height
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("minHeight")]
+		public virtual string MinHeight => this.Value<string>(_publishedValueFallback, "minHeight");
 	}
 }

@@ -14,7 +14,7 @@ public class BlockPreviewComposer : IComposer
             {
                 Enabled = true,
                 Stylesheets = [
-                    "/css/Index.css",
+                    "/css/layout.css",
                     "/css/block-preview.css"
                 ]
             };
@@ -22,7 +22,7 @@ public class BlockPreviewComposer : IComposer
             {
                 Enabled = true,
                 Stylesheets = [
-                    "/css/Index.css",
+                    "/css/layout.css",
                     "/css/block-preview.css"
                 ]
             };

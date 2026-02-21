@@ -50,6 +50,70 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
+		/// Margin Bottom
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("marginBottom")]
+		public virtual string MarginBottom => this.Value<string>(_publishedValueFallback, "marginBottom");
+
+		///<summary>
+		/// Margin Left
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("marginLeft")]
+		public virtual string MarginLeft => this.Value<string>(_publishedValueFallback, "marginLeft");
+
+		///<summary>
+		/// Margin Right
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("marginRight")]
+		public virtual string MarginRight => this.Value<string>(_publishedValueFallback, "marginRight");
+
+		///<summary>
+		/// Margin Top
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("marginTop")]
+		public virtual string MarginTop => this.Value<string>(_publishedValueFallback, "marginTop");
+
+		///<summary>
+		/// Padding Bottom
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("paddingBottom")]
+		public virtual string PaddingBottom => this.Value<string>(_publishedValueFallback, "paddingBottom");
+
+		///<summary>
+		/// Padding Left
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("paddingLeft")]
+		public virtual string PaddingLeft => this.Value<string>(_publishedValueFallback, "paddingLeft");
+
+		///<summary>
+		/// Padding Right
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("paddingRight")]
+		public virtual string PaddingRight => this.Value<string>(_publishedValueFallback, "paddingRight");
+
+		///<summary>
+		/// Padding Top
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("paddingTop")]
+		public virtual string PaddingTop => this.Value<string>(_publishedValueFallback, "paddingTop");
+
+		///<summary>
 		/// Layout Settings Background Image Picker
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.0+51e91c8")]

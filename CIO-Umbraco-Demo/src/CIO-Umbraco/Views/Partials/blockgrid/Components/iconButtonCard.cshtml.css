@@ -31,11 +31,13 @@ a.icon-button-card__container {
     height: 7.5rem;
 }
 
-
-.icon-button-card__card-body > svg {
+.icon-button-card__card-body {
     transition: fill .5s ease-in-out;
 }
 
+.icon-button-card__card-body  * {
+    transition: fill .5s ease-in-out;
+}
 
 
 .icon-button-card__link {

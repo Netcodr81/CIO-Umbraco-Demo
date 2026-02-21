@@ -258,31 +258,12 @@ p {
 	margin-top: 0;
 }
 
-* + p {
-	margin-top: 1em;
-}
-
-p + * {
-	margin-top: 1em;
-}
-
-
-
 p {
 	line-height: 1.5;
 	max-width: 88ex;
 	margin-bottom: 0;
 	margin-top: 0;
 }
-
-* + p {
-	margin-top: 1em;
-}
-
-p + * {
-	margin-top: 1em;
-}
-
 
 h1,
 h2,
@@ -1239,6 +1220,11 @@ a.icon-button-card__container {
 
 .icon-button-card__container:hover .icon-button-card__link {
 	color: var(--icon-button-text-hover-color);
+}
+
+.icon-button-card__container:hover .icon-button-card__card-body > svg
+{
+	fill: var(--icon-button-icon-hover-color) !important;
 }
 
 /* Card with Image */
