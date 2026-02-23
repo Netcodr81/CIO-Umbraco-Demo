@@ -408,3 +408,97 @@ a.icon-button-card__container {
 .newsroom__list-item a:hover {
     color: var(--newsroom-link-hover-color);
 }
+
+/*Linked Card */
+.linked-card__container {
+    background: var(--linked-card-background-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--linked-card-text-color);
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid var(--linked-card-border-color);
+    padding: 2rem;
+    font-size: 1.24rem;
+    border-bottom-right-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+    cursor: pointer;
+}
+
+.linked-card__container:hover {
+    transition: box-shadow .5s ease-in-out, border .5s ease-in-out;
+    border-top: 2px solid rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 3px var(--linked-card-border-color), 0 8px 16px 0 rgba(0, 0, 0, .1);
+}
+
+.linked-card__container:hover > .linked-card__heading {
+    color: var(--linked-card-heading-hover-color);
+}
+
+.linked-card__heading {
+    font-size: 1.37rem;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--linked-card-heading-color);
+}
+
+.linked-card__link {
+    transition: transform .5s ease-in-out;
+}
+
+.linked-card__container:hover .linked-card__link {
+    transform: translateX(10px);
+}
+
+.linked-card__container:hover > .linked-card__heading {
+    text-decoration: underline;
+    transition: text-decoration .5s ease-in-out;
+}
+
+.linked-card__text {
+    color: var(--linked-card-text-color);
+}
+
+.linked-card__text:hover {
+    color: var(--linked-card-text-hover-color);
+}
+
+/*Linked Card Grid */
+.linked-card-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .linked-card-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .linked-card-grid[data-columns="1"] {
+        grid-template-columns: 1fr;
+    }
+
+    .linked-card-grid[data-columns="2"] {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .linked-card-grid[data-columns="3"] {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .linked-card-grid[data-columns="4"] {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .linked-card-grid[data-columns="5"] {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .linked-card-grid[data-columns="6"] {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}

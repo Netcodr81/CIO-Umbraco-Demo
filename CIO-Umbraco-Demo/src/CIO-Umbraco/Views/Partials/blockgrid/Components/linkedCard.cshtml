@@ -1,0 +1,53 @@
+﻿@using System.Text
+@inherits UmbracoViewPage<BlockListItem<ContentModels.LinkedCard>>
+
+@{
+    if (Model.Content is null)
+    {
+        return;
+    }
+
+    var content = Model.Content;
+
+    var additionalStyles = new StringBuilder();
+
+    if (content.BackgroundImage is not null)
+    {
+        additionalStyles.Append($"background-image:url('{@content?.BackgroundImage?.MediaUrl()}')");
+    }
+
+    var headingColor = content?.HeadingColor?.Color ?? "#00607f";
+    var headingHoverColor = content?.HeadingHoverColor?.Color ?? "#00607f";
+    var textColor = content?.TextColor?.Color ?? "#00607f";
+    var textHoverColor = content?.TextHoverColor?.Color ?? "#00607f";
+    var backgroundColor = content?.BackgroundColor?.Color ?? "#ffffff";
+    var iconHoverColor = content?.IconHoverColor?.Color ?? "#00607f";
+    var borderColor = content?.BorderColor?.Color ?? "#ffc44d";
+
+    var cssVariables = $@"
+        --linked-card-heading-color: {headingColor};
+        --linked-card-heading-hover-color: {headingHoverColor};
+        --linked-card-text-color: {textColor};
+        --linked-card-text-hover-color: {textHoverColor};
+        --linked-card-background-color: {backgroundColor};
+        --linked-card-icon-hover-color: {iconHoverColor};
+        --linked-card-border-color: {borderColor};
+    ";
+}
+
+<div class="linked-card__container" style="@additionalStyles.ToString() @cssVariables">
+  
+    <h2 class="linked-card__heading">@content.Heading</h2>
+
+    @if (content?.Text is not null)
+    {
+        <div class="linked-card__text">
+            @content.Text
+        </div>
+       
+    }
+
+    <a href="@content.Link?.Url" target="@(content?.Link?.Target)" rel="noopener noreferrer" class="linked-card__link">
+        <inline-svg media-item="@content.Icon" fill="@content?.IconColor?.Color" width="36" height="36"></inline-svg>
+    </a>
+</div>

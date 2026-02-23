@@ -27,7 +27,6 @@
 	--section-header-margin-bottom: 2.5rem;
 	--section-header-accent-color: #ffc44d;
 	--section-header-text-color: #000000;
-
 	--hero-block-btn-color: #FFC44D;
 	--hero-block-btn-hover-color: #e3bf77;
 	--hero-block-btn-text-color: #000000;
@@ -39,7 +38,6 @@
 	--icon-button-background-color: #00607f;
 	--icon-button-background-hover-color: #bbd4dd;
 	--icon-button-icon-hover-color: #00607f;
-
 	--card-with-image-header-text-color: #1b1b1b;
 	--card-with-image-header-text-hover-color: #1b1b1b;
 	--card-with-image-body-text-color: #1b1b1b;
@@ -51,7 +49,6 @@
 	--card-with-image-button-text-hover-color: #ffffff;
 	--card-with-image-button-background-color: #00607f;
 	--card-with-image-button-background-hover-color: #004d66;
-
 	--newsroom-header-text-color: #000;
 	--newsroom-header-font-size: 1.99rem;
 	--newsroom-header-line-height: 1.2;
@@ -64,9 +61,17 @@
 	--newsroom-button-text-color: #00607f;
 	--newsroom-button-text-hover-color: #004d66;
 	--newsroom-icon-hover-color: #004d66;
-    --newsroom-description-color: #000;
-    --newsroom-link-color: #00607f;
-    --newsroom-link-hover-color: #004d66;
+	--newsroom-description-color: #000;
+	--newsroom-link-color: #00607f;
+	--newsroom-link-hover-color: #004d66;
+	--linked-card-heading-color: #004d66;
+	--linked-card-heading-hover-color: #004d66;
+	--linked-card-background-color: #fff;
+	--linked-card-text-color: #004d66;
+	--linked-card-text-hover-color: #004d66;
+	--linked-card-icon-hover-color: #004d66;
+    --linked-card-border-color: #ffc44d;
+
 }
 
 
@@ -1413,3 +1418,6 @@ a.icon-button-card__container {
 		color: var(--newsroom-link-hover-color);
 	}
 
+.linked-card__container:hover a > svg {
+    fill: var(--linked-card-icon-hover-color) !important;
+}

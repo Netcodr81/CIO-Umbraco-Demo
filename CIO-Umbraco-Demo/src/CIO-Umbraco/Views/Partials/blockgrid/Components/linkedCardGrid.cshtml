@@ -1,0 +1,25 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.LinkedCardGrid>>
+
+@{
+    if (Model.Content is null)
+    {
+        return;
+    }
+
+    var content = Model.Content;
+
+    var maxNumberOfCardsPerRow = content.NumberCardsPerRow ?? "3";
+}
+
+<div class="linked-card-grid p-3" data-columns="@maxNumberOfCardsPerRow">
+
+    @if (content.Items.Any())
+    {
+        foreach (var item in content.Items)
+        {
+            <div class="linked-card-grid__item">
+                @await Html.PartialAsync("linkedCard.cshtml", item)
+            </div>
+        }
+    }
+</div>
