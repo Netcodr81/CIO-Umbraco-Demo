@@ -1,0 +1,13 @@
+{
+  "$schema": "../../umbraco-package-schema.json",
+  "name": "Font Awesome Icons",
+  "version": "0.1.0",
+  "extensions": [
+    {
+      "type": "icons",
+      "alias": "FA.Icons",
+      "name": "Font Awesome Icons",
+      "js": "/App_Plugins/FontAwesomeIcons/Icons/index.js"
+    }
+  ]
+}
