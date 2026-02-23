@@ -504,6 +504,11 @@ a.icon-button-card__container {
 }
 
 /*Side Navigation*/
+
+.sideNavigation__sublist {
+    display:block!important;
+}
+
 .sideNavigation-sidenav {
     margin-bottom: 0;
     margin-top: 0;

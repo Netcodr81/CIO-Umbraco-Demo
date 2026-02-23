@@ -1,0 +1,11 @@
+﻿@inherits UmbracoViewPage<BlockListItem<ContentModels.AccordionItem>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+}
+
+<div>
+    @content.DrawerContent
+</div>
