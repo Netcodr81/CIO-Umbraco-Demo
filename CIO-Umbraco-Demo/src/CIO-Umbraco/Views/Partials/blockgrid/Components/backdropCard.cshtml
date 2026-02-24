@@ -1,0 +1,46 @@
+﻿@inherits UmbracoViewPage<BlockListItem<ContentModels.BackdropCard>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var bgUrl = content.BackgroundImage?.MediaUrl();
+
+    var test = "";
+}
+
+@* Debug: remove the following comment after confirming the bgUrl value in the browser inspector *@
+<!-- bgUrl: @bgUrl -->
+<div class="backdrop-card__container" aria-label="@content.Heading">
+    @if (!string.IsNullOrWhiteSpace(bgUrl))
+    {
+        <img class="backdrop-card__img" src="@bgUrl" alt="@content.Heading" />
+    }
+    <div class="backdrop-card__overlay">
+        <div class="backdrop-card__body-container">
+        @if (!string.IsNullOrWhiteSpace(content.Date))
+        {
+            <div class="backdrop-card__meta">@content.Date</div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(content.Heading))
+        {
+            <h2 class="backdrop-card__heading">@content.Heading</h2>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(content.Text))
+        {
+            <div class="backdrop-card__text">@Html.Raw(content.Text)</div>
+        }
+
+        @if (content.DisplayCtaButton)
+        {
+            <a class="backdrop-card__cta" href="@content?.CtaLink?.Url" target="@content?.CtaLink?.Target" rel="noopener noreferrer">
+                @content.CtaText
+                <span class="backdrop-card__cta-icon"><img src="~/icons/arrow_forward.svg" alt=""/></span>
+            </a>
+        }
+        </div>
+    </div>
+</div>

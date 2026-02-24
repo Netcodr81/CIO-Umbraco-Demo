@@ -1,0 +1,25 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.BackdropGrid>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+}
+
+<div class="backdrop-grid__container">
+    <div class="backdrop-grid__card-group">
+        @if (content.Cards.Any())
+        {
+            @for (int i = 0; i < content.Cards.Count(); i++)
+            {
+                var card = content.Cards.ElementAt(i);
+                var cardToRender = card as BlockListItem<BackdropCard>;
+                var cardClass = i == 0 ? "backdrop-grid__card backdrop-grid__card--primary" : "backdrop-grid__card backdrop-grid__card--secondary";
+
+                <div class="@cardClass">
+                    @await Html.PartialAsync("backdropCard.cshtml", cardToRender)
+                </div>
+            }
+        }
+    </div>
+</div>

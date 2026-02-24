@@ -1,0 +1,77 @@
+﻿.backdrop-grid__container {
+    margin-bottom: 7.5rem;
+}
+
+.backdrop-grid__card-group {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-auto-rows: 1fr; /* Make all rows equal height on mobile */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Mobile: single column, all cards full width */
+.backdrop-grid__card {
+    width: 100%;
+    height: 100%;
+}
+
+/* Tablet (640px - 1407px): first card spans full width on top, next 2 cards side by side below */
+@media (min-width: 640px) {
+    .backdrop-grid__card-group {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto auto;
+    }
+
+    .backdrop-grid__card--primary {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    /* Second card - bottom left */
+    .backdrop-grid__card:nth-child(2) {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    /* Third card - bottom right */
+    .backdrop-grid__card:nth-child(3) {
+        grid-column: 2;
+        grid-row: 2;
+    }
+    
+}
+
+/* Desktop (1408px+): first card on left (takes up more space), 2 cards stacked on right */
+@media (min-width: 1408px) {
+    .backdrop-grid__card-group {
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    .backdrop-grid__card--primary {
+        grid-column: 1;
+        grid-row: 1 / -1;
+    }
+
+    /* Second card (first secondary) - top right */
+    .backdrop-grid__card:nth-child(2) {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    /* Third card (second secondary) - bottom right */
+    .backdrop-grid__card:nth-child(3) {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    /* Hide text and CTA for secondary cards on the right */
+    .backdrop-grid__card--secondary .backdrop-card__text,
+    .backdrop-grid__card--secondary .backdrop-card__cta {
+        display: none;
+    }
+}

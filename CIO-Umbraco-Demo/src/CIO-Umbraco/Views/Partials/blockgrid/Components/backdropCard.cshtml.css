@@ -1,0 +1,161 @@
+﻿.backdrop-card__container {
+    color: #fff;
+    cursor: pointer;
+    border-radius: .5rem;
+    overflow: hidden;
+    background-color: #222; /* fallback when no image */
+    position: relative;
+    min-height: 280px; /* keeps a reasonable height when there's no image */
+    height: 100%; /* fill the grid cell height */
+    /* prevent any background-image from tiling if present */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    /* Enable container queries */
+    container-type: inline-size;
+    container-name: backdrop-card;
+}
+
+.backdrop-card__img {
+    display: block;
+    width: 100%;
+    height: 100%; /* fill the container height */
+    object-fit: cover; /* fill the container while preserving ratio */
+}
+
+.backdrop-card__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+
+.backdrop-card__meta {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 0.25rem;
+    color: rgba(255, 255, 255, 0.95);
+    background-color: #004d66;
+    width: fit-content;
+    border-radius: .2rem;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.backdrop-card__heading {
+    font-size: 1.5rem;
+    line-height: 1.1;
+    margin: 0 0 0.25rem 0;
+    color: #fff;
+}
+
+.backdrop-card__text {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.98rem;
+}
+
+.backdrop-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    color: #fff;
+    text-decoration: none;
+    background-color: #FFC44D;
+    color: #1b1b1b;
+    width: fit-content;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: .98rem;
+    font-weight: 700;
+    border-radius: calc(1px * infinity);
+    line-height: 1; /* ensure the icon centers vertically with the text */
+    position: relative;
+    z-index: 2;
+}
+
+/* Stretch the link to cover entire card */
+
+.backdrop-card__cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    transform: translate(-100vw, -100vh);
+    width: 200vw;
+    height: 200vh;
+}
+
+.backdrop-card__cta-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.backdrop-card__cta-icon {
+    /* approximately 50% of previous size (was 8px) */
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+
+.backdrop-card__body-container {
+    display: grid;
+    gap: 10px;
+}
+
+/* Container queries: adjust text size based on card width */
+
+@container backdrop-card (max-width: 400px) {
+    .backdrop-card__meta { font-size: 0.75rem; }
+
+    .backdrop-card__heading { font-size: 1.1rem; }
+
+    .backdrop-card__text { display: none; }
+
+    .backdrop-card__cta {
+        display: none;
+    }
+}
+
+@container backdrop-card (min-width: 401px) and (max-width: 600px) {
+    .backdrop-card__meta { font-size: 0.85rem; }
+
+    .backdrop-card__heading { font-size: 1.3rem; }
+
+    .backdrop-card__text { font-size: 0.92rem; }
+
+    .backdrop-card__cta { font-size: 0.92rem; }
+}
+
+@container backdrop-card (min-width: 601px) {
+    .backdrop-card__meta { font-size: 0.9rem; }
+
+    .backdrop-card__heading { font-size: 1.5rem; }
+
+    .backdrop-card__text { font-size: 0.98rem; }
+
+    .backdrop-card__cta { font-size: 0.98rem; }
+}
+
+@media (max-width: 767px) {
+    .backdrop-card__overlay {
+        background: linear-gradient(to bottom, rgba(0, 77, 102, 0) 0%, rgba(0, 77, 102, 1) 100%);
+    }
+}
+
+@media (min-width: 768px) {
+    .backdrop-card__container { min-height: 360px; }
+
+    .backdrop-card__heading { font-size: 2rem; }
+}
