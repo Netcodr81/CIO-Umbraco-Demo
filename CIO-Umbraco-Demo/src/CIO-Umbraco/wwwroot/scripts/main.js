@@ -35,4 +35,61 @@
             }
         });
     });
+
+    // Tabs functionality
+    const tabContainers = document.querySelectorAll('.tabs__container');
+
+    tabContainers.forEach(function(container) {
+        const tabs = container.querySelectorAll('.tabs__tab');
+        const panels = container.querySelectorAll('.tabs__panel');
+
+        tabs.forEach(function(tab, index) {
+            tab.addEventListener('click', function() {
+                // Deactivate all tabs
+                tabs.forEach(function(t) {
+                    t.setAttribute('aria-selected', 'false');
+                    t.setAttribute('tabindex', '-1');
+                });
+
+                // Hide all panels
+                panels.forEach(function(panel) {
+                    panel.setAttribute('hidden', '');
+                    panel.classList.remove('tabs__panel--active');
+                });
+
+                // Activate clicked tab
+                tab.setAttribute('aria-selected', 'true');
+                tab.setAttribute('tabindex', '0');
+
+                // Show corresponding panel
+                const panelId = tab.getAttribute('aria-controls');
+                const panel = document.getElementById(panelId);
+                if (panel) {
+                    panel.removeAttribute('hidden');
+                    panel.classList.add('tabs__panel--active');
+                }
+            });
+
+            // Keyboard navigation
+            tab.addEventListener('keydown', function(e) {
+                let targetTab = null;
+
+                if (e.key === 'ArrowRight') {
+                    targetTab = tabs[index + 1] || tabs[0];
+                } else if (e.key === 'ArrowLeft') {
+                    targetTab = tabs[index - 1] || tabs[tabs.length - 1];
+                } else if (e.key === 'Home') {
+                    targetTab = tabs[0];
+                } else if (e.key === 'End') {
+                    targetTab = tabs[tabs.length - 1];
+                }
+
+                if (targetTab) {
+                    e.preventDefault();
+                    targetTab.click();
+                    targetTab.focus();
+                }
+            });
+        });
+    });
 });

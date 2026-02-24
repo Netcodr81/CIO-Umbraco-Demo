@@ -9,40 +9,88 @@
     var content = Model.Content;
 }
 
+@if (content.Tabs)
+{
+	<div class="accordion-tabs__container">
+		<div class="accordion-tabs__list" role="tablist">
+			@for (int i = 0; i < content.Items!.Count; i++)
+			{
+				if (content.Items[i].Content is AccordionItem tabItem)
+				{
+					var tabId = $"tab-{i}";
+					var panelId = $"tabpanel-{i}";
+					<button class="accordion-tabs__tab" 
+							id="@tabId" 
+							role="tab" 
+							aria-selected="@(i == 0 ? "true" : "false")" 
+							aria-controls="@panelId"
+							tabindex="@(i == 0 ? "0" : "-1")"
+							type="button">
+						@tabItem.DrawerTitle
+					</button>
+				}
+			}
+		</div>
 
-<div class="accordion__container">
-    @foreach (var item in content.Items!)
-    {
-        if (item.Content is AccordionItem accordionItem)
-        {
+		<div class="accordion-tabs__panels">
+			@for (int i = 0; i < content.Items.Count; i++)
+			{
+				if (content.Items[i].Content is AccordionItem tabItem)
+				{
+					var tabId = $"tab-{i}";
+					var panelId = $"tabpanel-{i}";
+					<div class="accordion-tabs__panel @(i == 0 ? "tabs__panel--active" : "")"
+						 id="@panelId" 
+						 role="tabpanel" 
+						 aria-labelledby="@tabId"
+						 tabindex="0"
+						 hidden="@(i != 0)">
+						<div class="accordion-tabs__content">
+							@tabItem.DrawerContent
+						</div>
+					</div>
+				}
+			}
+		</div>
+	</div>
+}
+else
+{
+	<div class="accordion__container">
+		@foreach (var item in content.Items!)
+		{
+			if (item.Content is AccordionItem accordionItem)
+			{
           
-        }
-    }
+			}
+		}
 
-    @for(int i = 0; i < content.Items.Count; i++)
-    {
-        if(content.Items[i].Content is AccordionItem accordionItem)
-        {
-            var drawerId = $"drawer-{i}";
-            var buttonId = $"accordion-button-{i}";
-            <div class="accordion__item">
-                <h3 class="accordion__heading">
-                    <button class="accordion__toggle" 
-                            id="@buttonId" 
-                            aria-expanded="false" 
-                            aria-controls="@drawerId"
-                            type="button">
-                        <span class="accordion__icon" aria-hidden="true"></span>
-                        <span class="accordion__title">@accordionItem.DrawerTitle</span>
-                    </button>
-                </h3>
+		@for(int i = 0; i < content.Items.Count; i++)
+		{
+			if(content.Items[i].Content is AccordionItem accordionItem)
+			{
+				var drawerId = $"drawer-{i}";
+				var buttonId = $"accordion-button-{i}";
+				<div class="accordion__item">
+					<h3 class="accordion__heading">
+						<button class="accordion__toggle" 
+						        id="@buttonId" 
+						        aria-expanded="false" 
+						        aria-controls="@drawerId"
+						        type="button">
+							<span class="accordion__icon" aria-hidden="true"></span>
+							<span class="accordion__title">@accordionItem.DrawerTitle</span>
+						</button>
+					</h3>
 
-                <div class="accordion__drawer" id="@drawerId" aria-labelledby="@buttonId">
-                    <div class="accordion__content">
-                        @accordionItem.DrawerContent
-                    </div>
-                </div>
-            </div>
-        }
-    }
-</div>
+					<div class="accordion__drawer" id="@drawerId" aria-labelledby="@buttonId">
+						<div class="accordion__content">
+							@accordionItem.DrawerContent
+						</div>
+					</div>
+				</div>
+			}
+		}
+	</div>
+}
+

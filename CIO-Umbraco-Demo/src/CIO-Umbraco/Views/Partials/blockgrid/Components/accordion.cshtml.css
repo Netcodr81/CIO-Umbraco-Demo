@@ -91,3 +91,111 @@
 .accordion__content {
     padding: 0 0 1rem 3.5rem;
 }
+
+/* Accordion Tabs Styles */
+.accordion-tabs__container {
+    color: #1b1b1b;
+    line-height: 1.5;
+    font-size: 1.24rem;
+}
+
+.accordion-tabs__list {
+    display: flex;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid #dfe1e2;
+}
+
+.accordion-tabs__tab {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    background-color: #f0f0f0;
+    border: 1px solid #dfe1e2;
+    border-bottom: none;
+    cursor: pointer;
+    font-size: 0.99rem;
+    font-weight: 600;
+    color: #1b1b1b;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    position: relative;
+    margin-right: 0.25rem;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    text-align: center;
+}
+
+.accordion-tabs__tab:last-child {
+    margin-right: 0;
+}
+
+   
+
+.accordion-tabs__tab[aria-selected="true"] {
+    background-color: #ffffff;
+    color: #1b1b1b;
+    border-bottom: 2px solid #ffffff;
+    margin-bottom: -1px;
+    z-index: 1;
+}
+
+    .accordion-tabs__tab[aria-selected="true"]:hover {
+        background-color: #4b4c4e;
+        color: #ffffff;
+        text-decoration: underline;
+    }
+
+.accordion-tabs__tab[aria-selected="false"] {
+        background-color: #00607f;
+        color: #ffffff;
+}
+
+    .accordion-tabs__tab[aria-selected="false"]:hover {
+        background-color: #4b4c4e;
+        color: #ffffff;
+        text-decoration: underline;
+    }
+
+
+.accordion-tabs__tab:focus {
+    outline: 2px solid #00607f;
+    outline-offset: -2px;
+}
+
+.accordion-tabs__panels {
+    position: relative;
+    background-color: #ffffff;
+    border: 1px solid #dfe1e2;
+    border-top: none;
+}
+
+.accordion-tabs__panel {
+    font-size: 0.99rem;
+}
+
+.accordion-tabs__panel[hidden] {
+    display: none;
+}
+
+.accordion-tabs__content {
+    padding: 1rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.accordion-tabs__content > * {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.accordion-tabs__content p {
+    margin: 0 0 1rem 0;
+    width: 100%;
+}
+
+.accordion-tabs__content p:last-child {
+    margin-bottom: 0;
+}
+
