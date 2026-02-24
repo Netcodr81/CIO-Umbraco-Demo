@@ -1,4 +1,59 @@
-﻿@page
-@model CIO-Umbraco-Demo.Views.Partials.blockgrid.Components.alertModel
+﻿@using System.Diagnostics
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.Alert>>
+
 @{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    // Normalize alertType to a string to handle either enum or string values
+    var alertType = content.AlertType?.ToString() ?? "Info";
+
+    // Use a switch expression to pick the background class
+    var backgroundClass = alertType switch
+    {
+        "Info" => "alert__info-background",
+        "Warning" => "alert__warning-background",
+        "Error" => "alert__error-background",
+        "Success" => "alert__success-background",
+        "Emergency" => "alert__emergency-background",
+        _ => "alert__info-background",
+    };
+
+    var iconClass =alertType switch
+    {
+        "Info" => "info-icon",
+        "Warning" => "warning-icon",
+        "Error" => "error-icon",
+        "Success" => "success-icon",
+        "Emergency" => "emergency-icon",
+        _ => "info-icon",
+    };
 }
+
+@if (content.SlimAlert)
+{
+    <div class="alert__wrapper">
+        <section class="@backgroundClass">
+            <div class="alert__slim-body @(content.DisplayIcon ? iconClass : string.Empty)">
+               <div class="alert__text">
+                    @content.BodyText
+                </div>
+            </div>
+        </section>
+    </div>
+}
+else
+{
+    <div class="alert__wrapper">
+        <section class="@backgroundClass">
+            <div class="alert__body @(content.DisplayIcon ? iconClass : string.Empty)">
+                <p class="alert__heading">@content.Heading</p>
+                <div class="alert__text">
+                    @content.BodyText
+                </div>
+            </div>
+        </section>
+    </div>
+}
+

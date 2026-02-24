@@ -37,11 +37,11 @@
     });
 
     // Tabs functionality
-    const tabContainers = document.querySelectorAll('.tabs__container');
+    const tabContainers = document.querySelectorAll('.accordion-tabs__container');
 
     tabContainers.forEach(function(container) {
-        const tabs = container.querySelectorAll('.tabs__tab');
-        const panels = container.querySelectorAll('.tabs__panel');
+        const tabs = container.querySelectorAll('.accordion-tabs__tab');
+        const panels = container.querySelectorAll('.accordion-tabs__panel');
 
         tabs.forEach(function(tab, index) {
             tab.addEventListener('click', function() {

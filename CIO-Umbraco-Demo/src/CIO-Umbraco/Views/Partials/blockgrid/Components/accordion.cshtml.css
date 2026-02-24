@@ -159,8 +159,8 @@
 
 
 .accordion-tabs__tab:focus {
-    outline: 2px solid #00607f;
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: .5px 0 0 0 #dfe1e2 inset, -2px 0 0 0 #dfe1e2 inset, 0 .5px 0 0 #dfe1e2 inset;
 }
 
 .accordion-tabs__panels {
