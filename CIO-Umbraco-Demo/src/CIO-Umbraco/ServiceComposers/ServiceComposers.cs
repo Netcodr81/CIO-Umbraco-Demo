@@ -1,7 +1,7 @@
 ﻿using Umbraco.Cms.Core.Composing;
 using Utilities;
 
-namespace ServiceComponsers;
+namespace ServiceComposers;
 
 public class ServiceComposers : IComposer
 {

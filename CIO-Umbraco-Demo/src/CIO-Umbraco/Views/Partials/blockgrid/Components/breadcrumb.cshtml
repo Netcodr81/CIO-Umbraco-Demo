@@ -1,0 +1,43 @@
+﻿@using Extensions.Breadcrumbs
+@inherits UmbracoViewPage<BlockGridItem<Breadcrumb>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var currentPage = Umbraco.AssignedContentItem;
+
+    var root = currentPage.Root();
+
+    var breadcrumbs = currentPage
+        .AncestorsOrSelf()
+        .Where(x => x.Level >= root.Level)
+        .Reverse()
+        .Select(x => new BreadcrumbItem(
+            x.Name,
+            x.Url(),
+            x.Id == currentPage.Id
+        ));
+
+}
+
+<nav class="breadcrumb" aria-label="Breadcrumbs">
+    <ol class="breadcrumb__list">
+        @foreach (var item in breadcrumbs)
+        {
+            if (item.IsCurrent)
+            {
+                <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">
+                    @item.Name
+                </li>
+            }
+            else
+            {
+                <li class="breadcrumb__item">
+                    <a class="breadcrumb__link" href="@item.Url">@item.Name</a>
+                </li>
+            }
+        }
+    </ol>
+</nav>
