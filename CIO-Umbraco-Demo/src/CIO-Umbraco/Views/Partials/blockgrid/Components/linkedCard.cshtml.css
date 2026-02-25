@@ -11,8 +11,8 @@
     font-size: 1.24rem;
     border-bottom-right-radius: .5rem;
     border-bottom-left-radius: .5rem;
-
     cursor: pointer;
+    text-decoration: none;
 }
 
 .linked-card__container:hover {
@@ -32,7 +32,10 @@
     color: var(--linked-card-heading-color);
 }
 
-.linked-card__link { transition: transform .5s ease-in-out; }
+.linked-card__link { 
+    transition: transform .5s ease-in-out;
+    pointer-events: none;
+}
 
 .linked-card__container:hover .linked-card__link { transform: translateX(10px); }
 

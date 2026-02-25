@@ -35,8 +35,8 @@
     ";
 }
 
-<div class="linked-card__container" style="@additionalStyles.ToString() @cssVariables">
-  
+<a href="@content.Link?.Url" target="@(content?.Link?.Target)" rel="noopener noreferrer" class="linked-card__container" style="@additionalStyles.ToString() @cssVariables">
+
     <h2 class="linked-card__heading">@content.Heading</h2>
 
     @if (content?.Text is not null)
@@ -44,10 +44,10 @@
         <div class="linked-card__text">
             @content.Text
         </div>
-       
+
     }
 
-    <a href="@content.Link?.Url" target="@(content?.Link?.Target)" rel="noopener noreferrer" class="linked-card__link">
+    <div class="linked-card__link">
         <inline-svg media-item="@content.Icon" fill="@content?.IconColor?.Color" width="36" height="36"></inline-svg>
-    </a>
-</div>
+    </div>
+</a>

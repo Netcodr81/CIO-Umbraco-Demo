@@ -29,6 +29,7 @@ a.icon-button-card__container {
 
 .icon-button-card__card-body {
     height: 7.5rem;
+    pointer-events: none;
 }
 
 .icon-button-card__card-body {
