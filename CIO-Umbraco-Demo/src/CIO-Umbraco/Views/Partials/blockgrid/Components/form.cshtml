@@ -1,4 +1,4 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.Form>>
+﻿@* @inherits UmbracoViewPage<BlockGridItem<ContentModels.Form>>
 @using Umbraco.Forms.Web.Models
 @inject Umbraco.Forms.Web.Services.IFormService FormService
 
@@ -16,3 +16,4 @@
 <div class="form__container">
     @await Html.PartialAsync("Forms/Default", form)
 </div>
+ *@
