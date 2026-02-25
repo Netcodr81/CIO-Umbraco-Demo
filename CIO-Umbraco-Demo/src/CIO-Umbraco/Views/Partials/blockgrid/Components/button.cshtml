@@ -1,0 +1,121 @@
+﻿@using System.Text
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.Button>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var hasIcon = content.Icon is not null;
+
+    var styles = new StringBuilder();
+
+    if (!string.IsNullOrWhiteSpace(content.MinWidth))
+    {
+        styles.Append($" min-width:{content.MinWidth}");
+    }
+
+    if (!string.IsNullOrWhiteSpace(content.MaxWidth))
+    {
+        styles.Append($" max-width:{content.MaxWidth}");
+    }
+
+    if (!string.IsNullOrWhiteSpace(content.Width))
+    {
+        styles.Append($" width:{content.Width}");
+    }
+}
+
+@switch (content.ButtonStyle)
+{
+    case "Primary":
+        if (hasIcon)
+        {
+            <button class="btn__button btn__primary" style="@styles.ToString()">
+                @if (content.IconLocation == "Prepend")
+                {
+                    <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16"/>
+                    @content.Text
+                }
+                else
+                {
+                    @content.Text
+                    <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16"/>
+                }
+            </button>
+        }
+        else
+        {
+            <button class="btn__button btn__primary" style="@styles.ToString()">
+                @content.Text
+            </button>
+        }
+
+        break;
+    case "Secondary":
+        if (hasIcon)
+        {
+            <button class="btn__button btn__secondary" style="@styles.ToString()">
+                @if (content.IconLocation == "Prepend")
+                {
+                    <inline-svg media-item="content.Icon" fill="#1b1b1b" height="16" width="16"/>
+                    @content.Text
+                }
+                else
+                {
+                    @content.Text
+                    <inline-svg media-item="content.Icon" fill="#1b1b1b" height="16" width="16"/>
+                }
+            </button>
+        }
+        else
+        {
+            <button class="btn__button btn__secondary" style="@styles.ToString()">@content.Text</button>
+        }
+
+        break;
+    case "Outline":
+        if (hasIcon)
+        {
+            <button class="btn__button btn__outline" style="@styles.ToString()">
+                @if (content.IconLocation == "Prepend")
+                {
+                    <inline-svg media-item="content.Icon" fill="#004d66" height="16" width="16"/>
+                    @content.Text
+                }
+                else
+                {
+                    @content.Text
+                    <inline-svg media-item="content.Icon" fill="#004d66" height="16" width="16"/>
+                }
+            </button>
+        }
+        else
+        {
+            <button class="btn__button btn__outline" style="@styles.ToString()">@content.Text</button>
+        }
+
+        break;
+    default:
+        if (hasIcon)
+        {
+            <button class="btn__button btn__primary" style="@styles.ToString()">
+                @if (content.IconLocation == "Prepend")
+                {
+                    <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16"/>
+                    @content.Text
+                }
+                else
+                {
+                    @content.Text
+                    <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16"/>
+                }
+            </button>
+        }
+        else
+        {
+            <button class="btn__button btn__primary" style="@styles.ToString()">@content.Text</button>
+        }
+
+        break;
+}
