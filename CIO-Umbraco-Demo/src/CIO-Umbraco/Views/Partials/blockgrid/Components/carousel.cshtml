@@ -1,0 +1,188 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.Carousel>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+    var carouselId = "carousel-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+}
+
+<div class="carousel" id="@carouselId" data-carousel>
+    <div class="carousel__viewport">
+        <div class="carousel__track">
+            @if (content.Items.Any())
+            {
+                var index = 0;
+                foreach (var item in content.Items)
+                {
+                    if (item.Content is CarouselItem)
+                    {
+                        var carouselItem = item as BlockListItem<CarouselItem>;
+                        <div class="carousel__slide @(index == 0 ? "carousel__slide--active" : "")" data-slide="@index">
+                            @await Html.PartialAsync("carouselItem", carouselItem)
+                        </div>
+                        index++;
+                    }
+                }
+            }
+        </div>
+    </div>
+
+    @if (content.Items.Any() && content.Items.Count() > 1)
+    {
+        <div class="carousel__controls">
+            <button class="carousel__button carousel__button--prev" aria-label="Previous slide">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <button class="carousel__button carousel__button--play-pause" aria-label="Pause carousel">
+                <svg class="carousel__icon--play" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
+                </svg>
+                <svg class="carousel__icon--pause" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 4H10V20H6V4Z" fill="currentColor"/>
+                    <path d="M14 4H18V20H14V4Z" fill="currentColor"/>
+                </svg>
+            </button>
+
+            <button class="carousel__button carousel__button--next" aria-label="Next slide">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="carousel__indicators">
+            @for (var i = 0; i < content.Items.Count(); i++)
+            {
+                <button class="carousel__indicator @(i == 0 ? "carousel__indicator--active" : "")" 
+                        data-slide-to="@i" 
+                        aria-label="Go to slide @(i + 1)">
+                </button>
+            }
+        </div>
+    }
+</div>
+
+<script>
+    (function() {
+        const carousel = document.getElementById('@carouselId');
+        if (!carousel) return;
+
+        const track = carousel.querySelector('.carousel__track');
+        const slides = carousel.querySelectorAll('.carousel__slide');
+
+        if (slides.length <= 1) return;
+
+        const prevButton = carousel.querySelector('.carousel__button--prev');
+        const nextButton = carousel.querySelector('.carousel__button--next');
+        const playPauseButton = carousel.querySelector('.carousel__button--play-pause');
+        const playIcon = playPauseButton.querySelector('.carousel__icon--play');
+        const pauseIcon = playPauseButton.querySelector('.carousel__icon--pause');
+        const indicators = carousel.querySelectorAll('.carousel__indicator');
+
+        let currentSlide = 0;
+        let isPlaying = false;
+        let isUserPaused = false;
+        let autoplayInterval = null;
+        const autoplayDelay = 3000;
+        const initialDelay = 2000;
+
+        function goToSlide(index) {
+            slides[currentSlide].classList.remove('carousel__slide--active');
+            indicators[currentSlide].classList.remove('carousel__indicator--active');
+
+            currentSlide = (index + slides.length) % slides.length;
+
+            slides[currentSlide].classList.add('carousel__slide--active');
+            indicators[currentSlide].classList.add('carousel__indicator--active');
+
+            const offset = -currentSlide * 100;
+            track.style.transform = `translateX(${offset}%)`;
+        }
+
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        function startAutoplay() {
+            if (isPlaying) return;
+            isPlaying = true;
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+            playPauseButton.setAttribute('aria-label', 'Pause carousel');
+            autoplayInterval = setInterval(nextSlide, autoplayDelay);
+        }
+
+        function stopAutoplay() {
+            if (!isPlaying) return;
+            isPlaying = false;
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+            playPauseButton.setAttribute('aria-label', 'Play carousel');
+            clearInterval(autoplayInterval);
+            autoplayInterval = null;
+        }
+
+        prevButton.addEventListener('click', function() {
+            prevSlide();
+            if (isPlaying && !isUserPaused) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = setInterval(nextSlide, autoplayDelay);
+            }
+        });
+
+        nextButton.addEventListener('click', function() {
+            nextSlide();
+            if (isPlaying && !isUserPaused) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = setInterval(nextSlide, autoplayDelay);
+            }
+        });
+
+        playPauseButton.addEventListener('click', function() {
+            if (isPlaying) {
+                isUserPaused = true;
+                stopAutoplay();
+            } else {
+                isUserPaused = false;
+                startAutoplay();
+            }
+        });
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', function() {
+                goToSlide(index);
+                if (isPlaying && !isUserPaused) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = setInterval(nextSlide, autoplayDelay);
+                }
+            });
+        });
+
+        carousel.addEventListener('mouseenter', function() {
+            if (isPlaying && !isUserPaused) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = null;
+            }
+        });
+
+        carousel.addEventListener('mouseleave', function() {
+            if (isPlaying && !isUserPaused && autoplayInterval === null) {
+                autoplayInterval = setInterval(nextSlide, autoplayDelay);
+            }
+        });
+
+        setTimeout(function() {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+            startAutoplay();
+        }, initialDelay);
+    })();
+</script>

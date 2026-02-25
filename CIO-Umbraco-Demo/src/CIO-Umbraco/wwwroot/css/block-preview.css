@@ -1321,6 +1321,7 @@ a.current { padding-left: 0 !important; }
     gap: .5rem;
     align-items: center;
     justify-content: center;
+    border: 2px solid transparent
 }
 
 .btn__primary {
