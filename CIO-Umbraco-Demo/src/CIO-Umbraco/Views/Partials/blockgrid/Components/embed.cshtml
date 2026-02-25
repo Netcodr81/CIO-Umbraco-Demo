@@ -1,0 +1,27 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.Embed>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var width = !string.IsNullOrWhiteSpace(content.Width) ? content.Width : "100%";
+    var height = !string.IsNullOrWhiteSpace(content.Height) ? content.Height : "100%";
+    var tabletWidth = !string.IsNullOrWhiteSpace(content.TabletWidth) ? content.TabletWidth : "100%";
+    var tabletHeight = !string.IsNullOrWhiteSpace(content.TabletHeight) ? content.TabletHeight : "100%";
+    var mobileWidth = !string.IsNullOrWhiteSpace(content.MobileWidth) ? content.MobileWidth : "100%";
+    var mobileHeight = !string.IsNullOrWhiteSpace(content.MobileHeight) ? content.MobileHeight : "100%";
+
+    var styles = $@"
+        --embed__width: {width};
+        --embed__height: {height};
+        --embed__tablet-width: {tabletWidth};
+        --embed__tablet-height: {tabletHeight};
+        --embed__mobile-width: {mobileWidth};
+        --embed__mobile-height: {mobileHeight};
+    ";
+}
+
+<div class="embed__container" style="@styles">
+    <iframe allow="encrypted-media" allowfullscreen title="" src="@content.EmbedUrl" style="width: 100%; height: 100%; border: 0;"></iframe>
+</div>

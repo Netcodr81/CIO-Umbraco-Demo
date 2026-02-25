@@ -1,0 +1,36 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.Figure>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var width = !string.IsNullOrWhiteSpace(content.Width) ? content.Width : "100%";
+    var height = !string.IsNullOrWhiteSpace(content.Height) ? content.Height : "100%";
+    var tabletWidth = !string.IsNullOrWhiteSpace(content.TabletWidth) ? content.TabletWidth : "100%";
+    var tabletHeight = !string.IsNullOrWhiteSpace(content.TabletHeight) ? content.TabletHeight : "100%";
+    var mobileWidth = !string.IsNullOrWhiteSpace(content.MobileWidth) ? content.MobileWidth : "100%";
+    var mobileHeight = !string.IsNullOrWhiteSpace(content.MobileHeight) ? content.MobileHeight : "100%";
+
+    var fontSize = !string.IsNullOrWhiteSpace(content.FontSize) ? content.FontSize : ".98rem";
+    var tabletFontSize = !string.IsNullOrWhiteSpace(content.FontSize) ? content.FontSize : ".90rem";
+    var mobileFontSize = !string.IsNullOrWhiteSpace(content.FontSize) ? content.FontSize : ".85rem";
+
+    var styles = $@"
+        --figure__width: {width};
+        --figure__height: {height};
+        --figure__tablet-width: {tabletWidth};
+        --figure__tablet-height: {tabletHeight};
+        --figure__mobile-width: {mobileWidth};
+        --figure__mobile-height: {mobileHeight};
+        --figure__font-size: {fontSize};
+        --figure__tablet-font-size: {tabletFontSize};
+        --figure__mobile-font-size: {mobileFontSize};
+    ";
+}
+
+
+<figure class="figure__container" style="@styles">
+    <img src="@content?.Image?.GetCropUrl()" alt="@content?.Image?.Name"/>
+    <figcaption>@content?.Caption</figcaption>
+</figure>

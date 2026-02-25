@@ -1,0 +1,19 @@
+﻿.embed__container {
+    position: relative;
+    width: var(--embed__width);
+    height: var(--embed__height);
+}
+
+@media (max-width: 768px) {
+    .embed__container {
+        width: var(--embed__mobile-width);
+        height: var(--embed__mobile-height);
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .embed__container {
+        width: var(--embed__tablet-width);
+        height: var(--embed__tablet-height);
+    }
+}
