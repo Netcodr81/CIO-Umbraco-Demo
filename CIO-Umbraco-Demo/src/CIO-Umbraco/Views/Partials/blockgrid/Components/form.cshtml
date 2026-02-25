@@ -1,0 +1,18 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.Form>>
+@using Umbraco.Forms.Web.Models
+@inject Umbraco.Forms.Web.Services.IFormService FormService
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    if (content.FormType == null || content.FormType == Guid.Empty) return;
+
+    var form = await FormService.GetFormAsync(content.FormType.Value);
+    if (form == null) return;
+}
+
+<div class="form__container">
+    @await Html.PartialAsync("Forms/Default", form)
+</div>
