@@ -1,0 +1,13 @@
+﻿.icon-list__list-item > p {
+    margin-top: 0 !important;
+    display: inline;
+}
+
+.icon-list__list-item > svg {
+    display: inline-block;
+    flex: 0 0 auto;
+}
+
+.icon-list__list-item {
+    padding-block: .2rem;
+}

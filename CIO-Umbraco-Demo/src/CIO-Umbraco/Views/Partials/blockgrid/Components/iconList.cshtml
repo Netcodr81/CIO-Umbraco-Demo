@@ -1,0 +1,23 @@
+﻿@using System.Text
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.IconList>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var styles = new StringBuilder();
+  
+}
+
+@if (content.ListItems.Any())
+{
+    <ul class="icon-list__container">
+        @foreach (var item in content.ListItems)
+        {
+            var listItem = item as BlockListItem<ContentModels.IconListItem>;
+            @await Html.PartialAsync("iconListItem.cshtml", listItem)
+        }
+        
+    </ul>
+}

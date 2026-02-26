@@ -1,0 +1,34 @@
+﻿@using System.Text
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.IconButtonGrid>>
+
+@{
+    if (Model.Content is null)
+    {
+        return;
+    }
+
+    var content = Model.Content;
+
+    var maxNumberOfButtonsPerRow = content.MaxNumberOfButtonsPerRow ?? "3";
+
+    var styles = new StringBuilder();
+
+    if (content?.BackgroundColor is not null)
+    {
+        styles.Append($" background-color:{content?.BackgroundColor?.Color}");
+    }
+}
+
+<div class="icon-button-grid" data-columns="@maxNumberOfButtonsPerRow" style="@styles.ToString()">
+
+
+    @if (content.Items.Any())
+    {
+        @foreach (var button in content.Items)
+        {
+            var buttonToRender = button as BlockListItem<IconButtonCard>;
+            @await Html.PartialAsync("iconButtonCard", buttonToRender)
+        }
+    }
+
+</div>

@@ -10,7 +10,7 @@
     <PackageReference Include="Our.Umbraco.Slimsy" Version="7.0.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
     <PackageReference Include="Skybrud.Umbraco.Redirects" Version="17.0.2" />
-    <PackageReference Include="Umbraco.Cms" Version="17.2.0" />
+    <PackageReference Include="Umbraco.Cms" Version="17.2.1" />
     <PackageReference Include="Umbraco.Community.BlockPreview" Version="5.3.2" />
     <PackageReference Include="Umbraco.Community.Contentment" Version="6.1.1" />
     <PackageReference Include="Umbraco.Community.UmbNav" Version="4.1.4" />
@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="umbraco\models\" />
+    <Folder Include="Views\Partials\blocklist\Components\" />
     <Folder Include="Views\Partials\blocklist\Components\" />
     <Folder Include="wwwroot\assets\" />
     <None Include="wwwroot\media\**\*">
@@ -45,10 +46,6 @@
     <Content Remove="C:\Users\deanl\.nuget\packages\umbraco.community.umbnav\4.0.0-beta0030\contentFiles\any\net9.0\package-lock.json" />
     <Content Remove="C:\Users\deanl\.nuget\packages\umbraco.community.umbnav\4.0.0-beta0030\contentFiles\any\net9.0\package.json" />
     <Content Remove="C:\Users\deanl\.nuget\packages\umbraco.community.umbnav\4.0.0-beta0030\contentFiles\any\net9.0\tsconfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="App_Plugins\icons\Thumbnails-Icons-RTE.svg" />
   </ItemGroup>
 
 	<PropertyGroup>
