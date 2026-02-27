@@ -44,6 +44,9 @@
     transition: text-decoration .5s ease-in-out;
 }
 
-.linked-card__text { color: var(--linked-card-text-color); }
+.linked-card__text {
+     color: var(--linked-card-text-color);
+    margin-bottom: 1em;
+}
 
 .linked-card__text:hover { color: var(--linked-card-text-hover-color); }
