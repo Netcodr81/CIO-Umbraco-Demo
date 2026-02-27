@@ -51,6 +51,8 @@
     justify-content: start;
     padding-left: 2rem;
     padding-top: 4rem;
+    background-color: var(--interior-hero-background-color);
+    )
 }
 
 .interior-hero__overlay {
@@ -70,17 +72,17 @@
 }
 
 .interior-hero__svg-back {
-    fill: #4d90a5;
+    fill: var(--interior-hero-svg-background-color);
     opacity: .7;
 }
 
 .interior-hero__svg-mid {
-    fill: #ffc44d;
+    fill: var(--interior-hero-svg-midground-color);
     opacity: .7;
 }
 
 .interior-hero__svg-fore {
-    fill: #f3f7fc;
+    fill: var(--interior-hero-svg-foreground-color);
 }
 
 .interior-hero__svg {

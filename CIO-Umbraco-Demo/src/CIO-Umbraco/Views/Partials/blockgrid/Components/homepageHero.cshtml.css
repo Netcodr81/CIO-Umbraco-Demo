@@ -5,13 +5,15 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-left: 2rem;
 }
 
 .homepage-hero__overlay {
     position: absolute;
-    inset: 0rem;
+    inset: 0;
     background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
 }
 
 .homepage-hero__cta-callout {
@@ -19,9 +21,8 @@
     z-index: 10;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     width: 100%;
-    max-width: 48rem;
-    padding-inline: 1rem;
 }
 
 .homepage-hero__heading {
@@ -37,6 +38,7 @@
     font-size: 1.24rem;
     line-height: 1.5;
     color: var(--homepage-hero-subheading-text-color);
+    max-width: 75%;
 }
 
 .homepage-hero__btn-container {
@@ -65,22 +67,27 @@
     color: var(--homepage-hero-btn-text-hover-color);
 }
 
-.usa-hero__svg-back { fill: #4d90a5; }
-
-.usa-hero__svg-mid { fill: #ffc44d; }
-
-.usa-hero__svg-fore { fill: #f3f7fc; }
-
-.homepage-hero__svg {
-    position: absolute;
-    left: 0rem;
-    right: 0rem;
-    bottom: -9px;
-    width: 100%;
-    pointer-events: none;
+.homepage-hero__svg-back {
+    fill: var(--homepage-hero-svg-background-color);
+    opacity: .7;
 }
 
-.homepage-hero__svg > svg {
+.homepage-hero__svg-mid {
+    fill: var(--homepage-hero-svg-midground-color);
+    opacity: .7;
+}
+
+.homepage-hero__svg-fore {
+    fill: var(--homepage-hero-svg-foreground-color);
+}
+
+.homepage-hero__wrapper > svg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -15px;
     width: 100%;
     height: 103px;
+    pointer-events: none;
+    z-index: 2;
 }

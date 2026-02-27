@@ -21,19 +21,21 @@
 }
 
 :root {
-	--section-header-size: 1.99rem;
-	--section-header-line-height: 1.2;
-	--section-header-font-weight: 700;
-	--section-header-margin-bottom: 2.5rem;
-	--section-header-accent-color: #ffc44d;
-	--section-header-text-color: #000000;
+	--stylized-header-size: 1.99rem;
+	--stylized-header-line-height: 1.2;
+	--stylized-header-font-weight: 700;
+	--stylized-header-margin-bottom: 2.5rem;
+	--stylized-header-accent-color: #ffc44d;
+	--stylized-header-text-color: #000000;
 	--homepage-hero-btn-color: #FFC44D;
 	--homepage-hero-btn-hover-color: #e3bf77;
 	--homepage-hero-btn-text-color: #000000;
 	--homepage-hero-btn-text-hover-color: #000000;
 	--homepage-hero-heading-text-color: #ffffff;
 	--homepage-hero-subheading-text-color: #ffffff;
-	--icon-button-text-color: #ffffff;
+	--homepage-hero-svg-background-color: #4d90a5;
+    --homepage-hero-svg-midground-color: #ffc44d;
+    --homepage-hero-svg-foreground-color: #f3f7fc;
 	--icon-button-text-hover-color: #00607f;
 	--icon-button-background-color: #00607f;
 	--icon-button-background-hover-color: #bbd4dd;
@@ -88,6 +90,9 @@
 	--figure__mobile-font-size: .85rem;
 	--interior-hero-heading-text-color: #000000;
 	--interior-hero-background-color: #f3f7fc;
+	--interior-hero-svg-background-color: #4d90a5;
+	--interior-hero-svg-midground-color: #ffc44d;
+	--interior-hero-svg-foreground-color: #f3f7fc;
 }
 
 
