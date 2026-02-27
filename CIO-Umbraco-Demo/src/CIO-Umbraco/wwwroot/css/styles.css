@@ -34,8 +34,8 @@
 	--homepage-hero-heading-text-color: #ffffff;
 	--homepage-hero-subheading-text-color: #ffffff;
 	--homepage-hero-svg-background-color: #4d90a5;
-    --homepage-hero-svg-midground-color: #ffc44d;
-    --homepage-hero-svg-foreground-color: #f3f7fc;
+	--homepage-hero-svg-midground-color: #ffc44d;
+	--homepage-hero-svg-foreground-color: #f3f7fc;
 	--icon-button-text-hover-color: #00607f;
 	--icon-button-background-color: #00607f;
 	--icon-button-background-hover-color: #bbd4dd;
@@ -93,12 +93,18 @@
 	--interior-hero-svg-background-color: #4d90a5;
 	--interior-hero-svg-midground-color: #ffc44d;
 	--interior-hero-svg-foreground-color: #f3f7fc;
+	--summary-box-border-color: #bbd4dd;
+	--summary-box-background-color: #fff;
+	--summary-box-heading-color: #000000;
+	--summary-box-text-color: #000000;
+    --summary-box-heading-font-size: 1.37rem;
+    --summary-box-text-font-size: .99rem;
 }
 
 
 html,
 body {
-	height: 100% !important;
+    height: 100% !important;
 }
 
 

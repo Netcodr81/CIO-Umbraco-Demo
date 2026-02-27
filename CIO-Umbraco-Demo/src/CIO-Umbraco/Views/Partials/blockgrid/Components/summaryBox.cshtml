@@ -1,0 +1,35 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.SummaryBox>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var borderColor = content?.BorderColor?.Color ?? "#004d66";
+    var backgroundColor = content?.BackgroundColor?.Color ?? "#00607f";
+    var textColor = content?.TextColor?.Color ?? "#000000";
+    var headingColor = content?.HeadingTextColor?.Color ?? "#000000";
+    var headingFontSize = !string.IsNullOrWhiteSpace(content?.HeadingFontSize) ? content?.HeadingFontSize : "1.37rem";
+    var textFontSize = !string.IsNullOrWhiteSpace(content?.TextFontSize) ? content?.TextFontSize : ".99rem";
+
+    var cssVariables = $@"
+        --summary-box-border-color: {borderColor};
+        --summary-box-background-color: {backgroundColor};
+        --summary-box-text-color: {textColor};
+        --summary-box-heading-color: {headingColor};
+        --summary-box-heading-font-size: {headingFontSize};
+        --summary-box-text-font-size: {textFontSize};
+    ";
+}
+
+<div class="summary-box__container" style="@cssVariables">
+    @if (!string.IsNullOrWhiteSpace(content.Heading))
+    {
+        <h2 class="summary-box__heading">@content.Heading</h2>
+    }
+
+    <div class="summary-box__text">
+        @content?.Text
+    </div>
+
+</div>
