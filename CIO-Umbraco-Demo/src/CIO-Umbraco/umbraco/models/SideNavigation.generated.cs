@@ -18,7 +18,7 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Side Navigation Block</summary>
+	/// <summary>Side Navigation</summary>
 	[PublishedModel("sideNavigation")]
 	public partial class SideNavigation : PublishedElementModel
 	{

@@ -18,7 +18,7 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Mission and Values Block</summary>
+	/// <summary>Mission and Values</summary>
 	[PublishedModel("missionAndValues")]
 	public partial class MissionAndValues : PublishedElementModel
 	{

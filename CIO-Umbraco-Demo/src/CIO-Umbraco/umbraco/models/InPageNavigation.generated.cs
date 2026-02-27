@@ -18,14 +18,14 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Umbraco Form</summary>
-	[PublishedModel("umbracoForm")]
-	public partial class UmbracoForm : PublishedElementModel
+	/// <summary>In-Page Navigation</summary>
+	[PublishedModel("inPageNavigation")]
+	public partial class InPageNavigation : PublishedElementModel
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
-		public new const string ModelTypeAlias = "umbracoForm";
+		public new const string ModelTypeAlias = "inPageNavigation";
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
@@ -34,14 +34,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 			=> PublishedModelUtility.GetModelContentType(contentTypeCache, ModelItemType, ModelTypeAlias);
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(IPublishedContentTypeCache contentTypeCache, Expression<Func<UmbracoForm, TValue>> selector)
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(IPublishedContentTypeCache contentTypeCache, Expression<Func<InPageNavigation, TValue>> selector)
 			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(contentTypeCache), selector);
 #pragma warning restore 0109
 
 		private IPublishedValueFallback _publishedValueFallback;
 
 		// ctor
-		public UmbracoForm(IPublishedElement content, IPublishedValueFallback publishedValueFallback)
+		public InPageNavigation(IPublishedElement content, IPublishedValueFallback publishedValueFallback)
 			: base(content, publishedValueFallback)
 		{
 			_publishedValueFallback = publishedValueFallback;
@@ -50,11 +50,11 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Form
+		/// Heading
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("formType")]
-		public virtual global::Umbraco.Forms.Core.PropertyEditors.Models.FormDetails FormType => this.Value<global::Umbraco.Forms.Core.PropertyEditors.Models.FormDetails>(_publishedValueFallback, "formType");
+		[ImplementPropertyType("heading")]
+		public virtual string Heading => this.Value<string>(_publishedValueFallback, "heading");
 	}
 }

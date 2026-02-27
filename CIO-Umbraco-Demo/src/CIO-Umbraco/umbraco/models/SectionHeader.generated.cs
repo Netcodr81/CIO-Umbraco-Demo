@@ -18,7 +18,7 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Section Header Block</summary>
+	/// <summary>Section Header</summary>
 	[PublishedModel("sectionHeader")]
 	public partial class SectionHeader : PublishedElementModel
 	{

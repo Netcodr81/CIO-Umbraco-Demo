@@ -14,7 +14,7 @@
     max-width: unset
 }
 
-.sideNavigation__item { border-top: 1px solid #dfe1e2 }
+.inpageNavigation__item { border-top: 1px solid #dfe1e2 }
 
 .sideNavigation-sidenav a:not(.usa-button) {
     display: block;
