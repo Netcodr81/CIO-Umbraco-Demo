@@ -1,0 +1,22 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.MapEmbed>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var width = content.Width == 0 ? 600 : content.Width;
+    var height = content.Height == 0 ? 450 : content.Height;
+
+    var test = "";
+}
+
+<iframe
+    src="@content.GoogleMapLink"
+    width="@width" 
+    height="@height" 
+    style="border: 0;" 
+    allowfullscreen="@content.AllowFullScreen" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+</iframe>
