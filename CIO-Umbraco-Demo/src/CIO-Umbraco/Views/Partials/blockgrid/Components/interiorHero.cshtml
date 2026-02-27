@@ -1,0 +1,72 @@
+﻿@using Extensions.Breadcrumbs
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.InteriorHero>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var backgroundImageUrl = content?.BackgroundImage?.GetCropUrl() ?? string.Empty;
+
+    var backgroundColor = content?.BackgroundColor?.Color ?? "#FFC44D";
+    var headingTextColor = content?.HeadingTextColor?.Color ?? "#000000";
+
+    var cssVariables = $@"
+      --interior-hero-heading-text-color: {headingTextColor};
+      --interior-hero-background-color: {backgroundColor}  ;
+  ";
+
+    // Breadcrumbs
+    var currentPage = Umbraco.AssignedContentItem;
+
+    var root = currentPage.Root();
+
+    var breadcrumbs = currentPage
+        .AncestorsOrSelf()
+        .Where(x => x.Level >= root.Level)
+        .Reverse()
+        .Select(x => new BreadcrumbItem(
+            x.Name,
+            x.Url(),
+            x.Id == currentPage.Id
+        ));
+}
+
+<div class="interior-hero__wrapper" style="background-image: url(@backgroundImageUrl); background-size: cover; background-position: center; @cssVariables">
+    @if (!string.IsNullOrWhiteSpace(backgroundImageUrl))
+    {
+        <div class="interior-hero__overlay"></div>
+    }
+    @if (content.DisplayBreadcrumb)
+    {
+        <nav class="interior-hero-breadcrumb" aria-label="Breadcrumbs">
+            <ol class="interior-hero-breadcrumb__list">
+                @foreach (var item in breadcrumbs)
+                {
+                    if (item.IsCurrent)
+                    {
+                        <li class="interior-hero-breadcrumb__item breadcrumb__item--current" aria-current="page">
+                            @item.Name
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="interior-hero-breadcrumb__item">
+                            <a class="interior-hero-breadcrumb__link" href="@item.Url">@item.Name</a>
+                        </li>
+                    }
+                }
+            </ol>
+        </nav>
+    }
+    
+    <h1 class="interior-hero__heading">@content?.Heading</h1>
+ 
+    <div class="interior-hero__svg">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1727 86" preserveAspectRatio="none">
+            <path class="interior-hero__svg-back" d="M1727,64c-295.4,32.5-530.7,19.4-695.6,0C807.3,37.6,675.2-4.4,479.7,25.1c-40.6,6.1-147,24.9-295.8,30.2C105.8,58.1,41.8,56.3,0,54.3v32.6l1727,1v-23.8h0s0,0,0,0Z"></path>
+            <path class="interior-hero__svg-mid" d="M0,72c107.9,2.9,275.1,3.8,479.7-10.3C801.6,39.5,922.6.5,1159.3-.1c133.6-.4,328.7,11.4,567.7,72.1v14.9H0v-14.9Z"></path>
+            <path class="interior-hero__svg-fore" d="M0,86.9h1727v-35.5c-99-10.8-245.7-22.6-423.8-20.6-230.4,2.6-376.2,26.8-519.7,41.2C597.7,90.7,332.5,94,0,54.3v32.6Z"></path>
+        </svg>
+    </div>
+</div>

@@ -4,19 +4,19 @@
 @{
     if (Model?.Content is null) return;
 
-    var heroContent = Model.Content;
-    var backgroundImageUrl = heroContent.BackgroundImage?.GetCropUrl();
+    var content = Model.Content;
+    var backgroundImageUrl = content.BackgroundImage?.GetCropUrl();
 
-    var ctaLink = heroContent.CtaLink;
+    var ctaLink = content.CtaLink;
     var ctaUrl = ctaLink?.Url;
     var ctaTarget = string.IsNullOrWhiteSpace(ctaLink?.Target) ? "_self" : ctaLink.Target;
 
-    var buttonBackgroundColor = heroContent?.ButtonBackgroundColor?.Color ?? "#FFC44D";
-    var buttonBackgroundHoverColor = heroContent?.ButtonBackgroundHoverColor?.Color ?? "e3bf77";
-    var buttonTextColor = heroContent?.ButtonTextColor?.Color ?? "#000000";
-    var buttonTextHoverColor = heroContent?.ButtonTextHoverColor?.Color ?? "#000000";
-    var headingTextColor = heroContent?.SubheadingColor?.Color ?? "#ffffff";
-    var subheadingColor = heroContent?.SubheadingColor?.Color ?? "#ffffff";
+    var buttonBackgroundColor = content?.ButtonBackgroundColor?.Color ?? "#FFC44D";
+    var buttonBackgroundHoverColor = content?.ButtonBackgroundHoverColor?.Color ?? "e3bf77";
+    var buttonTextColor = content?.ButtonTextColor?.Color ?? "#000000";
+    var buttonTextHoverColor = content?.ButtonTextHoverColor?.Color ?? "#000000";
+    var headingTextColor = content?.SubheadingColor?.Color ?? "#ffffff";
+    var subheadingColor = content?.SubheadingColor?.Color ?? "#ffffff";
 
     var cssVariables = $@"
         --homepage-hero-btn-color: {buttonBackgroundColor};
@@ -33,31 +33,31 @@
      style="background-image: url(@backgroundImageUrl); background-size: cover; background-position: center;@cssVariables">
     <div class="homepage-hero__overlay"></div>
     <div class="homepage-hero__cta-callout container">
-        <h1 class="homepage-hero__heading">@heroContent?.Header</h1>
-        @if (!string.IsNullOrWhiteSpace(@heroContent?.Subheading))
+        <h1 class="homepage-hero__heading">@content?.Header</h1>
+        @if (!string.IsNullOrWhiteSpace(content?.Subheading))
         {
-            <p class="homepage-hero__subheader">@heroContent?.Subheading</p>
+            <p class="homepage-hero__subheader">@content?.Subheading</p>
         }
-        @if (@heroContent?.CtaLink is not null)
+        @if (content?.CtaLink is not null)
         {
             <div class="homepage-hero__btn-container">
                 <a href="@ctaUrl" target="@ctaTarget" class="homepage-hero__btn" role='button'>
-                    @if (heroContent?.ButtonIcon is not null)
+                    @if (content?.ButtonIcon is not null)
                     {
-                        if (heroContent.ButtonIconLocation == "Prepend")
+                        if (content.ButtonIconLocation == "Prepend")
                         {
-                            <inline-svg media-item="heroContent.ButtonIcon"></inline-svg>
-                            @heroContent.ButtonText
+                            <inline-svg media-item="content.ButtonIcon"></inline-svg>
+                            @content.ButtonText
                         }
                         else
                         {
-                            @heroContent.ButtonText
-                            <inline-svg media-item="heroContent.ButtonIcon"></inline-svg>
+                            @content.ButtonText
+                            <inline-svg media-item="content.ButtonIcon"></inline-svg>
                         }
                     }
                     else
                     {
-                        @heroContent?.ButtonText
+                        @content?.ButtonText
                     }
 
                 </a>
@@ -65,20 +65,9 @@
         }
       
     </div>
-    <div class="homepage-hero__svg">
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1728 103' preserveAspectRatio='none'>
-            <path
-                class="usa-hero__svg-back"
-                d='M1728,103.5H0v-16c214.8-7.6,389.7-21.8,511.9-33.7,203.4-19.7,272.2-34.2,428.8-35,122.8-.6,172.5,7.8,379.1,19.9,176.1,10.3,318.3,14.6,408,16.7v48h.2Z'>
-            </path>
-            <path
-                class="usa-hero__svg-mid"
-                d='M1728,103.5v-8.5c-127.2-15.2-316.6-32.5-552-34.1-99.6-.7-106.1,2.1-184,0C707.5,53,605.9,10.3,408.1,1.1,312.2-3.3,172.5-.8,0,35.3v68.2h1728Z'>
-            </path>
-            <path
-                class="usa-hero__svg-fore"
-                d='M1728,79.5v24H0v-32c142-17,257.6-18,336-16,201.7,5.2,280.5,34,480,32,123.8-1.3,162.3-13.4,288-24,144.9-12.2,356.2-18.3,624,16Z'>
-            </path>
-        </svg>
-    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1727 86" preserveAspectRatio="none">
+        <path class="usa-hero__svg-back" d="M1727,64c-295.4,32.5-530.7,19.4-695.6,0C807.3,37.6,675.2-4.4,479.7,25.1c-40.6,6.1-147,24.9-295.8,30.2C105.8,58.1,41.8,56.3,0,54.3v32.6l1727,1v-23.8h0s0,0,0,0Z"></path>
+        <path class="usa-hero__svg-mid" d="M0,72c107.9,2.9,275.1,3.8,479.7-10.3C801.6,39.5,922.6.5,1159.3-.1c133.6-.4,328.7,11.4,567.7,72.1v14.9H0v-14.9Z"></path>
+        <path class="usa-hero__svg-fore" d="M0,86.9h1727v-35.5c-99-10.8-245.7-22.6-423.8-20.6-230.4,2.6-376.2,26.8-519.7,41.2C597.7,90.7,332.5,94,0,54.3v32.6Z"></path>
+    </svg>
 </div>
