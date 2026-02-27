@@ -1,25 +1,28 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.InfoCardGrid>>
+﻿@using System.Text
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.InfoCardGrid>>
 
 @{
-    if(Model.Content is null)
+    if (Model.Content is null)
     {
         return;
     }
 
     var content = Model.Content;
+
+    var maxNumberOfButtonsPerRow = content.MaxNumberOfCardsPerRow ?? "3";
+   
 }
 
-<div class="row">
+<div class="info-card-grid" data-columns="@maxNumberOfButtonsPerRow">
+
 
     @if (content.Cards.Any())
     {
-        @foreach (var card in content.Cards)
+        @foreach (var button in content.Cards)
         {
-            if (card is CardWithImage)
-            {
-                @await Html.PartialAsync("cardWithImage", card)
-            }
+            var cardToRender = button as BlockListItem<InfoCard>;
+            @await Html.PartialAsync("infoCard", cardToRender)
         }
     }
-  
+
 </div>

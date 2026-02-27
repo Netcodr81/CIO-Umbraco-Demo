@@ -1,5 +1,5 @@
 ﻿@using System.Text
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.CardWithImage>>
+@inherits UmbracoViewPage<BlockListItem<ContentModels.InfoCard>>
 
 @{
     if (Model?.Content is null) return;
@@ -36,36 +36,36 @@
     }
 
     var cssVariables = $@"
-        --card-with-image-header-text-color: {headerTextColor};
-        --card-with-image-header-text-hover-color: {headerTextHoverColor};
-        --card-with-image-body-text-color: {bodyTextColor};
-        --card-with-image-body-text-hover-color: {bodyTextHoverColor};
-        --card-with-image-background-color: {backgroundColor};
-        --card-with-image-background-hover-color: {backgroundHoverColor};
-        --card-with-image-icon-hover-color: {iconHoverColor};
-        --card-with-image-button-text-color: {buttonTextColor};
-        --card-with-image-button-text-hover-color: {buttonTextHoverColor};
-        --card-with-image-button-background-color: {buttonBackgroundColor};
-        --card-with-image-button-background-hover-color: {buttonBackgroundHoverColor};
+        --info-card-header-text-color: {headerTextColor};
+        --info-card-header-text-hover-color: {headerTextHoverColor};
+        --info-card-body-text-color: {bodyTextColor};
+        --info-card-body-text-hover-color: {bodyTextHoverColor};
+        --info-card-background-color: {backgroundColor};
+        --info-card-background-hover-color: {backgroundHoverColor};
+        --info-card-icon-hover-color: {iconHoverColor};
+        --info-card-button-text-color: {buttonTextColor};
+        --info-card-button-text-hover-color: {buttonTextHoverColor};
+        --info-card-button-background-color: {buttonBackgroundColor};
+        --info-card-button-background-hover-color: {buttonBackgroundHoverColor};
     ";
 }
 
-<div class="card-with-image__container" style="@cssVariables @heightVariables.ToString()">
-    <div class="card-with-image__image">
+<div class="info-card__container" style="@cssVariables @heightVariables.ToString()">
+    <div class="info-card__image">
         <img src="@content?.Image?.GetCropUrl()" name="@content?.Image?.Name" />
     </div>
-    <div class="card-with-image__header">
+    <div class="info-card__header">
         <h3>@content?.HeaderText</h3>
     </div>
-    <div class="card-with-image__body">
+    <div class="info-card__body">
         @content?.BodyText
     </div>
 
-    <div class="card-with-image__footer">
+    <div class="info-card__footer">
         @if (content?.Link is not null)
         {
 
-            <a class="card-with-image__button" href="@content.Link.Url" target="@content.Link.Target" name="@content.Link.Name">
+            <a class="info-card__button" href="@content.Link.Url" target="@content.Link.Target" name="@content.Link.Name">
                 @if (content.ButtonIcon is not null)
                 {
                     if (content.ButtonIconLocation == "Prepend")
@@ -87,7 +87,7 @@
         }
         else
         {
-            <a class="card-with-image__button" href="@content?.Link?.Url" target="@content?.Link?.Target" name="@content?.Link?.Name">
+            <a class="info-card__button" href="@content?.Link?.Url" target="@content?.Link?.Target" name="@content?.Link?.Name">
                 @content?.ButtonText
             </a>
         }

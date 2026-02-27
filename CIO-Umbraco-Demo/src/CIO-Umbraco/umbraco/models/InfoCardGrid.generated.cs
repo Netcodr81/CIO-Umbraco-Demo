@@ -56,5 +56,13 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("cards")]
 		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel Cards => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListModel>(_publishedValueFallback, "cards");
+
+		///<summary>
+		/// Max Number of Cards Per Row
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("maxNumberOfCardsPerRow")]
+		public virtual string MaxNumberOfCardsPerRow => this.Value<string>(_publishedValueFallback, "maxNumberOfCardsPerRow");
 	}
 }
