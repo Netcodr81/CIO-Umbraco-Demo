@@ -1,0 +1,45 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<UmbHostTable>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var table = content?.Table;
+}
+
+@if (table != null && table.Rows.Any())
+{
+    <table class="table">
+        @if (table.UseFirstRowAsHeader && table.Rows.Any())
+        {
+            <thead>
+                <tr>
+                    @foreach (var cell in table.Rows.First().Cells)
+                    {
+                        <th>@Html.Raw(cell.Value)</th>
+                    }
+                </tr>
+            </thead>
+        }
+        <tbody>
+            @foreach (var row in table.UseFirstRowAsHeader ? table.Rows.Skip(1) : table.Rows)
+            {
+                <tr>
+                    @for (var i = 0; i < row.Cells.Count; i++)
+                    {
+                        var cell = row.Cells[i];
+                        if (table.UseFirstColumnAsHeader && i == 0)
+                        {
+                            <th>@Html.Raw(cell.Value)</th>
+                        }
+                        else
+                        {
+                            <td>@Html.Raw(cell.Value)</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
