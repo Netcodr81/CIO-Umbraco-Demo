@@ -3,9 +3,8 @@
 @{
     if (Model.Content is null) return;
 
-    var content = Model.Content;
-
-    var table = content?.Table;
+    var table = Model.Content.Table;
+    
 }
 
 @if (table != null && table.Rows.Any())
