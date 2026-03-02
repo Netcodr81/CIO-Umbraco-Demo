@@ -16,8 +16,7 @@ public class BlockPreviewComposer : IComposer
                 Stylesheets = [
                     "/css/layout.css",
                     "/css/block-preview.css"
-                ],
-                IgnoredContentTypes = ["layout12", "layout363", "layout39", "layout444", "layout66", "layout8"]
+                ]
             };
             options.BlockList = new BlockTypeSettings
             {

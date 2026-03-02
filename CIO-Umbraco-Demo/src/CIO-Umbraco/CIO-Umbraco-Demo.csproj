@@ -48,6 +48,10 @@
     <Content Remove="C:\Users\deanl\.nuget\packages\umbraco.community.umbnav\4.0.0-beta0030\contentFiles\any\net9.0\tsconfig.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="App_Plugins\BlockPreviewToggle\umbraco-package.json" />
+  </ItemGroup>
+
 	<PropertyGroup>
     <!-- Referenced assemblies (DLLs) will be copied to the publish directory when you build and publish your Umbraco project -->
     <CopyReferencedAssembliesToPublishDirectory>true</CopyReferencedAssembliesToPublishDirectory>

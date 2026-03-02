@@ -1,5 +1,15 @@
-﻿/* Section Header */
+﻿/* Block Grid Preview */
+.layout-header {
+    display: flex;
+    align-items: center;
+    padding-inline: 10px;
+    background: #1b264f;
+    color: #fff;
+    padding: .5rem;
+    gap: 10px;
+}
 
+/* Section Header */
 
 .stylized-header {
     font-size: var(--stylized-header-size);
@@ -1413,14 +1423,14 @@ a.current { padding-left: 0 !important; }
     position: relative;
     width: 100%;
     overflow: hidden;
-    background: #f5f5f5;   
+    background: #f5f5f5;
 }
 
 .carousel-item__image img {
     width: 100%;
     height: auto;
     display: block;
-    object-fit: cover;    
+    object-fit: cover;
 }
 
 .carousel-item__content {
@@ -1635,6 +1645,7 @@ a.current { padding-left: 0 !important; }
 }
 
 /* Summary Box */
+
 .summary-box__container {
     background-color: var(--summary-box-background-color);
     border: 1px solid var(--summary-box-border-color);
@@ -1658,55 +1669,42 @@ a.current { padding-left: 0 !important; }
 }
 
 /* Basic Table */
+
 .basic-table {
     border-collapse: collapse;
     width: 100%;
     padding: 1rem;
 }
 
-    .basic-table th,
-    .basic-table td,
-    .basic-table caption {
-        padding: 1rem;
-    }
+.basic-table th,
+.basic-table td,
+.basic-table caption { padding: 1rem; }
 
-    .basic-table caption,
-    .basic-table th {
-        text-align: left;
-    }
+.basic-table caption,
+.basic-table th { text-align: left; }
 
-    .basic-table caption {
-        background: transparent;
-        font-size: .99rem;
-        caption-side: bottom;
-        font-weight: 500;
-    }
-
-    .basic-table th {
-        background: var(--basic-table__color-scheme);
-        color: oklch(from var(--basic-table__color-scheme) calc((l - 0.5) * -100) 0 0);
-    }
-
-.basic-table-striped tbody tr:nth-of-type(odd) {
-    background: color-mix(in srgb, var(--basic-table__color-scheme) 10%, white);
+.basic-table caption {
+    background: transparent;
+    font-size: .99rem;
+    caption-side: bottom;
+    font-weight: 500;
 }
 
-    .basic-table-striped tbody tr:nth-of-type(odd) td {
-        background: color-mix(in srgb, var(--basic-table__color-scheme) 10%, white);
-    }
-
-.basic-table-striped tbody tr:nth-of-type(even) {
-    background: color-mix(in srgb, var(--basic-table__color-scheme) 20%, white);
+.basic-table th {
+    background: var(--basic-table__color-scheme);
+    color: oklch(from var(--basic-table__color-scheme) calc((l - 0.5) * -100) 0 0);
 }
 
-    .basic-table-striped tbody tr:nth-of-type(even) td {
-        background: color-mix(in srgb, var(--basic-table__color-scheme) 20%, white);
-    }
+.basic-table-striped tbody tr:nth-of-type(odd) { background: color-mix(in srgb, var(--basic-table__color-scheme) 10%, white); }
+
+.basic-table-striped tbody tr:nth-of-type(odd) td { background: color-mix(in srgb, var(--basic-table__color-scheme) 10%, white); }
+
+.basic-table-striped tbody tr:nth-of-type(even) { background: color-mix(in srgb, var(--basic-table__color-scheme) 20%, white); }
+
+.basic-table-striped tbody tr:nth-of-type(even) td { background: color-mix(in srgb, var(--basic-table__color-scheme) 20%, white); }
 
 @media (max-width: 650px) {
-    .basic-table th {
-        display: none;
-    }
+    .basic-table th { display: none; }
 
     .basic-table td {
         display: grid;
@@ -1715,17 +1713,55 @@ a.current { padding-left: 0 !important; }
         padding: 0.75rem 1rem;
     }
 
-        .basic-table td:first-child {
-            padding-top: 2rem;
-        }
+    .basic-table td:first-child { padding-top: 2rem; }
 
-        .basic-table td:last-child {
-            padding-bottom: 2rem;
-        }
+    .basic-table td:last-child { padding-bottom: 2rem; }
 
-        .basic-table td::before {
-            content: attr(data-cell) ": ";
-            font-weight: 700;
-            text-transform: capitalize;
-        }
+    .basic-table td::before {
+        content: attr(data-cell) ": ";
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+}
+
+/* YouTube Embed */
+
+.youtube-embed__container {
+    width: var(--youtube-embed__container-width);
+    margin: 1.5rem 0;
+    padding: 0;
+}
+
+.youtube-embed__wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.youtube-embed__iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Ensure focus indicator is visible for keyboard navigation */
+
+.youtube-embed__iframe:focus {
+    outline: 3px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* Fallback styling for no JavaScript/iframe support */
+
+.youtube-embed__fallback {
+    padding: 2rem;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    text-align: center;
 }

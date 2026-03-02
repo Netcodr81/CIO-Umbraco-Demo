@@ -1,0 +1,99 @@
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.YouTubeEmbed>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var youtubeUrl = content.Url;
+    var altText = content.AltText ?? "YouTube Video";
+
+    if (string.IsNullOrWhiteSpace(youtubeUrl))
+    {
+        return;
+    }
+
+    // Extract video ID from various YouTube URL formats
+    string? videoId = null;
+
+    try
+    {
+        var uri = new Uri(youtubeUrl);
+
+        // Handle youtube.com/embed/VIDEO_ID format
+        if (uri.AbsolutePath.StartsWith("/embed/"))
+        {
+            videoId = uri.AbsolutePath.Replace("/embed/", "").Split('?')[0];
+        }
+        // Handle youtube.com/watch?v=VIDEO_ID format
+        else if (uri.Query.Contains("v="))
+        {
+            var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+            videoId = query["v"];
+        }
+        // Handle youtu.be/VIDEO_ID format
+        else if (uri.Host.Contains("youtu.be"))
+        {
+            videoId = uri.AbsolutePath.TrimStart('/').Split('?')[0];
+        }
+    }
+    catch
+    {
+        // Invalid URL, don't render anything
+        return;
+    }
+
+    if (string.IsNullOrWhiteSpace(videoId))
+    {
+        return;
+    }
+
+    // Construct embed URL (using youtube-nocookie.com for privacy)
+    var embedUrl = $"https://www.youtube-nocookie.com/embed/{videoId}";
+
+    // Generate unique ID for ARIA labeling
+    var embedId = $"youtube-embed-{Guid.NewGuid():N}";
+    var fallbackLink = $"https://www.youtube.com/watch?v={videoId}";
+
+    var width = !string.IsNullOrWhiteSpace(content.Width) ? content.Width : "100%";
+
+    var styles = $@"
+        --youtube-embed__container-width: {width};
+    ";
+
+
+}
+
+<figure class="youtube-embed__container" role="region" aria-label="@altText" style="@styles">
+    <div class="youtube-embed__wrapper">
+        <iframe 
+            id="@embedId"
+            class="youtube-embed__iframe"
+            src="@embedUrl"
+            title="@altText"
+            aria-label="@altText"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+    </div>
+    <noscript>
+        <div class="youtube-embed__fallback">
+            <p>Your browser does not support iframes or JavaScript is disabled.</p>
+            <a href="@fallbackLink" target="_blank" rel="noopener noreferrer">
+                Watch "@altText" on YouTube
+            </a>
+        </div>
+    </noscript>
+    <div class="youtube-embed__screen-reader-only">
+        <p>
+            Embedded YouTube video: @altText. 
+            Use standard video controls to play, pause, and adjust volume. 
+            Press Tab to navigate through video controls. 
+            <a href="@fallbackLink" target="_blank" rel="noopener noreferrer">
+                Watch on YouTube (opens in new window)
+            </a>
+        </p>
+    </div>
+</figure>
