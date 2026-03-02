@@ -17,8 +17,8 @@
 
 @if (Context.Request.IsBlockPreviewRequest())
 {
-    <div>
-        <p class="layout-header"><umb-icon name="icon-layout-masonry"></umb-icon> Layout - 3|6|3</p>
+    <div class="layout__container">
+        <p class="layout-header"><umb-icon name="icon-layout-masonry"></umb-icon> Layout - 3|9</p>
         @await Html.GetPreviewBlockGridItemAreasHtmlAsync(Model)
 
     </div>

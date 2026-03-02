@@ -128,3 +128,13 @@
 a.current {
     padding-left: 0!important;
 }
+
+/* Current child item - bold text, no border */
+.sideNavigation-sidenav .current-child {
+    color: #00607f;
+    font-weight: 700;
+}
+
+.sideNavigation-sidenav .current-child:hover {
+    color: #00607f;
+}

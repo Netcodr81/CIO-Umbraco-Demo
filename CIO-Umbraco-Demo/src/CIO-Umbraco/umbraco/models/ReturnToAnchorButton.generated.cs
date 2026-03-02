@@ -18,14 +18,14 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Layout Settings</summary>
-	[PublishedModel("layoutSettings")]
-	public partial class LayoutSettings : PublishedElementModel, ILayoutSettingsComponentBackgroundImage, ILayoutSettingsComponentColorPicker, ILayoutSettingsComponentContainerStyle
+	/// <summary>Return To Anchor Button</summary>
+	[PublishedModel("returnToAnchorButton")]
+	public partial class ReturnToAnchorButton : PublishedElementModel
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
-		public new const string ModelTypeAlias = "layoutSettings";
+		public new const string ModelTypeAlias = "returnToAnchorButton";
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
@@ -34,14 +34,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 			=> PublishedModelUtility.GetModelContentType(contentTypeCache, ModelItemType, ModelTypeAlias);
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(IPublishedContentTypeCache contentTypeCache, Expression<Func<LayoutSettings, TValue>> selector)
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(IPublishedContentTypeCache contentTypeCache, Expression<Func<ReturnToAnchorButton, TValue>> selector)
 			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(contentTypeCache), selector);
 #pragma warning restore 0109
 
 		private IPublishedValueFallback _publishedValueFallback;
 
 		// ctor
-		public LayoutSettings(IPublishedElement content, IPublishedValueFallback publishedValueFallback)
+		public ReturnToAnchorButton(IPublishedElement content, IPublishedValueFallback publishedValueFallback)
 			: base(content, publishedValueFallback)
 		{
 			_publishedValueFallback = publishedValueFallback;
@@ -50,106 +50,98 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Apply Default Padding
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
-		[ImplementPropertyType("applyDefaultPadding")]
-		public virtual bool ApplyDefaultPadding => this.Value<bool>(_publishedValueFallback, "applyDefaultPadding");
-
-		///<summary>
-		/// Margin Bottom
+		/// Background Color
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("marginBottom")]
-		public virtual string MarginBottom => this.Value<string>(_publishedValueFallback, "marginBottom");
+		[ImplementPropertyType("backgroundColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor BackgroundColor => this.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(_publishedValueFallback, "backgroundColor");
 
 		///<summary>
-		/// Margin Left
+		/// Button Style
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("marginLeft")]
-		public virtual string MarginLeft => this.Value<string>(_publishedValueFallback, "marginLeft");
+		[ImplementPropertyType("buttonStyle")]
+		public virtual string ButtonStyle => this.Value<string>(_publishedValueFallback, "buttonStyle");
 
 		///<summary>
-		/// Margin Right
+		/// Button Text
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("marginRight")]
-		public virtual string MarginRight => this.Value<string>(_publishedValueFallback, "marginRight");
+		[ImplementPropertyType("buttonText")]
+		public virtual string ButtonText => this.Value<string>(_publishedValueFallback, "buttonText");
 
 		///<summary>
-		/// Margin Top
+		/// Divider Color
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("marginTop")]
-		public virtual string MarginTop => this.Value<string>(_publishedValueFallback, "marginTop");
+		[ImplementPropertyType("dividerColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor DividerColor => this.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(_publishedValueFallback, "dividerColor");
 
 		///<summary>
-		/// Padding Bottom
+		/// Icon
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("paddingBottom")]
-		public virtual string PaddingBottom => this.Value<string>(_publishedValueFallback, "paddingBottom");
+		[ImplementPropertyType("icon")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops Icon => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "icon");
 
 		///<summary>
-		/// Padding Left
+		/// Icon Location
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("paddingLeft")]
-		public virtual string PaddingLeft => this.Value<string>(_publishedValueFallback, "paddingLeft");
+		[ImplementPropertyType("iconLocation")]
+		public virtual string IconLocation => this.Value<string>(_publishedValueFallback, "iconLocation");
 
 		///<summary>
-		/// Padding Right
+		/// Max Width
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("paddingRight")]
-		public virtual string PaddingRight => this.Value<string>(_publishedValueFallback, "paddingRight");
+		[ImplementPropertyType("maxWidth")]
+		public virtual string MaxWidth => this.Value<string>(_publishedValueFallback, "maxWidth");
 
 		///<summary>
-		/// Padding Top
+		/// Min Width
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("paddingTop")]
-		public virtual string PaddingTop => this.Value<string>(_publishedValueFallback, "paddingTop");
+		[ImplementPropertyType("minWidth")]
+		public virtual string MinWidth => this.Value<string>(_publishedValueFallback, "minWidth");
 
 		///<summary>
-		/// Layout Settings Background Image Picker
+		/// Show Divider
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
+		[ImplementPropertyType("showDivider")]
+		public virtual bool ShowDivider => this.Value<bool>(_publishedValueFallback, "showDivider");
+
+		///<summary>
+		/// Target Anchor Id
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("layoutSettingsBackgroundImagePicker")]
-		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops LayoutSettingsBackgroundImagePicker => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSettingsComponentBackgroundImage.GetLayoutSettingsBackgroundImagePicker(this, _publishedValueFallback);
+		[ImplementPropertyType("targetAnchorId")]
+		public virtual string TargetAnchorId => this.Value<string>(_publishedValueFallback, "targetAnchorId");
 
 		///<summary>
-		/// layoutAreasColourPicker
+		/// Text Color
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("layoutAreasColourPicker")]
-		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor LayoutAreasColourPicker => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSettingsComponentColorPicker.GetLayoutAreasColourPicker(this, _publishedValueFallback);
+		[ImplementPropertyType("textColor")]
+		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor TextColor => this.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(_publishedValueFallback, "textColor");
 
 		///<summary>
-		/// Colour
+		/// Width
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("layoutSettingsColourPicker")]
-		public virtual global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor LayoutSettingsColourPicker => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSettingsComponentColorPicker.GetLayoutSettingsColourPicker(this, _publishedValueFallback);
-
-		///<summary>
-		/// Container Style
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("containerStyle")]
-		public virtual string ContainerStyle => global::Umbraco.Cms.Web.Common.PublishedModels.LayoutSettingsComponentContainerStyle.GetContainerStyle(this, _publishedValueFallback);
+		[ImplementPropertyType("width")]
+		public virtual string Width => this.Value<string>(_publishedValueFallback, "width");
 	}
 }

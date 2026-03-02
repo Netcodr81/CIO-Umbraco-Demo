@@ -13,6 +13,9 @@
     border-bottom-left-radius: .5rem;
     cursor: pointer;
     text-decoration: none;
+    height: 100%;
+    width: 100%;
+    gap: 1rem;
 }
 
 .linked-card__container:hover {
@@ -45,8 +48,10 @@
 }
 
 .linked-card__text {
-     color: var(--linked-card-text-color);
-    margin-bottom: 1em;
+    color: var(--linked-card-text-color);
+    margin-bottom: 0;
+    flex: 1;
+    font-size: .99rem;
 }
 
 .linked-card__text:hover { color: var(--linked-card-text-hover-color); }

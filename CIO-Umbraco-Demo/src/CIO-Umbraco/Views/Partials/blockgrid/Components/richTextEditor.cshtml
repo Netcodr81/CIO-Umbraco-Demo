@@ -1,0 +1,19 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.RichTextEditor>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var richText = content.Content;
+
+    if (richText is null || string.IsNullOrWhiteSpace(richText.ToString())) return;
+
+    var maxWidth = string.IsNullOrWhiteSpace(content.MaxWidth) ? "full" : content.MaxWidth;
+}
+
+<div class="rich-text-editor__container">
+    <div class="rich-text-editor__content" data-width="@maxWidth">
+        @richText
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿.anchor__container {
+    position: absolute;
+    scroll-margin-top: 2rem; /* Offset for fixed headers */
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.anchor__label {
+    display: none; /* Hidden by default, only shown in edit mode if needed */
+}
+
+/* Smooth scrolling for anchor links */
+:root {
+    scroll-behavior: smooth;
+}
+
+/* Offset scroll position to account for fixed headers */
+@media (max-width: 768px) {
+    .anchor__container {
+        scroll-margin-top: 1rem;
+    }
+}

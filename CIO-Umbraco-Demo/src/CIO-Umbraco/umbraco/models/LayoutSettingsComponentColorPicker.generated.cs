@@ -27,18 +27,10 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor LayoutAreasColourPicker { get; }
 
-		/// <summary>Opacity</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
-		decimal LayoutSettingsColourOpacity { get; }
-
 		/// <summary>Colour</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor LayoutSettingsColourPicker { get; }
-
-		/// <summary>Shade</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
-		decimal LayoutSettingsColourShades { get; }
 	}
 
 	/// <summary>Layout Settings Component - Background Color</summary>
@@ -86,17 +78,6 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public static global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor GetLayoutAreasColourPicker(ILayoutSettingsComponentColorPicker that, IPublishedValueFallback publishedValueFallback) => that.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(publishedValueFallback, "layoutAreasColourPicker");
 
 		///<summary>
-		/// Opacity
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
-		[ImplementPropertyType("layoutSettingsColourOpacity")]
-		public virtual decimal LayoutSettingsColourOpacity => GetLayoutSettingsColourOpacity(this, _publishedValueFallback);
-
-		/// <summary>Static getter for Opacity</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
-		public static decimal GetLayoutSettingsColourOpacity(ILayoutSettingsComponentColorPicker that, IPublishedValueFallback publishedValueFallback) => that.Value<decimal>(publishedValueFallback, "layoutSettingsColourOpacity");
-
-		///<summary>
 		/// Colour
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
@@ -108,16 +89,5 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
 		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		public static global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor GetLayoutSettingsColourPicker(ILayoutSettingsComponentColorPicker that, IPublishedValueFallback publishedValueFallback) => that.Value<global::Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>(publishedValueFallback, "layoutSettingsColourPicker");
-
-		///<summary>
-		/// Shade
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
-		[ImplementPropertyType("layoutSettingsColourShades")]
-		public virtual decimal LayoutSettingsColourShades => GetLayoutSettingsColourShades(this, _publishedValueFallback);
-
-		/// <summary>Static getter for Shade</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
-		public static decimal GetLayoutSettingsColourShades(ILayoutSettingsComponentColorPicker that, IPublishedValueFallback publishedValueFallback) => that.Value<decimal>(publishedValueFallback, "layoutSettingsColourShades");
 	}
 }

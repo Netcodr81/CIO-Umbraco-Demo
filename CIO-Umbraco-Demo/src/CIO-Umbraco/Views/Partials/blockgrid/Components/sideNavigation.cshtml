@@ -6,38 +6,99 @@
 	if (Model?.Content is null) return;
 	var content = Model.Content;
 	var navItems = content?.SideMenu?.ToList() ?? [];
-}
 
-@{
-	Func<IEnumerable<dynamic?>, IHtmlContent> RenderNavItems = null!;
-	RenderNavItems = @<text>
-		@foreach (var navItem in item)
+	var currentPath = Context.Request.Path.ToString().TrimEnd('/').ToLowerInvariant();
+
+	// Helper function to check if any descendant is current
+	bool HasCurrentDescendant(dynamic? navItem)
+	{
+		if (navItem?.Children == null || navItem.Children.Count == 0)
+		{
+			return false;
+		}
+
+		foreach (var child in navItem.Children)
+		{
+			if (child == null) continue;
+
+			var childUrl = ((child?.Url as string) ?? string.Empty).TrimEnd('/').ToLowerInvariant();
+
+			if (!string.IsNullOrEmpty(childUrl) && currentPath == childUrl)
+			{
+				return true;
+			}
+
+			if (HasCurrentDescendant(child))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	// Render function for nav items
+	async Task RenderNavItems(IEnumerable<dynamic?> items, int depth)
+	{
+		foreach (var navItem in items)
 		{
 			if (navItem is null)
 			{
 				continue;
 			}
 
-			var currentPath = Context.Request.Path.ToString().ToLowerInvariant();
-			var navUrl = (navItem?.Url as string)?.ToLowerInvariant() ?? string.Empty;
-			var isCurrent = !string.IsNullOrEmpty(navUrl) && currentPath.Contains(navUrl.TrimEnd('/'));
+			var navUrl = ((navItem?.Url as string) ?? string.Empty).TrimEnd('/').ToLowerInvariant();
+			var isExactMatch = !string.IsNullOrEmpty(navUrl) && currentPath == navUrl;
+			var hasChildren = navItem?.Children?.Count > 0;
+			var isChildItem = depth > 0;
 
-			if (navItem?.Children?.Count > 0)
+			if (hasChildren)
 			{
+				// PARENT ITEM - has children
+				var hasCurrentChild = HasCurrentDescendant(navItem);
+				var isAncestorOfCurrent = !string.IsNullOrEmpty(navUrl) && navUrl != "/" && currentPath.StartsWith(navUrl + "/");
+				var shouldExpand = isExactMatch || isAncestorOfCurrent || hasCurrentChild;
+
+				// Top-level parents get "current" class (yellow border) if any child is active
+				// Nested parents get "current-child" class (bold, no border) if they are exact match
+				var parentClass = !isChildItem && (hasCurrentChild || isExactMatch) ? "current" : (isExactMatch ? "current-child" : null);
+
 				<li class="sideNavigation__item">
-					<a href="@navItem.Url" target="@navItem.Target" class="@(isCurrent ? "current" : null)">
+					<a href="@navItem.Url" target="@navItem.Target" class="@parentClass">
 						@navItem.Name
 					</a>
-					<ul class="sideNavigation__sublist" style="@(isCurrent ? "display:block;" : "display:none;")">
-						@RenderNavItems((IEnumerable<dynamic?>)navItem.Children)
+					<ul class="sideNavigation__sublist" style="@(shouldExpand ? "display:block;" : "display:none;")">
+						@{ await RenderNavItems((IEnumerable<dynamic?>)navItem.Children, depth + 1); }
 					</ul>
 				</li>
 			}
 			else
 			{
-				var isChildCurrent = !string.IsNullOrEmpty(navUrl) && currentPath.Equals(navUrl);
+				// CHILD ITEM - no children
+				// Child gets "current-child" class only if it's an exact match
+
+                string? navItemClassToApply = null;
+
+                if (depth == 0 && isExactMatch)
+                {
+					navItemClassToApply = "current";
+				}
+				else
+                {
+                    if (isExactMatch)
+                    {
+                        navItemClassToApply = "current-child";
+                    }
+                    else
+                    {
+                        navItemClassToApply = null;
+                    }
+                }
+
+				
+
 				<li class="sideNavigation__item">
-					<a href="@navItem?.Url" target="@navItem?.Target" style="@(isChildCurrent ? "font-weight:bold;" : null)">
+					<a href="@navItem?.Url" target="@navItem?.Target" class="@navItemClassToApply">
 						@navItem?.Name
 						@if (navItem?.Target == "_blank")
 						{
@@ -49,17 +110,19 @@
 				</li>
 			}
 		}
-	</text>;
+
+		await Task.CompletedTask;
+	}
 }
 
 @if(navItems.Any())
 {
-    <div class="side-navigation-container">
-    <nav>
-        <ul class='sideNavigation-sidenav'>
-            @RenderNavItems(navItems)
-        </ul>
-    </nav>
-    </div>
+	<div class="side-navigation-container">
+		<nav>
+			<ul class='sideNavigation-sidenav'>
+				@{ await RenderNavItems(navItems, 0); }
+			</ul>
+		</nav>
+	</div>
 }
 

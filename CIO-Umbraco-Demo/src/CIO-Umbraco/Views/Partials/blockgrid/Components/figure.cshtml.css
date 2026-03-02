@@ -1,5 +1,6 @@
 ﻿.figure__container {
     position: relative;
+    margin: 0;
     width: var(--figure__width);
     height: var(--figure__height);
 }
@@ -10,22 +11,22 @@
 
 @media (max-width: 768px) {
     .figure__container {
-        width: var(--figure__mobile-width);
-        height: var(--figure__mobile-height);
+        max-width: var(--figure__mobile-width, 100%);
     }
 
     .figure__container > figcaption {
-        font-size: var(--figure__tablet-font-size);
+        font-size: var(--figure__mobile-font-size);
     }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
     .figure__container {
-        width: var(--figure__tablet-width);
-        height: var(--figure__tablet-height);
+        width: var(--figure__tablet-width, 100%);
+        max-width: 100%;
+        height: auto;
     }
 
     .figure__container > figcaption {
-        font-size: var(--figure__mobile-font-size);
+        font-size: var(--figure__tablet-font-size);
     }
 }

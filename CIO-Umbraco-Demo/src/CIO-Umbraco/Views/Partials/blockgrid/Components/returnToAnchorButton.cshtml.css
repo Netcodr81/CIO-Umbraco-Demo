@@ -1,0 +1,34 @@
+﻿.return-to-anchor-btn__button {
+    border-radius: calc(1px * infinity);
+    width: fit-content;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: .99rem;
+    font-weight: 600;
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent
+}
+
+.return-to-anchor-btn__primary {
+    background-color: #004d66;
+    color: #fff;
+    border-color: #004d66;
+}
+
+.return-to-anchor-btn__secondary {
+    background-color: #FFC44D;
+    color: #1b1b1b;
+    border-color: #ffc44d;
+}
+
+.return-to-anchor-btn__outline {
+    color: #004d66;
+    border-color: #004d66;
+    background-color: transparent;
+}
+

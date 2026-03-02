@@ -1,0 +1,20 @@
+﻿@using Umbraco.Cms.Core
+@using Umbraco.Community.BlockPreview.Extensions
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.Anchor>>
+
+@{
+    if (Model.Content is null) return;
+    var content = Model.Content;
+
+    var anchorId = content.AnchorId;
+}
+
+
+@if (Context.Request.IsBlockPreviewRequest())
+{
+    <p>Anchor Id: @content.AnchorId (this will be hidden when rendered)</p>
+}
+else
+{
+    <div id="@anchorId" class="anchor__container" aria-hidden="true" data-anchor-id="@anchorId"></div>
+}
