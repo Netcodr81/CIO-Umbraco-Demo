@@ -97,8 +97,9 @@
 	--summary-box-background-color: #fff;
 	--summary-box-heading-color: #000000;
 	--summary-box-text-color: #000000;
-    --summary-box-heading-font-size: 1.37rem;
-    --summary-box-text-font-size: .99rem;
+	--summary-box-heading-font-size: 1.37rem;
+	--summary-box-text-font-size: .99rem;
+	--basic-table__color-scheme: #00607F;
 }
 
 
