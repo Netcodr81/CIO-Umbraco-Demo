@@ -16,3 +16,9 @@
     background-color: var(--stylized-header-accent-color);
     content: "";
 }
+
+@media (max-width: 767px) {
+   .stylized-header {
+       font-size: 1.86rem;
+   }
+}

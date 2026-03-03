@@ -33,11 +33,19 @@
     margin-block-start: 1em;
     margin-block-end: 1em;
     padding-inline-start: 40px;
-    padding-left: 3ch;
-    display: block;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     font-size: 0.80em;
     margin-top: 0;
+}
 
+.mission-and-value__list-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .mission-and-value__list-item > p {
@@ -48,5 +56,30 @@
 .mission-and-value__list-item > svg {
     display: inline-block;
     flex: 0 0 auto;
+}
+
+@media (max-width: 767px) {
+    .mission-and-value__header {
+        font-size: 1.86rem;
+    }
+
+    .mission-and-value__subheader {
+        font-size: .99rem;
+    }
+
+    .mission-and-value__value-list {
+        font-size: 0.65em;
+        padding-left: 0;
+        padding-inline-start: 0;
+    }
+
+    .mission-and-value__list-item {
+        align-items: center;
+    }
+    
+}
+
+@media (min-width:768px) and (max-width:1024px) {
+    
 }
 

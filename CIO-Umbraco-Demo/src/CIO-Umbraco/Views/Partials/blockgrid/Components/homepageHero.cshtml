@@ -20,8 +20,11 @@
     var svgBackgroundColor = content?.SvgBackgroundColor?.Color ?? "#4d90a5";
     var svgMidgroundColor = content?.SvgMidgroundColor?.Color ?? "#ffc44d";
     var svgForegroundColor = content?.SvgForegroundColor?.Color ?? "#f3f7fc";
+    var backgroundColor = content?.BackgroundColor?.Color ?? "#00607F";
 
     var cssVariables = $@"
+        --homepage-hero-background-image: url({backgroundImageUrl});
+        --homepage-hero-background-color: {backgroundColor};
         --homepage-hero-btn-color: {buttonBackgroundColor};
         --homepage-hero-btn-hover-color: {buttonBackgroundHoverColor};
         --homepage-hero-btn-text-color: {buttonTextColor};
@@ -35,8 +38,7 @@
 }
 
 
-<div class="homepage-hero__wrapper"
-     style="background-image: url(@backgroundImageUrl); background-size: cover; background-position: center;@cssVariables">
+<div class="homepage-hero__wrapper" style="background-image: url(@backgroundImageUrl);background-color:@backgroundColor; @cssVariables">
     <div class="homepage-hero__overlay"></div>
     <div class="homepage-hero__cta-callout container">
         <h1 class="homepage-hero__heading">@content?.Header</h1>

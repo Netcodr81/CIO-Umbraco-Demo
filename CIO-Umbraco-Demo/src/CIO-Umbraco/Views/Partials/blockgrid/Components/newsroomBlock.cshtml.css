@@ -1,6 +1,4 @@
-﻿.newsroom__columns-container {
-    margin-bottom: 0;
-}
+﻿.newsroom__columns-container { margin-bottom: 0; }
 
 .newsroom__header {
     color: var(--newsroom-header-text-color);
@@ -56,3 +54,25 @@
     background-color: var(--newsroom-button-background-hover-color);
     color: #004d66;
 }
+
+.newsroom__list-item h4 {
+    font-weight: 700;
+    font-size: 1.24rem;
+    line-height: 1.4;
+    display: block;
+    color: var(--newsroom-link-color);
+}
+
+.newsroom__list-item h4:hover { color: var(--newsroom-link-hover-color); }
+
+.newsroom__list-item p {
+    font-weight: normal;
+    font-size: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    color: var(--newsroom-description-color);
+    min-width: 100%;
+}
+

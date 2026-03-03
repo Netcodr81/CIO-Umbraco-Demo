@@ -85,3 +85,14 @@
         background-color: var(--info-card-button-background-hover-color);
         transition: background-color 0.5s ease-in-out;
     }
+
+
+    @media (max-width: 767px) {
+        .info-card__body {
+            font-size: 1.1rem;
+        }
+
+        .info-card__header > h3 {
+            font-size: 1.24rem;
+        }
+    }
