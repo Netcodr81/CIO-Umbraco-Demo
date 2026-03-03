@@ -1761,7 +1761,7 @@ a.current { padding-left: 0 !important; }
 
     .interior-hero-breadcrumb__list { font-size: 0.93rem; }
 
-    .interior-hero__svg { bottom: -11px; }
+    .interior-hero__svg { bottom: -20px; }
 
     .interior-hero__svg svg { height: 50px; }
 }
@@ -1769,7 +1769,7 @@ a.current { padding-left: 0 !important; }
 /* Desktop Medium (1281px-1920px) - Default styles apply */
 
 @media (min-width: 1400px) and (max-width: 1920px) {
-    .interior-hero__svg { bottom: -40px; }
+    .interior-hero__svg { bottom: -20px; }
 }
 
 /* Desktop Large (1921px+) */
@@ -1785,7 +1785,7 @@ a.current { padding-left: 0 !important; }
 
     .interior-hero-breadcrumb__list { font-size: 1.1rem; }
 
-    .interior-hero__svg { bottom: -50px; }
+    .interior-hero__svg { bottom: -10px; }
 
     .interior-hero__svg svg { height: 65px; }
 }

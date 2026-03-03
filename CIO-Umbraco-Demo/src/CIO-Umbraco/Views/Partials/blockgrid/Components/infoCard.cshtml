@@ -51,15 +51,40 @@
 }
 
 <div class="info-card__container" style="@cssVariables @heightVariables.ToString()">
-    <div class="info-card__image">
-        <img src="@content?.Image?.GetCropUrl()" name="@content?.Image?.Name" />
-    </div>
-    <div class="info-card__header">
-        <h3>@content?.HeaderText</h3>
-    </div>
-    <div class="info-card__body">
-        @content?.BodyText
-    </div>
+    
+    @if (content.IsIconCard)
+    {
+        <div class="info-card__icon-image">
+            <inline-svg media-item="content.Image" fill="@content?.HeaderIconColor?.Color" width="64" height="64"></inline-svg>
+        </div>
+    }
+    else
+    {
+        <div class="info-card__image">
+            <img src="@content?.Image?.GetCropUrl()" name="@content?.Image?.Name"/>
+        </div>
+    }
+    
+    @if (content.IsIconCard)
+    {
+        <div class="info-card__icon-card-header">
+            <h3>@content?.HeaderText</h3>
+        </div>
+    }
+    else
+    {
+        <div class="info-card__header">
+            <h3>@content?.HeaderText</h3>
+        </div>
+    }
+   
+    
+    @if (!string.IsNullOrWhiteSpace(content?.BodyText))
+    {
+        <div class="info-card__body">
+            @content?.BodyText
+        </div>
+    }
 
     <div class="info-card__footer">
         @if (content?.Link is not null)

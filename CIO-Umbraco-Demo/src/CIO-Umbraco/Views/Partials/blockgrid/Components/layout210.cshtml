@@ -20,7 +20,7 @@
 @if (Context.Request.IsBlockPreviewRequest())
 {
     <div class="layout__container">
-        <p class="layout-header"><umb-icon name="icon-layout-masonry"></umb-icon> Layout - 12</p>
+        <p class="layout-header"><umb-icon name="icon-layout-masonry"></umb-icon> Layout - 2|10</p>
         @await Html.GetPreviewBlockGridItemAreasHtmlAsync(Model)
 
     </div>
@@ -30,5 +30,3 @@ else
     @await Html.GetPreviewBlockGridItemAreasHtmlAsync(Model)
 
 }
-
-

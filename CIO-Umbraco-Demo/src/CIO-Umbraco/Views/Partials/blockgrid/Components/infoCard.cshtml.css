@@ -12,6 +12,11 @@
     height: 100%;
 }
 
+.info-card__icon-image {
+    padding: 1.75rem;
+    display: flex;
+}
+
 @media(min-width:40em) {
     .info-card__container {
         margin-bottom: 2rem;
@@ -39,6 +44,14 @@
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     padding-bottom: .5rem;
+    font-size: 1.24rem;
+    color: var(--info-card-header-text-color);
+    line-height: 1.5;
+}
+
+.info-card__icon-card-header {
+   padding-left: 1.5rem;
+    padding-right: 1.5rem;
     font-size: 1.24rem;
     color: var(--info-card-header-text-color);
     line-height: 1.5;

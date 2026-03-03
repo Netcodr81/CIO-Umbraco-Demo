@@ -44,14 +44,20 @@
     position: relative;
     width: 100%;
     height: 24rem;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     align-items: start;
     justify-content: start;
     padding-left: 2rem;
     padding-top: 4rem;
+    padding-bottom: 0;
+    margin-bottom: 0;
     background-color: var(--interior-hero-background-color);
+    background-image: var(--interior-hero-background-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .interior-hero__overlay {
@@ -86,7 +92,7 @@
 
 .interior-hero__svg {
     position: absolute;
-    bottom: -15px;
+    bottom: clamp(-35px, -3vw, -15px); /* Fluid calculation: scales with viewport width */
     left: 0;
     right: 0;
     display: block;
@@ -97,7 +103,7 @@
 
 .interior-hero__svg svg {
     width: 100%;
-    height: 55px;
+    height: clamp(45px, 6vw, 85px); /* Fluid height: scales from 45px to 85px */
     display: block;
 }
 
@@ -107,6 +113,43 @@
         height: 14rem;
         padding-left: 0.75rem;
         padding-top: 1.5rem;
+        background-image: none !important;
+        background-color: var(--interior-hero-background-color);
+    }
+
+    /* Background image in top 22% on mobile */
+    .interior-hero__wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 22%;
+        background-image: var(--interior-hero-background-image);
+        background-size: cover;
+        background-position: center top;
+        background-repeat: no-repeat;
+        z-index: 0;
+    }
+
+    /* Gradient overlay for smooth transition */
+    .interior-hero__wrapper::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0.1) 6%,
+            rgba(0, 0, 0, 0.3) 15%,
+            rgba(0, 0, 0, 0.6) 22%,
+            var(--interior-hero-background-color, #FFC44D) 35%
+        );
+        z-index: 1;
+        pointer-events: none;
     }
 
     .interior-hero__heading {
@@ -116,6 +159,7 @@
 
     .interior-hero-breadcrumb {
         padding: 0.5rem 0;
+        margin-top: 3rem;
     }
 
     .interior-hero-breadcrumb__list {
@@ -127,24 +171,53 @@
     }
 
     .interior-hero__overlay {
-        background: linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.55) 60%, transparent 100%);
-    }
-
-    .interior-hero__svg {
-        bottom: 0;
-    }
-
-    .interior-hero__svg svg {
-        height: 30px;
+        display: none; /* Hide on mobile, gradient handles darkening */
     }
 }
 
-/* Mobile (481px-768px) */
-@media (min-width: 481px) and (max-width: 768px) {
+/* Mobile (481px-767px) */
+@media (min-width: 481px) and (max-width: 767px) {
     .interior-hero__wrapper {
         height: 16rem;
         padding-left: 1rem;
         padding-top: 2rem;
+        background-image: none !important;
+        background-color: var(--interior-hero-background-color);
+    }
+
+    /* Background image in top 22% on mobile */
+    .interior-hero__wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 22%;
+        background-image: var(--interior-hero-background-image);
+        background-size: cover;
+        background-position: center top;
+        background-repeat: no-repeat;
+        z-index: 0;
+    }
+
+    /* Gradient overlay for smooth transition */
+    .interior-hero__wrapper::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0.1) 6%,
+            rgba(0, 0, 0, 0.3) 15%,
+            rgba(0, 0, 0, 0.6) 22%,
+            var(--interior-hero-background-color, #FFC44D) 35%
+        );
+        z-index: 1;
+        pointer-events: none;
     }
 
     .interior-hero__heading {
@@ -160,20 +233,12 @@
     }
 
     .interior-hero__overlay {
-        background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
-    }
-
-    .interior-hero__svg {
-        bottom: -2px;
-    }
-
-    .interior-hero__svg svg {
-        height: 35px;
+        display: none; /* Hide on mobile, gradient handles darkening */
     }
 }
 
-/* Tablet Portrait (769px-1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
+/* Tablet Portrait (768px-1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
     .interior-hero__wrapper {
         height: 20rem;
         padding-left: 1.5rem;
@@ -189,11 +254,7 @@
     }
 
     .interior-hero__svg {
-        bottom: -5px;
-    }
-
-    .interior-hero__svg svg {
-        height: 45px;
+        bottom: 0;
     }
 }
 
@@ -214,24 +275,20 @@
     }
 
     .interior-hero__svg {
-        bottom: -11px;
-    }
-
-    .interior-hero__svg svg {
-        height: 50px;
+        bottom: 0;
     }
 }
 
-/* Desktop Medium (1281px-1920px) - Default styles apply */
+/* Desktop Medium (1281px-1920px) - Default clamp values apply */
 
-@media(min-width:1400px) and (max-width: 1920px) {
+@media (min-width: 1281px) and (max-width: 1920px) {
     .interior-hero__svg {
-        bottom: -40px;
+        bottom: -12px;
     }
 }
 
 /* Desktop Large (1921px+) */
-@media (min-width: 1921px) {
+@media (min-width: 1921px) and (max-width:2559px) {
     .interior-hero__wrapper {
         height: 28rem;
         max-width: 2560px;
@@ -253,5 +310,16 @@
     .interior-hero__svg svg {
         height: 65px;
     }
+
+    .interior-hero__svg {
+        bottom: -35px;
+    }
+
+
 }
 
+@media(min-width: 2560px) {
+    .interior-hero__svg {
+        bottom: -60px;
+    }
+}

@@ -49,6 +49,7 @@
 
 			var navUrl = ((navItem?.Url as string) ?? string.Empty).TrimEnd('/').ToLowerInvariant();
 			var isExactMatch = !string.IsNullOrEmpty(navUrl) && currentPath == navUrl;
+            var startsWithMatch = !string.IsNullOrEmpty(navUrl) && currentPath.StartsWith(navUrl);
 			var hasChildren = navItem?.Children?.Count > 0;
 			var isChildItem = depth > 0;
 
@@ -79,7 +80,7 @@
 
                 string? navItemClassToApply = null;
 
-                if (depth == 0 && isExactMatch)
+                if (depth == 0 && (isExactMatch || startsWithMatch))
                 {
 					navItemClassToApply = "current";
 				}

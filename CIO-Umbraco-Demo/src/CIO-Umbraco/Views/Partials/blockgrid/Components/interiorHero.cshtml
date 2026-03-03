@@ -15,6 +15,7 @@
     var svgForegroundColor = content?.SvgForegroundColor?.Color ?? "#f3f7fc";
 
     var cssVariables = $@"
+      --interior-hero-background-image: url({backgroundImageUrl});
       --interior-hero-heading-text-color: {headingTextColor};
       --interior-hero-background-color: {backgroundColor};
       --interior-hero-svg-background-color: {svgBackgroundColor};
@@ -38,7 +39,7 @@
         ));
 }
 
-<div class="interior-hero__wrapper" style="background-image: url(@backgroundImageUrl); background-size: cover; background-position: center; @cssVariables">
+<div class="interior-hero__wrapper" style="background-image: url(@backgroundImageUrl);background-color:@backgroundColor; @cssVariables">
     @if (!string.IsNullOrWhiteSpace(backgroundImageUrl))
     {
         <div class="interior-hero__overlay"></div>
