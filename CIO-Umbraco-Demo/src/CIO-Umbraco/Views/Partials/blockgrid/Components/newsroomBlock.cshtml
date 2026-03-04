@@ -54,9 +54,11 @@
             </ul>
         }
    
-        
-        <a class="newsroom__button" href="@content?.Link?.Url" target="@content?.Link?.Target">
-            @content?.ButtonText
-        </a>
+        @if (content.ShowButton)
+        {
+            <a class="newsroom__button" href="@content?.Link?.Url" target="@content?.Link?.Target">
+                @content?.ButtonText
+            </a>
+        }
     </div>
 </div>
