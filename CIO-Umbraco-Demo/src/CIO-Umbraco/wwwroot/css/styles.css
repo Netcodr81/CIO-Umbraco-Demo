@@ -27,7 +27,8 @@
 	--stylized-header-margin-bottom: 2.5rem;
 	--stylized-header-accent-color: #ffc44d;
 	--stylized-header-text-color: #000000;
-	--homepage-hero-btn-color: #FFC44D;
+    --stylized-header-margin-top: 0;
+    --homepage-hero-btn-color: #FFC44D;
 	--homepage-hero-btn-hover-color: #e3bf77;
 	--homepage-hero-btn-text-color: #000000;
 	--homepage-hero-btn-text-hover-color: #000000;
@@ -100,7 +101,13 @@
 	--summary-box-heading-font-size: 1.37rem;
 	--summary-box-text-font-size: .99rem;
 	--basic-table__color-scheme: #00607F;
-    --youtube-embed__container-width:100%;
+	--youtube-embed__container-width: 100%;
+	--accordion-tab-color: #00607f;
+	--accordion-tab-hover-color: #4b4c4e;
+	--accordion-title-color: #1b1b1b;
+	--accordion-content-color: #1b1b1b;
+	--accordion-icon-color: #000000;
+	--accordion-icon-background-color: #ffc44d;
 }
 
 
@@ -310,24 +317,6 @@ h6 {
 	clear: both;
 }
 
-* + h1,
-* + h2,
-* + h3,
-* + h4,
-* + h5,
-* + h6 {
-	margin-top: 1.5em;
-}
-
-h1 + *,
-h2 + *,
-h3 + *,
-h4 + *,
-h5 + *,
-h6 + * {
-	margin-top: 1em;
-}
-
 h1 {
 	font-family: Montserrat, montserrat-normal-400-fallback, Roboto, Helvetica, Arial, sans-serif;
 	font-size: 2.49rem;
@@ -374,8 +363,6 @@ h6 {
 
 ul,
 ol {
-	margin-bottom: 1em;
-	margin-top: 1em;
 	line-height: 1.5;
 	padding-left: 3ch;
 }
@@ -385,16 +372,11 @@ ol {
 		margin-bottom: 0;
 	}
 
-	ul ul,
-	ul ol,
-	ol ul,
-	ol ol {
-		margin-top: 0.25em;
-	}
+	
 
 	ul li,
 	ol li {
-		margin-bottom: 0.25em;
+		
 		max-width: 88ex;
 	}
 
@@ -1379,8 +1361,6 @@ a.icon-button-card__container {
 /* Rich Text Editor */
 .rich-text-editor__container {
 	width: 100%;
-	margin: 2rem auto;
-	padding: 0 1rem;
 }
 
 .rich-text-editor__content {
@@ -1430,8 +1410,8 @@ a.icon-button-card__container {
 
 	/* Paragraphs */
 	.rich-text-editor__content p {
-		margin-bottom: 1.5rem;
-		line-height: 1.6;
+        margin-bottom: 1.2rem;
+		line-height: 1.8;
 	}
 
 	/* Links */
@@ -1489,12 +1469,10 @@ a.icon-button-card__container {
 	/* Lists */
 	.rich-text-editor__content ul,
 	.rich-text-editor__content ol {
-		margin-bottom: 1.5rem;
 		padding-left: 2rem;
 	}
 
 	.rich-text-editor__content li {
-		margin-bottom: 0.5rem;
 		line-height: 1.6;
 	}
 
@@ -1609,3 +1587,73 @@ a.icon-button-card__container {
 .rich-text-editor__content[data-width="full"] {
 	max-width: 100%;
 }
+
+/*Icon List */
+/* Maximum specificity - targets all links regardless of nesting */
+.icon-list__list-item-container a,
+.icon-list__list-item-container p a,
+.icon-list__list-item-container > p a,
+.icon-list__list-item-container * a,
+.icon-list__list-item-container a:visited,
+.icon-list__list-item-container p a:visited,
+.icon-list__list-item-container > p a:visited,
+.icon-list__list-item-container * a:visited {
+	color: #00607F !important;
+	text-decoration: underline !important;
+	transition: color 0.2s ease !important;
+	font-weight: 700 !important;
+}
+
+	.icon-list__list-item-container a:hover,
+	.icon-list__list-item-container p a:hover,
+	.icon-list__list-item-container > p a:hover,
+	.icon-list__list-item-container * a:hover,
+	.icon-list__list-item-container a:visited:hover,
+	.icon-list__list-item-container p a:visited:hover,
+	.icon-list__list-item-container > p a:visited:hover,
+	.icon-list__list-item-container * a:visited:hover {
+		color: #004D66 !important;
+		text-decoration: underline !important;
+	}
+
+	/* External links - add open-in-new icon */
+
+	.icon-list__list-item-container a[type="external"]::after {
+		content: '';
+		display: inline-block;
+		width: 1rem;
+		height: 1rem;
+		margin-left: 0.25rem;
+		background-color: currentColor;
+		-webkit-mask-image: url(/icons/open-in-new.svg);
+		mask-image: url(/icons/open-in-new.svg);
+		-webkit-mask-position: center;
+		mask-position: center;
+		-webkit-mask-repeat: no-repeat;
+		mask-repeat: no-repeat;
+		-webkit-mask-size: 1rem 1rem;
+		mask-size: 1rem 1rem;
+		vertical-align: middle;
+	}
+
+	/* Ensure external links in any nested element get the icon */
+
+	.icon-list__list-item-container p a[type="external"]::after,
+	.icon-list__list-item-container li a[type="external"]::after,
+	.icon-list__list-item-container div a[type="external"]::after {
+		content: '';
+		display: inline-block;
+		width: 1rem;
+		height: 1rem;
+		margin-left: 0.25rem;
+		background-color: currentColor;
+		-webkit-mask-image: url(/icons/open-in-new.svg);
+		mask-image: url(/icons/open-in-new.svg);
+		-webkit-mask-position: center;
+		mask-position: center;
+		-webkit-mask-repeat: no-repeat;
+		mask-repeat: no-repeat;
+		-webkit-mask-size: 1rem 1rem;
+		mask-size: 1rem 1rem;
+		vertical-align: middle;
+	}

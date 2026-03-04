@@ -36,7 +36,7 @@
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
-    background-color: #FFC44D;
+    background-color: var(--accordion-icon-background-color);
     flex-shrink: 0;
     transition: background-color 0.3s ease;
 }
@@ -48,7 +48,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: black;
+    background-color: var(--accordion-icon-color);
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -68,10 +68,11 @@
 }
 
 .accordion__toggle:hover .accordion__icon {
-    background-color: #FFC44D;
+    background-color: var(--accordion-icon-background-color);
 }
 
 .accordion__title {
+    color: var(--accordion-title-color);
     flex: 1;
 }
 
@@ -89,6 +90,7 @@
 }
 
 .accordion__content {
+    color: var(--accordion-content-color);
     padding: 0 0 1rem 3.5rem;
 }
 
@@ -117,7 +119,7 @@
     cursor: pointer;
     font-size: 0.99rem;
     font-weight: 600;
-    color: #1b1b1b;
+    color: var(--accordion-title-color);
     transition: background-color 0.15s ease, color 0.15s ease;
     position: relative;
     margin-right: 0.25rem;
@@ -130,29 +132,29 @@
     margin-right: 0;
 }
 
-   
 
-.accordion-tabs__tab[aria-selected="true"] {
-    background-color: #ffffff;
-    color: #1b1b1b;
-    border-bottom: 2px solid #ffffff;
-    margin-bottom: -1px;
-    z-index: 1;
-}
+
+    .accordion-tabs__tab[aria-selected="true"] {
+        background-color: #ffffff;
+        color: var(--accordion-title-color);
+        border-bottom: 2px solid #ffffff;
+        margin-bottom: -1px;
+        z-index: 1;
+    }
 
     .accordion-tabs__tab[aria-selected="true"]:hover {
-        background-color: #4b4c4e;
+        background-color: var(--accordion-tab-hover-color);
         color: #ffffff;
         text-decoration: underline;
     }
 
 .accordion-tabs__tab[aria-selected="false"] {
-        background-color: #00607f;
+        background-color: var(--accordion-tab-color);
         color: #ffffff;
 }
 
     .accordion-tabs__tab[aria-selected="false"]:hover {
-        background-color: #4b4c4e;
+        background-color: var(--accordion-tab-hover-color);
         color: #ffffff;
         text-decoration: underline;
     }
@@ -179,6 +181,7 @@
 }
 
 .accordion-tabs__content {
+    color: var(--accordion-content-color);
     padding: 1rem;
     padding-left: 3rem;
     padding-right: 3rem;

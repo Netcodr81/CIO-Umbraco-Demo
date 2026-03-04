@@ -1,13 +1,15 @@
-﻿.icon-list__list-item > p {
+﻿.icon-list__list-item-content > p {
     margin-top: 0 !important;
     display: inline;
 }
 
-.icon-list__list-item > svg {
+.icon-list__list-item-content > svg {
     display: inline-block;
     flex: 0 0 auto;
 }
 
-.icon-list__list-item {
-    padding-block: .2rem;
+.icon-list__list-item-content {
+     padding-block: .2rem;
+    margin-bottom: 1rem;
 }
+

@@ -45,10 +45,8 @@
 
 .alert__body {
     padding: 1.25rem;
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
     gap: 0 .5rem;
-    align-items: start;
 }
 
 .alert__slim-body {

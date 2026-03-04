@@ -1862,12 +1862,12 @@ a.current {
 
 /*Icon List Item */
 
-.icon-list__list-item > p {
+.icon-list__list-item-content > p {
     margin-top: 0 !important;
     display: inline;
 }
 
-.icon-list__list-item > svg {
+.icon-list__list-item-content > svg {
     display: inline-block;
     flex: 0 0 auto;
 }

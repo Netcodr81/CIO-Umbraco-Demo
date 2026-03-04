@@ -6,12 +6,14 @@
     var content = Model.Content;
 
     var iconSize = content?.IconSize == 0 ? 24 : content?.IconSize;
+
 }
 
-<li class="icon-list__list-item" style="display:flex;gap:10px;">
+<li class="icon-list__list-item-content" style="display:flex;gap:10px;">
      
     <inline-svg media-item="content?.Icon" fill="@content?.IconColor?.Color" width="@iconSize"
                 height="24"></inline-svg>
-    @content?.Text
-      
+    <div class="icon-list__list-item-container">
+        @content?.Text
+    </div>
 </li>

@@ -4,6 +4,7 @@
     line-height: var(--stylized-header-line-height);
     font-weight: var(--stylized-header-font-weight);
     margin-bottom: var(--stylized-header-margin-bottom);
+    margin-top: var(--stylized-header-margin-top);
     color: var(--stylized-header-text-color);
 }
 

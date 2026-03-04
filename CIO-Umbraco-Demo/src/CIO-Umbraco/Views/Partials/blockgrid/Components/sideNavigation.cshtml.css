@@ -6,7 +6,7 @@
     font-family: Roboto, roboto-normal-400-fallback, Helvetica, Arial, sans-serif;
     font-size: .99rem;
     line-height: 1.4;
-    border-bottom: 1px solid #dfe1e2
+    border-bottom: 1px solid #dfe1e2;
 }
 
 .sideNavigation-sidenav > li {
@@ -14,7 +14,9 @@
     max-width: unset
 }
 
-.inpageNavigation__item { border-top: 1px solid #dfe1e2 }
+.sideNavigation__item {
+    border-top: 1px solid #dfe1e2;
+}
 
 .sideNavigation-sidenav a:not(.usa-button) {
     display: block;
@@ -101,7 +103,6 @@
 
 .sideNavigation__sublist .sideNavigation__sublist .sideNavigation__sublist a:not(.usa-button) { padding-left: 4rem }
 
-.side-navigation-container { margin-top: 4rem }
 
 @media all and (min-width: 40em) {
     .side-navigation-container--mobile { display: none }

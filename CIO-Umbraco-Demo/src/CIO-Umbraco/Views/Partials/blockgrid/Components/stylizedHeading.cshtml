@@ -11,6 +11,7 @@
     var marginBottom = !string.IsNullOrWhiteSpace(content.HeaderMarginBottom) ? content.HeaderMarginBottom : "2.5rem";
     var accentColor = content.HeaderAccentColor?.Color ?? "#ffc44d";
     var textColor = content.HeaderTextColor?.Color ?? "#000000";
+    var marginTop = !string.IsNullOrWhiteSpace(content.HeaderMarginBottom) ? content.HeaderMarginTop : "0";
 
 
     var cssVariables = $@"
@@ -20,6 +21,7 @@
        --stylized-header-margin-bottom: {marginBottom};
        --stylized-header-accent-color: {accentColor};
        --stylized-header-text-color: {textColor};
+       --stylized-header-margin-top: {marginTop}
     ";
 }
 

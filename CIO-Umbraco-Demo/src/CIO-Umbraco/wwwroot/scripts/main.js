@@ -15,24 +15,35 @@
         });
     }
 
-    // Accordion toggle functionality
-    const accordionToggles = document.querySelectorAll('.accordion__toggle');
+    // Accordion toggle functionality - scoped per accordion container
+    const accordionContainers = document.querySelectorAll('.accordion__container');
 
-    accordionToggles.forEach(function(toggle) {
-        toggle.addEventListener('click', function() {
-            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-            const drawerId = toggle.getAttribute('aria-controls');
-            const drawer = document.getElementById(drawerId);
+    accordionContainers.forEach(function(container) {
+        const togglesInContainer = container.querySelectorAll('.accordion__toggle');
 
-            if (drawer) {
-                if (isExpanded) {
-                    toggle.setAttribute('aria-expanded', 'false');
-                    drawer.classList.remove('is-open');
-                } else {
+        togglesInContainer.forEach(function(toggle) {
+            toggle.addEventListener('click', function() {
+                const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+                const drawerId = toggle.getAttribute('aria-controls');
+                const drawer = document.getElementById(drawerId);
+
+                // Close all accordions within THIS container only
+                togglesInContainer.forEach(function(otherToggle) {
+                    const otherDrawerId = otherToggle.getAttribute('aria-controls');
+                    const otherDrawer = document.getElementById(otherDrawerId);
+
+                    if (otherDrawer) {
+                        otherToggle.setAttribute('aria-expanded', 'false');
+                        otherDrawer.classList.remove('is-open');
+                    }
+                });
+
+                // If the clicked toggle was closed, open it
+                if (!isExpanded && drawer) {
                     toggle.setAttribute('aria-expanded', 'true');
                     drawer.classList.add('is-open');
                 }
-            }
+            });
         });
     });
 

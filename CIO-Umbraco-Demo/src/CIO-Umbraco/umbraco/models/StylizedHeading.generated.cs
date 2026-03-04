@@ -90,6 +90,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual string HeaderMarginBottom => this.Value<string>(_publishedValueFallback, "headerMarginBottom");
 
 		///<summary>
+		/// Header Margin Top
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("headerMarginTop")]
+		public virtual string HeaderMarginTop => this.Value<string>(_publishedValueFallback, "headerMarginTop");
+
+		///<summary>
 		/// Header Text
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.1+c9c16d2")]

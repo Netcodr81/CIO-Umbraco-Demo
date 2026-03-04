@@ -1,17 +1,36 @@
 ﻿@inherits UmbracoViewPage<BlockGridItem<Accordion>>
 
 @{
-    if (Model?.Content is null)
-    {
-        return;
-    }
+	if (Model?.Content is null)
+	{
+		return;
+	}
 
-    var content = Model.Content;
+	var content = Model.Content;
+
+	// Generate unique ID prefix for this accordion instance
+	var uniqueId = Guid.NewGuid().ToString("N").Substring(0, 8);
+
+	var tabColor = content?.TabColor?.Color ?? "#00607f";
+	var tabHoverColor = content?.TabHoverColor?.Color ?? "#4b4c4e";
+	var titleColor = content?.TitleColor?.Color ?? "#1b1b1b";
+	var contentColor = content?.ContentColor?.Color ?? "#1b1b1b";
+	var iconColor = content?.IconColor?.Color ?? "#000000";
+	var iconBackgroundColor = content?.IconBackgroundColor?.Color ?? "#ffc44d";
+
+	var cssVariables = $@"
+		--accordion-tab-color: {tabColor};
+		--accordion-tab-hover-color: {tabHoverColor};
+		--accordion-title-color: {titleColor};
+		--accordion-content-color: {contentColor};
+		--accordion-icon-color: {iconColor};
+		--accordion-icon-background-color: {iconBackgroundColor};
+	";
 }
 
-@if (content.Tabs)
+@if (content.UseTabAccordion)
 {
-	<div class="accordion-tabs__container">
+	<div class="accordion-tabs__container" style="@cssVariables">
 		<div class="accordion-tabs__list" role="tablist">
 			@for (int i = 0; i < content.Items!.Count; i++)
 			{
@@ -56,21 +75,14 @@
 }
 else
 {
-	<div class="accordion__container">
-		@foreach (var item in content.Items!)
-		{
-			if (item.Content is AccordionItem accordionItem)
-			{
-          
-			}
-		}
-
-		@for(int i = 0; i < content.Items.Count; i++)
+	<div class="accordion__container" style="@cssVariables">
+		
+		@for(int i = 0; i < content?.Items?.Count; i++)
 		{
 			if(content.Items[i].Content is AccordionItem accordionItem)
 			{
-				var drawerId = $"drawer-{i}";
-				var buttonId = $"accordion-button-{i}";
+				var drawerId = $"drawer-{uniqueId}[{i}]";
+				var buttonId = $"accordion-button-{uniqueId}[{i}]";
 				<div class="accordion__item">
 					<h3 class="accordion__heading">
 						<button class="accordion__toggle" 

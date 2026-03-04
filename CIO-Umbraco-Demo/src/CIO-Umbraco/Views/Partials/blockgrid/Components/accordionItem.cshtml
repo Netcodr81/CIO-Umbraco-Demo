@@ -6,6 +6,7 @@
     var content = Model.Content;
 }
 
-<div>
-    @content.DrawerContent
+<div class="accordion-item__container">
+    <p class="accorion-item__title">@content.DrawerTitle</p>
+    <p class="accorion-item__content"> @content.DrawerContent</p>
 </div>
