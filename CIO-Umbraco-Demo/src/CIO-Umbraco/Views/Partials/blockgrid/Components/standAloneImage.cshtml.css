@@ -1,0 +1,37 @@
+.stand-alone-image {
+    width: var(--stand-alone-image-width, 100%);
+    max-width: 100%;
+    height: auto;
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.stand-alone-image__img {
+    width: 100%;
+    height: var(--stand-alone-image-height, auto);
+    max-width: 100%;
+    display: block;
+    object-fit: contain;
+    border-radius: 0.25rem;
+}
+
+/* Ensure images don't exceed their natural size */
+@media (min-width: 768px) {
+    .stand-alone-image {
+        max-width: var(--stand-alone-image-width, 100%);
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 767px) {
+    .stand-alone-image {
+        width: 100%;
+        margin: 1rem 0;
+    }
+    
+    .stand-alone-image__img {
+        width: 100%;
+        height: auto;
+    }
+}

@@ -1,0 +1,22 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.StandAloneImage>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var altText = !string.IsNullOrWhiteSpace(content.AltText) ? content.AltText : content.Image.Name;
+
+    // Get user-defined dimensions (assuming these properties exist)
+    var width = content.Width > 0 ? $"{content.Width}px" : "100%";
+    var height = content.Height > 0 ? $"{content.Height}px" : "auto";
+
+    var cssVariables = $@"
+        --stand-alone-image-width: {width};
+        --stand-alone-image-height: {height};
+    ";
+}
+
+<div class="stand-alone-image" style="@cssVariables">
+    <img src="@content.Image.GetCropUrl()" alt="@altText" class="stand-alone-image__img" />
+</div>
