@@ -36,8 +36,17 @@
     <div class="alert__wrapper">
         <section class="@backgroundClass">
             <div class="alert__slim-body @(content.DisplayIcon ? iconClass : string.Empty)">
-               <div class="alert__text">
-                    @content.BodyText
+                <div class="alert__text">
+                    @if (!string.IsNullOrWhiteSpace(content.Heading))
+                    {
+                        @content.Heading
+                    }
+
+                    @if (content.BodyText is not null)
+                    {
+                        @content.BodyText
+                    }
+
                 </div>
             </div>
         </section>
