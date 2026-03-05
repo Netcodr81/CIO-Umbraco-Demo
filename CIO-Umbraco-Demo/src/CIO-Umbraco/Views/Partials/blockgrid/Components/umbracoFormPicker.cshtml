@@ -1,0 +1,9 @@
+﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.UmbracoFormPicker>>
+
+@{
+    if (Model.Content is null) return;
+
+    var form = Model.Content.Form;
+}
+
+@await Component.InvokeAsync("RenderForm", new { formId = form, theme = "default", includeScripts = false })
