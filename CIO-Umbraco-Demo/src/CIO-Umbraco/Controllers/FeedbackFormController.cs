@@ -1,9 +1,9 @@
 ﻿using CIO_Umbraco_Demo.Views.Partials.Forms.Data;
+using CIO_Umbraco_Demo.Views.Partials.Forms.Data.Models;
 using CIO_Umbraco_Demo.Views.Partials.Forms.Models;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Models_Umbraco_Demo.Views.Partials.Forms.Data.Models;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
 using Umbraco.Cms.Core.Routing;
@@ -12,15 +12,14 @@ using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Web.Website.Controllers;
 
-
 namespace Controllers;
 
-public class ContactFormController : SurfaceController
+public class FeedbackFormController : SurfaceController
 {
     private readonly IMapper _mapper;
     private readonly IDbContextFactory<FormsDbContext> _contextFactory;
 
-    public ContactFormController(
+    public FeedbackFormController(
         IMapper mapper,
         IDbContextFactory<FormsDbContext> contextFactory,
         IUmbracoContextAccessor umbracoContextAccessor,
@@ -35,7 +34,7 @@ public class ContactFormController : SurfaceController
     }
 
     [HttpPost]
-    public IActionResult Submit(ContactFormViewModel formData)
+    public IActionResult Submit(FeedbackFormViewModel formData)
     {
         if (!ModelState.IsValid)
         {
@@ -47,13 +46,13 @@ public class ContactFormController : SurfaceController
         {
             var context = _contextFactory.CreateDbContext();
 
-            var formDataToSave = _mapper.Map<ContactForm>(formData);
+            var formDataToSave = _mapper.Map<FeedbackForm>(formData);
             formDataToSave.SubmittedOn = DateTimeOffset.UtcNow;
 
-            context.ContactForms.Add(formDataToSave);
+            context.FeedbackForms.Add(formDataToSave);
             context.SaveChanges();
 
-            TempData["ContactFormSuccess"] = true;
+            TempData["FeedbackFormSuccess"] = true;
 
             return RedirectToCurrentUmbracoPage();
         }

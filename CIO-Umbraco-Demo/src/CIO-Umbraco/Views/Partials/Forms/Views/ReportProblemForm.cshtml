@@ -1,15 +1,14 @@
-﻿@model CIO_Umbraco_Demo.Views.Partials.Forms.Models.ContactFormViewModel
-@using Umbraco.Cms.Web.Common.PublishedModels
+﻿@model CIO_Umbraco_Demo.Views.Partials.Forms.Models.ReportProblemFormViewModel
 
 @{
-    var formSubmittedMessage = TempData["ContactFormSuccess"] as bool? ?? false;
+    var formSubmitted = TempData["ReportProblemFormSuccess"] as bool? ?? false;
 }
 
-@if (!formSubmittedMessage)
+@if (!formSubmitted)
 {
-    @using (Html.BeginUmbracoForm<Controllers.ContactFormController>("Submit", FormMethod.Post, new { @class = "custom-forms-form" }))
+    @using (Html.BeginUmbracoForm<Controllers.ReportProblemFormController>("Submit", FormMethod.Post, new { @class = "custom-forms-form" }))
     {
-        <input type="hidden" asp-for="FormId"/>
+        <input type="hidden" asp-for="FormId" />
 
         <fieldset>
             <div class="row-fluid">
@@ -24,7 +23,7 @@
                                id="FirstName"
                                name="FirstName"
                                class="text @(ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "input-validation-error" : "")"
-                               placeholder="Enter your first name"/>
+                               placeholder="Your first name" />
                         <span asp-validation-for="FirstName" class="field-validation-error"></span>
                     </div>
 
@@ -37,8 +36,21 @@
                                id="LastName"
                                name="LastName"
                                class="text @(ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "input-validation-error" : "")"
-                               placeholder="Enter your last name"/>
+                               placeholder="Your last name" />
                         <span asp-validation-for="LastName" class="field-validation-error"></span>
+                    </div>
+                    
+                    <div class="custom-forms-field">
+                        <label for="PhoneNumber" class="custom-forms-label">
+                            Phone Number (required)<span class="custom-forms-indicator">*</span>
+                        </label>
+                        <input asp-for="PhoneNumber"
+                               type="text"
+                               id="PhoneNumber"
+                               name="PhoneNumber"
+                               class="text @(ViewData.ModelState["PhoneNumber"]?.Errors.Count > 0 ? "input-validation-error" : "")"
+                               placeholder="Your phone number" />
+                        <span asp-validation-for="PhoneNumber" class="field-validation-error"></span>
                     </div>
 
                     <div class="custom-forms-field">
@@ -50,21 +62,34 @@
                                id="Email"
                                name="Email"
                                class="text @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "input-validation-error" : "")"
-                               placeholder="Enter your email address"/>
+                               placeholder="Your email address" />
                         <span asp-validation-for="Email" class="field-validation-error"></span>
+                    </div>
+                    
+                    <div class="custom-forms-field">
+                        <label for="Agency" class="custom-forms-label">
+                            Agency (required)<span class="custom-forms-indicator">*</span>
+                        </label>
+                        <input asp-for="Agency"
+                               type="text"
+                               id="Agency"
+                               name="Agency"
+                               class="text @(ViewData.ModelState["Agency"]?.Errors.Count > 0 ? "input-validation-error" : "")"
+                               placeholder="Your Agency" />
+                        <span asp-validation-for="Agency" class="field-validation-error"></span>
                     </div>
 
                     <div class="custom-forms-field">
-                        <label for="Message" class="custom-forms-label">
+                        <label for="DescriptionServiceRequested" class="custom-forms-label">
                             Message (required)<span class="custom-forms-indicator">*</span>
                         </label>
-                        <textarea asp-for="Message"
-                                  id="Message"
-                                  name="Message"
-                                  class="@(ViewData.ModelState["Message"]?.Errors.Count > 0 ? "input-validation-error" : "")"
-                                  placeholder="Enter your message"
+                        <textarea asp-for="DescriptionOfProblem"
+                                  id="DescriptionOfProblem"
+                                  name="DescriptionOfProblem"
+                                  class="@(ViewData.ModelState["DescriptionOfProblem"]?.Errors.Count > 0 ? "input-validation-error" : "")"
+                                  placeholder="your Problem"
                                   rows="10"></textarea>
-                        <span asp-validation-for="Message" class="field-validation-error"></span>
+                        <span asp-validation-for="DescriptionOfProblem" class="field-validation-error"></span>
                     </div>
 
                 </div>
@@ -75,10 +100,10 @@
             <div class="col-md-12">
                 <input type="submit"
                        class="btn primary"
-                       value="Submit"/>
+                       value="Submit" />
                 <input type="reset"
                        class="btn cancel"
-                       value="Reset"/>
+                       value="Reset" />
             </div>
         </div>
     }

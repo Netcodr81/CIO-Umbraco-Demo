@@ -5,7 +5,7 @@ using Umbraco.Cms.Core.Notifications;
 
 namespace CIO_Umbraco_Demo.Notifications;
 
-public class RunContactFormMigration(FormsDbContext formsContext)
+public class RunFormsMigration(FormsDbContext formsContext)
     : INotificationAsyncHandler<UmbracoApplicationStartedNotification>
 {
     public async Task HandleAsync(UmbracoApplicationStartedNotification notification,

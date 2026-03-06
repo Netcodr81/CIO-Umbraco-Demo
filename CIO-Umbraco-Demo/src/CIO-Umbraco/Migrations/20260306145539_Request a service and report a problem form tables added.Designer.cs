@@ -4,6 +4,7 @@ using CIO_Umbraco_Demo.Views.Partials.Forms.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CIOUmbracoDemo.Migrations
 {
     [DbContext(typeof(FormsDbContext))]
-    partial class FormsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260306145539_Request a service and report a problem form tables added")]
+    partial class Requestaserviceandreportaproblemformtablesadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,30 +24,6 @@ namespace CIOUmbracoDemo.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CIO_Umbraco_Demo.Views.Partials.Forms.Data.Models.FeedbackForm", b =>
-                {
-                    b.Property<string>("FormId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Feedback")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("SubmittedOn")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("FormId");
-
-                    b.ToTable("feedbackForms", "forms");
-                });
 
             modelBuilder.Entity("CIO_Umbraco_Demo.Views.Partials.Forms.Data.Models.ReportProblemForm", b =>
                 {

@@ -16,7 +16,7 @@ public class DataComposers : IComposer
             options.UseSqlServer(builder.Config.GetConnectionString("umbracoDbDSN"));
         });
 
-        builder.AddNotificationAsyncHandler<UmbracoApplicationStartedNotification, RunContactFormMigration>();
+        builder.AddNotificationAsyncHandler<UmbracoApplicationStartedNotification, RunFormsMigration>();
 
         builder.Services.AddMapster();
     }

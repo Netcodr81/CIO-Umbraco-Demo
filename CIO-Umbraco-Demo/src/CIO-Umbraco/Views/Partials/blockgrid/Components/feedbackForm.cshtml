@@ -1,0 +1,12 @@
+﻿@using CIO_Umbraco_Demo.Views.Partials.Forms.Models
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.FeedbackForm>>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var model = new FeedbackFormViewModel { FormId = content.FormId!, SuccessMessage = content.SuccessMessage!};
+}
+
+@await Html.PartialAsync("~/Views/Partials/Forms/Views/FeedbackForm.cshtml", model)

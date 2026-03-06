@@ -1,9 +1,9 @@
 ﻿using CIO_Umbraco_Demo.Views.Partials.Forms.Data;
+using CIO_Umbraco_Demo.Views.Partials.Forms.Data.Models;
 using CIO_Umbraco_Demo.Views.Partials.Forms.Models;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Models_Umbraco_Demo.Views.Partials.Forms.Data.Models;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
 using Umbraco.Cms.Core.Routing;
@@ -12,15 +12,15 @@ using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Web.Website.Controllers;
 
-
 namespace Controllers;
 
-public class ContactFormController : SurfaceController
+public class ReportProblemFormController : SurfaceController
 {
     private readonly IMapper _mapper;
     private readonly IDbContextFactory<FormsDbContext> _contextFactory;
 
-    public ContactFormController(
+
+    public ReportProblemFormController(
         IMapper mapper,
         IDbContextFactory<FormsDbContext> contextFactory,
         IUmbracoContextAccessor umbracoContextAccessor,
@@ -28,18 +28,18 @@ public class ContactFormController : SurfaceController
         ServiceContext services,
         AppCaches appCaches,
         IProfilingLogger profilingLogger,
-        IPublishedUrlProvider publishedUrlProvider) : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
+        IPublishedUrlProvider publishedUrlProvider) : base(umbracoContextAccessor, databaseFactory, services, appCaches,
+        profilingLogger, publishedUrlProvider)
     {
         _mapper = mapper;
         _contextFactory = contextFactory;
     }
 
     [HttpPost]
-    public IActionResult Submit(ContactFormViewModel formData)
+    public IActionResult Submit(ReportProblemFormViewModel formData)
     {
         if (!ModelState.IsValid)
         {
-
             return CurrentUmbracoPage();
         }
 
@@ -47,21 +47,23 @@ public class ContactFormController : SurfaceController
         {
             var context = _contextFactory.CreateDbContext();
 
-            var formDataToSave = _mapper.Map<ContactForm>(formData);
+            var formDataToSave = _mapper.Map<ReportProblemForm>(formData);
             formDataToSave.SubmittedOn = DateTimeOffset.UtcNow;
 
-            context.ContactForms.Add(formDataToSave);
+            context.ReportProblemForms.Add(formDataToSave);
             context.SaveChanges();
 
-            TempData["ContactFormSuccess"] = true;
+            TempData["ReportProblemFormSuccess"] = true;
 
             return RedirectToCurrentUmbracoPage();
         }
         catch (Exception ex)
         {
-            ModelState.AddModelError(string.Empty, "An error occurred while processing your submission. Please try again.");
+            ModelState.AddModelError(string.Empty,
+                "An error occurred while processing your submission. Please try again.");
 
             return CurrentUmbracoPage();
         }
     }
+
 }

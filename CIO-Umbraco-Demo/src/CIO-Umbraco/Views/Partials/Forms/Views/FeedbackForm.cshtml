@@ -1,0 +1,78 @@
+﻿@model CIO_Umbraco_Demo.Views.Partials.Forms.Models.FeedbackFormViewModel
+@using Umbraco.Cms.Web.Common.PublishedModels
+
+@{
+    var formSubmitted = TempData["FeedbackFormSuccess"] as bool? ?? false;
+}
+
+@if (!formSubmitted)
+{
+    @using (Html.BeginUmbracoForm<Controllers.FeedbackFormController>("Submit", FormMethod.Post, new { @class = "custom-forms-form" }))
+    {
+        <input type="hidden" asp-for="FormId"/>
+
+        <fieldset>
+            <div class="row-fluid">
+                <div class="col-md-12">
+
+                    <div class="custom-forms-field">
+                        <label for="Feedback" class="custom-forms-label">
+                            Give Us Your Feedback (required)<span class="custom-forms-indicator">*</span>
+                        </label>
+                        <textarea asp-for="Feedback"
+                                  id="Feedback"
+                                  name="Feedback"
+                                  class="@(ViewData.ModelState["Feedback"]?.Errors.Count > 0 ? "input-validation-error" : "")"
+                                  placeholder="Your Feedback"
+                                  rows="10"></textarea>
+                        <span asp-validation-for="Feedback" class="field-validation-error"></span>
+                    </div>
+
+                    <p style="margin-bottom: 2rem;">If you would like us to respond back, please provide your name and email address below.</p>
+
+                    <div class="custom-forms-field">
+                        <label for="Name" class="custom-forms-label">
+                            Name
+                        </label>
+                        <input asp-for="Name"
+                               type="text"
+                               id="Name"
+                               name="Name"
+                               class="text @(ViewData.ModelState["Name"]?.Errors.Count > 0 ? "input-validation-error" : "")"
+                               placeholder="Your Name"/>
+                        <span asp-validation-for="Name" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="custom-forms-field">
+                        <label for="Email" class="custom-forms-label">
+                            Email (required)<span class="custom-forms-indicator">*</span>
+                        </label>
+                        <input asp-for="Email"
+                               type="text"
+                               id="Email"
+                               name="Email"
+                               class="text @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "input-validation-error" : "")"
+                               placeholder="Your Email"/>
+                        <span asp-validation-for="Email" class="field-validation-error"></span>
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="custom-forms-navigation row-fluid">
+            <div class="col-md-12">
+                <input type="submit"
+                       class="btn primary"
+                       value="Submit"/>
+                <input type="reset"
+                       class="btn cancel"
+                       value="Reset"/>
+            </div>
+        </div>
+    }
+}
+else
+{
+    @await Html.PartialAsync("Forms/Views/FormSubmitted", Model.SuccessMessage)
+}
