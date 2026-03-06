@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build": "cd client && npm run build",
+    "watch": "cd client && npm run build --watch"
+  },
+  "devDependencies": {
+    "@umbraco-cms/backoffice": "^17.2.1"
+  }
+}
