@@ -1,8 +1,8 @@
-﻿using CIO_Umbraco_Demo.Workflows;
+﻿using CIOUmbracoDemo.Workflows;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Forms.Core.Providers;
 
-namespace CIO_Umbraco_Demo.ServiceComposers;
+namespace CIOUmbracoDemo.ServiceComposers;
 
 public class FormComposers : IComposer
 {

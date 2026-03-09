@@ -1,13 +1,16 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.Carousel>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.Carousel>>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
     var carouselId = "carousel-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="carousel" id="@carouselId" data-carousel>
+<div class="carousel @blockClasses" id="@carouselId" data-carousel>
     <div class="carousel__viewport">
         <div class="carousel__track">
             @if (content.Items.Any())

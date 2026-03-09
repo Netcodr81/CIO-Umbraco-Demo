@@ -2,6 +2,7 @@
 
 @using System.Linq
 @using System.Text
+@using CIOUmbracoDemo.Extensions
 
 @{
 	
@@ -11,47 +12,7 @@
 
     var styles = new StringBuilder();
 
-	// Margins
-    if (!string.IsNullOrWhiteSpace(content?.MarginTop))
-    {
-        styles.Append($" margin-top:{content.MarginTop};");
-    }
-
-    if (!string.IsNullOrWhiteSpace(content?.MarginBottom))
-    {
-        styles.Append($" margin-bottom:{content.MarginBottom};");
-    }
-
-    if (!string.IsNullOrWhiteSpace(content?.MarginLeft))
-    {
-        styles.Append($" margin-left:{content.MarginLeft};");
-    }
-
-    if (!string.IsNullOrWhiteSpace(content?.MarginRight))
-    {
-		styles.Append($" margin-right:{content.MarginRight};");
-    }
-    
-	// Padding 
-    if (!string.IsNullOrWhiteSpace(content?.PaddingTop))
-    {
-        styles.Append($" padding-top:{content.PaddingTop};");
-    }
-
-    if (!string.IsNullOrWhiteSpace(content?.PaddingBottom))
-    {
-		styles.Append($" padding-bottom:{content.PaddingBottom};");
-    }
-
-    if (!string.IsNullOrWhiteSpace(content?.PaddingRight))
-    {
-		styles.Append($" padding-right:{content.PaddingRight};");
-    }
-
-    if (!string.IsNullOrWhiteSpace(content?.PaddingLeft))
-    {
-		styles.Append($" padding-left:{content.PaddingLeft};");
-    }
+    var classes = Model.Settings.GenerateBlockSettingsClasses();
 
 	var currentPath = Context.Request.Path.ToString().TrimEnd('/').ToLowerInvariant();
 
@@ -164,7 +125,7 @@
 
 @if(navItems.Any())
 {
-	<div class="side-navigation-container" style="@styles">
+	<div class="side-navigation-container @classes" style="@styles">
 		<nav>
 			<ul class='sideNavigation-sidenav'>
 				@{ await RenderNavItems(navItems, 0); }

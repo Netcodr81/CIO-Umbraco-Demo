@@ -1,4 +1,4 @@
-﻿namespace Extensions.Breadcrumbs;
+﻿namespace CIOUmbracoDemo.Extensions.Breadcrumbs;
 
 public class BreadcrumbItem
 {

@@ -1,4 +1,5 @@
-﻿@inherits UmbracoViewPage<BlockListItem<ContentModels.BackdropCard>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockListItem<ContentModels.BackdropCard>>
 
 @{
     if (Model.Content is null) return;
@@ -7,12 +8,11 @@
 
     var bgUrl = content.BackgroundImage?.MediaUrl();
 
-    var test = "";
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-@* Debug: remove the following comment after confirming the bgUrl value in the browser inspector *@
-<!-- bgUrl: @bgUrl -->
-<div class="backdrop-card__container" aria-label="@content.Heading">
+
+<div class="backdrop-card__container @blockClasses" aria-label="@content.Heading">
     @if (!string.IsNullOrWhiteSpace(bgUrl))
     {
         <img class="backdrop-card__img" src="@bgUrl" alt="@content.Heading" />

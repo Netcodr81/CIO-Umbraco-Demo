@@ -1,4 +1,5 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.StandAloneImage>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.StandAloneImage>>
 
 @{
     if (Model.Content is null) return;
@@ -15,8 +16,10 @@
         --stand-alone-image-width: {width};
         --stand-alone-image-height: {height};
     ";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="stand-alone-image" style="@cssVariables">
+<div class="stand-alone-image @blockClasses" style="@cssVariables">
     <img src="@content.Image.GetCropUrl()" alt="@altText" class="stand-alone-image__img" />
 </div>

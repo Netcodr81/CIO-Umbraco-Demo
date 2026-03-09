@@ -1,4 +1,5 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.StylizedHeading>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.StylizedHeading>>
 
 @{
     if (Model?.Content is null) return;
@@ -23,6 +24,8 @@
        --stylized-header-text-color: {textColor};
        --stylized-header-margin-top: {marginTop}
     ";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<h2 class="stylized-header" style="@cssVariables">@content.HeaderText</h2>
+<h2 class="stylized-header @blockClasses" style="@cssVariables">@content.HeaderText</h2>

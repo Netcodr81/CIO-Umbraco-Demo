@@ -1,7 +1,7 @@
-﻿using Umbraco.Cms.Core.Composing;
-using Utilities;
+﻿using CIOUmbracoDemo.Utilities;
+using Umbraco.Cms.Core.Composing;
 
-namespace ServiceComposers;
+namespace CIOUmbracoDemo.ServiceComposers;
 
 public class ServiceComposers : IComposer
 {

@@ -1,6 +1,6 @@
 ﻿using Umbraco.Cms.Core.Models.PublishedContent;
 
-namespace Extensions.Breadcrumbs;
+namespace CIOUmbracoDemo.Extensions.Breadcrumbs;
 
 public static class BreadcrumbExtensions
 {

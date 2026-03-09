@@ -1,6 +1,6 @@
-﻿using CIO_Umbraco_Demo.Views.Partials.Forms.Data;
-using CIO_Umbraco_Demo.Views.Partials.Forms.Data.Models;
-using CIO_Umbraco_Demo.Views.Partials.Forms.Models;
+﻿using CIOUmbracoDemo.Views.Partials.Forms.Data;
+using CIOUmbracoDemo.Views.Partials.Forms.Data.Models;
+using CIOUmbracoDemo.Views.Partials.Forms.Models;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +12,7 @@ using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Web.Website.Controllers;
 
-namespace Controllers;
+namespace CIOUmbracoDemo.Controllers;
 
 public class ServiceRequestFormController : SurfaceController
 {

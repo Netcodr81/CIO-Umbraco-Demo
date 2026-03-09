@@ -1,12 +1,15 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.ComponentsPageHeader>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.ComponentsPageHeader>>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<section class="components-page-header__container">
+<section class="components-page-header__container @blockClasses">
 
     <h1>@content.Title</h1>
     <div class="components-page-header__svg">

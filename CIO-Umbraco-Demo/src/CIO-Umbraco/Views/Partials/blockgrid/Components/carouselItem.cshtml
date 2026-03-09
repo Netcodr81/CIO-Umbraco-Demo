@@ -1,12 +1,15 @@
-﻿@inherits UmbracoViewPage<BlockListItem<ContentModels.CarouselItem>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockListItem<ContentModels.CarouselItem>>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="carousel-item">
+<div class="carousel-item @blockClasses">
     @if (content.Image != null)
     {
         <div class="carousel-item__image">

@@ -4,7 +4,7 @@ using Umbraco.Forms.Core;
 using Umbraco.Forms.Core.Attributes;
 using Umbraco.Forms.Core.Enums;
 
-namespace CIO_Umbraco_Demo.Workflows;
+namespace CIOUmbracoDemo.Workflows;
 
 public class WebApiRequestWorkflow : WorkflowType
 {

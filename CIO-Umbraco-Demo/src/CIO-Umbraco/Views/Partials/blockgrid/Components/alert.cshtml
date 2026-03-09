@@ -1,4 +1,5 @@
 ﻿@using System.Diagnostics
+@using CIOUmbracoDemo.Extensions
 @inherits UmbracoViewPage<BlockGridItem<ContentModels.Alert>>
 
 @{
@@ -29,11 +30,13 @@
         "Emergency" => "emergency-icon",
         _ => "info-icon",
     };
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
 @if (content.SlimAlert)
 {
-    <div class="alert__wrapper">
+    <div class="alert__wrapper @blockClasses">
         <section class="@backgroundClass">
             <div class="alert__slim-body @(content.DisplayIcon ? iconClass : string.Empty)">
                 <div class="alert__text">

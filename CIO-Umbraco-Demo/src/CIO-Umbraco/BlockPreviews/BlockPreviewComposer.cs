@@ -2,7 +2,7 @@ using Umbraco.Cms.Core.Composing;
 using Umbraco.Community.BlockPreview;
 using Umbraco.Community.BlockPreview.Extensions;
 
-namespace BlockPreviews;
+namespace CIOUmbracoDemo.BlockPreviews;
 
 public class BlockPreviewComposer : IComposer
 {

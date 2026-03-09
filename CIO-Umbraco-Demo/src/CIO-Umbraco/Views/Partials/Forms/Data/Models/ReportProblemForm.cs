@@ -1,4 +1,4 @@
-﻿namespace CIO_Umbraco_Demo.Views.Partials.Forms.Data.Models;
+﻿namespace CIOUmbracoDemo.Views.Partials.Forms.Data.Models;
 
 public class ReportProblemForm
 {

@@ -1,4 +1,5 @@
-﻿@using Umbraco.Cms.Core
+﻿@using CIOUmbracoDemo.Extensions
+@using Umbraco.Cms.Core
 @using Umbraco.Community.BlockPreview.Extensions
 @inherits UmbracoViewPage<BlockGridItem<ContentModels.Anchor>>
 
@@ -7,6 +8,8 @@
     var content = Model.Content;
 
     var anchorId = content.AnchorId;
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
 
@@ -16,5 +19,5 @@
 }
 else
 {
-    <div id="@anchorId" class="anchor__container" aria-hidden="true" data-anchor-id="@anchorId"></div>
+    <div id="@anchorId" class="anchor__container @blockClasses" aria-hidden="true" data-anchor-id="@anchorId"></div>
 }
