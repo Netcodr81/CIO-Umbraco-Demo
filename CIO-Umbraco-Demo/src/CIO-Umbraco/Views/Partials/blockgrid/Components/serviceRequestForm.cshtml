@@ -1,4 +1,5 @@
-﻿@using CIO_Umbraco_Demo.Views.Partials.Forms.Models
+﻿@using CIOUmbracoDemo.Extensions
+@using CIOUmbracoDemo.Views.Partials.Forms.Models
 @inherits UmbracoViewPage<BlockGridItem<ContentModels.ServiceRequestForm>>
 
 @{
@@ -6,7 +7,18 @@
 
     var content = Model.Content;
 
-    var model = new ServiceRequestFormViewModel() { FormId = content.FormId!, SuccessMessage = content.SuccessMessage!};
+    var model = new ServiceRequestFormViewModel() { FormId = content.FormId!, SuccessMessage = content.SuccessMessage! };
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-@await Html.PartialAsync("~/Views/Partials/Forms/Views/ServiceRequestForm.cshtml", model)
+@if (!string.IsNullOrWhiteSpace(blockClasses))
+{
+    <div class="@blockClasses">
+        @await Html.PartialAsync("~/Views/Partials/Forms/Views/ServiceRequestForm.cshtml", model)
+    </div>
+}
+else
+{
+    @await Html.PartialAsync("~/Views/Partials/Forms/Views/ServiceRequestForm.cshtml", model)
+}

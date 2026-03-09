@@ -1,6 +1,6 @@
 ﻿using Umbraco.Cms.Core.Models.PublishedContent;
 
-namespace Utilities;
+namespace CIOUmbracoDemo.Utilities;
 
 public interface ISvgRenderer
 {

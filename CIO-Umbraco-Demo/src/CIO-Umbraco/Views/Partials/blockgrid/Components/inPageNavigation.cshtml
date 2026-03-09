@@ -1,3 +1,4 @@
+@using CIOUmbracoDemo.Extensions
 @inherits UmbracoViewPage<BlockGridItem<ContentModels.InPageNavigation>>
 
 @{
@@ -6,9 +7,11 @@
     
     // Generate unique ID for this navigation instance
     var navId = "in-page-nav-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<nav class="in-page-nav" id="@navId" aria-label="In-page navigation">
+<nav class="in-page-nav @blockClasses" id="@navId" aria-label="In-page navigation">
     <div class="in-page-nav__container">
         @if (!string.IsNullOrEmpty(content.Heading))
         {

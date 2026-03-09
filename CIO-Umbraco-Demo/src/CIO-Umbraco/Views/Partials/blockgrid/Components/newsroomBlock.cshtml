@@ -1,4 +1,5 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.NewsroomBlock>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.NewsroomBlock>>
 
 @{
     if (Model?.Content is null) return;
@@ -31,9 +32,10 @@
         --newsroom-button-text-hover-color: {buttonTextHoverColor};
     ";
     
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="newsroom__columns-container p-5" style="@cssVariables">
+<div class="newsroom__columns-container @blockClasses" style="@cssVariables">
     <div class="main-content newsroom__container container">
         <h2 class="newsroom__header">@content?.SectionHeaderText</h2>
         <hr class="newsroom__divider"/>

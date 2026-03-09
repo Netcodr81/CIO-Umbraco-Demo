@@ -1,95 +1,100 @@
 ﻿@using System.Text
+@using CIOUmbracoDemo.Extensions
 @inherits UmbracoViewPage<BlockGridItem<BasicTable>>
 
 @{
-	if (Model.Content is null) return;
+    if (Model.Content is null) return;
 
-	var content = Model.Content;
+    var content = Model.Content;
 
-	var table = content.Table;
+    var table = content.Table;
 
-	var headers = new List<string>();
+    var headers = new List<string>();
 
-	if (table != null && table.Rows.Any() && table.UseFirstRowAsHeader)
-	{
-		headers = table.Rows.First().Cells.Select(c => c.Value?.ToString() ?? "").ToList();
-	}
+    if (table != null && table.Rows.Any() && table.UseFirstRowAsHeader)
+    {
+        headers = table.Rows.First().Cells.Select(c => c.Value?.ToString() ?? "").ToList();
+    }
 
-	var tableCSS = new StringBuilder();
+    var tableCSS = new StringBuilder();
 
-	if (content.StripedTable)
-	{
-		tableCSS.Append(" basic-table-striped");
-	}
+    if (content.StripedTable)
+    {
+        tableCSS.Append(" basic-table-striped");
+    }
 
 
-	var tableColorScheme = content?.TableColorScheme?.Color ?? "#00607F";
+    var tableColorScheme = content?.TableColorScheme?.Color ?? "#00607F";
 
-	var styles = $@"
+    var styles = $@"
 		--basic-table__color-scheme: {tableColorScheme};
 	";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
 @if (table != null && table.Rows.Any())
 {
-	<table class="basic-table @tableCSS.ToString()" style="@styles">
-		
-		@if (table.UseFirstRowAsHeader && table.Rows.Any())
-		{
-			<thead>
-			<tr>
-				@foreach (var cell in table.Rows.First().Cells)
-				{
-					<th>@Html.Raw(cell.Value)</th>
-				}
-			</tr>
-			</thead>
-		}
-		<tbody>
-		@foreach (var row in table.UseFirstRowAsHeader ? table.Rows.Skip(1) : table.Rows)
-		{
-			<tr>
-				@for (var i = 0; i < row.Cells.Count; i++)
-				{
-					var cell = row.Cells[i];
-					var headerText = headers.Count > i ? headers[i] : "";
+    <table class="basic-table @tableCSS.ToString() @blockClasses" style="@styles">
 
-					if (table.UseFirstColumnAsHeader && i == 0)
-					{
-						<th>@Html.Raw(cell.Value)</th>
-					}
-					else
-					{
-						<td data-cell="@Html.Raw(headerText)">@Html.Raw(cell.Value)</td>
-					}
-				}
-			</tr>
-		}
-		</tbody>
-		@if (!string.IsNullOrWhiteSpace(content.Caption))
-		{
-			<caption>
-				@content.Caption
-			</caption>
-		}
-		
-	</table>
+        @if (table.UseFirstRowAsHeader && table.Rows.Any())
+        {
+            <thead>
+            <tr>
+                @foreach (var cell in table.Rows.First().Cells)
+                {
+                    <th>@Html.Raw(cell.Value)</th>
+                }
+            </tr>
+            </thead>
+        }
+        <tbody>
+        @foreach (var row in table.UseFirstRowAsHeader ? table.Rows.Skip(1) : table.Rows)
+        {
+            <tr>
+                @for (var i = 0; i < row.Cells.Count; i++)
+                {
+                    var cell = row.Cells[i];
+                    var headerText = headers.Count > i ? headers[i] : "";
+
+                    if (table.UseFirstColumnAsHeader && i == 0)
+                    {
+                        <th>@Html.Raw(cell.Value)</th>
+                    }
+                    else
+                    {
+                        <td data-cell="@Html.Raw(headerText)">@Html.Raw(cell.Value)</td>
+                    }
+                }
+            </tr>
+        }
+        </tbody>
+        @if (!string.IsNullOrWhiteSpace(content.Caption))
+        {
+            <caption>
+                @content.Caption
+            </caption>
+        }
+
+    </table>
 }
 
 <script>
-		document.querySelectorAll("table").forEach(function (table) {
-	table.setAttribute("role", "table");
-	table.querySelector(":scope > caption")?.setAttribute("role", "caption");
-	table.querySelectorAll(":scope > thead, :scope > tfoot, :scope > tbody")
-	.forEach(tpart => tpart.setAttribute("role", "rowgroup"));
-	Array.from(table.rows).forEach(function (row) {
-	row.setAttribute("role", "row");
-	Array.from(row.children)
-	.forEach(cell => cell.setAttribute("role",
-	(cell.nodeName === "TD") ? "cell"
-	: (cell.scope === "row") ? "rowheader"
-	: "columnheader")
-	);
-	});
-	});
+    document.querySelectorAll("table").forEach(function(table) {
+        table.setAttribute("role", "table");
+        table.querySelector(":scope > caption")?.setAttribute("role", "caption");
+        table.querySelectorAll(":scope > thead, :scope > tfoot, :scope > tbody")
+            .forEach(tpart => tpart.setAttribute("role", "rowgroup"));
+        Array.from(table.rows).forEach(function(row) {
+            row.setAttribute("role", "row");
+            Array.from(row.children)
+                .forEach(cell => cell.setAttribute("role",
+                        (cell.nodeName === "TD")
+                        ? "cell"
+                        : (cell.scope === "row")
+                        ? "rowheader"
+                        : "columnheader")
+                );
+        });
+    });
 </script>

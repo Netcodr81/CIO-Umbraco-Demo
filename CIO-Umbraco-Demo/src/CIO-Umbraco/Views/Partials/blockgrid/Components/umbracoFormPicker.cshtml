@@ -1,9 +1,22 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.UmbracoFormPicker>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.UmbracoFormPicker>>
 
 @{
     if (Model.Content is null) return;
 
     var form = Model.Content.Form;
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-@await Component.InvokeAsync("RenderForm", new { formId = form, theme = "default", includeScripts = false })
+
+@if (!string.IsNullOrWhiteSpace(blockClasses))
+{
+    <div class="@blockClasses">
+        @await Component.InvokeAsync("RenderForm", new { formId = form, theme = "default", includeScripts = false })
+    </div>
+}
+else
+{
+    @await Component.InvokeAsync("RenderForm", new { formId = form, theme = "default", includeScripts = false })
+}

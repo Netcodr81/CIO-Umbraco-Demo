@@ -1,4 +1,5 @@
-﻿@inherits UmbracoViewPage<BlockListItem<ContentModels.IconButtonCard>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockListItem<ContentModels.IconButtonCard>>
 
 @{
     if (Model?.Content is null) return;
@@ -18,9 +19,11 @@
        --icon-button-background-hover-color: {backgroundHoverColor};
        --icon-button-icon-hover-color: {iconHoverColor};
     ";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<a class="icon-button-card__container" href="@content?.Link?.Url" target="@content?.Link?.Target" style="@cssVariables">
+<a class="icon-button-card__container @blockClasses" href="@content?.Link?.Url" target="@content?.Link?.Target" style="@cssVariables">
     <div class="icon-button-card__card-body">
         <inline-svg media-item="@content?.Icon" width="120" height="120" fill="@content?.IconColor?.Color"></inline-svg>
     </div>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CIO_Umbraco_Demo.Views.Partials.Forms.Models;
+namespace CIOUmbracoDemo.Views.Partials.Forms.Models;
 
 public class ContactFormViewModel
 {

@@ -1,12 +1,15 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.BackdropGrid>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.BackdropGrid>>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="backdrop-grid__container">
+<div class="backdrop-grid__container @blockClasses">
     <div class="backdrop-grid__card-group">
         @if (content.Cards.Any())
         {

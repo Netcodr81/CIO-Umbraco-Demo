@@ -1,4 +1,5 @@
-﻿@inherits UmbracoViewPage<BlockListItem<ContentModels.SocialLink>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockListItem<ContentModels.SocialLink>>
 
 @{
 	if (Model?.Content is null)
@@ -6,10 +7,10 @@
 
 	var content = Model.Content;
 
-	
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
 	
-<a class="social-link" href="@content?.Link?.Url" target="@(content?.Link?.Target ?? "_blank")" rel="noopener noreferrer">
+<a class="social-link @blockClasses" href="@content?.Link?.Url" target="@(content?.Link?.Target ?? "_blank")" rel="noopener noreferrer">
 	<inline-svg media-item="content?.Icon" fill="@content?.FillColor?.Color" background-color="@content?.BackgroundColor?.Color" height="35" width="35"></inline-svg>
 </a>

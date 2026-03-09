@@ -1,13 +1,16 @@
 ﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.MissionAndValues>>
+@using CIOUmbracoDemo.Extensions
 @using Umbraco.Extensions;
 
 @{
     if (Model?.Content is null) return;
 
     var content = Model.Content;
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="mission-and-value__columns-container">
+<div class="mission-and-value__columns-container @blockClasses">
     <div class="main-content container">
         <h2 class="mission-and-value__header">@content.HeaderText</h2>
         <div class="g-col-12 g-col-md-6 w-100 grid">

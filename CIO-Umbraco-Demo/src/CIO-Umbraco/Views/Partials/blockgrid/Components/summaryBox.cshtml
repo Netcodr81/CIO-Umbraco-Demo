@@ -1,4 +1,5 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.SummaryBox>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.SummaryBox>>
 
 @{
     if (Model.Content is null) return;
@@ -20,9 +21,11 @@
         --summary-box-heading-font-size: {headingFontSize};
         --summary-box-text-font-size: {textFontSize};
     ";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="summary-box__container" style="@cssVariables">
+<div class="summary-box__container @blockClasses" style="@cssVariables">
     @if (!string.IsNullOrWhiteSpace(content.Heading))
     {
         <h2 class="summary-box__heading">@content.Heading</h2>

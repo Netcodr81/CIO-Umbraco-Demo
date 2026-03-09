@@ -1,4 +1,5 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.LinkedCardGrid>>
+﻿@using CIOUmbracoDemo.Extensions
+@inherits UmbracoViewPage<BlockGridItem<ContentModels.LinkedCardGrid>>
 
 @{
     if (Model.Content is null)
@@ -9,9 +10,11 @@
     var content = Model.Content;
 
     var maxNumberOfCardsPerRow = content.NumberCardsPerRow ?? "3";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="linked-card-grid p-3" data-columns="@maxNumberOfCardsPerRow">
+<div class="linked-card-grid @blockClasses" data-columns="@maxNumberOfCardsPerRow">
 
     @if (content.Items.Any())
     {

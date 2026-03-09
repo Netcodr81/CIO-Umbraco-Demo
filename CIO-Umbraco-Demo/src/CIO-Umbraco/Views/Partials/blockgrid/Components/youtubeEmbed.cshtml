@@ -1,3 +1,4 @@
+@using CIOUmbracoDemo.Extensions
 @inherits UmbracoViewPage<BlockGridItem<ContentModels.YouTubeEmbed>>
 
 @{
@@ -61,10 +62,10 @@
         --youtube-embed__container-width: {width};
     ";
 
-
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<figure class="youtube-embed__container" role="region" aria-label="@altText" style="@styles">
+<figure class="youtube-embed__container @blockClasses" role="region" aria-label="@altText" style="@styles">
     <div class="youtube-embed__wrapper">
         <iframe 
             id="@embedId"

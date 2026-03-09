@@ -1,8 +1,8 @@
-﻿using CIO_Umbraco_Demo.Views.Partials.Forms.Data.Models;
+﻿using CIOUmbracoDemo.Views.Partials.Forms.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using ContactForm = Models_Umbraco_Demo.Views.Partials.Forms.Data.Models.ContactForm;
+using ContactForm = CIOUmbracoDemo.Views.Partials.Forms.Data.Models.ContactForm;
 
-namespace CIO_Umbraco_Demo.Views.Partials.Forms.Data;
+namespace CIOUmbracoDemo.Views.Partials.Forms.Data;
 
 public class FormsDbContext(DbContextOptions<FormsDbContext> options) : DbContext(options)
 {
