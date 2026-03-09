@@ -1,4 +1,72 @@
-﻿/* Block Grid Preview */
+﻿:root {
+    --theme-background: #f3f7fc;
+    --theme-bg: #00607f;
+    --theme-primary: #00607f;
+    --theme-dark: #004d66;
+    --theme-secondary: #ffc44d;
+    --theme-footer: #ffc44d;
+    --theme-icons: #ffc44d;
+    --theme-svg-background-color: #4d90a5;
+    --theme-svg-background-opacity: 0.7;
+    --theme-svg-midground-color: #ffc44d;
+    --theme-svg-midground-opacity: 0.7;
+    --theme-svg-foreground-color: #f3f7fc;
+    --ocio-blue-50: #d9e3e8;
+    --ocio-blue-100: #b4c7d2;
+    --ocio-blue-200: #8facbc;
+    --ocio-blue-300: #4d90a5;
+    --ocio-blue-400: #417991;
+    --ocio-blue-500: #00607f;
+    --ocio-blue-600: #004d66;
+    --ocio-blue-700: #124052;
+    --ocio-blue-800: #003a4d;
+    --ocio-blue-900: #12232b;
+    --ocio-blue-950: #0d1519;
+}
+
+.theme-blue {
+    --theme-primary: #00607f;
+    --theme-secondary: #ffc44d;
+    --theme-dark: #004d66;
+    --theme-background: #f3f7fc;
+    --theme-icons: #ffc44d;
+    --theme-svg-background-color: #4d90a5;
+    --theme-svg-background-opacity: 0.7;
+    --theme-svg-midground-color: #ffc44d;
+    --theme-svg-midground-opacity: 0.7;
+    --theme-svg-foreground-color: Inherit;
+    --theme-icons: #ffc44d;
+}
+
+.theme-red {
+    --theme-primary: #B3314E;
+    --theme-secondary: #ffc44d;
+    --theme-dark: #004d66;
+    --theme-background: #f3f7fc;
+    --theme-icons: #B3314E;
+    --theme-svg-background-color: #B3314E;
+    --theme-svg-background-opacity: 0.9;
+    --theme-svg-midground-color: #B3314E;
+    --theme-svg-midground-opacity: 0.7;
+    --theme-svg-foreground-color: inherit;
+    --theme-icons: #B3314E;
+}
+
+.theme-green {
+    --theme-primary: #BABF33;
+    --theme-secondary: #ffc44d;
+    --theme-dark: #004d66;
+    --theme-background: #f3f7fc;
+    --theme-icons: #BABF33;
+    --theme-svg-background-color: #BABF33;
+    --theme-svg-background-opacity: 0.9;
+    --theme-svg-midground-color: #BABF33;
+    --theme-svg-midground-opacity: 0.7;
+    --theme-svg-foreground-color: inherit;
+    --theme-icons: #BABF33;
+}
+
+/* Block Grid Preview */
 .layout-header {
     display: flex;
     align-items: center;
@@ -17,22 +85,22 @@
 /* Section Header */
 
 .stylized-header {
-    font-size: var(--stylized-header-size);
-    line-height: var(--stylized-header-line-height);
-    font-weight: var(--stylized-header-font-weight);
-    margin-bottom: var(--stylized-header-margin-bottom);
+    font-size: 1.99rem;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
     color: var(--stylized-header-text-color);
 }
 
-.stylized-header:after {
-    display: block;
-    width: 5rem;
-    max-width: 100%;
-    height: 4px;
-    margin-top: 1.5rem;
-    background-color: var(--stylized-header-accent-color);
-    content: "";
-}
+    .stylized-header:after {
+        display: block;
+        width: 5rem;
+        max-width: 100%;
+        height: 4px;
+        margin-top: 1.5rem;
+        background-color: var(--theme-secondary);
+        content: "";
+    }
 
 /* Hero Block */
 

@@ -13,13 +13,17 @@
     var areasColorLabel = string.IsNullOrWhiteSpace(areasColorLabelValue) ?"bg-white" : areasColorLabelValue;
     // 5. Set the TempData to use in the area
     ViewData["AreaBackgroundColors"] = areasColorLabel;
+
+    var currentPage = Umbraco.AssignedContentItem;
+    var siteSettings = currentPage?.Root().FirstChild<SiteSettings>();
+    var theme = siteSettings?.Theme?.ToLower() ?? "blue";
 }
 
 
 
 @if (Context.Request.IsBlockPreviewRequest())
 {
-    <div class="layout__container">
+    <div class="layout__container theme-@theme">
         <p class="layout-header"><umb-icon name="icon-layout-masonry"></umb-icon> Layout - 12</p>
         @await Html.GetPreviewBlockGridItemAreasHtmlAsync(Model)
 

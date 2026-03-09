@@ -13,28 +13,17 @@
     var ctaTarget = string.IsNullOrWhiteSpace(ctaLink?.Target) ? "_self" : ctaLink.Target;
 
     var buttonBackgroundColor = content?.ButtonBackgroundColor?.Color ?? "#FFC44D";
-    var buttonBackgroundHoverColor = content?.ButtonBackgroundHoverColor?.Color ?? "e3bf77";
-    var buttonTextColor = content?.ButtonTextColor?.Color ?? "#000000";
-    var buttonTextHoverColor = content?.ButtonTextHoverColor?.Color ?? "#000000";
+  
     var headingTextColor = content?.SubheadingColor?.Color ?? "#ffffff";
     var subheadingColor = content?.SubheadingColor?.Color ?? "#ffffff";
-    var svgBackgroundColor = content?.SvgBackgroundColor?.Color ?? "#4d90a5";
-    var svgMidgroundColor = content?.SvgMidgroundColor?.Color ?? "#ffc44d";
-    var svgForegroundColor = content?.SvgForegroundColor?.Color ?? "#f3f7fc";
     var backgroundColor = content?.BackgroundColor?.Color ?? "#00607F";
 
     var cssVariables = $@"
         --homepage-hero-background-image: url({backgroundImageUrl});
         --homepage-hero-background-color: {backgroundColor};
-        --homepage-hero-btn-color: {buttonBackgroundColor};
-        --homepage-hero-btn-hover-color: {buttonBackgroundHoverColor};
-        --homepage-hero-btn-text-color: {buttonTextColor};
-        --homepage-hero-btn-text-hover-color: {buttonTextHoverColor};
+        --homepage-hero-btn-color: {buttonBackgroundColor};      
         --homepage-hero-heading-text-color: {headingTextColor};
-        --homepage-hero-subheading-text-color: {subheadingColor};
-        --homepage-hero-svg-background-color: {svgBackgroundColor};
-        --homepage-hero-svg-midground-color: {svgMidgroundColor};
-        --homepage-hero-svg-foreground-color: {svgForegroundColor};
+        --homepage-hero-subheading-text-color: {subheadingColor};       
     ";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();

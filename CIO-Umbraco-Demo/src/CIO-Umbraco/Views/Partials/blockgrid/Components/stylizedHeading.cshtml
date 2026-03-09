@@ -5,24 +5,12 @@
     if (Model?.Content is null) return;
 
     var content = Model.Content;
-
-    var fontSize = !string.IsNullOrWhiteSpace(content.HeaderFontSize) ? content.HeaderFontSize : "1.99rem";
-    var lineHeight = !string.IsNullOrWhiteSpace(content.HeaderLineHeight) ? content.HeaderLineHeight : "1.2";
-    var fontWeight = !string.IsNullOrWhiteSpace(content.HeaderFontWeight) ? content.HeaderFontWeight : "700";
-    var marginBottom = !string.IsNullOrWhiteSpace(content.HeaderMarginBottom) ? content.HeaderMarginBottom : "2.5rem";
-    var accentColor = content.HeaderAccentColor?.Color ?? "#ffc44d";
-    var textColor = content.HeaderTextColor?.Color ?? "#000000";
-    var marginTop = !string.IsNullOrWhiteSpace(content.HeaderMarginBottom) ? content.HeaderMarginTop : "0";
+    var textColor = content.HeaderTextColor?.Color ?? "#1b1b1b";
+  
 
 
-    var cssVariables = $@"
-       --stylized-header-size: {fontSize};
-       --stylized-header-line-height: {lineHeight};
-       --stylized-header-font-weight: {fontWeight};
-       --stylized-header-margin-bottom: {marginBottom};
-       --stylized-header-accent-color: {accentColor};
-       --stylized-header-text-color: {textColor};
-       --stylized-header-margin-top: {marginTop}
+    var cssVariables = $@"   
+       --stylized-header-text-color: {textColor};       
     ";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
