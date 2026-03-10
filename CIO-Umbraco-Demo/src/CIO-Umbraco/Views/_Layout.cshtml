@@ -5,6 +5,9 @@
     Layout = null;
     var siteSettings = Model.Root().FirstChild<SiteSettings>();
 
+    // Get per-page background color (optional page property)
+    var pageBackgroundColor = Model.Value<string>("pageBackgroundColor") ?? "#f3f7fc";
+
     string styleAttribute = "";
 
     // Get the background image from pageSettingsBackgroundImagePicker
@@ -12,8 +15,11 @@
 
     if (backgroundImage != null)
     {
-        styleAttribute = $"background-image: url({backgroundImage.MediaUrl()});background-color:#f3f7fc";
+        styleAttribute = $"background-image: url({backgroundImage.MediaUrl()});";
     }
+
+    // Add CSS variable for page background
+    styleAttribute += $"--page-bg:{pageBackgroundColor};background-color:var(--page-bg);";
 
     var theme = siteSettings?.Theme?.ToLower() ?? "blue";
 

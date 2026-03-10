@@ -1972,15 +1972,17 @@ a.current { padding-left: 0 !important; }
 
 .interior-hero__svg-back {
     fill: var(--interior-hero-svg-background-color);
-    opacity: .7;
+    opacity: var(--theme-svg-background-opacity);
 }
 
 .interior-hero__svg-mid {
     fill: var(--interior-hero-svg-midground-color);
-    opacity: .7;
+    opacity: var(--theme-svg-midground-opacity);
 }
 
-.interior-hero__svg-fore { fill: var(--interior-hero-svg-foreground-color); }
+.interior-hero__svg-fore {
+    fill: var(--interior-hero-svg-foreground-color);
+}
 
 .interior-hero__svg {
     position: absolute;
@@ -2137,18 +2139,18 @@ a.current { padding-left: 0 !important; }
 .basic-table {
     border-collapse: collapse;
     width: 100%;
-    padding: 1rem;
 }
 
 .basic-table th,
 .basic-table td,
-.basic-table caption { padding: 1rem; }
-
-.basic-table th,
-.basic-table td { border: 1px solid #1b1b1b; }
+.basic-table caption {
+    padding: 1rem;
+}
 
 .basic-table caption,
-.basic-table th { text-align: left; }
+.basic-table th {
+    text-align: left;
+}
 
 .basic-table caption {
     background: transparent;
@@ -2159,19 +2161,31 @@ a.current { padding-left: 0 !important; }
 
 .basic-table th {
     background: var(--basic-table__color-scheme);
-    color: oklch(from var(--basic-table__color-scheme) calc((l - 0.5) * -100) 0 0);
+    /* Auto-contrast with adjusted threshold (0.6 instead of 0.5) for better readability */
+    /* If lightness > 0.6 → black text, if < 0.6 → white text */
+    color: oklch(from var(--basic-table__color-scheme) calc((l - 0.6) * -100) 0 0);
 }
 
-.basic-table-striped tbody tr:nth-of-type(odd) { background: color-mix(in srgb, var(--basic-table__color-scheme) 10%, white); }
+.basic-table-striped tbody tr:nth-of-type(odd) {
+    background: color-mix(in srgb, var(--basic-table__color-scheme) 10%, white);
+}
 
-.basic-table-striped tbody tr:nth-of-type(odd) td { background: color-mix(in srgb, var(--basic-table__color-scheme) 10%, white); }
+.basic-table-striped tbody tr:nth-of-type(odd) td {
+    background: color-mix(in srgb, var(--basic-table__color-scheme) 10%, white);
+}
 
-.basic-table-striped tbody tr:nth-of-type(even) { background: color-mix(in srgb, var(--basic-table__color-scheme) 20%, white); }
+.basic-table-striped tbody tr:nth-of-type(even) {
+    background: color-mix(in srgb, var(--basic-table__color-scheme) 20%, white);
+}
 
-.basic-table-striped tbody tr:nth-of-type(even) td { background: color-mix(in srgb, var(--basic-table__color-scheme) 20%, white); }
+.basic-table-striped tbody tr:nth-of-type(even) td {
+    background: color-mix(in srgb, var(--basic-table__color-scheme) 20%, white);
+}
 
 @media (max-width: 650px) {
-    .basic-table th { display: none; }
+    .basic-table th {
+        display: none;
+    }
 
     .basic-table td {
         display: grid;
@@ -2180,9 +2194,13 @@ a.current { padding-left: 0 !important; }
         padding: 0.75rem 1rem;
     }
 
-    .basic-table td:first-child { padding-top: 2rem; }
+    .basic-table td:first-child {
+        padding-top: 2rem;
+    }
 
-    .basic-table td:last-child { padding-bottom: 2rem; }
+    .basic-table td:last-child {
+        padding-bottom: 2rem;
+    }
 
     .basic-table td::before {
         content: attr(data-cell) ": ";
@@ -2190,6 +2208,7 @@ a.current { padding-left: 0 !important; }
         text-transform: capitalize;
     }
 }
+
 
 /* YouTube Embed */
 

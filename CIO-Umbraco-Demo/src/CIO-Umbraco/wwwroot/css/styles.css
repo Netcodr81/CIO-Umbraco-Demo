@@ -13,6 +13,7 @@
 	--theme-svg-midground-color: #ffc44d;
 	--theme-svg-midground-opacity: 0.7;
 	--theme-svg-foreground-color: #f3f7fc;
+    --page-bg: #f3f7fc;
 	--ocio-blue-50: #d9e3e8;
 	--ocio-blue-100: #b4c7d2;
 	--ocio-blue-200: #8facbc;
@@ -153,7 +154,10 @@
 	--backdrop-card__meta-text-color: #ffffff;
 	--backdrop-card__cta-background-color: #ffc44d;
 	--backdrop-card__cta-text-color: #1b1b1b;
-    --backdropc-card__text-color: #ffffff;
+	--backdropc-card__text-color: #ffffff;
+	--interior-hero-svg-background-color: #004d66;
+	--interior-hero-svg-midground-color: #ffc44d;
+    --interior-hero-svg-foreground-color: inherit;
 }
 
 
@@ -168,7 +172,7 @@ body {
 *,
 *::before,
 *::after {
-	box-sizing: content-box;
+	box-sizing: border-box;
 }
 
 html {

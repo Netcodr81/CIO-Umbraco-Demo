@@ -23,7 +23,9 @@
 
 .basic-table th {
 	background: var(--basic-table__color-scheme); 
-	color: oklch(from var(--basic-table__color-scheme) calc((l - 0.5) * -100) 0 0);
+	/* Auto-contrast with adjusted threshold (0.6 instead of 0.5) for better readability */
+	/* If lightness > 0.6 → black text, if < 0.6 → white text */
+	color: oklch(from var(--basic-table__color-scheme) calc((l - 0.6) * -100) 0 0);
 }
 
 .basic-table-striped tbody tr:nth-of-type(odd) {

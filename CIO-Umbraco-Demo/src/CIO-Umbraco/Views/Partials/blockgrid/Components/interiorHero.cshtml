@@ -7,13 +7,38 @@
 
     var content = Model.Content;
 
+    var theme = Umbraco.GetCurrentTheme();
+
+    var defaultSvgBackgroundColor = "";
+    var defaultSvgMidgroundColor = "";
+    var defaultSvgForegroundColor = "";
+
+    switch (theme)
+    {
+        case "blue":
+            defaultSvgBackgroundColor = "#4d90a5";
+            defaultSvgMidgroundColor = "#ffc44d";
+            defaultSvgForegroundColor = "inherit";
+            break;
+        case "green":
+            defaultSvgBackgroundColor = "";
+            defaultSvgMidgroundColor = "";
+            defaultSvgForegroundColor = "inherit";
+            break;
+        case "red":
+            defaultSvgBackgroundColor = "#8F273E";
+            defaultSvgMidgroundColor = "#B3314E";
+            defaultSvgForegroundColor = "inherit";
+            break;
+    }
+
     var backgroundImageUrl = content?.BackgroundImage?.GetCropUrl() ?? string.Empty;
 
     var backgroundColor = content?.BackgroundColor?.Color ?? "#FFC44D";
     var headingTextColor = content?.HeadingTextColor?.Color ?? "#000000";
-    var svgBackgroundColor = content?.SvgBackgroundColor?.Color ?? "#4d90a5";
-    var svgMidgroundColor = content?.SvgMidgroundColor?.Color ?? "#ffc44d";
-    var svgForegroundColor = content?.SvgForegroundColor?.Color ?? "#f3f7fc";
+    var svgBackgroundColor = content?.SvgBackgroundColor?.Color ?? defaultSvgBackgroundColor;
+    var svgMidgroundColor = content?.SvgMidgroundColor?.Color ?? defaultSvgMidgroundColor;
+    var svgForegroundColor = content?.SvgForegroundColor?.Color ?? defaultSvgForegroundColor;
 
     var cssVariables = $@"
       --interior-hero-background-image: url({backgroundImageUrl});
