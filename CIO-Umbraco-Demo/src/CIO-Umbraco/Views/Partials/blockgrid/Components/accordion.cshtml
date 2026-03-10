@@ -9,15 +9,53 @@
 
 	var content = Model.Content;
 
+    var theme = Umbraco.GetCurrentTheme();
+
+    var defaultTabColor = "";
+    var defaultTabHoverColor = "";
+    var defaultTitleColor = "";
+    var defaultContentColor = "";
+    var defaultIconColor = "";
+    var defaultIconBackgroundColor = "";
+
+    switch (theme)
+    {
+        case "blue":
+            defaultTabColor = "#00607f";
+            defaultTabHoverColor = "#4b4c4e";
+            defaultTitleColor = "#1b1b1b";
+            defaultContentColor = "#1b1b1b";
+            defaultIconColor = "#000000";
+            defaultIconBackgroundColor = "#ffc44d";
+            break;
+        case "green":
+            defaultTabColor = "#BABF33";
+            defaultTabHoverColor = "#4b4c4e";
+            defaultTitleColor = "#1b1b1b";
+            defaultContentColor = "#1b1b1b";
+            defaultIconColor = "#000000";
+            defaultIconBackgroundColor = "#BABF33";
+            break;
+        case "red":
+            defaultTabColor = "#B3314E";
+            defaultTabHoverColor = "#4b4c4e";
+            defaultTitleColor = "#1b1b1b";
+            defaultContentColor = "#1b1b1b";
+            defaultIconColor = "#ffffff";
+            defaultIconBackgroundColor = "#B3314E";
+            break;
+    }
+	
+
 	// Generate unique ID prefix for this accordion instance
 	var uniqueId = Guid.NewGuid().ToString("N").Substring(0, 8);
 
-	var tabColor = content?.TabColor?.Color ?? "#00607f";
-	var tabHoverColor = content?.TabHoverColor?.Color ?? "#4b4c4e";
-	var titleColor = content?.TitleColor?.Color ?? "#1b1b1b";
-	var contentColor = content?.ContentColor?.Color ?? "#1b1b1b";
-	var iconColor = content?.IconColor?.Color ?? "#000000";
-	var iconBackgroundColor = content?.IconBackgroundColor?.Color ?? "#ffc44d";
+	var tabColor = content?.TabColor?.Color ??defaultTabColor;
+    var tabHoverColor = content?.TabHoverColor?.Color ?? defaultTabHoverColor;
+    var titleColor = content?.TitleColor?.Color ?? defaultTitleColor;
+    var contentColor = content?.ContentColor?.Color ?? defaultContentColor;
+    var iconColor = content?.IconColor?.Color ?? defaultIconColor;
+    var iconBackgroundColor = content?.IconBackgroundColor?.Color ?? defaultIconBackgroundColor;
 
 	var cssVariables = $@"
 		--accordion-tab-color: {tabColor};
