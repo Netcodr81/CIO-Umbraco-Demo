@@ -6,6 +6,8 @@
 	--theme-secondary: #ffc44d;
 	--theme-footer: #ffc44d;
 	--theme-icons: #ffc44d;
+    --theme-primary-text: #1b1b1b;
+    --theme-secondary-text: #ffc44d;
     --theme-svg-background-color: #4d90a5;
 	--theme-svg-background-opacity: 0.7;
 	--theme-svg-midground-color: #ffc44d;
@@ -28,6 +30,8 @@
 	--theme-primary: #00607f;
 	--theme-secondary: #ffc44d;
 	--theme-dark: #004d66;
+    --theme-primary-text: #ffffff;
+    --theme-secondary-text: #1b1b1b;
 	--theme-background: #f3f7fc;
 	--theme-icons: #ffc44d;
 	--theme-svg-background-color: #4d90a5;
@@ -42,6 +46,8 @@
 	--theme-primary: #B3314E;
 	--theme-secondary: #ffc44d;
 	--theme-dark: #8F273E;
+    --theme-primary-text: #ffffff;
+    --theme-secondary-text: #1b1b1b;
 	--theme-background: #f3f7fc;
 	--theme-icons: #B3314E;
 	--theme-svg-background-color: #B3314E;
@@ -56,6 +62,8 @@
 	--theme-primary: #BABF33;
 	--theme-secondary: #ffc44d;
 	--theme-dark: #949926;
+    --theme-primary-text: #1b1b1b;
+    --theme-secondary-text: #1b1b1b;
 	--theme-background: #f3f7fc;
 	--theme-icons: #BABF33;
 	--theme-svg-background-color: #BABF33;
@@ -72,8 +80,8 @@
 	--homepage-hero-subheading-text-color: #ffffff;
 	--homepage-hero-btn-color: "#ffc44d";
 	--homepage-hero-icon-color: #ffffff;
-    --homepage-hero-cta-text-color: #ffffff;
-    --icon-button-text-hover-color: #00607f;
+	--homepage-hero-cta-text-color: #ffffff;
+	--icon-button-text-hover-color: #00607f;
 	--icon-button-background-color: #00607f;
 	--icon-button-background-hover-color: #bbd4dd;
 	--icon-button-icon-hover-color: #00607f;
@@ -144,6 +152,11 @@
 	--accordion-content-color: #1b1b1b;
 	--accordion-icon-color: #000000;
 	--accordion-icon-background-color: #ffc44d;
+	--backdrop-card__meta-background-color: #00607f;
+	--backdrop-card__meta-text-color: #ffffff;
+	--backdrop-card__cta-background-color: #ffc44d;
+	--backdrop-card__cta-text-color: #1b1b1b;
+    --backdropc-card__text-color: #ffffff;
 }
 
 
@@ -1695,3 +1708,16 @@ a.icon-button-card__container {
 		mask-size: 1rem 1rem;
 		vertical-align: middle;
 	}
+
+/* Button */
+.btn__button.btn__primary > svg {
+	fill: var(--theme-primary-text);
+}
+
+.btn__button.btn__secondary > svg {
+    fill: var(--theme-secondary-text);
+}
+
+.btn__button.btn__outline > svg {
+    fill: var(--theme-primary);
+}

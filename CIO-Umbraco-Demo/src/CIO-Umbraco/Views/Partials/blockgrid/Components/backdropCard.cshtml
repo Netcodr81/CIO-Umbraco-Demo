@@ -8,11 +8,55 @@
 
     var bgUrl = content.BackgroundImage?.MediaUrl();
 
+    var theme = Umbraco.GetCurrentTheme();
+
+    var defaultMetaBackgroundColor = "";
+    var defaultMetaTextColor = "";
+    var defaultCtaBackgroundColor = "";
+    var defaultCtaTextColor = "";
+    var defaultTextColor = "";
+
+
+    switch (theme)
+    {
+        case "blue":
+            defaultMetaBackgroundColor = "#004d66";
+            defaultMetaTextColor = "#ffffff";
+            defaultCtaBackgroundColor = "#ffc44d";
+            defaultCtaTextColor = "#1b1b1b";
+            defaultTextColor = "#ffffff";
+            break;
+        case "green":
+            defaultMetaBackgroundColor = "#BABF33";
+            defaultMetaTextColor = "#1b1b1b";
+            defaultCtaBackgroundColor = "#ffc44d";
+            defaultCtaTextColor = "#1b1b1b";
+            defaultTextColor = "#ffffff";
+            break;
+        case "red":
+            defaultMetaBackgroundColor = "#B3314E";
+            defaultMetaTextColor = "#ffffff";
+            defaultCtaBackgroundColor = "#ffc44d";
+            defaultCtaTextColor = "#1b1b1b";
+            defaultTextColor = "#ffffff";
+            break;
+    }
+
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var textColor = content?.TextColor?.Color ?? defaultTextColor;
+
+    var styles = $@"
+        --backdrop-card__meta-background-color: {defaultMetaBackgroundColor};
+        --backdrop-card__meta-text-color: {defaultMetaTextColor};
+        --backdrop-card__cta-background-color: {defaultCtaBackgroundColor};
+        --backdrop-card__cta-text-color: {defaultCtaTextColor};
+        --backdropc-card__text-color: {textColor};
+    ";
 }
 
 
-<div class="backdrop-card__container @blockClasses" aria-label="@content.Heading">
+<div class="backdrop-card__container @blockClasses" aria-label="@content.Heading" style="@styles">
     @if (!string.IsNullOrWhiteSpace(bgUrl))
     {
         <img class="backdrop-card__img" src="@bgUrl" alt="@content.Heading" />

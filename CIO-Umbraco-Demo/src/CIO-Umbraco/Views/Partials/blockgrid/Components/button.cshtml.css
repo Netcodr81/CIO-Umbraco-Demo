@@ -15,19 +15,21 @@
 }
 
 .btn__primary {
-    background-color: #004d66;
-    color: #fff;
-    border-color: #004d66;
+    background-color: var(--theme-primary);
+    color: var(--theme-primary-text);
+    border-color: var(--theme-primary);
 }
 
 .btn__secondary {
-    background-color: #FFC44D;
-    color: #1b1b1b;
-    border-color: #ffc44d;
+    background-color: var(--theme-secondary);
+    color: var(--theme-secondary-text);
+    border-color: var(--theme-secondary);
 }
 
+
+
 .btn__outline {
-    color: #004d66;
-    border-color: #004d66;
+    color: var(--theme-primary);
+    border-color: var(--theme-primary);
     background-color: transparent;
 }
