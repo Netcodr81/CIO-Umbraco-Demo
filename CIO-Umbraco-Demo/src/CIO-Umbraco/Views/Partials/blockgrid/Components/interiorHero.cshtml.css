@@ -87,7 +87,6 @@
 }
 
 .interior-hero__svg-fore {
-    /* Always inherit the hero background color for seamless visual flow */
     fill: var(--page-bg, var(--theme-background));
 }
 

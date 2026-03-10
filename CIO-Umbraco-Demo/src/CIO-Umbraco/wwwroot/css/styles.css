@@ -157,7 +157,9 @@
 	--backdropc-card__text-color: #ffffff;
 	--interior-hero-svg-background-color: #004d66;
 	--interior-hero-svg-midground-color: #ffc44d;
-    --interior-hero-svg-foreground-color: inherit;
+	--interior-hero-svg-foreground-color: inherit;
+	--component-page-header__svg-background-color: #4d90a5;
+    --component-page-header__svg-midground-color: #ffc44d;
 }
 
 

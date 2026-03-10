@@ -85,7 +85,9 @@
     opacity: var(--theme-svg-midground-opacity);
 }
 
-.homepage-hero__svg-fore { fill: var(--theme-svg-foreground-color); }
+.homepage-hero__svg-fore {
+    fill: var(--page-bg, var(--theme-background));
+}
 
 .homepage-hero__wrapper > svg {
     position: absolute;

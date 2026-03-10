@@ -7,9 +7,37 @@
     var content = Model.Content;
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    
+    var theme = Umbraco.GetCurrentTheme();
+
+    var defaultSvgBackgroundColor = "";
+    var defaultSvgMidgroundColor = "";
+    var defaultSvgForegroundColor = "";
+
+    switch (theme)
+    {
+        case "blue":
+            defaultSvgBackgroundColor = "#4d90a5";
+            defaultSvgMidgroundColor = "#ffc44d";
+            break;
+        case "green":
+            defaultSvgBackgroundColor = "BABF33";
+            defaultSvgMidgroundColor = "949926";
+            break;
+        case "red":
+            defaultSvgBackgroundColor = "#8F273E";
+            defaultSvgMidgroundColor = "#B3314E";
+            break;
+    }
+
+    var styles = $@"
+        --component-page-header__svg-background-color: {defaultSvgBackgroundColor};
+        --component-page-header__svg-midground-color: {defaultSvgMidgroundColor};      
+    ";
 }
 
-<section class="components-page-header__container @blockClasses">
+<section class="components-page-header__container @blockClasses" style="@styles">
 
     <h1>@content.Title</h1>
     <div class="components-page-header__svg">
