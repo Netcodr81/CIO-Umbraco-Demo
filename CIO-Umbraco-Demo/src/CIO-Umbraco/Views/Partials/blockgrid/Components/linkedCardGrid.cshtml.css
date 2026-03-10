@@ -1,13 +1,13 @@
 ﻿.linked-card-grid {
     display: grid;
-    gap: 1.5rem;
+    column-gap: 1.5rem;
+    row-gap: 2rem;
     grid-template-columns: 1fr;
-    grid-auto-rows: 1fr;
+    align-items: start; /* Cards stay at top of grid cell */
 }
 
 .linked-card-grid__item {
     display: flex;
-    height: 100%;
 }
 
 @media (min-width: 768px) {

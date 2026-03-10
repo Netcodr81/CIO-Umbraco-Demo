@@ -77,17 +77,17 @@
 }
 
 .interior-hero__svg-back {
-    fill: var(--interior-hero-svg-background-color);
-    opacity: .7;
+    fill: var(--theme-svg-background-color);
+    opacity: var(--theme-svg-background-opacity);
 }
 
 .interior-hero__svg-mid {
-    fill: var(--interior-hero-svg-midground-color);
-    opacity: .7;
+    fill: var(--theme-svg-midground-color);
+    opacity: var(--theme-svg-midground-opacity);
 }
 
 .interior-hero__svg-fore {
-    fill: var(--interior-hero-svg-foreground-color);
+    fill: var(--theme-svg-foreground-color);
 }
 
 .interior-hero__svg {
