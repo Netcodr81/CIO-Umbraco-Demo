@@ -8,22 +8,64 @@
     var content = Model.Content;
     var backgroundImageUrl = content.BackgroundImage?.GetCropUrl();
 
+    var theme = Umbraco.GetCurrentTheme();
+
     var ctaLink = content.CtaLink;
     var ctaUrl = ctaLink?.Url;
     var ctaTarget = string.IsNullOrWhiteSpace(ctaLink?.Target) ? "_self" : ctaLink.Target;
 
-    var buttonBackgroundColor = content?.ButtonBackgroundColor?.Color ?? "#FFC44D";
+    string defaultButtonBackgroundColor = "";
+
+    string defaultHeadingTextColor = "";
+    string defaultSubheadingColor = "";
+    string defaultBackgroundColor = "";
+    string defaultIconColor = "";
+    string defaultCtaTextColor = "";
+    
   
-    var headingTextColor = content?.SubheadingColor?.Color ?? "#ffffff";
-    var subheadingColor = content?.SubheadingColor?.Color ?? "#ffffff";
-    var backgroundColor = content?.BackgroundColor?.Color ?? "#00607F";
+    switch (theme)
+    {
+        case "blue":
+            defaultHeadingTextColor = "#ffffff";
+            defaultSubheadingColor = "#ffffff";
+            defaultBackgroundColor = "#00607F";
+            defaultButtonBackgroundColor = "#FFC44D";
+            defaultIconColor = "#ffffff";
+            defaultCtaTextColor = "#ffffff";
+            break;
+        case "green" :
+            defaultHeadingTextColor = "#ffffff";
+            defaultSubheadingColor = "#ffffff";
+            defaultBackgroundColor = "#BABF33";
+            defaultButtonBackgroundColor = "#949926";
+            defaultIconColor = "#1b1b1b";
+            defaultCtaTextColor = "#1b1b1b";
+            break;
+        case "red":
+            defaultHeadingTextColor = "#ffffff";
+            defaultSubheadingColor = "#ffffff";
+            defaultBackgroundColor = "#B3314E";
+            defaultButtonBackgroundColor = "#8F273E";
+            defaultIconColor = "#ffffff";
+            defaultCtaTextColor = "#ffffff";
+            break;
+    }
+
+    string headingTextColor = content?.SubheadingColor?.Color ?? defaultHeadingTextColor;
+    string subheadingColor = content?.SubheadingColor?.Color ?? defaultSubheadingColor;
+    string backgroundColor = content?.BackgroundColor?.Color ?? defaultBackgroundColor;
+    string buttonBackgroundColor = content?.ButtonBackgroundColor?.Color ?? defaultButtonBackgroundColor;
+    var iconColor = content?.IconColor?.Color ?? defaultIconColor;
+    var ctaTextColor = content?.CtaTextColor?.Color ?? defaultCtaTextColor;
 
     var cssVariables = $@"
         --homepage-hero-background-image: url({backgroundImageUrl});
         --homepage-hero-background-color: {backgroundColor};
         --homepage-hero-btn-color: {buttonBackgroundColor};      
         --homepage-hero-heading-text-color: {headingTextColor};
-        --homepage-hero-subheading-text-color: {subheadingColor};       
+        --homepage-hero-subheading-text-color: {subheadingColor};  
+        --homepage-hero-icon-color: {iconColor};
+        --homepage-hero-cta-text-color: {ctaTextColor};
     ";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
@@ -46,13 +88,13 @@
                     {
                         if (content.ButtonIconLocation == "Prepend")
                         {
-                            <inline-svg media-item="content.ButtonIcon"></inline-svg>
+                            <inline-svg media-item="content.ButtonIcon" fill="@iconColor"></inline-svg>
                             @content.ButtonText
                         }
                         else
                         {
                             @content.ButtonText
-                            <inline-svg media-item="content.ButtonIcon"></inline-svg>
+                            <inline-svg media-item="content.ButtonIcon" fill="@(iconColor)"></inline-svg>
                         }
                     }
                     else

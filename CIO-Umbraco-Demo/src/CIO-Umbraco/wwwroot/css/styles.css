@@ -41,7 +41,7 @@
 .theme-red {
 	--theme-primary: #B3314E;
 	--theme-secondary: #ffc44d;
-	--theme-dark: #004d66;
+	--theme-dark: #8F273E;
 	--theme-background: #f3f7fc;
 	--theme-icons: #B3314E;
 	--theme-svg-background-color: #B3314E;
@@ -55,7 +55,7 @@
 .theme-green {
 	--theme-primary: #BABF33;
 	--theme-secondary: #ffc44d;
-	--theme-dark: #004d66;
+	--theme-dark: #949926;
 	--theme-background: #f3f7fc;
 	--theme-icons: #BABF33;
 	--theme-svg-background-color: #BABF33;
@@ -67,11 +67,13 @@
 }
 
 :root {
-
 	--stylized-header-text-color: #1b1b1b;
 	--homepage-hero-heading-text-color: #ffffff;
 	--homepage-hero-subheading-text-color: #ffffff;
-	--icon-button-text-hover-color: #00607f;
+	--homepage-hero-btn-color: "#ffc44d";
+	--homepage-hero-icon-color: #ffffff;
+    --homepage-hero-cta-text-color: #ffffff;
+    --icon-button-text-hover-color: #00607f;
 	--icon-button-background-color: #00607f;
 	--icon-button-background-hover-color: #bbd4dd;
 	--icon-button-icon-hover-color: #00607f;
@@ -85,7 +87,7 @@
 	--info-card-button-text-color: #fff;
 	--info-card-button-text-hover-color: #ffffff;
 	--info-card-button-background-color: #00607f;
-	--info-card-button-background-hover-color: #004d66;
+	--info-card-button-background-hover-color: #bbd4dd;
 	--newsroom-header-text-color: #000;
 	--newsroom-header-font-size: 1.99rem;
 	--newsroom-header-line-height: 1.2;

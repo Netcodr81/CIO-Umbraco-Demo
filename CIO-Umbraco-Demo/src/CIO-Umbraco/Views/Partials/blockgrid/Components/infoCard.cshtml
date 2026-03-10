@@ -1,4 +1,5 @@
 ﻿@using System.Text
+@using CIOUmbracoDemo.Extensions
 @inherits UmbracoViewPage<BlockListItem<ContentModels.InfoCard>>
 
 @{
@@ -6,17 +7,86 @@
 
     var content = Model.Content;
 
-    var headerTextColor = content.CardHeaderTextColor?.Color ?? "#1b1b1b";
-    var headerTextHoverColor = content.CardHeaderTextHoverColor?.Color ?? "#1b1b1b";
-    var bodyTextColor = content.CardBodyTextColor?.Color ?? "#1b1b1b";
-    var bodyTextHoverColor = content.CardBodyTextHoverColor?.Color ?? "#1b1b1b";
-    var backgroundColor = content.CardBackgroundColor?.Color ?? "#fff";
-    var backgroundHoverColor = content.CardBackgroundHoverColor?.Color ?? "#fff";
-    var iconHoverColor = content.CardIconHoverColor?.Color ?? "#fff";
-    var buttonTextColor = content.CardButtonTextColor?.Color ?? "#fff";
-    var buttonTextHoverColor = content.CardButtonTextHoverColor?.Color ?? "#fff";
-    var buttonBackgroundColor = content.CardButtonBackgroundColor?.Color ?? "#00607f";
-    var buttonBackgroundHoverColor = content.CardButtonBackgroundHoverColor?.Color ?? "#004d66";
+    var theme = Umbraco.GetCurrentTheme();
+   
+    string defaultHeaderTextColor = null;
+    string defaultHeaderTextHoverColor = null;
+
+    string defaultBodyTextColor = null;
+    string defaultBodyTextHoverColor = null;
+
+    string defaultBackgroundColor = null;
+    string defaultBackgroundHoverColor = null;
+
+    string defaultIconColor = null;
+    string defaultIconHoverColor = null;
+
+    string defaultButtonTextColor = null;
+    string defaultButtonTextHoverColor = null;
+
+    string defaultButtonBackgroundColor = null;
+    string defaultButtonBackgroundHoverColor = null;
+    
+    
+
+    switch (theme)
+    {
+        case "blue":
+            defaultHeaderTextColor = "#1b1b1b";
+            defaultHeaderTextHoverColor = "#1b1b1b";
+            defaultBodyTextColor = "#1b1b1b";
+            defaultBodyTextHoverColor = "#1b1b1b";
+            defaultBackgroundColor = "#ffffff";
+            defaultBackgroundHoverColor = "#ffffff";
+            defaultIconColor = "#ffffff";
+            defaultIconHoverColor = "#ffffff";
+            defaultButtonTextColor = "#ffffff";
+            defaultButtonTextHoverColor = "#ffffff";
+            defaultButtonBackgroundColor = "#00607f";
+            defaultButtonBackgroundHoverColor = "#004d66";
+            break;
+        case "green" :
+            defaultHeaderTextColor = "#1b1b1b";
+            defaultHeaderTextHoverColor = "#1b1b1b";
+            defaultBodyTextColor = "#1b1b1b";
+            defaultBodyTextHoverColor = "#1b1b1b";
+            defaultBackgroundColor = "#ffffff";
+            defaultBackgroundHoverColor = "#ffffff";
+            defaultIconColor = "#ffffff";
+            defaultIconHoverColor = "#ffffff";
+            defaultButtonTextColor = "#1b1b1b";
+            defaultButtonTextHoverColor = "#1b1b1b";
+            defaultButtonBackgroundColor = "#BABF33";
+            defaultButtonBackgroundHoverColor = "#949926";
+            break;
+        case "red":
+            defaultHeaderTextColor = "#1b1b1b";
+            defaultHeaderTextHoverColor = "#1b1b1b";
+            defaultBodyTextColor = "#1b1b1b";
+            defaultBodyTextHoverColor = "#1b1b1b";
+            defaultBackgroundColor = "#ffffff";
+            defaultBackgroundHoverColor = "#ffffff";
+            defaultIconColor = "#ffffff";
+            defaultIconHoverColor = "#ffffff";
+            defaultButtonTextColor = "#ffffff";
+            defaultButtonTextHoverColor = "#ffffff";
+            defaultButtonBackgroundColor = "#B3314E";
+            defaultButtonBackgroundHoverColor = "#8F273E";
+            break;
+    }
+    
+
+    var headerTextColor = content.CardHeaderTextColor?.Color ?? defaultHeaderTextColor;
+    var headerTextHoverColor = content.CardHeaderTextHoverColor?.Color ?? defaultHeaderTextHoverColor;
+    var bodyTextColor = content.CardBodyTextColor?.Color ?? defaultBodyTextColor;
+    var bodyTextHoverColor = content.CardBodyTextHoverColor?.Color ?? defaultBodyTextHoverColor;
+    var backgroundColor = content.CardBackgroundColor?.Color ?? defaultBackgroundColor;
+    var backgroundHoverColor = content.CardBackgroundHoverColor?.Color ?? defaultBackgroundHoverColor;
+    var iconHoverColor = content.CardIconHoverColor?.Color ?? defaultIconHoverColor;
+    var buttonTextColor = content.CardButtonTextColor?.Color ?? defaultButtonTextColor;
+    var buttonTextHoverColor = content.CardButtonTextHoverColor?.Color ?? defaultButtonTextHoverColor;
+    var buttonBackgroundColor = content.CardButtonBackgroundColor?.Color ?? defaultButtonBackgroundColor;
+    var buttonBackgroundHoverColor = content.CardButtonBackgroundHoverColor?.Color ?? defaultButtonBackgroundHoverColor;
 
     var heightVariables = new StringBuilder();
 
@@ -95,13 +165,13 @@
                 {
                     if (content.ButtonIconLocation == "Prepend")
                     {
-                        <inline-svg media-item="content.ButtonIcon" width="16" height="16" fill="@content?.IconColor?.Color"></inline-svg>
+                        <inline-svg media-item="content.ButtonIcon" width="16" height="16" fill="@(content?.IconColor?.Color ?? @defaultIconColor)"></inline-svg>
                         @content?.ButtonText
                     }
                     else
                     {
                         @content.ButtonText
-                        <inline-svg media-item="content.ButtonIcon" width="16" height="16" fill="@content?.IconColor?.Color"></inline-svg>
+                        <inline-svg media-item="content.ButtonIcon" width="16" height="16" fill="@(content?.IconColor?.Color ?? defaultIconColor)"></inline-svg>
                     }
                 }
                 else

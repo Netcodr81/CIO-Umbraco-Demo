@@ -13,10 +13,19 @@
     var maxNumberOfButtonsPerRow = content.MaxNumberOfCardsPerRow ?? "3";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var styles = new StringBuilder();
+
+    var backgroundColor = content?.BackgroundColor?.Color;
+
+    if (backgroundColor is not null)
+    {
+        styles.Append($"background-color: {backgroundColor}");
+    }
    
 }
 
-<div class="info-card-grid @blockClasses" data-columns="@maxNumberOfButtonsPerRow">
+<div class="info-card-grid @blockClasses" data-columns="@maxNumberOfButtonsPerRow" style="@styles">
 
 
     @if (content.Cards.Any())

@@ -53,9 +53,9 @@
 }
 
 .homepage-hero__btn {
-    background-color: var(--theme-secondary);
+    background-color: var(--homepage-hero-btn-color);
     text-decoration: none;
-    color: #1b1b1b; /* Fallback for older browsers */
+    color: var(--homepage-hero-cta-text-color); /* Fallback for older browsers */
     padding-inline: 2rem;
     padding-block: 1rem;
     border-radius: calc(infinity * 1px);
@@ -66,18 +66,13 @@
     font-size: 1.25rem;
 }
 
-@supports (color: oklch(from var(--theme-secondary) l c h)) {
-    .homepage-hero__btn {
-        color: oklch(from var(--theme-secondary) calc((l - 0.5) * -100) 0 0);
-    }
-}
 
 .homepage-hero__btn:hover {
-    /* Fallback for older browsers - slightly lighter using color-mix */
-    background-color: color-mix(in srgb, var(--theme-secondary) 80%, white 20%);
-    /* Modern browsers - increase lightness by 15% */
-    background-color: oklch(from var(--theme-secondary) calc(l + 0.07) c h);
-    transition: background-color 0.5s ease-in-out;
+    /* fallback: mix a little white for older browsers */
+    background-color: color-mix(in srgb, var(--homepage-hero-btn-color) 85%, white 15%);
+    /* modern perceptual lighten: increase lightness by ~8% */
+    background-color: oklch(from var(--homepage-hero-btn-color) calc(l + 0.08) c h);
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 }
 
 .homepage-hero__svg-back {

@@ -7,6 +7,23 @@
 
     var content = Model.Content;
 
+    var theme = Umbraco.GetCurrentTheme();
+
+    string defaultIconColor = null;
+
+    switch (theme)
+    {
+        case "blue":
+            defaultIconColor = "#00607f";
+            break;
+        case "green" :
+            defaultIconColor = "#BABF33";
+            break;
+        case "red":
+            defaultIconColor = "#B3314E";
+            break;
+    }
+
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
@@ -24,7 +41,7 @@
                             var listItem = item.Content as IconListItem;
                             <li class="mission-and-value__list-item" style="display:flex;gap:10px;">
                               
-                                <inline-svg media-item="listItem?.Icon" fill="@listItem?.IconColor?.Color" width="24"
+                                <inline-svg media-item="listItem?.Icon" fill="@(listItem?.IconColor?.Color ?? @defaultIconColor)" width="24"
                                             height="24"></inline-svg>
                                @listItem?.Text
                                
