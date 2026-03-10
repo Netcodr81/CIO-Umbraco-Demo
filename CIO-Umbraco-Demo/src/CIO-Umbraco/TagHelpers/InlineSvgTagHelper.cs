@@ -67,7 +67,7 @@ public class InlineSvgTagHelper(ISvgRenderer svgRenderer) : TagHelper
                 newSvgTag = Regex.Replace(newSvgTag, "height=\"[^\"]*\"", $"height=\"{Height}\"", RegexOptions.IgnoreCase)
                     .Replace("<svg", $"<svg height=\"{Height}\"");
 
-            if (!string.IsNullOrWhiteSpace(Height))
+            if (!string.IsNullOrWhiteSpace(Fill))
                 newSvgTag = Regex.Replace(newSvgTag, "fill=\"[^\"]*\"", $"fill=\"{Fill}\"", RegexOptions.IgnoreCase)
                     .Replace("<svg", $"<svg fill=\"{Fill}\"");
 

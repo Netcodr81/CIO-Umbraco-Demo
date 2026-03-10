@@ -1,5 +1,5 @@
 ﻿.backdrop-card__container {
-    color: #fff;
+    color: var(--backdropc-card__text-color);
     cursor: pointer;
     border-radius: .5rem;
     overflow: hidden;
@@ -38,8 +38,8 @@
     font-size: 0.9rem;
     opacity: 0.9;
     margin-bottom: 0.25rem;
-    color: rgba(255, 255, 255, 0.95);
-    background-color: #004d66;
+    color: var(--backdrop-card__meta-text-color);
+    background-color: var(--backdrop-card__meta-background-color);
     width: fit-content;
     border-radius: .2rem;
     padding-left: 6px;
@@ -50,12 +50,12 @@
     font-size: 1.5rem;
     line-height: 1.1;
     margin: 0 0 0.25rem 0;
-    color: #fff;
+    color: var(--backdropc-card__text-color);
 }
 
 .backdrop-card__text {
     margin: 0;
-    color: rgba(255, 255, 255, 0.95);
+    color: var(--backdropc-card__text-color);
     font-size: 0.98rem;
 }
 
@@ -64,10 +64,9 @@
     align-items: center;
     gap: 0.4rem;
     margin-top: 0.75rem;
-    color: #fff;
     text-decoration: none;
-    background-color: #FFC44D;
-    color: #1b1b1b;
+    background-color: var(--backdrop-card__cta-background-color);
+    color: var(--backdrop-card__cta-text-color);
     width: fit-content;
     padding-right: 1.5rem;
     padding-left: 1.5rem;

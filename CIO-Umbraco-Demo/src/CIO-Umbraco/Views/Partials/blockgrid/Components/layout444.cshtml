@@ -4,6 +4,7 @@
 
 @{
     Layout = "_Layout_Layouts.cshtml";
+    // 1. Check if this block grid item has settings
     // 2. If this block grid item has settings, get the Areas background colour
     var areasBackgroundColour = Model.Settings?.Value<ColorPickerValueConverter.PickedColor>("layoutAreasColourPicker");
     // 3. Get the label from the colour
@@ -12,12 +13,19 @@
     var areasColorLabel = string.IsNullOrWhiteSpace(areasColorLabelValue) ? "bg-white" : areasColorLabelValue;
     // 5. Set the TempData to use in the area
     ViewData["AreaBackgroundColors"] = areasColorLabel;
+
+    // Get site settings from the current page context
+    var currentPage = Umbraco.AssignedContentItem;
+    var siteSettings = currentPage?.Root().FirstChild<SiteSettings>();
+    var theme = siteSettings?.Theme?.ToLower() ?? "blue";
 }
+
+
 
 @if (Context.Request.IsBlockPreviewRequest())
 {
-    <div class="layout__container">
-        <p class="layout-header"><umb-icon name="icon-layout-masonry"></umb-icon> Layout - 3|9</p>
+    <div class="layout__container theme-@theme">
+        <p class="layout-header"><umb-icon name="icon-layout-masonry"></umb-icon> Layout - 4|4|4</p>
         @await Html.GetPreviewBlockGridItemAreasHtmlAsync(Model)
 
     </div>

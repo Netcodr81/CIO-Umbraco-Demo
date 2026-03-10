@@ -42,7 +42,8 @@
                 <div class="alert__text">
                     @if (!string.IsNullOrWhiteSpace(content.Heading))
                     {
-                        @content.Heading
+                        <p style="font-weight: 700;">@content.Heading</p>
+                        
                     }
 
                     @if (content.BodyText is not null)

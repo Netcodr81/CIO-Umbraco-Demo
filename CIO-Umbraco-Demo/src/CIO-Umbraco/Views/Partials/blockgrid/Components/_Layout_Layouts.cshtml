@@ -20,7 +20,7 @@
     var backgroundImage = Model.Settings?.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("layoutSettingsBackgroundImagePicker");
 
     var styleAttributes = new StringBuilder();
-
+    
     if(backgroundColor is not null)
     {
         styleAttributes.Append($"background-color:{backgroundColor};");

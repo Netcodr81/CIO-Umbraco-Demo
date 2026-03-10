@@ -78,16 +78,16 @@
 
 .interior-hero__svg-back {
     fill: var(--interior-hero-svg-background-color);
-    opacity: .7;
+    opacity: var(--theme-svg-background-opacity);
 }
 
 .interior-hero__svg-mid {
     fill: var(--interior-hero-svg-midground-color);
-    opacity: .7;
+    opacity: var(--theme-svg-midground-opacity);
 }
 
 .interior-hero__svg-fore {
-    fill: var(--interior-hero-svg-foreground-color);
+    fill: var(--page-bg, var(--theme-background));
 }
 
 .interior-hero__svg {

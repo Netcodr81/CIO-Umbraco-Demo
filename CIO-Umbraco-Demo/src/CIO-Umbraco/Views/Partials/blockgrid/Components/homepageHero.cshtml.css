@@ -7,7 +7,7 @@
     justify-content: flex-start;
     padding-left: 1rem;
     padding-right: 1rem;
-    background-color: #1b264f;
+    background-color: var(--theme-dark);
     background-image: var(--homepage-hero-background-image);
     background-size: cover;
     background-position: center;
@@ -55,7 +55,7 @@
 .homepage-hero__btn {
     background-color: var(--homepage-hero-btn-color);
     text-decoration: none;
-    color: var(--homepage-hero-btn-text-color);
+    color: var(--homepage-hero-cta-text-color); /* Fallback for older browsers */
     padding-inline: 2rem;
     padding-block: 1rem;
     border-radius: calc(infinity * 1px);
@@ -66,23 +66,28 @@
     font-size: 1.25rem;
 }
 
+
 .homepage-hero__btn:hover {
-    background-color: var(--homepage-hero-btn-hover-color);
-    transition: background-color ease-in-out 0.5s;
-    color: var(--homepage-hero-btn-text-hover-color);
+    /* fallback: mix a little white for older browsers */
+    background-color: color-mix(in srgb, var(--homepage-hero-btn-color) 85%, white 15%);
+    /* modern perceptual lighten: increase lightness by ~8% */
+    background-color: oklch(from var(--homepage-hero-btn-color) calc(l + 0.08) c h);
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 }
 
 .homepage-hero__svg-back {
-    fill: var(--homepage-hero-svg-background-color);
-    opacity: .7;
+    fill: var(--theme-svg-background-color);
+    opacity: var(--theme-svg-background-opacity);
 }
 
 .homepage-hero__svg-mid {
-    fill: var(--homepage-hero-svg-midground-color);
-    opacity: .7;
+    fill: var(--theme-svg-midground-color);
+    opacity: var(--theme-svg-midground-opacity);
 }
 
-.homepage-hero__svg-fore { fill: var(--homepage-hero-svg-foreground-color); }
+.homepage-hero__svg-fore {
+    fill: var(--page-bg, var(--theme-background));
+}
 
 .homepage-hero__wrapper > svg {
     position: absolute;
@@ -100,7 +105,7 @@
         height: 32rem;
         /* Remove background image from main wrapper on mobile */
         background-image: none !important;
-        background-color: var(--homepage-hero-background-color, #1b264f);
+        background-color: var(--theme-dark, #1b264f);
     }
 
     /* Hide the dark overlay on mobile - gradient will handle darkening */
@@ -137,7 +142,7 @@
             rgba(0, 0, 0, 0.1) 6%,             /* Very light darkening */
             rgba(0, 0, 0, 0.3) 15%,            /* Light darkening on image */
             rgba(0, 0, 0, 0.8) 22%,            /* Darker at bottom of image */
-            var(--homepage-hero-background-color, #1b264f) 100%   /* Solid background color */
+            var(--theme-dark, #1b264f) 100%   /* Solid background color */
         );
         z-index: 1;
         pointer-events: none;

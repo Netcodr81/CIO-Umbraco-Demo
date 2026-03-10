@@ -7,6 +7,8 @@
 
     var content = Model.Content;
 
+    var theme = Umbraco.GetCurrentTheme();
+
     var table = content.Table;
 
     var headers = new List<string>();
@@ -22,12 +24,11 @@
     {
         tableCSS.Append(" basic-table-striped");
     }
-
-
-    var tableColorScheme = content?.TableColorScheme?.Color ?? "#00607F";
+    
+    var tableColorScheme = content?.TableColorScheme?.Color ?? "var(--theme-primary)";
 
     var styles = $@"
-		--basic-table__color-scheme: {tableColorScheme};
+        --basic-table__color-scheme: {tableColorScheme};
 	";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
