@@ -31,15 +31,23 @@
 	--theme-primary: #00607f;
 	--theme-secondary: #ffc44d;
 	--theme-dark: #004d66;
-    --theme-primary-text: #ffffff;
-    --theme-secondary-text: #1b1b1b;
+	--theme-primary-text: #ffffff;
+	--theme-secondary-text: #1b1b1b;
 	--theme-background: #f3f7fc;
 	--theme-svg-background-color: #4d90a5;
 	--theme-svg-background-opacity: 0.7;
 	--theme-svg-midground-color: #ffc44d;
 	--theme-svg-midground-opacity: 0.7;
 	--theme-svg-foreground-color: Inherit;
-    --theme-icon-color: #1b1b1b;
+	--theme-icon-color: #1b1b1b;
+	/* FullCalendar theme colors */
+	--fc-button-bg-color: #00607f;
+	--fc-button-active-bg-color: #004d66;
+	--fc-button-active-border-color: #004d66;
+	--fc-calendar-header-text-color: #ffffff;
+	--fc-button-text-color: #ffffff;
+	--fc-today-bg-color: #bbd4dd;
+	--fc-button-hover-bg-color: #bbd4dd;
 }
 
 .theme-red {
@@ -55,6 +63,14 @@
 	--theme-svg-midground-opacity: 0.7;
 	--theme-svg-foreground-color: inherit;
 	--theme-icon-color: #ffffff;
+	/* FullCalendar theme colors */
+	--fc-button-bg-color: #B3314E;
+	--fc-button-active-bg-color: #8F273E;
+	--fc-button-active-border-color: #8F273E;
+	--fc-calendar-header-text-color: #ffffff;
+	--fc-button-text-color: #ffffff;
+	--fc-today-bg-color: #E8B8C5;
+    --fc-button-hover-bg-color: #E8B8C5;
 }
 
 .theme-green {
@@ -70,6 +86,22 @@
 	--theme-svg-midground-opacity: 0.7;
 	--theme-svg-foreground-color: inherit;
 	--theme-icon-color: #1b1b1b;
+	/* FullCalendar theme colors */
+	--fc-button-bg-color: #BABF33;
+	--fc-button-active-bg-color: #949926;
+	--fc-button-active-border-color: #949926;
+	--fc-calendar-header-text-color: #1b1b1b;
+	--fc-button-text-color: #1b1b1b;
+	--fc-today-bg-color: #E3E6B3;
+	--fc-button-hover-bg-color: #E3E6B3;
+}
+
+/*Full Calendar Styles*/
+:root {
+	--fc-button-bg-color: #00607f;
+	--fc-button-active-bg-color: #004d66;
+	--fc-button-active-border-color: #004d66;
+    --fc-border-color: #1b1b1b;
 }
 
 :root {
@@ -1724,4 +1756,18 @@ a.icon-button-card__container {
 
 .btn__button.btn__outline > svg {
     fill: var(--theme-primary);
+}
+
+
+.fc-event-title-container {
+    font-size: .6rem;
+}
+
+.fc-event-main {
+    cursor: pointer;
+}
+
+.fc-col-header-cell {
+	background-color: var(--theme-primary);
+    color: var(--fc-calendar-header-text-color);
 }
