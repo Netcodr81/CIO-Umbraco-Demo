@@ -22,27 +22,27 @@
     styleAttribute += $"--page-bg:{pageBackgroundColor};background-color:var(--page-bg);";
 
     var theme = siteSettings?.Theme?.ToLower() ?? "blue";
-
 }
 
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
 <head>
-    <partial name="Head/_meta" />
-    <link href="~/css/layout.css" rel="stylesheet" asp-append-version="true" />
+    <partial name="Head/_meta"/>
+    <link href="~/css/layout.css" rel="stylesheet" asp-append-version="true"/>
     <link rel="icon" type="image/svg+xml" href="/favicon.ico">
-    <link rel="stylesheet" href="/css/styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/CIOUmbracoDemo.styles.css" />
-    <link rel="stylesheet" href="~/css/umbraco-forms.css" />
-    <link rel="stylesheet" href="~/css/forms.css" />
+    <link rel="stylesheet" href="/css/styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/CIOUmbracoDemo.styles.css"/>
+    <link rel="stylesheet" href="~/css/umbraco-forms.css"/>
+    <link rel="stylesheet" href="~/css/forms.css"/>
 
-
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.css" rel="stylesheet"/>
 
     <!-- Start Google Fonts - Lato -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-    
+
     <!-- Form Validation Scripts -->
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.0.0.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.2/jquery.validate.min.js"></script>
@@ -50,31 +50,32 @@
 
     <!-- End Google Fonts - Lato -->
 </head>
-<body class="theme-@theme" data-bgimage="@backgroundImage?.MediaUrl()" style="@styleAttribute">  
+<body class="theme-@theme" data-bgimage="@backgroundImage?.MediaUrl()" style="@styleAttribute">
 <div id="page-top" class="anchor__container" aria-hidden="true" data-anchor-id="page-top"></div>
 <div class="document d-flex flex-column justify-content-between">
-        <!-- START BANNER -->
-        @if (siteSettings?.ShowBanner ?? true)
-        {
-            @await Html.PartialAsync("layout/Banner")
-        }
-        <!-- END BANNER -->
+    <!-- START BANNER -->
+    @if (siteSettings?.ShowBanner ?? true)
+    {
+        @await Html.PartialAsync("layout/Banner")
+    }
+    <!-- END BANNER -->
 
-        <!-- START HEADER -->
-        @await Html.PartialAsync("layout/Header")
-        <!-- END HEADER -->
-      
-        <main role="main" class="flex-grow-1 pb-3">
-            @RenderBody()
-        </main>
+    <!-- START HEADER -->
+    @await Html.PartialAsync("layout/Header")
+    <!-- END HEADER -->
 
-        <!-- START FOOTER -->
-        @await Html.PartialAsync("layout/Footer")
-        <!-- END FOOTER -->
-    </div>
-    <script src="/scripts/main.js" asp-append-version="true"></script>
-    <script src="/scripts/navigation.js" asp-append-version="true"></script>  
+    <main role="main" class="flex-grow-1 pb-3">
+        @RenderBody()
+    </main>
 
-       
+    <!-- START FOOTER -->
+    @await Html.PartialAsync("layout/Footer")
+    <!-- END FOOTER -->
+</div>
+<script src="/scripts/main.js" asp-append-version="true"></script>
+<script src="/scripts/navigation.js" asp-append-version="true"></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js'></script>
+
+
 </body>
 </html>
