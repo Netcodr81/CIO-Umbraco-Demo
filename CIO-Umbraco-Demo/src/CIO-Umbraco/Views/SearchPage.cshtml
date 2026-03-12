@@ -1,0 +1,58 @@
+﻿@using CIOUmbracoDemo.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.SearchPage>
+
+@{
+	Layout = "_Layout.cshtml";
+	var searchQuery = ViewData["SearchQuery"]?.ToString();
+	var searchResults = ViewData["SearchResults"] as SearchResults;
+}
+
+<div class="search-container">
+	<div class="row">
+		<div class="col-12">
+			<h1 class="mb-4">Search Results</h1>
+
+			@if (!string.IsNullOrWhiteSpace(searchQuery))
+			{
+				<p class="lead mb-2">Search query: <strong>@searchQuery</strong></p>
+
+				@if (searchResults != null && searchResults.Items.Any())
+				{
+					<p class="text-muted mb-4">Total results: @searchResults.Items.Count</p>
+
+					<div class="search-results">
+						@foreach (var result in searchResults.Items)
+						{
+							<div class="border-bottom mb-4 pb-4">
+								<h3 class="h5 mb-2">
+									<a class="search-page-title" href="@result.Url">@result.PageTitle</a>
+								</h3>
+
+								@if (!string.IsNullOrWhiteSpace(result.ContentGrid))
+								{
+									<p class="mb-2">
+										@(result.ContentGrid.Length > 300 
+											? result.ContentGrid.Substring(0, 300) + "..." 
+											: result.ContentGrid)
+									</p>
+								}
+
+                                <p class="text-muted small mb-0"><span style="font-weight: bold;""">Url:</span> @result.Url</p>
+							</div>
+						}
+					</div>
+				}
+				else
+				{
+					<div class="alert alert-info mt-4">
+						<p class="mb-0">No results found for "<strong>@searchQuery</strong>".</p>
+					</div>
+				}
+			}
+			else
+			{
+				<p class="text-muted">Enter a search term to find content.</p>
+			}
+		</div>
+	</div>
+</div>

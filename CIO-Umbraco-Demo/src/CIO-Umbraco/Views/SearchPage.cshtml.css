@@ -1,0 +1,14 @@
+﻿.search-container {
+    padding-inline: 4rem;
+    padding-block: 6rem;
+    font-size: .99rem;
+}
+
+.search-page-title {
+    color: var(--theme-primary);
+    text-decoration: none;
+}
+
+.search-page-title:visited {
+    color: var(--theme-primary);
+}
