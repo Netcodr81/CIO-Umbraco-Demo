@@ -47,10 +47,13 @@
 {
     <h1>Calendar Events</h1>
 
+    <div style="display: flex; gap: 10px;">
+
     @foreach (var @event in content.Events)
     {
         @await Html.PartialAsync("/Views/Partials/blockgrid/Components/calendarEvent.cshtml", @event)
     }
+    </div>
 }
 else
 {
@@ -91,17 +94,7 @@ else
                             </svg>
                             <span class="event-popover__location-text"></span>
                         </div>
-
-                       @*  <div class="event-popover__detail-item event-popover__color">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5 0a1 1 0 1 0-2 0v12a1 1 0 1 0 2 0V2zm3 0a1 1 0 1 0-2 0v12a1 1 0 1 0 2 0V2zm3 0a1 1 0 1 0-2 0v12a1 1 0 1 0 2 0V2z"/>
-                            </svg>
-                            <span class="event-popover__color-display">
-                                <span class="event-popover__color-badge"></span>
-                                <span class="event-popover__color-hex"></span>
-                            </span>
-                        </div> *@
-
+                        
                         <div class="event-popover__detail-item event-popover__description">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                                 <path d="M2 2h12v12H2V2zm1 1v10h10V3H3zm1 2h8v1H4V5zm0 2h8v1H4V7zm0 2h5v1H4V9z"/>

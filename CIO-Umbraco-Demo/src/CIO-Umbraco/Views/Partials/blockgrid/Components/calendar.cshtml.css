@@ -9,6 +9,15 @@
     position: relative; /* For popover positioning */
 }
 
+/* Single column on mobile */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+}
+
 #calendar {
     width: 100%;
     font-family: Roboto, roboto-normal-400-fallback, Helvetica, Arial, sans-serif;
