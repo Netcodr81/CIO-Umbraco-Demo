@@ -8,6 +8,7 @@ using Umbraco.Cms.Core.Routing;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Examine;
 using Umbraco.Cms.Web.Common.Controllers;
+using SearchResult = CIOUmbracoDemo.Models.SearchResult;
 
 namespace CIOUmbracoDemo.Controllers;
 
@@ -71,6 +72,12 @@ public class SearchPageController : RenderController
         // Get the search query from the URL query string
         var query = Request.Query["query"].ToString();
 
+        // Get page number from query string (default to 1)
+        var pageNumber = int.TryParse(Request.Query["page"].ToString(), out var p) && p > 0 ? p : 1;
+
+        // Set page size (items per page)
+        const int pageSize = 10;
+
         // Pass the query to the view
         ViewData["SearchQuery"] = query;
 
@@ -104,8 +111,18 @@ public class SearchPageController : RenderController
                     }, query)
                     .Execute();
 
+                var mediaResults = searcher.CreateQuery(IndexTypes.Media)
+                     .GroupedOr(new[]
+                     {
+                        "nodeName",
+                        "umbracoFile"
+                     }, query)
+                     .And()
+                     .Field("__NodeTypeAlias", "File")
+                     .Execute();
+
                 // Convert Examine results to SearchResult model
-                var searchResults = results.Select(result =>
+                var allSearchResults = results.Select(result =>
                 {
                     var fields = result.AllValues.ToDictionary(
                         kvp => kvp.Key.ToLowerInvariant(),
@@ -126,15 +143,54 @@ public class SearchPageController : RenderController
                             ?? fields.GetValueOrDefault("nodename")
                             ?? fields.GetValueOrDefault("title")
                             ?? "Untitled",
-                        ContentGrid = cleanContentGrid
+                        ContentGrid = cleanContentGrid,
+                        ContentType = ContentType.SiteContent
                     };
                 }).ToList();
 
+                var allMediaResults = mediaResults.Select(result =>
+                {
+
+                    var fields = result.AllValues.ToDictionary(
+                        kvp => kvp.Key.ToLowerInvariant(),
+                        kvp => string.Join(", ", kvp.Value)
+                    );
+
+                    var content = _contentQuery.Media(result.Id);
+
+                    return new SearchResult
+                    {
+                        Url = _urlProvide.GetMediaUrl(content),
+                        UrlName = fields.GetValueOrDefault("umbracofilesrc"),
+                        PageTitle = fields.GetValueOrDefault("umbracofilesrc"),
+                        ContentGrid = string.Empty,
+                        ContentType = ContentType.Media
+                    };
+                }).ToList();
+
+                allSearchResults.AddRange(allMediaResults);
+
+                // Calculate pagination
+                var totalResults = allSearchResults.Count;
+                var totalPages = (int)Math.Ceiling(totalResults / (double)pageSize);
+
+                // Ensure page number is within valid range
+                pageNumber = Math.Max(1, Math.Min(pageNumber, totalPages > 0 ? totalPages : 1));
+
+                // Get items for current page
+                var pagedResults = allSearchResults
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
 
                 ViewData["SearchResults"] = new SearchResults
                 {
-                    Items = searchResults,
-                    Query = query
+                    Items = pagedResults,
+                    Query = query,
+                    TotalResults = totalResults,
+                    CurrentPage = pageNumber,
+                    PageSize = pageSize,
+                    TotalPages = totalPages
                 };
 
             }
