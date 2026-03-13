@@ -1,0 +1,5 @@
+How to generate thumbnails for Umbraco using chat gpt
+
+Prompt:
+
+Generate me a 150px X 150px thumbnail. The thumbnail should have the background color of {color}. I need an Icon that of an {icon type} with the color being white
