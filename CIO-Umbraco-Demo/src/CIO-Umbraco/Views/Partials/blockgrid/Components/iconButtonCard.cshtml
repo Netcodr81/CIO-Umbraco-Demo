@@ -60,13 +60,25 @@
     ";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    // Link accessibility helpers
+    var linkUrl = content?.Link?.Url;
+    var linkTarget = string.IsNullOrWhiteSpace(content?.Link?.Target) ? "_self" : content?.Link?.Target;
+    var relAttr = linkTarget == "_blank" ? "noopener noreferrer" : string.Empty;
+
+    // If the button has no visible text, provide an accessible name from the link or icon
+    var ariaLabel = string.IsNullOrWhiteSpace(content?.Text)
+        ? (content?.Link?.Name ?? content?.Text ?? content?.Link?.Url ?? "Open link")
+        : null;
+    var ariaAttr = ariaLabel is null ? string.Empty : $"aria-label=\"{ariaLabel}\"";
+    var svgAriaHidden = string.IsNullOrWhiteSpace(content?.Text) ? "false" : "true";
 }
 
-<a class="icon-button-card__container @blockClasses" href="@content?.Link?.Url" target="@content?.Link?.Target" style="@cssVariables">
+<a class="icon-button-card__container @blockClasses" href="@linkUrl" target="@linkTarget" rel="@relAttr" @Html.Raw(ariaAttr) role="listitem" style="@cssVariables">
     <div class="icon-button-card__card-body">
-        <inline-svg media-item="@content?.Icon" fill="@iconColor" width="120" height="120" class="icon-button-card__icon"></inline-svg>
+        <inline-svg media-item="@content?.Icon" fill="@iconColor" width="120" height="120"  aria-hidden='@svgAriaHidden'></inline-svg>
     </div>
-    <div class="icon-button-card__card-header">
+    <div >
         <span class="icon-button-card__link">
             @content?.Text
         </span>

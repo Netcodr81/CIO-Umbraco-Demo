@@ -2,15 +2,23 @@
 @inherits UmbracoViewPage<BlockListItem<ContentModels.SocialLink>>
 
 @{
-	if (Model?.Content is null)
-		return;
+    if (Model?.Content is null)
+        return;
 
-	var content = Model.Content;
+    var content = Model.Content;
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var linkUrl = content?.Link?.Url;
+    var linkTarget = content?.Link?.Target ?? "_blank";
+    var linkName = content?.Link?.Name ?? content?.Icon?.Name ?? linkUrl ?? "Social link";
 }
 
-	
-<a class="social-link @blockClasses" href="@content?.Link?.Url" target="@(content?.Link?.Target ?? "_blank")" rel="noopener noreferrer">
-	<inline-svg media-item="content?.Icon" fill="@content?.FillColor?.Color" background-color="@content?.BackgroundColor?.Color" height="35" width="35"></inline-svg>
-</a>
+@* Only render when URL is provided *@
+@if (!string.IsNullOrWhiteSpace(linkUrl))
+{
+    <a class="social-link @blockClasses" href="@linkUrl" target="@linkTarget" rel="noopener noreferrer" aria-label="@linkName" title="@linkName">
+        <inline-svg media-item="content?.Icon" fill="@content?.FillColor?.Color" background-color="@content?.BackgroundColor?.Color" height="35" width="35" aria-hidden="true"></inline-svg>
+        <span class="visually-hidden">@linkName</span>
+    </a>
+}

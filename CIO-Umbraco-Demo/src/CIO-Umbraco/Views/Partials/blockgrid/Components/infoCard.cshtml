@@ -120,6 +120,24 @@
     ";
 }
 
+@{
+    // Prepare link attributes for accessibility
+    var linkUrl = content?.Link?.Url;
+    var linkTarget = string.IsNullOrWhiteSpace(content?.Link?.Target) ? "_self" : content?.Link?.Target;
+    var relAttr = linkTarget == "_blank" ? "noopener noreferrer" : string.Empty;
+
+    // Accessible name for buttons/links when text is missing
+    var buttonAriaLabel = string.IsNullOrWhiteSpace(content?.ButtonText)
+        ? (content?.Link?.Name ?? content?.HeaderText ?? content?.BodyText ?? "More information")
+        : null;
+
+    var buttonAriaAttr = buttonAriaLabel is null ? string.Empty : $"aria-label=\"{buttonAriaLabel}\"";
+
+    // Determine whether the card image/icon should be exposed to assistive tech
+    var hasHeader = !string.IsNullOrWhiteSpace(content?.HeaderText);
+    var imageAlt = content?.Image?.Name ?? content?.HeaderText ?? string.Empty;
+}
+
 <div class="info-card__container" style="@cssVariables @heightVariables.ToString()">
     
     @if (content.IsIconCard)
@@ -157,21 +175,20 @@
     }
 
     <div class="info-card__footer">
-        @if (content?.Link is not null)
+        @if (content?.Link is not null && !string.IsNullOrWhiteSpace(linkUrl))
         {
-
-            <a class="info-card__button" href="@content.Link.Url" target="@content.Link.Target" name="@content.Link.Name">
+            <a class="info-card__button" href="@linkUrl" target="@linkTarget" rel="@relAttr" @Html.Raw(buttonAriaAttr)>
                 @if (content.ButtonIcon is not null)
                 {
                     if (content.ButtonIconLocation == "Prepend")
                     {
-                        <inline-svg media-item="content.ButtonIcon" width="16" height="16" fill="@(content?.IconColor?.Color ?? @defaultIconColor)"></inline-svg>
+                        <inline-svg media-item="@content.ButtonIcon" width="16" height="16" fill="@(content?.IconColor?.Color ?? defaultIconColor)" aria-hidden='@(string.IsNullOrWhiteSpace(content?.ButtonText) ? "false" : "true")'></inline-svg>
                         @content?.ButtonText
                     }
                     else
                     {
                         @content.ButtonText
-                        <inline-svg media-item="content.ButtonIcon" width="16" height="16" fill="@(content?.IconColor?.Color ?? defaultIconColor)"></inline-svg>
+                        <inline-svg media-item="@content.ButtonIcon" width="16" height="16" fill="@(content?.IconColor?.Color ?? defaultIconColor)" aria-hidden='@(string.IsNullOrWhiteSpace(content?.ButtonText) ? "false" : "true")'></inline-svg>
                     }
                 }
                 else
@@ -182,9 +199,8 @@
         }
         else
         {
-            <a class="info-card__button" href="@content?.Link?.Url" target="@content?.Link?.Target" name="@content?.Link?.Name">
-                @content?.ButtonText
-            </a>
+            // If no link is provided, render a non-interactive element styled like a button and communicate disabled state
+            <span class="info-card__button info-card__button--disabled" aria-disabled="true">@content?.ButtonText</span>
         }
 
     </div>

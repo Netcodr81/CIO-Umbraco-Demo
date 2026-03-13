@@ -5,27 +5,36 @@
 @{
     var siteSettings = Model.Root().FirstChild<SiteSettings>();
     var headerLogo = siteSettings?.HeaderLogo;
+    var siteTitle = siteSettings?.Name ?? "Home";
 }
 
-<header class='cio-header'>
+<header class="cio-header" role="banner" aria-label="Site header">
     <div class="cio-header__top">
         <a href='/' aria-label='Home' class='cio-header__logo-link'>
-            <img src="@headerLogo?.Content?.Url()" alt="..." class='cio-header__logo-img'/>
+            @if (!string.IsNullOrWhiteSpace(headerLogo?.Content?.Url()))
+            {
+                <img src="@headerLogo.Content.Url()" alt="@siteTitle" class="cio-header__logo-img" />
+            }
+            else
+            {
+                <span class="cio-header__logo-text">@siteTitle</span>
+            }
         </a>
         <section class='cio-header__search'>
             @using (Html.BeginUmbracoForm<SearchController>("Search", FormMethod.Post))
             {
                 <div class='cio-header__search-form'>
-                    <input type='text' class='cio-header__search-input' name="query" placeholder="Search..." required />
-                    <button type='submit' class='cio-header__search-button' aria-label='Search'>
-                        <svg-icon src="icons/magnify.svg" svg-width="24" svg-height="24" svg-viewbox="0 0 24 24"></svg-icon>
+                    <label for="site-search" class="visually-hidden">Search the site</label>
+                    <input id="site-search" type="text" class="cio-header__search-input" name="query" placeholder="Search..." required aria-label="Search input" />
+                    <button type="submit" class="cio-header__search-button" aria-label="Search">
+                        <svg-icon src="icons/magnify.svg" svg-width="24" svg-height="24" svg-viewbox="0 0 24 24" aria-hidden="true"></svg-icon>
                     </button>
                 </div>
             }
 
 
         </section>
-        <button id='menu-toggle' aria-label='Toggle Menu' class='cio-header__menu-toggle'>
+        <button id="menu-toggle" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false" aria-haspopup="true" class="cio-header__menu-toggle">
             Menu
         </button>
     </div>

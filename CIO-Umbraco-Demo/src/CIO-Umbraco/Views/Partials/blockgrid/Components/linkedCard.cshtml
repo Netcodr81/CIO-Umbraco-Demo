@@ -52,19 +52,53 @@
     ";
 }
 
-<a href="@content.Link?.Url" target="@(content?.Link?.Target)" rel="noopener noreferrer" class="linked-card__container" style="@additionalStyles.ToString() @cssVariables">
+@{
+    // Prepare accessible link attributes
+    var linkUrl = content?.Link?.Url;
+    var linkTarget = string.IsNullOrWhiteSpace(content?.Link?.Target) ? "_self" : content.Link.Target;
+    var relAttr = linkTarget == "_blank" ? "noopener noreferrer" : string.Empty;
 
-    <h2 class="linked-card__heading">@content.Heading</h2>
+    var hasVisibleText = !string.IsNullOrWhiteSpace(content?.Heading) || content?.Text is not null;
+    var ariaLabel = hasVisibleText ? null : (content?.Link?.Name ?? content?.Heading ?? "Open card");
+    var ariaAttr = ariaLabel is null ? string.Empty : $"aria-label=\"{ariaLabel}\"";
 
-    @if (content?.Text is not null)
-    {
-        <div class="linked-card__text">
-            @content.Text
+    var svgAriaHidden = hasVisibleText ? "true" : "false";
+}
+
+@if (!string.IsNullOrWhiteSpace(linkUrl))
+{
+    <a href="@linkUrl" target="@linkTarget" rel="@relAttr" class="linked-card__container" style="@additionalStyles.ToString() @cssVariables" @Html.Raw(ariaAttr)>
+
+        <h2 class="linked-card__heading">@content.Heading</h2>
+
+        @if (content?.Text is not null)
+        {
+            <div class="linked-card__text">
+                @content.Text
+            </div>
+
+        }
+
+        <div class="linked-card__link">
+            <inline-svg media-item="@content.Icon" fill="@content?.IconColor?.Color" width="36" height="36" aria-hidden='@svgAriaHidden'></inline-svg>
         </div>
+    </a>
+}
+else
+{
+    <div class="linked-card__container linked-card__container--disabled" style="@additionalStyles.ToString() @cssVariables" aria-disabled="true">
+        <h2 class="linked-card__heading">@content.Heading</h2>
 
-    }
+        @if (content?.Text is not null)
+        {
+            <div class="linked-card__text">
+                @content.Text
+            </div>
 
-    <div class="linked-card__link">
-        <inline-svg media-item="@content.Icon" fill="@content?.IconColor?.Color" width="36" height="36"></inline-svg>
+        }
+
+        <div class="linked-card__link">
+            <inline-svg media-item="@content.Icon" fill="@content?.IconColor?.Color" width="36" height="36" aria-hidden='@svgAriaHidden'></inline-svg>
+        </div>
     </div>
-</a>
+}

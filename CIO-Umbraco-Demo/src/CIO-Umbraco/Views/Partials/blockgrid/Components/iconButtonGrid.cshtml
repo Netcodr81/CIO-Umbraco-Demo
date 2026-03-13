@@ -22,7 +22,7 @@
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="icon-button-grid @blockClasses" data-columns="@maxNumberOfButtonsPerRow" style="@styles.ToString()">
+<div class="icon-button-grid @blockClasses" data-columns="@maxNumberOfButtonsPerRow" style="@styles.ToString()" role="list">
 
 
     @if (content.Items.Any())

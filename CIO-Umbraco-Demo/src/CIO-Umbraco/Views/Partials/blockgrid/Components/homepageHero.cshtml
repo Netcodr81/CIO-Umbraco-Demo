@@ -14,6 +14,12 @@
     var ctaUrl = ctaLink?.Url;
     var ctaTarget = string.IsNullOrWhiteSpace(ctaLink?.Target) ? "_self" : ctaLink.Target;
 
+    var relAttr = ctaTarget == "_blank" ? "noopener noreferrer" : string.Empty;
+    var ariaLabel = string.IsNullOrWhiteSpace(content?.ButtonText)
+        ? (content?.CtaLink?.Name ?? content?.Header ?? content?.Subheading ?? "Call to action")
+        : null;
+    var ariaAttr = ariaLabel is null ? string.Empty : $"aria-label=\"{ariaLabel}\"";
+
     string defaultButtonBackgroundColor = "";
 
     string defaultHeadingTextColor = "";
@@ -71,9 +77,8 @@
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-
 <div class="homepage-hero__wrapper @blockClasses" style="background-image: url(@backgroundImageUrl);background-color:@backgroundColor; @cssVariables">
-    <div class="homepage-hero__overlay"></div>
+    <div class="homepage-hero__overlay" aria-hidden="true"></div>
     <div class="homepage-hero__cta-callout container">
         <h1 class="homepage-hero__heading">@content?.Header</h1>
         @if (!string.IsNullOrWhiteSpace(content?.Subheading))
@@ -83,18 +88,18 @@
         @if (content?.CtaLink is not null)
         {
             <div class="homepage-hero__btn-container">
-                <a href="@ctaUrl" target="@ctaTarget" class="homepage-hero__btn" role='button'>
+                <a href="@ctaUrl" target="@ctaTarget" class="homepage-hero__btn" rel="@relAttr" @Html.Raw(ariaAttr)>
                     @if (content?.ButtonIcon is not null)
                     {
                         if (content.ButtonIconLocation == "Prepend")
                         {
-                            <inline-svg media-item="content.ButtonIcon" fill="@iconColor"></inline-svg>
+                            <inline-svg media-item="content.ButtonIcon" fill="@iconColor" aria-hidden='@(string.IsNullOrWhiteSpace(content?.ButtonText) ? "false" : "true")'></inline-svg>
                             @content.ButtonText
                         }
                         else
                         {
                             @content.ButtonText
-                            <inline-svg media-item="content.ButtonIcon" fill="@(iconColor)"></inline-svg>
+                            <inline-svg media-item="content.ButtonIcon" fill="@(iconColor)" aria-hidden='@(string.IsNullOrWhiteSpace(content?.ButtonText) ? "false" : "true")'></inline-svg>
                         }
                     }
                     else
@@ -107,7 +112,7 @@
         }
       
     </div>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1728 103" preserveAspectRatio="none">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1728 103" preserveAspectRatio="none" aria-hidden="true">
         <path class="homepage-hero__svg-back" d="M1728,103.5H0v-16c214.8-7.6,389.7-21.8,511.9-33.7,203.4-19.7,272.2-34.2,428.8-35,122.8-.6,172.5,7.8,379.1,19.9,176.1,10.3,318.3,14.6,408,16.7v48h.2Z"></path>
         <path class="homepage-hero__svg-mid" d="M1728,103.5v-8.5c-127.2-15.2-316.6-32.5-552-34.1-99.6-.7-106.1,2.1-184,0C707.5,53,605.9,10.3,408.1,1.1,312.2-3.3,172.5-.8,0,35.3v68.2h1728Z"></path>
         <path class="homepage-hero__svg-fore" d="M1728,79.5v24H0v-32c142-17,257.6-18,336-16,201.7,5.2,280.5,34,480,32,123.8-1.3,162.3-13.4,288-24,144.9-12.2,356.2-18.3,624,16Z"></path>

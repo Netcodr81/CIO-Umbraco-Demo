@@ -60,9 +60,9 @@ else
     <div class="calendar-container @blockClasses">
         <div id="calendar"></div>
         <!-- Event Popover Backdrop -->
-        <div id="event-popover-backdrop" class="event-popover-backdrop" style="display: none;"></div>
+        <div id="event-popover-backdrop" class="event-popover-backdrop" style="display: none;" aria-hidden="true"></div>
         <!-- Event Popover (Calendar Card Style) -->
-        <div id="event-popover" class="event-popover" style="display: none;">
+        <div id="event-popover" class="event-popover" style="display: none;" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
             <button class="event-popover__close" aria-label="Close popover">&times;</button>
             <div class="event-popover__card">
                 <div class="event-popover__content">
@@ -179,11 +179,12 @@ else
                     }
 
                    
-                    // Set description
+                    // Set description (use textContent to avoid injecting HTML)
                     var descItem = popover.querySelector('.event-popover__description');
                     var descText = popover.querySelector('.event-popover__description-text');
                     if (event.extendedProps && event.extendedProps.description) {
-                        descText.innerHTML = event.extendedProps.description;
+                        // Prefer plain text to avoid XSS; if HTML is required, ensure it's sanitized server-side
+                        descText.textContent = event.extendedProps.description;
                         descItem.style.display = 'flex';
                     } else {
                         descItem.style.display = 'none';
@@ -192,7 +193,56 @@ else
                     // Show popover (CSS handles centering)
                     var backdrop = document.getElementById('event-popover-backdrop');
                     backdrop.style.display = 'block';
+                    backdrop.setAttribute('aria-hidden', 'false');
                     popover.style.display = 'block';
+                    popover.setAttribute('aria-hidden', 'false');
+
+                    // Accessibility: save the previously focused element and move focus into the dialog
+                    var previouslyFocused = document.activeElement;
+                    // focus the popover container (tabindex=-1)
+                    try { popover.focus({ preventScroll: true }); } catch (e) { popover.focus(); }
+
+                    // Trap focus inside the dialog
+                    function trapFocus(e) {
+                        if (e.key === 'Tab') {
+                            var focusable = popover.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+                            if (!focusable.length) return;
+                            focusable = Array.prototype.slice.call(focusable);
+                            var first = focusable[0];
+                            var last = focusable[focusable.length - 1];
+                            if (e.shiftKey) {
+                                if (document.activeElement === first) {
+                                    e.preventDefault();
+                                    last.focus();
+                                }
+                            } else {
+                                if (document.activeElement === last) {
+                                    e.preventDefault();
+                                    first.focus();
+                                }
+                            }
+                        }
+                        if (e.key === 'Escape' || e.key === 'Esc') {
+                            e.preventDefault();
+                            closePopover();
+                        }
+                    }
+
+                    function closePopover() {
+                        popover.style.display = 'none';
+                        popover.setAttribute('aria-hidden', 'true');
+                        backdrop.style.display = 'none';
+                        backdrop.setAttribute('aria-hidden', 'true');
+                        document.removeEventListener('keydown', trapFocus);
+                        // restore focus
+                        try { if (previouslyFocused) previouslyFocused.focus(); } catch (e) {}
+                    }
+
+                    // Attach close handlers
+                    var closeBtn = popover.querySelector('.event-popover__close');
+                    closeBtn.addEventListener('click', closePopover);
+                    backdrop.addEventListener('click', closePopover);
+                    document.addEventListener('keydown', trapFocus);
                 },
                 // Styling
                 height: 'auto',
@@ -201,17 +251,7 @@ else
 
             calendar.render();
 
-            // Close popover when clicking the X button
-            document.querySelector('.event-popover__close').addEventListener('click', function() {
-                document.getElementById('event-popover').style.display = 'none';
-                document.getElementById('event-popover-backdrop').style.display = 'none';
-            });
-
-            // Close popover when clicking backdrop
-            document.getElementById('event-popover-backdrop').addEventListener('click', function() {
-                document.getElementById('event-popover').style.display = 'none';
-                document.getElementById('event-popover-backdrop').style.display = 'none';
-            });
+            // Note: per-popover handlers are attached when opening the popover to ensure proper focus restoration
 
             calendar.getEvents();
         }

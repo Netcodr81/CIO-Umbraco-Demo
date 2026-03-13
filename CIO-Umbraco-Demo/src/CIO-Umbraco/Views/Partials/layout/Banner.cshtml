@@ -1,16 +1,37 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
-
 @{
     var siteSettings = Model.Root().FirstChild<SiteSettings>();
 
-     var bannerText = siteSettings?.BannerText ?? string.Empty;
-     var bannerIcon = siteSettings?.BannerIcon?.Url();
+    var bannerText = siteSettings?.BannerText?.Trim();
+    var bannerIconUrl = siteSettings?.BannerIcon?.Url();
+    var screenReaderText = !string.IsNullOrWhiteSpace(bannerText) ? bannerText : "Official government website";
 }
-<div class='cio-banner'>
-    <section class='cio-banner__section' aria-label='Official government website'>
-        <div class='cio-banner__container'>           
-            @if(bannerIcon is not null){<img src="@bannerIcon" width="19" height="13"/>}<p class='cio-banner__text'>@bannerText</p>
-        </div>
-    </section>
-</div>
+
+@* Only render the banner if there is content to show *@
+@if (!string.IsNullOrWhiteSpace(bannerText) || !string.IsNullOrWhiteSpace(bannerIconUrl))
+{
+    <div class="cio-banner" role="banner" aria-label="@screenReaderText">
+        <section class="cio-banner__section">
+            <div class="cio-banner__container">
+                @* Render icon if available. If text exists, mark icon as decorative to avoid duplicate announcement by screen readers. *@
+                @if (!string.IsNullOrWhiteSpace(bannerIconUrl))
+                {
+                    if (!string.IsNullOrWhiteSpace(bannerText))
+                    {
+                        <img src="@bannerIconUrl" width="19" height="13" alt="" aria-hidden="true" class="cio-banner__icon" />
+                    }
+                    else
+                    {
+                        <img src="@bannerIconUrl" width="19" height="13" alt="Official government website" class="cio-banner__icon" />
+                    }
+                }
+
+                @if (!string.IsNullOrWhiteSpace(bannerText))
+                {
+                    <p class="cio-banner__text">@bannerText</p>
+                }
+            </div>
+        </section>
+    </div>
+}

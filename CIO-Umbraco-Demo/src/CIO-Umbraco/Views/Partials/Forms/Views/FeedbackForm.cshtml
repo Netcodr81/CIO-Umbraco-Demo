@@ -4,13 +4,15 @@
 
 @{
     var formSubmitted = TempData["FeedbackFormSuccess"] as bool? ?? false;
+    var validationSummaryId = "feedback-form-summary-" + Guid.NewGuid().ToString("N").Substring(0, 8);
 }
 
 @if (!formSubmitted)
 {
-    @using (Html.BeginUmbracoForm<FeedbackFormController>("Submit", FormMethod.Post, new { @class = "custom-forms-form" }))
+    @using(Html.BeginUmbracoForm<FeedbackFormController>("Submit", FormMethod.Post, new { @class = "custom-forms-form", role = "form" }))
     {
         <input type="hidden" asp-for="FormId"/>
+
 
         <fieldset>
             <div class="row-fluid">
@@ -23,10 +25,13 @@
                         <textarea asp-for="Feedback"
                                   id="Feedback"
                                   name="Feedback"
+                                  aria-label="Feedback"
+                                  required
+                                  aria-required="true"
                                   class="@(ViewData.ModelState["Feedback"]?.Errors.Count > 0 ? "input-validation-error" : "")"
                                   placeholder="Your Feedback"
                                   rows="10"></textarea>
-                        <span asp-validation-for="Feedback" class="field-validation-error"></span>
+                        <span id="Feedback-error" asp-validation-for="Feedback" class="field-validation-error"></span>
                     </div>
 
                     <p style="margin-bottom: 2rem;">If you would like us to respond back, please provide your name and email address below.</p>
@@ -39,9 +44,10 @@
                                type="text"
                                id="Name"
                                name="Name"
+                               aria-label="Name"
                                class="text @(ViewData.ModelState["Name"]?.Errors.Count > 0 ? "input-validation-error" : "")"
                                placeholder="Your Name"/>
-                        <span asp-validation-for="Name" class="field-validation-error"></span>
+                        <span id="Name-error" asp-validation-for="Name" class="field-validation-error"></span>
                     </div>
 
                     <div class="custom-forms-field">
@@ -49,12 +55,15 @@
                             Email (required)<span class="custom-forms-indicator">*</span>
                         </label>
                         <input asp-for="Email"
-                               type="text"
+                               type="email"
                                id="Email"
                                name="Email"
+                               aria-label="Email"
+                               required
+                               aria-required="true"
                                class="text @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "input-validation-error" : "")"
                                placeholder="Your Email"/>
-                        <span asp-validation-for="Email" class="field-validation-error"></span>
+                        <span id="Email-error" asp-validation-for="Email" class="field-validation-error"></span>
                     </div>
 
                 </div>
@@ -64,11 +73,15 @@
         <div class="custom-forms-navigation row-fluid">
             <div class="col-md-12">
                 <input type="submit"
+                       role="button"
                        class="btn primary"
-                       value="Submit"/>
+                       value="Submit"
+                       aria-label="Submit feedback form"/>
                 <input type="reset"
+                       role="button"
                        class="btn cancel"
-                       value="Reset"/>
+                       value="Reset"
+                       aria-label="Reset feedback form"/>
             </div>
         </div>
     }

@@ -4,11 +4,11 @@
 @inherits UmbracoViewPage<BlockGridItem<ContentModels.Anchor>>
 
 @{
-    if (Model.Content is null) return;
+    if (Model?.Content is null) return;
     var content = Model.Content;
 
-    var anchorId = content.AnchorId;
-
+    var anchorId = content.AnchorId?.Trim();
+    var anchorLabel = !string.IsNullOrWhiteSpace(content.AnchorLabel) ? content.AnchorLabel : anchorId ?? "Anchor";
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
@@ -19,5 +19,9 @@
 }
 else
 {
-    <div id="@anchorId" class="anchor__container @blockClasses" aria-hidden="true" data-anchor-id="@anchorId"></div>
+    @* Render a focusable landmark for fragment links. Use tabindex="-1" so script can move focus here when navigating to the fragment. Do not set aria-hidden so assistive tech can land here. *@
+    @if (!string.IsNullOrWhiteSpace(anchorId))
+    {
+        <div id="@anchorId" class="anchor__container @blockClasses" tabindex="-1" role="region" aria-label="@anchorLabel" data-anchor-id="@anchorId"></div>
+    }
 }

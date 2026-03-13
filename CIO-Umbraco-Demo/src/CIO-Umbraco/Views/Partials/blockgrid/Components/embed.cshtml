@@ -25,6 +25,26 @@
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="embed__container @blockClasses" style="@styles">
-    <iframe allow="encrypted-media" allowfullscreen title="" src="@content.EmbedUrl" style="width: 100%; height: 100%; border: 0;"></iframe>
+@{
+    // Determine accessible title for the iframe. Prefer an explicit Title or Caption if available.
+    var iframeTitle = !string.IsNullOrWhiteSpace(content?.Title) ? content.Title : (!string.IsNullOrWhiteSpace(content?.Caption) ? content.Caption : "Embedded content");
+}
+
+<div class="embed__container @blockClasses" style="@styles" role="region" aria-label="@iframeTitle">
+    @if (string.IsNullOrWhiteSpace(content?.EmbedUrl))
+    {
+        <p class="visually-hidden">No embedded content available.</p>
+    }
+    else
+    {
+        <iframe
+            src="@content.EmbedUrl"
+            title="@iframeTitle"
+            loading="lazy"
+            role="document"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowfullscreen
+            style="width: 100%; height: 100%; border: 0;">
+        </iframe>
+    }
 </div>

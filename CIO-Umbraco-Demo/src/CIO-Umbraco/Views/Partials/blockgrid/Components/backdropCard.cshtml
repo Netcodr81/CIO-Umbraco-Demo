@@ -53,38 +53,53 @@
         --backdrop-card__cta-text-color: {defaultCtaTextColor};
         --backdropc-card__text-color: {textColor};
     ";
+
+    var uniqueId = "backdropcard-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+    var headingId = uniqueId + "-heading";
+    var linkLabel = !string.IsNullOrWhiteSpace(content.CtaText) ? content.CtaText : "Read more";
 }
 
 
-<div class="backdrop-card__container @blockClasses" aria-label="@content.Heading" style="@styles">
+<article class="backdrop-card__container @blockClasses" role="article" aria-labelledby="@headingId" style="@styles">
     @if (!string.IsNullOrWhiteSpace(bgUrl))
     {
-        <img class="backdrop-card__img" src="@bgUrl" alt="@content.Heading" />
+        @* If heading exists, treat the image as decorative to avoid duplicate announcement; otherwise provide alt text. *@
+        if (!string.IsNullOrWhiteSpace(content.Heading))
+        {
+            <img class="backdrop-card__img" src="@bgUrl" alt="backdrop card image" aria-hidden="true" />
+        }
+        else
+        {
+            <img class="backdrop-card__img" src="@bgUrl" alt="@content.Heading" />
+        }
     }
+
     <div class="backdrop-card__overlay">
         <div class="backdrop-card__body-container">
-        @if (!string.IsNullOrWhiteSpace(content.Date))
-        {
-            <div class="backdrop-card__meta">@content.Date</div>
-        }
+            @if (!string.IsNullOrWhiteSpace(content.Date))
+            {
+                <div class="backdrop-card__meta" aria-hidden="false">@content.Date</div>
+            }
 
-        @if (!string.IsNullOrWhiteSpace(content.Heading))
-        {
-            <h2 class="backdrop-card__heading">@content.Heading</h2>
-        }
+            @if (!string.IsNullOrWhiteSpace(content.Heading))
+            {
+                <h3 id="@headingId" class="backdrop-card__heading">@content.Heading</h3>
+            }
 
-        @if (!string.IsNullOrWhiteSpace(content.Text))
-        {
-            <div class="backdrop-card__text">@Html.Raw(content.Text)</div>
-        }
+            @if (!string.IsNullOrWhiteSpace(content.Text))
+            {
+                <div class="backdrop-card__text">@Html.Raw(content.Text)</div>
+            }
 
-        @if (content.DisplayCtaButton)
-        {
-            <a class="backdrop-card__cta" href="@content?.CtaLink?.Url" target="@content?.CtaLink?.Target" rel="noopener noreferrer">
-                @content.CtaText
-                <span class="backdrop-card__cta-icon"><img src="~/icons/arrow_forward.svg" alt=""/></span>
-            </a>
-        }
+            @if (content.DisplayCtaButton && !string.IsNullOrWhiteSpace(content?.CtaLink?.Url))
+            {
+                var ctaUrl = content.CtaLink.Url;
+                var ctaTarget = content.CtaLink.Target ?? "_self";
+                <a class="backdrop-card__cta" href="@ctaUrl" target="@ctaTarget" rel="noopener noreferrer" aria-label="@($"{linkLabel} - {content.Heading}")">
+                    @content.CtaText
+                    <span class="backdrop-card__cta-icon" aria-hidden="true"><img src="~/icons/arrow_forward.svg" alt=""/></span>
+                </a>
+            }
         </div>
     </div>
-</div>
+</article>

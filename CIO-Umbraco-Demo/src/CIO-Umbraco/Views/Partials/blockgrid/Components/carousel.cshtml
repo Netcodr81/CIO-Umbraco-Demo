@@ -10,7 +10,7 @@
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="carousel @blockClasses" id="@carouselId" data-carousel>
+<div class="carousel @blockClasses" id="@carouselId" data-carousel tabindex="0">
     <div class="carousel__viewport">
         <div class="carousel__track">
             @if (content.Items.Any())
@@ -21,7 +21,9 @@
                     if (item.Content is CarouselItem)
                     {
                         var carouselItem = item as BlockListItem<CarouselItem>;
-                        <div class="carousel__slide @(index == 0 ? "carousel__slide--active" : "")" data-slide="@index">
+                        var slideId = $"{carouselId}-slide-{index}";
+                        var slideLabel = $"Slide {index + 1} of {content.Items.Count()}";
+                        <div id="@slideId" class="carousel__slide @(index == 0 ? "carousel__slide--active" : "")" data-slide="@index" role="group" aria-roledescription="slide" aria-label="@slideLabel" aria-hidden="@(index == 0 ? "false" : "true")">
                             @await Html.PartialAsync("carouselItem", carouselItem)
                         </div>
                         index++;
@@ -33,6 +35,7 @@
 
     @if (content.Items.Any() && content.Items.Count() > 1)
     {
+        <div class="visually-hidden" aria-live="polite" id="@(carouselId)-status" data-carousel-status></div>
         <div class="carousel__controls">
             <button class="carousel__button carousel__button--prev" aria-label="Previous slide">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +43,7 @@
                 </svg>
             </button>
 
-            <button class="carousel__button carousel__button--play-pause" aria-label="Pause carousel">
+            <button class="carousel__button carousel__button--play-pause" aria-label="Pause carousel" aria-pressed="false">
                 <svg class="carousel__icon--play" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
                     <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
                 </svg>
@@ -57,11 +60,14 @@
             </button>
         </div>
 
-        <div class="carousel__indicators">
+        <div class="carousel__indicators" role="tablist" aria-label="Carousel slides">
             @for (var i = 0; i < content.Items.Count(); i++)
             {
+                var indicatorControls = $"{carouselId}-slide-{i}";
                 <button class="carousel__indicator @(i == 0 ? "carousel__indicator--active" : "")" 
                         data-slide-to="@i" 
+                        aria-controls="@indicatorControls"
+                        aria-pressed="@(i == 0 ? "true" : "false")"
                         aria-label="Go to slide @(i + 1)">
                 </button>
             }
@@ -82,9 +88,10 @@
         const prevButton = carousel.querySelector('.carousel__button--prev');
         const nextButton = carousel.querySelector('.carousel__button--next');
         const playPauseButton = carousel.querySelector('.carousel__button--play-pause');
-        const playIcon = playPauseButton.querySelector('.carousel__icon--play');
-        const pauseIcon = playPauseButton.querySelector('.carousel__icon--pause');
+        const playIcon = playPauseButton && playPauseButton.querySelector('.carousel__icon--play');
+        const pauseIcon = playPauseButton && playPauseButton.querySelector('.carousel__icon--pause');
         const indicators = carousel.querySelectorAll('.carousel__indicator');
+        const statusEl = carousel.querySelector('[data-carousel-status]');
 
         let currentSlide = 0;
         let isPlaying = false;
@@ -92,15 +99,30 @@
         let autoplayInterval = null;
         const autoplayDelay = 3000;
         const initialDelay = 2000;
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function goToSlide(index) {
             slides[currentSlide].classList.remove('carousel__slide--active');
             indicators[currentSlide].classList.remove('carousel__indicator--active');
+            indicators[currentSlide].setAttribute('aria-pressed', 'false');
 
             currentSlide = (index + slides.length) % slides.length;
 
             slides[currentSlide].classList.add('carousel__slide--active');
             indicators[currentSlide].classList.add('carousel__indicator--active');
+            indicators[currentSlide].setAttribute('aria-pressed', 'true');
+
+            // update aria-hidden on slides
+            slides.forEach((s, i) => s.setAttribute('aria-hidden', i === currentSlide ? 'false' : 'true'));
+
+            // announce slide change
+            if (statusEl) {
+                // try to find a heading inside the slide to provide context
+                const slideEl = slides[currentSlide];
+                const heading = slideEl.querySelector('h1, h2, h3, h4, h5');
+                const title = heading ? heading.textContent.trim() : '';
+                statusEl.textContent = `Slide ${currentSlide + 1} of ${slides.length}` + (title ? `: ${title}` : '');
+            }
 
             const offset = -currentSlide * 100;
             track.style.transform = `translateX(${offset}%)`;
@@ -119,7 +141,10 @@
             isPlaying = true;
             playIcon.style.display = 'none';
             pauseIcon.style.display = 'block';
-            playPauseButton.setAttribute('aria-label', 'Pause carousel');
+            if (playPauseButton) {
+                playPauseButton.setAttribute('aria-label', 'Pause carousel');
+                playPauseButton.setAttribute('aria-pressed', 'true');
+            }
             autoplayInterval = setInterval(nextSlide, autoplayDelay);
         }
 
@@ -128,7 +153,10 @@
             isPlaying = false;
             playIcon.style.display = 'block';
             pauseIcon.style.display = 'none';
-            playPauseButton.setAttribute('aria-label', 'Play carousel');
+            if (playPauseButton) {
+                playPauseButton.setAttribute('aria-label', 'Play carousel');
+                playPauseButton.setAttribute('aria-pressed', 'false');
+            }
             clearInterval(autoplayInterval);
             autoplayInterval = null;
         }
@@ -179,6 +207,57 @@
         carousel.addEventListener('mouseleave', function() {
             if (isPlaying && !isUserPaused && autoplayInterval === null) {
                 autoplayInterval = setInterval(nextSlide, autoplayDelay);
+            }
+        });
+
+        // Keyboard support when the carousel container has focus
+        carousel.addEventListener('keydown', function(e) {
+            // Only handle keys when the carousel container itself is focused
+            if (document.activeElement !== carousel) return;
+
+            switch (e.key) {
+                case 'ArrowRight':
+                case 'Right':
+                    e.preventDefault();
+                    nextSlide();
+                    if (isPlaying && !isUserPaused) {
+                        clearInterval(autoplayInterval);
+                        autoplayInterval = setInterval(nextSlide, autoplayDelay);
+                    }
+                    break;
+                case 'ArrowLeft':
+                case 'Left':
+                    e.preventDefault();
+                    prevSlide();
+                    if (isPlaying && !isUserPaused) {
+                        clearInterval(autoplayInterval);
+                        autoplayInterval = setInterval(nextSlide, autoplayDelay);
+                    }
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    goToSlide(0);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    goToSlide(slides.length - 1);
+                    break;
+                case ' ': // Space toggles play/pause
+                case 'Spacebar':
+                    e.preventDefault();
+                    if (playPauseButton) {
+                        if (isPlaying) { isUserPaused = true; stopAutoplay(); }
+                        else { isUserPaused = false; startAutoplay(); }
+                    }
+                    break;
+                case 'Enter':
+                    // Enter also toggles play/pause when focused
+                    e.preventDefault();
+                    if (playPauseButton) {
+                        if (isPlaying) { isUserPaused = true; stopAutoplay(); }
+                        else { isUserPaused = false; startAutoplay(); }
+                    }
+                    break;
             }
         });
 

@@ -33,6 +33,10 @@
     ";
     
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+    // Prepare button link attributes for accessibility
+    var btnUrl = content?.Link?.Url;
+    var btnTarget = string.IsNullOrWhiteSpace(content?.Link?.Target) ? "_self" : content.Link.Target;
+    var btnRel = btnTarget == "_blank" ? " rel=\"noopener noreferrer\"" : string.Empty;
 }
 
 <div class="newsroom__columns-container @blockClasses" style="@cssVariables">
@@ -58,7 +62,7 @@
    
         @if (content.ShowButton)
         {
-            <a class="newsroom__button" href="@content?.Link?.Url" target="@content?.Link?.Target">
+            <a class="newsroom__button" href="@btnUrl" target="@btnTarget" @Html.Raw(btnRel)>
                 @content?.ButtonText
             </a>
         }

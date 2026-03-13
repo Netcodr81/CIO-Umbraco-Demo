@@ -54,9 +54,51 @@
 
     // Generate unique ID for ARIA labeling
     var embedId = $"youtube-embed-{Guid.NewGuid():N}";
+    var descId = embedId + "-desc";
     var fallbackLink = $"https://www.youtube.com/watch?v={videoId}";
 
     var width = !string.IsNullOrWhiteSpace(content.Width) ? content.Width : "100%";
+
+    // Try to surface optional metadata (duration, captions) if available on the content model
+    string durationText = string.Empty;
+    string captionsText = string.Empty;
+
+    try
+    {
+        var contentType = content.GetType();
+        var durationProp = contentType.GetProperty("Duration");
+        if (durationProp != null)
+        {
+            var durVal = durationProp.GetValue(content) as string;
+            if (!string.IsNullOrWhiteSpace(durVal))
+            {
+                durationText = $"Duration: {durVal}. ";
+            }
+        }
+
+        // Check a few possible caption-related property names
+        var captionsProp = contentType.GetProperty("Captions") ?? contentType.GetProperty("HasCaptions") ?? contentType.GetProperty("CaptionsAvailable");
+        if (captionsProp != null)
+        {
+            var capVal = captionsProp.GetValue(content);
+            if (capVal is bool b)
+            {
+                captionsText = b ? "Captions available. " : string.Empty;
+            }
+            else if (capVal is string s && !string.IsNullOrWhiteSpace(s))
+            {
+                // If string, assume truthy values indicate availability
+                if (!string.Equals(s, "false", StringComparison.OrdinalIgnoreCase))
+                {
+                    captionsText = "Captions available. ";
+                }
+            }
+        }
+    }
+    catch
+    {
+        // Ignore reflection failures; metadata is optional
+    }
 
     var styles = $@"
         --youtube-embed__container-width: {width};
@@ -73,6 +115,7 @@
             src="@embedUrl"
             title="@altText"
             aria-label="@altText"
+            aria-describedby="@descId"
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
             loading="lazy"
@@ -87,11 +130,13 @@
             </a>
         </div>
     </noscript>
-    <div class="youtube-embed__screen-reader-only">
+    <div id="@descId" class="visually-hidden youtube-embed__screen-reader-only">
         <p>
             Embedded YouTube video: @altText. 
             Use standard video controls to play, pause, and adjust volume. 
             Press Tab to navigate through video controls. 
+            @Html.Raw(durationText)
+            @Html.Raw(captionsText)
             <a href="@fallbackLink" target="_blank" rel="noopener noreferrer">
                 Watch on YouTube (opens in new window)
             </a>

@@ -3,12 +3,13 @@
 @using System.Linq
 @using System.Text
 @using CIOUmbracoDemo.Extensions
+@using Umbraco.Community.UmbNav.Core.Models
 
 @{
 	
 	if (Model?.Content is null) return;
-	var content = Model.Content;
-	var navItems = content?.SideMenu?.ToList() ?? [];
+    var content = Model.Content;
+    var navItems = content?.SideMenu?.ToList() ?? new List<UmbNavItem>();
 
     var styles = new StringBuilder();
 
@@ -17,25 +18,25 @@
 	var currentPath = Context.Request.Path.ToString().TrimEnd('/').ToLowerInvariant();
 
 	// Helper function to check if any descendant is current
-	bool HasCurrentDescendant(dynamic? navItem)
+    bool HasCurrentDescendant(UmbNavItem? navItem)
 	{
-		if (navItem?.Children == null || navItem.Children.Count == 0)
+        if (navItem?.Children == null || !navItem.Children.Any())
 		{
 			return false;
 		}
 
-		foreach (var child in navItem.Children)
+        foreach (var child in navItem.Children)
 		{
-			if (child == null) continue;
+            if (child == null) continue;
 
-			var childUrl = ((child?.Url as string) ?? string.Empty).TrimEnd('/').ToLowerInvariant();
+            var childUrl = (child.Url ?? string.Empty).TrimEnd('/').ToLowerInvariant();
 
-			if (!string.IsNullOrEmpty(childUrl) && currentPath == childUrl)
+            if (!string.IsNullOrEmpty(childUrl) && currentPath == childUrl)
 			{
 				return true;
 			}
 
-			if (HasCurrentDescendant(child))
+            if (HasCurrentDescendant(child))
 			{
 				return true;
 			}
@@ -44,8 +45,8 @@
 		return false;
 	}
 
-	// Render function for nav items
-	async Task RenderNavItems(IEnumerable<dynamic?> items, int depth)
+    // Render function for nav items
+    async Task RenderNavItems(IEnumerable<UmbNavItem?> items, int depth)
 	{
 		foreach (var navItem in items)
 		{
@@ -54,10 +55,10 @@
 				continue;
 			}
 
-			var navUrl = ((navItem?.Url as string) ?? string.Empty).TrimEnd('/').ToLowerInvariant();
-			var isExactMatch = !string.IsNullOrEmpty(navUrl) && currentPath == navUrl;
+            var navUrl = (navItem?.Url ?? string.Empty).TrimEnd('/').ToLowerInvariant();
+            var isExactMatch = !string.IsNullOrEmpty(navUrl) && currentPath == navUrl;
             var startsWithMatch = !string.IsNullOrEmpty(navUrl) && currentPath.StartsWith(navUrl);
-			var hasChildren = navItem?.Children?.Count > 0;
+            var hasChildren = navItem?.Children != null && navItem.Children.Any();
 			var isChildItem = depth > 0;
 
 			if (hasChildren)
@@ -71,14 +72,23 @@
 				// Nested parents get "current-child" class (bold, no border) if they are exact match
 				var parentClass = !isChildItem && (hasCurrentChild || isExactMatch) ? "current" : (isExactMatch ? "current-child" : null);
 
-				<li class="sideNavigation__item">
-					<a href="@navItem.Url" target="@navItem.Target" class="@parentClass">
-						@navItem.Name
-					</a>
-					<ul class="sideNavigation__sublist" style="@(shouldExpand ? "display:block;" : "display:none;")">
-						@{ await RenderNavItems((IEnumerable<dynamic?>)navItem.Children, depth + 1); }
-					</ul>
-				</li>
+					// Parent item with children: include aria-expanded and aria-controls for accessibility
+					var sublistId = "side-nav-sub-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+					var navTargetRaw = ((navItem?.Target as string) ?? string.Empty).Trim();
+					var targetAttrStr = string.IsNullOrEmpty(navTargetRaw) || navTargetRaw == "_self" ? string.Empty : $" target=\"{navTargetRaw}\"";
+					var relAttrStr = navTargetRaw == "_blank" ? " rel=\"noopener noreferrer\"" : string.Empty;
+					<li class="sideNavigation__item">
+						<a href="@navItem.Url" class="@parentClass" aria-expanded="@(shouldExpand ? "true" : "false")" aria-controls="@sublistId"@Html.Raw(targetAttrStr + relAttrStr)>
+							@navItem.Name
+							@if (navTargetRaw == "_blank")
+							{
+								<span class="visually-hidden"> (opens in a new tab)</span>
+							}
+						</a>
+						<ul id="@sublistId" class="sideNavigation__sublist" style="@(shouldExpand ? "display:block;" : "display:none;")">
+							@{ await RenderNavItems(navItem.Children, depth + 1); }
+						</ul>
+					</li>
 			}
 			else
 			{
@@ -105,17 +115,22 @@
 
 				
 
-				<li class="sideNavigation__item">
-					<a href="@navItem?.Url" target="@navItem?.Target" class="@navItemClassToApply">
-						@navItem?.Name
-						@if (navItem?.Target == "_blank")
-						{
-							<span>
-								<svg-icon src="icons/open-in-new.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white"></svg-icon>
-							</span>
-						}
-					</a>
-				</li>
+                // Leaf item
+                var childTargetRaw = (navItem?.Target ?? string.Empty).Trim();
+                var childTargetAttr = string.IsNullOrEmpty(childTargetRaw) || childTargetRaw == "_self" ? string.Empty : $" target=\"{childTargetRaw}\"";
+                var childRelAttr = childTargetRaw == "_blank" ? " rel=\"noopener noreferrer\"" : string.Empty;
+					<li class="sideNavigation__item">
+						<a href="@navItem?.Url" class="@navItemClassToApply"@Html.Raw(childTargetAttr + childRelAttr)>
+							@navItem?.Name
+							@if (childTargetRaw == "_blank")
+							{
+								<span class="visually-hidden"> (opens in a new tab)</span>
+								<span>
+									<svg-icon src="icons/open-in-new.svg" svg-width="16" svg-height="16" svg-viewbox="0 0 24 24" svg-fill="white" aria-hidden="true"></svg-icon>
+								</span>
+							}
+						</a>
+					</li>
 			}
 		}
 
@@ -133,4 +148,6 @@
 		</nav>
 	</div>
 }
+
+
 

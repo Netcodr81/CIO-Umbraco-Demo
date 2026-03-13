@@ -4,13 +4,13 @@
     border: 1px solid #708090;
 }
 
-.accorion-item__title {
+.accordion-item__title {
     font-size: .99rem;
     color: var(--accordion-title-color);
     font-weight: 700;
 }
 
-.accorion-item__content {
+.accordion-item__content {
     color: var(--accordion-content-color);
     font-size: .90rem;
 }

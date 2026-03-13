@@ -27,97 +27,131 @@
     }
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var linkUrl = content?.Link?.Url;
+    var linkTarget = content?.Link?.Target;
+    var hasText = !string.IsNullOrWhiteSpace(content?.Text);
+    var accessibleName = hasText ? content.Text : (content?.Link?.Name ?? content?.Icon?.Name ?? "Button");
 }
 
 @switch (content.ButtonStyle)
 {
     case "Primary":
-        if (hasIcon)
+        if (!string.IsNullOrWhiteSpace(linkUrl))
         {
-            <button class="btn__button btn__primary @blockClasses" style="@styles.ToString()">
-                @if (content.IconLocation == "Prepend")
+            <a class="btn__button btn__primary @blockClasses" style="@styles.ToString()" href="@linkUrl" target="@(string.IsNullOrWhiteSpace(linkTarget) ? null : linkTarget)" rel="@(linkTarget == "_blank" ? "noopener noreferrer" : null)" aria-label="@accessibleName">
+                @if (hasIcon && content.IconLocation == "Prepend")
                 {
-                    <inline-svg media-item="content.Icon" height="16" width="16"/>
-                    @content.Text
+                    <inline-svg media-item="content.Icon" height="16" width="16" aria-hidden="true" />
+                    @if (hasText) { @content.Text } else { <span class="visually-hidden">@accessibleName</span> }
+                }
+                else if (hasIcon && content.IconLocation != "Prepend")
+                {
+                    @if (hasText) { @content.Text } else { <span class="visually-hidden">@accessibleName</span> }
+                    <inline-svg media-item="content.Icon" height="16" width="16" aria-hidden="true" />
                 }
                 else
                 {
                     @content.Text
-                    <inline-svg media-item="content.Icon" height="16" width="16"/>
                 }
-            </button>
+            </a>
         }
         else
         {
-            <button class="btn__button btn__primary @blockClasses" style="@styles.ToString()">
-                @content.Text
+            <button type="button" class="btn__button btn__primary @blockClasses" style="@styles.ToString()" aria-label="@accessibleName">
+                @if (hasIcon && content.IconLocation == "Prepend")
+                {
+                    <inline-svg media-item="content.Icon" height="16" width="16" aria-hidden="true" />
+                    @if (hasText) { @content.Text } else { <span class="visually-hidden">@accessibleName</span> }
+                }
+                else if (hasIcon && content.IconLocation != "Prepend")
+                {
+                    @if (hasText) { @content.Text } else { <span class="visually-hidden">@accessibleName</span> }
+                    <inline-svg media-item="content.Icon" height="16" width="16" aria-hidden="true" />
+                }
+                else
+                {
+                    @content.Text
+                }
             </button>
         }
 
         break;
     case "Secondary":
-        if (hasIcon)
+        if (!string.IsNullOrWhiteSpace(linkUrl))
         {
-            <button class="btn__button btn__secondary @blockClasses" style="@styles.ToString()">
-                @if (content.IconLocation == "Prepend")
+            <a class="btn__button btn__secondary @blockClasses" style="@styles.ToString()" href="@linkUrl" target="@(string.IsNullOrWhiteSpace(linkTarget) ? null : linkTarget)" rel="@(linkTarget == "_blank" ? "noopener noreferrer" : null)" aria-label="@accessibleName">
+                @if (hasIcon && content.IconLocation == "Prepend")
                 {
-                    <inline-svg media-item="content.Icon" height="16" width="16"/>
-                    @content.Text
+                    <inline-svg media-item="content.Icon" height="16" width="16" aria-hidden="true" />
+                    @if (hasText) { @content.Text } else { <span class="visually-hidden">@accessibleName</span> }
+                }
+                else if (hasIcon && content.IconLocation != "Prepend")
+                {
+                    @if (hasText) { @content.Text } else { <span class="visually-hidden">@accessibleName</span> }
+                    <inline-svg media-item="content.Icon"  height="16" width="16" aria-hidden="true" />
                 }
                 else
                 {
                     @content.Text
-                    <inline-svg media-item="content.Icon"  height="16" width="16"/>
                 }
-            </button>
+            </a>
         }
         else
         {
-            <button class="btn__button btn__secondary @blockClasses" style="@styles.ToString()">@content.Text</button>
+            <button type="button" class="btn__button btn__secondary @blockClasses" style="@styles.ToString()" aria-label="@accessibleName">@content.Text</button>
         }
 
         break;
     case "Outline":
-        if (hasIcon)
+        if (!string.IsNullOrWhiteSpace(linkUrl))
         {
-            <button class="btn__button btn__outline @blockClasses" style="@styles.ToString()">
-                @if (content.IconLocation == "Prepend")
+            <a class="btn__button btn__outline @blockClasses" style="@styles.ToString()" href="@linkUrl" target="@(string.IsNullOrWhiteSpace(linkTarget) ? null : linkTarget)" rel="@(linkTarget == "_blank" ? "noopener noreferrer" : null)" aria-label="@accessibleName">
+                @if (hasIcon && content.IconLocation == "Prepend")
                 {
-                    <inline-svg media-item="content.Icon"  height="16" width="16"/>
-                    @content.Text
+                    <inline-svg media-item="content.Icon"  height="16" width="16" aria-hidden="true" />
+                    @if (hasText) { @content.Text } else { <span class="visually-hidden">@accessibleName</span> }
+                }
+                else if (hasIcon && content.IconLocation != "Prepend")
+                {
+                    @if (hasText) { @content.Text } else { <span class="visually-hidden">@accessibleName</span> }
+                    <inline-svg media-item="content.Icon"  height="16" width="16" aria-hidden="true" />
                 }
                 else
                 {
                     @content.Text
-                    <inline-svg media-item="content.Icon"  height="16" width="16"/>
                 }
-            </button>
+            </a>
         }
         else
         {
-            <button class="btn__button btn__outline @blockClasses" style="@styles.ToString()">@content.Text</button>
+            <button type="button" class="btn__button btn__outline @blockClasses" style="@styles.ToString()">@content.Text</button>
         }
 
         break;
     default:
-        if (hasIcon)
+        if (!string.IsNullOrWhiteSpace(linkUrl))
         {
-            <button class="btn__button btn__primary @blockClasses" style="@styles.ToString()">
-                @if (content.IconLocation == "Prepend")
+            <a class="btn__button btn__primary @blockClasses" style="@styles.ToString()" href="@linkUrl" target="@(string.IsNullOrWhiteSpace(linkTarget) ? null : linkTarget)" rel="@(linkTarget == "_blank" ? "noopener noreferrer" : null)" aria-label="@accessibleName">
+                @if (hasIcon && content.IconLocation == "Prepend")
                 {
-                    <inline-svg media-item="content.Icon"  height="16" width="16"/>
-                    @content.Text
+                    <inline-svg media-item="content.Icon"  height="16" width="16" aria-hidden="true" />
+                    @if (hasText) { @content.Text } else { <span class="visually-hidden">@accessibleName</span> }
+                }
+                else if (hasIcon && content.IconLocation != "Prepend")
+                {
+                    @if (hasText) { @content.Text } else { <span class="visually-hidden">@accessibleName</span> }
+                    <inline-svg media-item="content.Icon"  height="16" width="16" aria-hidden="true" />
                 }
                 else
                 {
                     @content.Text
-                    <inline-svg media-item="content.Icon"  height="16" width="16"/>
                 }
-            </button>
+            </a>
         }
         else
         {
-            <button class="btn__button btn__primary @blockClasses" style="@styles.ToString()">@content.Text</button>
+            <button type="button" class="btn__button btn__primary @blockClasses" style="@styles.ToString()">@content.Text</button>
         }
 
         break;

@@ -32,18 +32,26 @@
     };
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    // Accessibility attributes
+    var ariaLive = (alertType == "Error" || alertType == "Emergency" || alertType == "Warning") ? "assertive" : "polite";
+    var roleAttr = ariaLive == "assertive" ? "alert" : "status";
+    var headingId = "alert-heading-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+    var srPrefix = $"{alertType} alert";
 }
 
 @if (content.SlimAlert)
 {
-    <div class="alert__wrapper @blockClasses">
+    <div class="alert__wrapper @blockClasses" role="@roleAttr" aria-live="@ariaLive" @(!string.IsNullOrWhiteSpace(content.Heading) ? $"aria-labelledby=\"{headingId}\"" : $"aria-label=\"{srPrefix}\"")>
         <section class="@backgroundClass">
             <div class="alert__slim-body @(content.DisplayIcon ? iconClass : string.Empty)">
                 <div class="alert__text">
+                    @* Visually announce the alert type for screen readers *@
+                    <span class="visually-hidden">@srPrefix.</span>
+
                     @if (!string.IsNullOrWhiteSpace(content.Heading))
                     {
-                        <p style="font-weight: 700;">@content.Heading</p>
-                        
+                        <p id="@headingId" class="alert__heading" style="font-weight:700;">@content.Heading</p>
                     }
 
                     @if (content.BodyText is not null)
@@ -58,10 +66,14 @@
 }
 else
 {
-    <div class="alert__wrapper">
+    <div class="alert__wrapper @blockClasses" role="@roleAttr" aria-live="@ariaLive" @(!string.IsNullOrWhiteSpace(content.Heading) ? $"aria-labelledby=\"{headingId}\"" : $"aria-label=\"{srPrefix}\"")>
         <section class="@backgroundClass">
             <div class="alert__body @(content.DisplayIcon ? iconClass : string.Empty)">
-                <p class="alert__heading">@content.Heading</p>
+                <span class="visually-hidden">@srPrefix.</span>
+                @if (!string.IsNullOrWhiteSpace(content.Heading))
+                {
+                    <p id="@headingId" class="alert__heading">@content.Heading</p>
+                }
                 <div class="alert__text">
                     @content.BodyText
                 </div>

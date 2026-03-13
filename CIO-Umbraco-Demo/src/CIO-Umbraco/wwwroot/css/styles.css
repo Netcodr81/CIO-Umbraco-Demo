@@ -388,6 +388,28 @@ p {
     margin: 0;
 }
 
+/* Reveal visually-hidden descriptions for embeds on hover and focus within for sighted keyboard users */
+.youtube-embed__container .youtube-embed__screen-reader-only {
+    /* default: keep visually hidden (existing utility will apply) */
+}
+
+.youtube-embed__container:hover .youtube-embed__screen-reader-only,
+.youtube-embed__container:focus-within .youtube-embed__screen-reader-only {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    clip: auto !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background-color: #ffffff;
+    border: 1px solid var(--theme-primary, #00607f);
+    color: #000000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    z-index: 2;
+}
+
 
 h1,
 h2,
@@ -804,14 +826,39 @@ dfn {
 
 /* Links Section */
 .cio-footer__links {
-	display: flex;
-	justify-content: space-around;
-	padding-top: 1.5rem; /* 24px */
-	padding-bottom: 1.5rem; /* 24px */
-	color: #64748b; /* slate-400 */
-	text-decoration: underline;
-	text-underline-offset: 1px;
-	background-color: #fff;
+    display: flex;
+    justify-content: center;
+    padding-block: 2rem;
+    color: #64748b; /* slate-400 */
+    text-decoration: underline;
+    text-underline-offset: 1px;
+    background-color: #fff;
+}
+
+.cio-footer__links-list {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.25rem; /* 20px */
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+/* distribute links evenly across the available width */
+.cio-footer__links-list {
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px; /* constrain so items don't stretch too far on very wide screens */
+    margin-left: auto;
+    margin-right: auto;
+    padding-inline: 0.5rem; /* give the inner list a small horizontal gutter */
+}
+
+.cio-footer__links-list > li {
+    display: inline-flex;
+    align-items: center;
 }
 
 .cio-footer__link-item {

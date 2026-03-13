@@ -23,9 +23,12 @@
                                type="text"
                                id="FirstName"
                                name="FirstName"
+                               aria-label="First name"
+                               required
+                               aria-required="true"
                                class="text @(ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "input-validation-error" : "")"
                                placeholder="Your first name" />
-                        <span asp-validation-for="FirstName" class="field-validation-error"></span>
+                        <span id="FirstName-error" asp-validation-for="FirstName" class="field-validation-error"></span>
                     </div>
 
                     <div class="custom-forms-field">
@@ -36,9 +39,12 @@
                                type="text"
                                id="LastName"
                                name="LastName"
+                               aria-label="Last name"
+                               required
+                               aria-required="true"
                                class="text @(ViewData.ModelState["LastName"]?.Errors.Count > 0 ? "input-validation-error" : "")"
                                placeholder="Your last name" />
-                        <span asp-validation-for="LastName" class="field-validation-error"></span>
+                        <span id="LastName-error" asp-validation-for="LastName" class="field-validation-error"></span>
                     </div>
                     
                     <div class="custom-forms-field">
@@ -46,12 +52,15 @@
                             Phone Number (required)<span class="custom-forms-indicator">*</span>
                         </label>
                         <input asp-for="PhoneNumber"
-                               type="text"
+                               type="tel"
                                id="PhoneNumber"
                                name="PhoneNumber"
+                               aria-label="Phone number"
+                               required
+                               aria-required="true"
                                class="text @(ViewData.ModelState["PhoneNumber"]?.Errors.Count > 0 ? "input-validation-error" : "")"
                                placeholder="Your phone number" />
-                        <span asp-validation-for="PhoneNumber" class="field-validation-error"></span>
+                        <span id="PhoneNumber-error" asp-validation-for="PhoneNumber" class="field-validation-error"></span>
                     </div>
 
                     <div class="custom-forms-field">
@@ -59,12 +68,15 @@
                             Email (required)<span class="custom-forms-indicator">*</span>
                         </label>
                         <input asp-for="Email"
-                               type="text"
+                               type="email"
                                id="Email"
                                name="Email"
+                               aria-label="Email"
+                               required
+                               aria-required="true"
                                class="text @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "input-validation-error" : "")"
                                placeholder="Your email address" />
-                        <span asp-validation-for="Email" class="field-validation-error"></span>
+                        <span id="Email-error" asp-validation-for="Email" class="field-validation-error"></span>
                     </div>
                     
                     <div class="custom-forms-field">
@@ -75,9 +87,12 @@
                                type="text"
                                id="Agency"
                                name="Agency"
+                               aria-label="Agency"
+                               required
+                               aria-required="true"
                                class="text @(ViewData.ModelState["Agency"]?.Errors.Count > 0 ? "input-validation-error" : "")"
                                placeholder="Your Agency" />
-                        <span asp-validation-for="Agency" class="field-validation-error"></span>
+                        <span id="Agency-error" asp-validation-for="Agency" class="field-validation-error"></span>
                     </div>
 
                     <div class="custom-forms-field">
@@ -87,10 +102,13 @@
                         <textarea asp-for="DescriptionOfProblem"
                                   id="DescriptionOfProblem"
                                   name="DescriptionOfProblem"
+                                  aria-label="Description of problem"
+                                  required
+                                  aria-required="true"
                                   class="@(ViewData.ModelState["DescriptionOfProblem"]?.Errors.Count > 0 ? "input-validation-error" : "")"
-                                  placeholder="your Problem"
+                                  placeholder="Your problem"
                                   rows="10"></textarea>
-                        <span asp-validation-for="DescriptionOfProblem" class="field-validation-error"></span>
+                        <span id="DescriptionOfProblem-error" asp-validation-for="DescriptionOfProblem" class="field-validation-error"></span>
                     </div>
 
                 </div>
@@ -100,6 +118,7 @@
         <div class="custom-forms-navigation row-fluid">
             <div class="col-md-12">
                 <input type="submit"
+                       role="button"
                        class="btn primary"
                        value="Submit" />
                 <input type="reset"

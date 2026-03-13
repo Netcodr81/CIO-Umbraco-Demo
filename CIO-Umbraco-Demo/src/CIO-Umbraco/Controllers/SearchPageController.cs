@@ -101,6 +101,7 @@ public class SearchPageController : RenderController
                 // Build the query - search across multiple fields
                 var searchQuery = searcher.CreateQuery(IndexTypes.Content);
 
+                var phrase = $"\"{query}\"";
                 // Search for the query in multiple fields
                 var results = searchQuery
                     .GroupedOr(new[]
@@ -108,7 +109,11 @@ public class SearchPageController : RenderController
                         "nodeName",
                         "pageTitle",
                         "contentGrid",
-                    }, query)
+                    }, phrase)
+                    .Not()
+                    .Field("__NodeTypeAlias", "sideNavigation")
+                    .Not()
+                    .Field("__NodeTypeAlias", "topNavigation")
                     .Execute();
 
                 var mediaResults = searcher.CreateQuery(IndexTypes.Media)

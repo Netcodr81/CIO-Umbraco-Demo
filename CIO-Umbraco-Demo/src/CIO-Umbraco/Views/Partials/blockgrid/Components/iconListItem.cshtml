@@ -6,7 +6,7 @@
 
     var content = Model.Content;
 
-    var iconSize = content?.IconSize == 0 ? 24 : content?.IconSize;
+    var iconSize = (content?.IconSize ?? 0) == 0 ? 24 : content.IconSize;
 
     var theme = Umbraco.GetCurrentTheme();
 
@@ -25,13 +25,16 @@
             break;
     }
 
+    // Accessibility: hide icon from assistive tech when there is accompanying text.
+    // If there is no text, expose the SVG as an image with a fallback accessible name.
+    var hasText = content?.Text is not null;
+    var svgAriaHidden = hasText ? "true" : "false";
+    var svgAriaLabel = hasText ? null : (content?.Icon?.Name ?? "Icon");
 }
 
 <li class="icon-list__list-item-content" style="display:flex;gap:10px;">
-     
-    <inline-svg media-item="content?.Icon" fill="@(content?.IconColor?.Color ?? defaultIconColor)" width="@iconSize"
-                height="24"></inline-svg>
+    <inline-svg media-item="@content?.Icon" fill="@(content?.IconColor?.Color ?? defaultIconColor)" width="@iconSize" height="24" aria-hidden="@svgAriaHidden" role="@(hasText ? "presentation" : "img")" aria-label="@svgAriaLabel" ></inline-svg>
     <div class="icon-list__list-item-container">
-        @content?.Text
+        <span>@content?.Text</span>
     </div>
 </li>

@@ -7,38 +7,86 @@
     var content = Model.Content;
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    // Determine image alt text: if a heading is present the image is decorative
+    var imgAlt = string.Empty;
+    if (!string.IsNullOrWhiteSpace(content.Heading?.Name))
+    {
+        imgAlt = string.Empty; // decorative when heading provides the accessible name
+    }
+    else if (!string.IsNullOrWhiteSpace(content.Image?.Name))
+    {
+        imgAlt = content.Image.Name; // use media name when no heading
+    }
+    else
+    {
+        imgAlt = "Carousel image"; // sensible fallback
+    }
 }
 
 <div class="carousel-item @blockClasses">
     @if (content.Image != null)
     {
         <div class="carousel-item__image">
-            <img src="@content.Image.GetCropUrl()" alt="@(content.Heading?.Name ?? "")" />
+            @if (!string.IsNullOrWhiteSpace(content.Heading?.Name))
+            {
+                <img src="@content.Image.GetCropUrl()" alt="" aria-hidden="true" loading="lazy" />
+            }
+            else
+            {
+                <img src="@content.Image.GetCropUrl()" alt="@imgAlt" loading="lazy" />
+            }
         </div>
     }
     @if (!content.ImageOnly && content.Heading != null)
     {
         <div class="carousel-item__content">
             <h3 class="carousel-item__heading">
-                <a href="@content.Heading.Url" target="@content.Heading.Target">
+                @* Render link only if Url present, otherwise plain heading text. Add rel for external links *@
+                @if (!string.IsNullOrWhiteSpace(content.Heading?.Url))
+                {
+                    var linkTarget = content.Heading.Target;
+                    var relAttr = linkTarget == "_blank" ? "noopener noreferrer" : null;
+                    <a href="@content.Heading.Url" target="@(string.IsNullOrWhiteSpace(linkTarget) ? null : linkTarget)" rel="@relAttr">
+                        @if (content.Icon is not null)
+                        {
+                            if (content.IconLocation == "Prepend")
+                            {
+                                <inline-svg media-item="content?.Icon" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
+                                @content?.Heading.Name
+                            }
+                            else
+                            {
+                               @content?.Heading.Name
+                               <inline-svg media-item="content?.Icon" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
+                            }
+                        }
+                        else
+                        {
+                            @content.Heading.Name
+                        }
+                    </a>
+                }
+                else
+                {
                     @if (content.Icon is not null)
                     {
                         if (content.IconLocation == "Prepend")
                         {
-                            <inline-svg media-item="content?.Icon" fill="#fff" width="18" height="18"/>
+                            <inline-svg media-item="content?.Icon" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
                             @content?.Heading.Name
                         }
                         else
                         {
                            @content?.Heading.Name
-                           <inline-svg media-item="content?.Icon" fill="#fff" width="18" height="18"/>
+                           <inline-svg media-item="content?.Icon" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
                         }
                     }
                     else
                     {
                         @content.Heading.Name
                     }
-                </a>
+                }
             </h3>
         </div>
     }

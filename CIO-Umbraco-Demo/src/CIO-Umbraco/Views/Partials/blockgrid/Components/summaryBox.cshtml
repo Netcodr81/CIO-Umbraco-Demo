@@ -24,11 +24,19 @@
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
+@{
+    // Accessibility: provide a region name via heading or aria-label
+    var hasHeading = !string.IsNullOrWhiteSpace(content.Heading);
+    var headingId = hasHeading ? "summary-box-heading-" + Guid.NewGuid().ToString("N").Substring(0, 8) : null;
+    var regionAttr = hasHeading
+        ? $"role=\"region\" aria-labelledby=\"{headingId}\""
+        : $"role=\"region\" aria-label=\"Summary\"";
+}
 
-<div class="summary-box__container @blockClasses" style="@cssVariables">
+<div class="summary-box__container @blockClasses" style="@cssVariables" @Html.Raw(regionAttr)>
     @if (!string.IsNullOrWhiteSpace(content.Heading))
     {
-        <h2 class="summary-box__heading">@content.Heading</h2>
+        <h2 id="@headingId" class="summary-box__heading">@content.Heading</h2>
     }
 
     <div class="summary-box__text">

@@ -28,21 +28,30 @@
 }
 
 <nav class="breadcrumb @layoutClasses" aria-label="Breadcrumbs" style="@layoutStyles">
-    <ol class="breadcrumb__list">
+    @* Use schema.org BreadcrumbList microdata and explicit list roles for assistive tech *@
+    <ol class="breadcrumb__list" role="list" itemscope itemtype="https://schema.org/BreadcrumbList">
+        @{
+            var position = 1;
+        }
         @foreach (var item in breadcrumbs)
         {
             if (item.IsCurrent)
             {
-                <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">
-                    @item.Name
+                <li class="breadcrumb__item breadcrumb__item--current" role="listitem" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span itemprop="name">@item.Name</span>
+                    <meta itemprop="position" content="@position" />
                 </li>
             }
             else
             {
-                <li class="breadcrumb__item">
-                    <a class="breadcrumb__link" href="@item.Url">@item.Name</a>
+                <li class="breadcrumb__item" role="listitem" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a class="breadcrumb__link" href="@item.Url" itemprop="item">
+                        <span itemprop="name">@item.Name</span>
+                    </a>
+                    <meta itemprop="position" content="@position" />
                 </li>
             }
+            position++;
         }
     </ol>
 </nav>

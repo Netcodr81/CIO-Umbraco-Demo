@@ -20,6 +20,35 @@
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="stand-alone-image @blockClasses" style="@cssVariables">
-    <img src="@content.Image.GetCropUrl()" alt="@altText" class="stand-alone-image__img" />
-</div>
+@{
+    // Safely read an optional caption property if present on the content model
+    string caption = string.Empty;
+    try
+    {
+        var prop = content.GetType().GetProperty("Caption");
+        if (prop != null)
+        {
+            caption = prop.GetValue(content) as string ?? string.Empty;
+        }
+    }
+    catch
+    {
+        caption = string.Empty;
+    }
+}
+
+<figure class="stand-alone-image @blockClasses" style="@cssVariables">
+    @{ 
+        // Determine numeric width/height attributes when available to reduce layout shift
+        var imgWidthAttr = content.Width > 0 ? $"width=\"{content.Width}\"" : string.Empty;
+        var imgHeightAttr = content.Height > 0 ? $"height=\"{content.Height}\"" : string.Empty;
+        var imgAlt = altText ?? string.Empty;
+    }
+
+    <img src="@content.Image.GetCropUrl()" alt="@imgAlt" loading="lazy" decoding="async" @Html.Raw(imgWidthAttr) @Html.Raw(imgHeightAttr) class="stand-alone-image__img" />
+
+    @if (!string.IsNullOrWhiteSpace(caption))
+    {
+        <figcaption class="stand-alone-image__caption">@caption</figcaption>
+    }
+</figure>

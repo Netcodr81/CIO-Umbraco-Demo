@@ -307,6 +307,7 @@
 }
 
 .mission-and-value__value-list {
+    gap: .5rem;
     list-style: none;
     margin-block-start: 1em;
     margin-block-end: 1em;

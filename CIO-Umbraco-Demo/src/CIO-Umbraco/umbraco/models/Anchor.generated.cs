@@ -56,5 +56,13 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("anchorId")]
 		public virtual string AnchorId => this.Value<string>(_publishedValueFallback, "anchorId");
+
+		///<summary>
+		/// Anchor Label
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "17.2.2+11a412c")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("anchorLabel")]
+		public virtual string AnchorLabel => this.Value<string>(_publishedValueFallback, "anchorLabel");
 	}
 }

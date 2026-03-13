@@ -1,5 +1,6 @@
 ﻿@inherits UmbracoViewPage<BlockListItem<ContentModels.CalendarEvent>>
 
+@using System.Text.Encodings.Web
 @{
     if (Model.Content is null) return;
 
@@ -10,10 +11,12 @@
     var startDate = content.Start?.ToString("MMM dd, yyyy");
     var startTime = content.Start?.ToString("h:mm tt");
     var endTime = content.End?.ToString("h:mm tt");
+
+    var titleId = "evt-title-" + Guid.NewGuid().ToString("N").Substring(0, 8);
 }
 
-<div class="calendar-event-card" style="--event-color: @eventColor;">
-    <div class="calendar-event-card__color-bar"></div>
+<article class="calendar-event-card" style="--event-color: @eventColor;" role="article" aria-labelledby="@titleId">
+    <div class="calendar-event-card__color-bar" aria-hidden="true"></div>
 
     <div class="calendar-event-card__content">
         <!-- Date & Time Section -->
@@ -21,8 +24,8 @@
             <div class="calendar-event-card__date">
                 @if (content.Start.HasValue)
                 {
-                    <span class="calendar-event-card__month">@content.Start.Value.ToString("MMM")</span>
-                    <span class="calendar-event-card__day">@content.Start.Value.ToString("dd")</span>
+                    <time class="calendar-event-card__month" datetime="@content.Start.Value.ToString("yyyy-MM-dd")">@content.Start.Value.ToString("MMM")</time>
+                    <time class="calendar-event-card__day" datetime="@content.Start.Value.ToString("yyyy-MM-dd")">@content.Start.Value.ToString("dd")</time>
                 }
             </div>
             <div class="calendar-event-card__time-range">
@@ -40,29 +43,30 @@
         </div>
 
         <!-- Title -->
-        <h3 class="calendar-event-card__title">@content.Title</h3>
+        <h3 id="@titleId" class="calendar-event-card__title">@content.Title</h3>
 
         <!-- Details -->
         <div class="calendar-event-card__details">
             @if (!string.IsNullOrWhiteSpace(content?.EventLocation))
             {
                 <div class="calendar-event-card__detail-item">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
                         <path d="M8 0a5 5 0 0 0-5 5c0 3.25 5 11 5 11s5-7.75 5-11a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
                     </svg>
-                    <span>@content.EventLocation</span>
+                    <span>@Html.Encode(content.EventLocation)</span>
                 </div>
             }
-            
+
             @if (!string.IsNullOrWhiteSpace(content?.EventDetails))
             {
                 <div class="calendar-event-card__detail-item calendar-event-card__detail-item--description">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
                         <path d="M2 2h12v12H2V2zm1 1v10h10V3H3zm1 2h8v1H4V5zm0 2h8v1H4V7zm0 2h5v1H4V9z"/>
                     </svg>
-                    <span>@Html.Raw(content.EventDetails)</span>
+                    <span>@Html.Raw(HtmlEncoder.Default.Encode(content.EventDetails).Replace("\n", "<br/>"))</span>
                 </div>
             }
         </div>
     </div>
-</div>
+
+</article>

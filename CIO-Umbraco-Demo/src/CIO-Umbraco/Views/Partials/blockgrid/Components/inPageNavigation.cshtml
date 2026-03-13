@@ -17,7 +17,7 @@
         {
             <h4 class="in-page-nav__heading">@content.Heading</h4>
         }
-        <ul class="in-page-nav__list" role="list">
+        <ul class="in-page-nav__list">
             @* Navigation items will be populated by JavaScript *@
         </ul>
     </div>
@@ -87,6 +87,7 @@
                 const a = document.createElement('a');
                 a.href = `#${id}`;
                 a.className = 'in-page-nav__link';
+                a.setAttribute('aria-current', 'false');
                 a.textContent = text;
                 a.setAttribute('data-section', id);
 
@@ -107,6 +108,7 @@
                 const a = document.createElement('a');
                 a.href = `#${id}`;
                 a.className = 'in-page-nav__sublink';
+                a.setAttribute('aria-current', 'false');
                 a.textContent = text;
                 a.setAttribute('data-section', id);
 
@@ -135,11 +137,32 @@
                         behavior: 'smooth'
                     });
 
-                    // Update active state after a short delay
+                    // Update active state and aria attributes after a short delay
                     setTimeout(() => {
-                        links.forEach(l => l.classList.remove('current'));
+                        links.forEach(l => {
+                            l.classList.remove('current');
+                            l.removeAttribute('aria-current');
+                        });
                         link.classList.add('current');
-                    }, 100);
+                        link.setAttribute('aria-current', 'true');
+
+                        // Move focus to target for screen reader users while preserving scroll
+                        try {
+                            if (!targetElement.hasAttribute('tabindex')) {
+                                targetElement.setAttribute('tabindex', '-1');
+                                targetElement.focus({ preventScroll: true });
+                                targetElement.addEventListener('blur', function onBlur() {
+                                    targetElement.removeAttribute('tabindex');
+                                    targetElement.removeEventListener('blur', onBlur);
+                                });
+                            } else {
+                                targetElement.focus({ preventScroll: true });
+                            }
+                        } catch (err) {
+                            // Fallback for browsers that don't support focus options
+                            try { targetElement.focus(); } catch(e) {}
+                        }
+                    }, 120);
                 }
             });
         });
@@ -169,21 +192,24 @@
                     currentSection = headings[0].id;
                 }
 
-                // Update active link
+                // Update active link and manage aria-current
                 links.forEach(link => {
                     const sectionId = link.getAttribute('data-section');
                     if (sectionId === currentSection) {
                         link.classList.add('current');
+                        link.setAttribute('aria-current', 'true');
                         // Expand parent if it's a sublink
                         const parentItem = link.closest('.in-page-nav__item');
                         if (parentItem) {
                             const parentLink = parentItem.querySelector('.in-page-nav__link');
                             if (parentLink && !link.classList.contains('in-page-nav__link')) {
                                 parentLink.classList.add('current');
+                                parentLink.setAttribute('aria-current', 'true');
                             }
                         }
                     } else {
                         link.classList.remove('current');
+                        link.removeAttribute('aria-current');
                     }
                 });
 

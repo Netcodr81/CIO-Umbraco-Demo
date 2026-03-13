@@ -18,36 +18,69 @@
     ";
 }
 
+@{
+    var linkUrl = content?.Link?.Url;
+    var linkTarget = string.IsNullOrWhiteSpace(content?.Link?.Target) ? "_self" : content.Link.Target;
+    var relAttr = linkTarget == "_blank" ? " rel=\"noopener noreferrer\"" : string.Empty;
+    var linkText = !string.IsNullOrWhiteSpace(content?.Link?.Name) ? content.Link.Name : linkUrl;
+    var ariaLabel = string.IsNullOrWhiteSpace(content?.Link?.Name) ? $"News item: {linkText}" : string.Empty;
+    var ariaAttr = string.IsNullOrEmpty(ariaLabel) ? string.Empty : $" aria-label=\"{ariaLabel}\"";
+    var svgAriaHidden = !string.IsNullOrWhiteSpace(content?.Link?.Name) ? "true" : "false";
+}
+
 <li class="d-flex newsroom__list-item flex-column w-100" style="@cssVariables">
-    <a href="@content?.Link?.Url" target="@content?.Link?.Target">
-        @if (content?.Icon is not null)
-        {
-            @if (content.IconLocation == "Prepend")
+    @if (!string.IsNullOrWhiteSpace(linkUrl))
+    {
+        <a href="@linkUrl" target="@linkTarget"@Html.Raw(relAttr + ariaAttr)>
+            @if (content?.Icon is not null)
             {
-                                   
-                <h4>
-                    <inline-svg media-item="@content?.Icon" height="18" width="18" fill="currentColor"></inline-svg>
-                    @content?.Link?.Name
-                </h4>
-                                  
+                @if (content.IconLocation == "Prepend")
+                {
+                    <h3>
+                        <inline-svg media-item="@content?.Icon" height="18" width="18" fill="currentColor" aria-hidden='@svgAriaHidden'></inline-svg>
+                        @linkText
+                    </h3>
+                }
+                else
+                {
+                    <h3>
+                        @linkText
+                        <inline-svg media-item="@content?.Icon" height="18" width="18" fill="currentColor" aria-hidden='@svgAriaHidden'></inline-svg>
+                    </h3>
+                }
             }
             else
             {
-                <h4>
-                    @content?.Link?.Name
-                    <inline-svg media-item="@content?.Icon" height="18" width="18" fill="currentColor"></inline-svg>
-                </h4>
-                                  
-                                   
+                <h3>@linkText</h3>
             }
-                               
+        </a>
+    }
+    else
+    {
+        @if (content?.Icon is not null)
+        {
+            if (content.IconLocation == "Prepend")
+            {
+                <h3>
+                    <inline-svg media-item="@content?.Icon" height="18" width="18" fill="currentColor" aria-hidden="true"></inline-svg>
+                    @content?.Link?.Name
+                </h3>
+            }
+            else
+            {
+                <h3>
+                    @content?.Link?.Name
+                    <inline-svg media-item="@content?.Icon" height="18" width="18" fill="currentColor" aria-hidden="true"></inline-svg>
+                </h3>
+            }
         }
         else
         {
-            @content?.Link?.Name
+            <h3>@content?.Link?.Name</h3>
         }
-    </a>
-    <p>
+    }
+
+    <p class="newsroom__description">
         @content?.Description
     </p>
 </li>

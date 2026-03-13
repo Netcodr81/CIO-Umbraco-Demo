@@ -31,146 +31,179 @@
     var dividerColor = content?.DividerColor?.Color == null ? "border-top:1px solid #64748b;padding-top:1.25rem;" : $"border-top:{content?.DividerColor?.Color};padding-top:1.25rem;";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var buttonText = content?.ButtonText;
+    var ariaLabel = string.IsNullOrWhiteSpace(buttonText) ? $"Return to {targetAnchor}" : null;
+    var ariaAttr = ariaLabel is null ? string.Empty : $"aria-label=\"{ariaLabel}\"";
+    var svgAriaHidden = string.IsNullOrWhiteSpace(buttonText) ? "false" : "true";
 }
 
 
 <div class="return-to-anchor-btn__container @blockClasses" style="@(content.ShowDivider ? dividerColor : string.Empty)">
-@switch (content.ButtonStyle)
-{
-    case "Primary":
-        if (hasIcon)
-        {
-            <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__primary return-to-anchor-btn__link" style="@styles.ToString()">
-                @if (content.IconLocation == "Prepend")
-                {
-                    <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16" />
+    @switch (content.ButtonStyle)
+    {
+        case "Primary":
+            if (hasIcon)
+            {
+                <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__primary return-to-anchor-btn__link" style="@styles.ToString()" @Html.Raw(ariaAttr)>
+                    @if (content.IconLocation == "Prepend")
+                    {
+                        <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16" aria-hidden='@svgAriaHidden'/>
+                        @content.ButtonText
+                    }
+                    else
+                    {
+                        @content.ButtonText
+                        <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16" aria-hidden='@svgAriaHidden'/>
+                    }
+                </a>
+            }
+            else
+            {
+                <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__primary return-to-anchor-btn__link" style="@styles.ToString()">
                     @content.ButtonText
-                }
-                else
-                {
-                    @content.ButtonText
-                    <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16" />
-                }
-            </a>
-        }
-        else
-        {
-            <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__primary return-to-anchor-btn__link" style="@styles.ToString()">
-                @content.ButtonText
-            </a>
-        }
+                </a>
+            }
 
-        break;
-    case "Secondary":
-        if (hasIcon)
-        {
-            <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__secondary return-to-anchor-btn__link" style="@styles.ToString()">
-                @if (content.IconLocation == "Prepend")
-                {
-                    <inline-svg media-item="content.Icon" fill="#1b1b1b" height="16" width="16" />
-                    @content.ButtonText
-                }
-                else
-                {
-                    @content.ButtonText
-                    <inline-svg media-item="content.Icon" fill="#1b1b1b" height="16" width="16" />
-                }
-            </a>
-        }
-        else
-        {
-            <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__secondary return-to-anchor-btn__link" style="@styles.ToString()">@content.ButtonText</a>
-        }
+            break;
+        case "Secondary":
+            if (hasIcon)
+            {
+                <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__secondary return-to-anchor-btn__link" style="@styles.ToString()" @Html.Raw(ariaAttr)>
+                    @if (content.IconLocation == "Prepend")
+                    {
+                        <inline-svg media-item="content.Icon" fill="#1b1b1b" height="16" width="16" aria-hidden='@svgAriaHidden'/>
+                        @content.ButtonText
+                    }
+                    else
+                    {
+                        @content.ButtonText
+                        <inline-svg media-item="content.Icon" fill="#1b1b1b" height="16" width="16" aria-hidden='@svgAriaHidden'/>
+                    }
+                </a>
+            }
+            else
+            {
+                <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__secondary return-to-anchor-btn__link" style="@styles.ToString()">@content.ButtonText</a>
+            }
 
-        break;
-    case "Outline":
-        if (hasIcon)
-        {
-            <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__outline return-to-anchor-btn__link" style="@styles.ToString()">
-                @if (content.IconLocation == "Prepend")
-                {
-                    <inline-svg media-item="content.Icon" fill="#004d66" height="16" width="16" />
-                    @content.ButtonText
-                }
-                else
-                {
-                    @content.ButtonText
-                    <inline-svg media-item="content.Icon" fill="#004d66" height="16" width="16" />
-                }
-            </a>
-        }
-        else
-        {
-            <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__outline return-to-anchor-btn__link" style="@styles.ToString()">@content.ButtonText</a>
-        }
+            break;
+        case "Outline":
+            if (hasIcon)
+            {
+                <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__outline return-to-anchor-btn__link" style="@styles.ToString()" @Html.Raw(ariaAttr)>
+                    @if (content.IconLocation == "Prepend")
+                    {
+                        <inline-svg media-item="content.Icon" fill="#004d66" height="16" width="16" aria-hidden='@svgAriaHidden'/>
+                        @content.ButtonText
+                    }
+                    else
+                    {
+                        @content.ButtonText
+                        <inline-svg media-item="content.Icon" fill="#004d66" height="16" width="16" aria-hidden='@svgAriaHidden'/>
+                    }
+                </a>
+            }
+            else
+            {
+                <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__outline return-to-anchor-btn__link" style="@styles.ToString()">@content.ButtonText</a>
+            }
 
-        break;
-    default:
-        if (hasIcon)
-        {
-            <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__primary return-to-anchor-btn__link" style="@styles.ToString()">
-                @if (content.IconLocation == "Prepend")
-                {
-                    <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16" />
-                    @content.ButtonText
-                }
-                else
-                {
-                    @content.ButtonText
-                    <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16" />
-                }
-            </a>
-        }
-        else
-        {
-            <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__primary return-to-anchor-btn__link" style="@styles.ToString()">@content.ButtonText</a>
-        }
+            break;
+        default:
+            if (hasIcon)
+            {
+                <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__primary return-to-anchor-btn__link" style="@styles.ToString()" @Html.Raw(ariaAttr)>
+                    @if (content.IconLocation == "Prepend")
+                    {
+                        <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16" aria-hidden='@svgAriaHidden'/>
+                        @content.ButtonText
+                    }
+                    else
+                    {
+                        @content.ButtonText
+                        <inline-svg media-item="content.Icon" fill="#fff" height="16" width="16" aria-hidden='@svgAriaHidden'/>
+                    }
+                </a>
+            }
+            else
+            {
+                <a href="@anchorHref" class="return-to-anchor-btn__button return-to-anchor-btn__primary return-to-anchor-btn__link" style="@styles.ToString()">@content.ButtonText</a>
+            }
 
-        break;
-}
+            break;
+    }
 </div>
 
 <script>
     (function() {
         document.querySelectorAll('.return-to-anchor-btn__link').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
+            link.addEventListener('click',
+                function(e) {
+                    e.preventDefault();
 
-                var targetId = this.getAttribute('href').substring(1);
-                var targetElement = document.getElementById(targetId);
+                    var targetId = this.getAttribute('href').substring(1);
+                    var targetElement = document.getElementById(targetId);
 
-                if (targetElement) {
-                    var startPosition = window.pageYOffset;
-                    var targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                    var distance = targetPosition - startPosition;
-                    var duration = 1200; // 1.2 seconds - adjust this for speed (higher = slower)
-                    var startTime = null;
+                    if (targetElement) {
+                        var startPosition = window.pageYOffset;
+                        var targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        var distance = targetPosition - startPosition;
+                        var duration = 1200; // 1.2 seconds - adjust this for speed (higher = slower)
+                        var startTime = null;
 
-                    function easeInOutCubic(t) {
-                        return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-                    }
-
-                    function animation(currentTime) {
-                        if (startTime === null) startTime = currentTime;
-                        var timeElapsed = currentTime - startTime;
-                        var progress = Math.min(timeElapsed / duration, 1);
-                        var ease = easeInOutCubic(progress);
-
-                        window.scrollTo(0, startPosition + (distance * ease));
-
-                        if (timeElapsed < duration) {
-                            requestAnimationFrame(animation);
-                        } else {
-                            // Update URL hash without jumping
-                            history.pushState(null, null, '#' + targetId);
-                            // Set focus for accessibility
-                            targetElement.focus();
+                        function easeInOutCubic(t) {
+                            return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
                         }
-                    }
 
-                    requestAnimationFrame(animation);
-                }
-            });
+                        function animation(currentTime) {
+                            if (startTime === null) startTime = currentTime;
+                            var timeElapsed = currentTime - startTime;
+                            var progress = Math.min(timeElapsed / duration, 1);
+                            var ease = easeInOutCubic(progress);
+
+                            window.scrollTo(0, startPosition + (distance * ease));
+
+                            if (timeElapsed < duration) {
+                                requestAnimationFrame(animation);
+                            } else {
+                                // Update URL hash without jumping
+                                history.pushState(null, null, '#' + targetId);
+                                // Set focus for accessibility - ensure target is focusable
+                                try {
+                                    if (!targetElement.hasAttribute('tabindex')) {
+                                        targetElement.setAttribute('tabindex', '-1');
+                                        // Use preventScroll when available
+                                        try {
+                                            targetElement.focus({ preventScroll: true });
+                                        } catch (err) {
+                                            targetElement.focus();
+                                        }
+                                        targetElement.addEventListener('blur',
+                                            function onBlur() {
+                                                targetElement.removeAttribute('tabindex');
+                                                targetElement.removeEventListener('blur', onBlur);
+                                            });
+                                    } else {
+                                        try {
+                                            targetElement.focus({ preventScroll: true });
+                                        } catch (err) {
+                                            targetElement.focus();
+                                        }
+                                    }
+                                } catch (err) {
+                                    // Fallback: attempt to focus without options
+                                    try {
+                                        targetElement.focus();
+                                    } catch (e) {
+                                    }
+                                }
+                            }
+                        }
+
+                        requestAnimationFrame(animation);
+                    }
+                });
         });
     })();
 </script>

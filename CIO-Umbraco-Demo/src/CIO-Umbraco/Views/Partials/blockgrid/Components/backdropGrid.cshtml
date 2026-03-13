@@ -9,8 +9,8 @@
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="backdrop-grid__container @blockClasses">
-    <div class="backdrop-grid__card-group">
+<div class="backdrop-grid__container @blockClasses" role="region" aria-label="Backdrop card grid">
+    <div class="backdrop-grid__card-group" role="list">
         @if (content.Cards.Any())
         {
             @for (int i = 0; i < content.Cards.Count(); i++)
@@ -19,7 +19,7 @@
                 var cardToRender = card as BlockListItem<BackdropCard>;
                 var cardClass = i == 0 ? "backdrop-grid__card backdrop-grid__card--primary" : "backdrop-grid__card backdrop-grid__card--secondary";
 
-                <div class="@cardClass">
+                <div class="@cardClass" role="listitem">
                     @await Html.PartialAsync("backdropCard.cshtml", cardToRender)
                 </div>
             }

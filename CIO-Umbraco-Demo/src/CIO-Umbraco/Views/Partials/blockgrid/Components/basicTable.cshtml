@@ -32,11 +32,20 @@
 	";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var tableId = "basic-table-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+    var captionId = "basic-table-caption-" + Guid.NewGuid().ToString("N").Substring(0, 8);
 }
 
 @if (table != null && table.Rows.Any())
 {
-    <table class="basic-table @tableCSS.ToString() @blockClasses" style="@styles">
+    <table id="@tableId" class="basic-table @tableCSS.ToString() @blockClasses" style="@styles" @(string.IsNullOrWhiteSpace(content.Caption) ? string.Empty : $"aria-describedby=\"{captionId}\"")>
+
+        @* Caption should be first child of table for accessibility *@
+        @if (!string.IsNullOrWhiteSpace(content.Caption))
+        {
+            <caption id="@captionId">@content.Caption</caption>
+        }
 
         @if (table.UseFirstRowAsHeader && table.Rows.Any())
         {
@@ -44,7 +53,7 @@
             <tr>
                 @foreach (var cell in table.Rows.First().Cells)
                 {
-                    <th>@Html.Raw(cell.Value)</th>
+                    <th scope="col">@Html.Raw(cell.Value)</th>
                 }
             </tr>
             </thead>
@@ -60,42 +69,38 @@
 
                     if (table.UseFirstColumnAsHeader && i == 0)
                     {
-                        <th>@Html.Raw(cell.Value)</th>
+                        <th scope="row">@Html.Raw(cell.Value)</th>
                     }
                     else
                     {
-                        <td data-cell="@Html.Raw(headerText)">@Html.Raw(cell.Value)</td>
+                        <td data-cell="@headerText">@Html.Raw(cell.Value)</td>
                     }
                 }
             </tr>
         }
         </tbody>
-        @if (!string.IsNullOrWhiteSpace(content.Caption))
-        {
-            <caption>
-                @content.Caption
-            </caption>
-        }
 
     </table>
 }
 
 <script>
-    document.querySelectorAll("table").forEach(function(table) {
+    // Scope enhancement to tables rendered by this component only
+    document.querySelectorAll("table.basic-table").forEach(function(table) {
         table.setAttribute("role", "table");
-        table.querySelector(":scope > caption")?.setAttribute("role", "caption");
+        var caption = table.querySelector(":scope > caption");
+        if(caption) caption.setAttribute("role", "caption");
         table.querySelectorAll(":scope > thead, :scope > tfoot, :scope > tbody")
             .forEach(tpart => tpart.setAttribute("role", "rowgroup"));
         Array.from(table.rows).forEach(function(row) {
             row.setAttribute("role", "row");
             Array.from(row.children)
-                .forEach(cell => cell.setAttribute("role",
-                        (cell.nodeName === "TD")
-                        ? "cell"
-                        : (cell.scope === "row")
-                        ? "rowheader"
-                        : "columnheader")
-                );
+                .forEach(function(cell){
+                    var nodeName = cell.nodeName;
+                    var scopeAttr = cell.getAttribute('scope');
+                    if(nodeName === 'TD') cell.setAttribute('role','cell');
+                    else if(scopeAttr === 'row') cell.setAttribute('role','rowheader');
+                    else cell.setAttribute('role','columnheader');
+                });
         });
     });
 </script>

@@ -33,7 +33,43 @@
 }
 
 
-<figure class="figure__container @blockClasses" style="@styles">
-    <img src="@content?.Image?.GetCropUrl()" alt="@content?.Image?.Name"/>
-    <figcaption>@content?.Caption</figcaption>
+@{
+    // Determine accessible text
+    var hasCaption = !string.IsNullOrWhiteSpace(content?.Caption);
+    var imageName = content?.Image?.Name;
+    var imgAlt = string.Empty;
+    if (hasCaption)
+    {
+        // If figcaption exists, image should be decorative to avoid duplicate announcement
+        imgAlt = string.Empty;
+    }
+    else if (!string.IsNullOrWhiteSpace(imageName))
+    {
+        imgAlt = imageName;
+    }
+    else
+    {
+        imgAlt = "Figure image";
+    }
+
+    var captionId = "figure-caption-" + Guid.NewGuid().ToString("N").Substring(0,8);
+}
+
+<figure class="figure__container @blockClasses" style="@styles" @(hasCaption ? $"aria-labelledby=\"{captionId}\"" : $"aria-label=\"{imgAlt}\"")>
+    @if (content?.Image != null)
+    {
+        if (hasCaption)
+        {
+            <img src="@content.Image.GetCropUrl()" alt="" aria-hidden="true" loading="lazy" decoding="async"/>
+        }
+        else
+        {
+            <img src="@content.Image.GetCropUrl()" alt="@imgAlt" loading="lazy" decoding="async"/>
+        }
+    }
+
+    @if (hasCaption)
+    {
+        <figcaption id="@captionId">@Html.Raw(content.Caption)</figcaption>
+    }
 </figure>

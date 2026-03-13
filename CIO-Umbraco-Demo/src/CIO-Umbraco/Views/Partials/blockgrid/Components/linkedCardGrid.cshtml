@@ -14,15 +14,15 @@
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<div class="linked-card-grid @blockClasses" data-columns="@maxNumberOfCardsPerRow">
+<ul class="linked-card-grid @blockClasses" data-columns="@maxNumberOfCardsPerRow">
 
     @if (content.Items.Any())
     {
         foreach (var item in content.Items)
         {
-            <div class="linked-card-grid__item">
+            <li class="linked-card-grid__item">
                 @await Html.PartialAsync("linkedCard.cshtml", item)
-            </div>
+            </li>
         }
     }
-</div>
+</ul>
