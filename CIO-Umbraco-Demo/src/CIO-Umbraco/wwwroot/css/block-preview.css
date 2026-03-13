@@ -734,14 +734,26 @@ a.icon-button-card__container {
 
 .linked-card-grid {
     display: grid;
-    gap: 1.5rem;
-    grid-template-columns: 1fr;
-    grid-auto-rows: 1fr;
+    column-gap: 1.5rem;
+    row-gap: 2rem;
+    grid-template-columns: repeat(var(--linked-card-columns, 1), 1fr);
+    align-items: stretch; /* Cards stretch to match tallest in the row */
 }
 
 .linked-card-grid__item {
+    list-style: none;
+}
+
+.linked-card-grid__item > .linked-card__container,
+.linked-card-grid__item > a {
     display: flex;
+    flex-direction: column;
     height: 100%;
+}
+
+.linked-card__text,
+.linked-card__content {
+    flex: 1 1 auto;
 }
 
 @media (min-width: 768px) {

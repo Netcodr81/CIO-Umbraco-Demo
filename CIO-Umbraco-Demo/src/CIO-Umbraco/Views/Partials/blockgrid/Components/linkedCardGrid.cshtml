@@ -14,7 +14,7 @@
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<ul class="linked-card-grid @blockClasses" data-columns="@maxNumberOfCardsPerRow">
+<ul class="linked-card-grid @blockClasses" data-columns="@maxNumberOfCardsPerRow" style="--linked-card-columns:@maxNumberOfCardsPerRow">
 
     @if (content.Items.Any())
     {

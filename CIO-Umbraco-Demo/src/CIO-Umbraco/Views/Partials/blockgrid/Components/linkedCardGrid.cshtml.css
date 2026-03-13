@@ -2,12 +2,26 @@
     display: grid;
     column-gap: 1.5rem;
     row-gap: 2rem;
-    grid-template-columns: 1fr;
-    align-items: start; /* Cards stay at top of grid cell */
+    grid-template-columns: repeat(var(--linked-card-columns, 1), 1fr);
+    align-items: stretch; /* Cards stretch to match tallest in the row */
 }
 
 .linked-card-grid__item {
+    list-style: none;
+}
+
+/* Ensure the card root fills available cell height and its internal layout can stretch */
+.linked-card-grid__item > .linked-card__container,
+.linked-card-grid__item > a {
     display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Allow the variable content area inside the card to grow so footers/buttons sit at the bottom */
+.linked-card__text,
+.linked-card__content {
+    flex: 1 1 auto;
 }
 
 @media (min-width: 768px) {
