@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="src/CIO-Umbraco/CIOUmbracoDemo.csproj" Id="918de065-def1-43ec-bb5e-e9d862c31f3d" />
+  <Project Path="src/NEOCIO.Umbraco.Common/NEOCIO.Umbraco.Common.csproj" Id="0a6fead9-75ef-4b54-8c28-512a4cec5568" />
 </Solution>
