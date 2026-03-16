@@ -1,0 +1,52 @@
+/**
+ * Cyberpunk theme – high contrast neon pink/blue, chrome accents.
+ */
+ :root {
+	--uui-color-selected: #ff2a6d;
+	--uui-color-selected-emphasis: #ff4d85;
+	--uui-color-selected-standalone: #ff70a0;
+	--uui-color-selected-contrast: #0d0221;
+	--uui-color-current: #05d9e8;
+	--uui-color-current-emphasis: #3de8f5;
+	--uui-color-current-standalone: #6ef7ff;
+	--uui-color-current-contrast: #0d0221;
+	--uui-color-disabled: #4a4a6a;
+	--uui-color-disabled-standalone: #5c5c7a;
+	--uui-color-disabled-contrast: #0d02214d;
+	--uui-color-header-surface: #0d0221;
+	--uui-color-header-contrast: #ff2a6d;
+	--uui-color-header-contrast-emphasis: #05d9e8;
+	--uui-color-focus: #05d9e8;
+	--uui-color-surface: #1a0a2e;
+	--uui-color-surface-alt: #2d1b4e;
+	--uui-color-surface-emphasis: #3d2a5c;
+	--uui-color-background: #0d0221;
+	--uui-color-text: #e8e8f0;
+	--uui-color-text-alt: #c8c8d8;
+	--uui-color-interactive: #ff2a6d;
+	--uui-color-interactive-emphasis: #05d9e8;
+	--uui-color-border: #ff2a6d;
+	--uui-color-border-standalone: #05d9e8;
+	--uui-color-border-emphasis: #ff2a6d;
+	--uui-color-divider: #2d1b4e;
+	--uui-color-divider-standalone: #4a3a6a;
+	--uui-color-divider-emphasis: #5c4a7a;
+	--uui-color-default: #ff2a6d;
+	--uui-color-default-emphasis: #ff4d85;
+	--uui-color-default-standalone: #ffffff;
+	--uui-color-default-contrast: #ffffff;
+	--uui-color-warning: #ffd700;
+	--uui-color-warning-emphasis: #ffe033;
+	--uui-color-warning-standalone: #ffe866;
+	--uui-color-warning-contrast: #0d0221;
+	--uui-color-danger: #ff006e;
+	--uui-color-danger-emphasis: #ff3385;
+	--uui-color-danger-standalone: #ff66a0;
+	--uui-color-danger-contrast: #0d0221;
+	--uui-color-positive: #05d9e8;
+	--uui-color-positive-emphasis: #3de8f5;
+	--uui-color-positive-standalone: #6ef7ff;
+	--uui-color-positive-contrast: #0d0221;
+	--uui-color-scheme: dark;
+	--uui-icon-color: #ffffff;
+}

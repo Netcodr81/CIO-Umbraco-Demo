@@ -1,0 +1,52 @@
+/**
+ * Dracula – popular dark theme. Deep purple background, candy accent colors.
+ */
+:root {
+	--uui-color-selected: #bd93f9;
+	--uui-color-selected-emphasis: #c9a8fa;
+	--uui-color-selected-standalone: #d4bdfb;
+	--uui-color-selected-contrast: #282a36;
+	--uui-color-current: #ff79c6;
+	--uui-color-current-emphasis: #ff8fce;
+	--uui-color-current-standalone: #ffa5d6;
+	--uui-color-current-contrast: #282a36;
+	--uui-color-disabled: #6272a4;
+	--uui-color-disabled-standalone: #6e7eb0;
+	--uui-color-disabled-contrast: rgba(40,42,54,0.3);
+	--uui-color-header-surface: #21222c;
+	--uui-color-header-contrast: #f8f8f2;
+	--uui-color-header-contrast-emphasis: #bd93f9;
+	--uui-color-focus: #bd93f9;
+	--uui-color-surface: #282a36;
+	--uui-color-surface-alt: #44475a;
+	--uui-color-surface-emphasis: #343746;
+	--uui-color-background: #21222c;
+	--uui-color-text: #f8f8f2;
+	--uui-color-text-alt: #e8e8e2;
+	--uui-color-interactive: #8be9fd;
+	--uui-color-interactive-emphasis: #bd93f9;
+	--uui-color-border: #44475a;
+	--uui-color-border-standalone: #bd93f9;
+	--uui-color-border-emphasis: #ff79c6;
+	--uui-color-divider: #343746;
+	--uui-color-divider-standalone: #44475a;
+	--uui-color-divider-emphasis: #6272a4;
+	--uui-color-default: #bd93f9;
+	--uui-color-default-emphasis: #c9a8fa;
+	--uui-color-default-standalone: #ffffff;
+	--uui-color-default-contrast: #f8f8f2;
+	--uui-color-warning: #f1fa8c;
+	--uui-color-warning-emphasis: #f4fb9e;
+	--uui-color-warning-standalone: #f7fcb0;
+	--uui-color-warning-contrast: #282a36;
+	--uui-color-danger: #ff5555;
+	--uui-color-danger-emphasis: #ff6e6e;
+	--uui-color-danger-standalone: #ff8787;
+	--uui-color-danger-contrast: #f8f8f2;
+	--uui-color-positive: #50fa7b;
+	--uui-color-positive-emphasis: #6efb8f;
+	--uui-color-positive-standalone: #8cfca3;
+	--uui-color-positive-contrast: #282a36;
+	--uui-color-scheme: dark;
+	--uui-icon-color:#ffffff;
+}

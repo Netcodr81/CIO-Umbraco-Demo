@@ -1,0 +1,53 @@
+/**
+ * Neon theme – synthwave / outrun style.
+ * Dark base with bright cyan, magenta, and electric accents.
+ */
+:root {
+	--uui-color-selected: #00f5ff;
+	--uui-color-selected-emphasis: #33f7ff;
+	--uui-color-selected-standalone: #66faff;
+	--uui-color-selected-contrast: #0a0a12;
+	--uui-color-current: #ff00ff;
+	--uui-color-current-emphasis: #ff33ff;
+	--uui-color-current-standalone: #ff66ff;
+	--uui-color-current-contrast: #0a0a12;
+	--uui-color-disabled: #3d3d5c;
+	--uui-color-disabled-standalone: #4d4d6e;
+	--uui-color-disabled-contrast: rgba(10,10,18,0.3);
+	--uui-color-header-surface: #0a0a12;
+	--uui-color-header-contrast: #00f5ff;
+	--uui-color-header-contrast-emphasis: #ff00ff;
+	--uui-color-focus: #00f5ff;
+	--uui-color-surface: #12122a;
+	--uui-color-surface-alt: #1a1a3a;
+	--uui-color-surface-emphasis: #22224a;
+	--uui-color-background: #0a0a12;
+	--uui-color-text: #e0e0ff;
+	--uui-color-text-alt: #c0c0e0;
+	--uui-color-interactive: #00f5ff;
+	--uui-color-interactive-emphasis: #ff00ff;
+	--uui-color-border: #2d2d4a;
+	--uui-color-border-standalone: #00f5ff;
+	--uui-color-border-emphasis: #ff00ff;
+	--uui-color-divider: #1a1a3a;
+	--uui-color-divider-standalone: #2d2d4a;
+	--uui-color-divider-emphasis: #3d3d5c;
+	--uui-color-default: #00f5ff;
+	--uui-color-default-emphasis: #33f7ff;
+	--uui-color-default-standalone: #ffffff;
+	--uui-color-default-contrast: #ffffff;
+	--uui-color-warning: #ffcc00;
+	--uui-color-warning-emphasis: #ffd633;
+	--uui-color-warning-standalone: #ffe066;
+	--uui-color-warning-contrast: #0a0a12;
+	--uui-color-danger: #ff0066;
+	--uui-color-danger-emphasis: #ff3380;
+	--uui-color-danger-standalone: #ff6699;
+	--uui-color-danger-contrast: #0a0a12;
+	--uui-color-positive: #00ff88;
+	--uui-color-positive-emphasis: #33ff99;
+	--uui-color-positive-standalone: #66ffaa;
+	--uui-color-positive-contrast: #0a0a12;
+	--uui-color-scheme: dark;
+	--uui-icon-color:#ffffff;
+}

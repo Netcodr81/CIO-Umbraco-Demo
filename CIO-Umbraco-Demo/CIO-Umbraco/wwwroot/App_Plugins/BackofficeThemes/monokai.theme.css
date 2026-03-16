@@ -1,0 +1,52 @@
+/**
+ * Monokai – classic high-contrast dark theme, charcoal and bright accents.
+ */
+:root {
+	--uui-color-selected: #66d9ef;
+	--uui-color-selected-emphasis: #7ddef3;
+	--uui-color-selected-standalone: #94e3f7;
+	--uui-color-selected-contrast: #272822;
+	--uui-color-current: #a6e22e;
+	--uui-color-current-emphasis: #b5e84a;
+	--uui-color-current-standalone: #c4ee66;
+	--uui-color-current-contrast: #272822;
+	--uui-color-disabled: #75715e;
+	--uui-color-disabled-standalone: #8a8570;
+	--uui-color-disabled-contrast: rgba(39,40,34,0.3);
+	--uui-color-header-surface: #1e1f1c;
+	--uui-color-header-contrast: #f8f8f2;
+	--uui-color-header-contrast-emphasis: #66d9ef;
+	--uui-color-focus: #66d9ef;
+	--uui-color-surface: #272822;
+	--uui-color-surface-alt: #3e3d32;
+	--uui-color-surface-emphasis: #363631;
+	--uui-color-background: #1e1f1c;
+	--uui-color-text: #f8f8f2;
+	--uui-color-text-alt: #e6e6e0;
+	--uui-color-interactive: #f92672;
+	--uui-color-interactive-emphasis: #66d9ef;
+	--uui-color-border: #3e3d32;
+	--uui-color-border-standalone: #66d9ef;
+	--uui-color-border-emphasis: #a6e22e;
+	--uui-color-divider: #3e3d32;
+	--uui-color-divider-standalone: #49483e;
+	--uui-color-divider-emphasis: #75715e;
+	--uui-color-default: #66d9ef;
+	--uui-color-default-emphasis: #7ddef3;
+	--uui-color-default-standalone: #ffffff;
+	--uui-color-default-contrast: #f8f8f2;
+	--uui-color-warning: #e6db74;
+	--uui-color-warning-emphasis: #e9df86;
+	--uui-color-warning-standalone: #ece398;
+	--uui-color-warning-contrast: #272822;
+	--uui-color-danger: #f92672;
+	--uui-color-danger-emphasis: #fa4d8a;
+	--uui-color-danger-standalone: #fb74a2;
+	--uui-color-danger-contrast: #f8f8f2;
+	--uui-color-positive: #a6e22e;
+	--uui-color-positive-emphasis: #b5e84a;
+	--uui-color-positive-standalone: #c4ee66;
+	--uui-color-positive-contrast: #272822;
+	--uui-color-scheme: dark;
+	--uui-icon-color:#ffffff;
+}
