@@ -1,13 +1,15 @@
-﻿@using CIOUmbracoDemo.Extensions
-@using CIOUmbracoDemo.Extensions.Breadcrumbs
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.InteriorHero>>
+﻿@using CIOUmbracoDemo.Extensions.Breadcrumbs
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var theme = Umbraco.GetCurrentTheme();
+    var siteSettings = Umbraco.AssignedContentItem?.Root()?.FirstChild<SiteSettings>();
+    var theme = siteSettings?.Theme?.ToLowerInvariant() ?? "blue";
 
     var defaultSvgBackgroundColor = "";
     var defaultSvgMidgroundColor = "";
@@ -32,13 +34,13 @@
             break;
     }
 
-    var backgroundImageUrl = content?.BackgroundImage?.GetCropUrl() ?? string.Empty;
+    var backgroundImageUrl = content.Value<MediaWithCrops>("backgroundImage")?.GetCropUrl() ?? string.Empty;
 
-    var backgroundColor = content?.BackgroundColor?.Color ?? "#FFC44D";
-    var headingTextColor = content?.HeadingTextColor?.Color ?? "#000000";
-    var svgBackgroundColor = content?.SvgBackgroundColor?.Color ?? defaultSvgBackgroundColor;
-    var svgMidgroundColor = content?.SvgMidgroundColor?.Color ?? defaultSvgMidgroundColor;
-    var svgForegroundColor = content?.SvgForegroundColor?.Color ?? defaultSvgForegroundColor;
+    var backgroundColor = content.Value<ColorPickerValueConverter.PickedColor>("backgroundColor")?.Color ?? "#FFC44D";
+    var headingTextColor = content.Value<ColorPickerValueConverter.PickedColor>("headingTextColor")?.Color ?? "#000000";
+    var svgBackgroundColor = content.Value<ColorPickerValueConverter.PickedColor>("svgBackgroundColor")?.Color ?? defaultSvgBackgroundColor;
+    var svgMidgroundColor = content.Value<ColorPickerValueConverter.PickedColor>("svgMidgroundColor")?.Color ?? defaultSvgMidgroundColor;
+    var svgForegroundColor = content.Value<ColorPickerValueConverter.PickedColor>("svgForegroundColor")?.Color ?? defaultSvgForegroundColor;
 
     var cssVariables = $@"
       --interior-hero-background-image: url({backgroundImageUrl});
@@ -65,6 +67,21 @@
         ));
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+  
+
+    static string MapSpacingClass(string? value, string prefix)
+        => value switch
+        {
+            "Small" => $"{prefix}-3",
+            "Medium" => $"{prefix}-4",
+            "Large" => $"{prefix}-5",
+            "XL" => $"{prefix}-6",
+            _ => $"{prefix}-0"
+        };
+
+    var displayBreadcrumb = content.Value<bool>("displayBreadcrumb");
+    var heading = content.Value<string>("heading");
 }
 
 <div class="interior-hero__wrapper @blockClasses" style="background-image: url(@backgroundImageUrl);background-color:@backgroundColor; @cssVariables">
@@ -73,7 +90,9 @@
         // Decorative overlay for contrast; hide from assistive tech
         <div class="interior-hero__overlay" aria-hidden="true"></div>
     }
-    @if (content.DisplayBreadcrumb)
+  
+
+    @if (displayBreadcrumb)
     {
         <nav class="interior-hero-breadcrumb" aria-label="Breadcrumbs">
             <ol class="interior-hero-breadcrumb__list">
@@ -96,7 +115,8 @@
         </nav>
     }
     
-    <h1 class="interior-hero__heading">@content?.Heading</h1>
+   
+    <h1 class="interior-hero__heading">@heading</h1>
  
     <div class="interior-hero__svg" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1727 86" preserveAspectRatio="none" focusable="false" role="img" aria-hidden="true">

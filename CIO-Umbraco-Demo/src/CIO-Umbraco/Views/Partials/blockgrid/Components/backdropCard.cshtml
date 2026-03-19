@@ -1,14 +1,18 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockListItem<ContentModels.BackdropCard>>
+﻿@using Umbraco.Extensions
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using Umbraco.Cms.Core.Models
+@inherits UmbracoViewPage<BlockListItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var bgUrl = content.BackgroundImage?.MediaUrl();
+    var bg = content.Value<IPublishedContent>("backgroundImage");
+    var bgUrl = bg?.GetCropUrl();
 
-    var theme = Umbraco.GetCurrentTheme();
+    var siteSettings = Umbraco.AssignedContentItem?.Root()?.FirstChild<SiteSettings>();
+    var theme = siteSettings?.Theme?.ToLowerInvariant() ?? "blue";
 
     var defaultMetaBackgroundColor = "";
     var defaultMetaTextColor = "";
@@ -44,7 +48,26 @@
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 
-    var textColor = content?.TextColor?.Color ?? defaultTextColor;
+    var textPicked = content.Value<ColorPickerValueConverter.PickedColor>("textColor");
+    var textColor = textPicked?.Color ?? defaultTextColor;
+
+    // Read common fields via alias to avoid compile-time model dependency
+    var heading = content.Value<string>("heading") ?? string.Empty;
+    var date = content.Value<string>("date");
+    var textHtml = content.Value<object?>("text")?.ToString() ?? string.Empty;
+    var displayCta = content.Value<bool?>("displayCtaButton") == true;
+    var ctaObj = content.Value<object?>("ctaLink");
+    string? ctaUrl = null;
+    string ctaTarget = "_self";
+    if (ctaObj != null)
+    {
+        var t = ctaObj.GetType();
+        var urlProp = t.GetProperty("Url") ?? t.GetProperty("url");
+        var targetProp = t.GetProperty("Target") ?? t.GetProperty("target");
+        if (urlProp != null) ctaUrl = urlProp.GetValue(ctaObj)?.ToString();
+        else if (ctaObj is string s) ctaUrl = s;
+        if (targetProp != null) { var tv = targetProp.GetValue(ctaObj)?.ToString(); if (!string.IsNullOrWhiteSpace(tv)) ctaTarget = tv; }
+    }
 
     var styles = $@"
         --backdrop-card__meta-background-color: {defaultMetaBackgroundColor};
@@ -56,7 +79,8 @@
 
     var uniqueId = "backdropcard-" + Guid.NewGuid().ToString("N").Substring(0, 8);
     var headingId = uniqueId + "-heading";
-    var linkLabel = !string.IsNullOrWhiteSpace(content.CtaText) ? content.CtaText : "Read more";
+    var linkLabel = !string.IsNullOrWhiteSpace(content.Value<string>("ctaText")) ? content.Value<string>("ctaText") : "Read more";
+
 }
 
 
@@ -64,39 +88,37 @@
     @if (!string.IsNullOrWhiteSpace(bgUrl))
     {
         @* If heading exists, treat the image as decorative to avoid duplicate announcement; otherwise provide alt text. *@
-        if (!string.IsNullOrWhiteSpace(content.Heading))
+        if (!string.IsNullOrWhiteSpace(heading))
         {
             <img class="backdrop-card__img" src="@bgUrl" alt="backdrop card image" aria-hidden="true" />
         }
         else
         {
-            <img class="backdrop-card__img" src="@bgUrl" alt="@content.Heading" />
+            <img class="backdrop-card__img" src="@bgUrl" alt="@heading" />
         }
     }
 
     <div class="backdrop-card__overlay">
         <div class="backdrop-card__body-container">
-            @if (!string.IsNullOrWhiteSpace(content.Date))
+            @if (!string.IsNullOrWhiteSpace(date))
             {
-                <div class="backdrop-card__meta" aria-hidden="false">@content.Date</div>
+                <div class="backdrop-card__meta" aria-hidden="false">@date</div>
             }
 
-            @if (!string.IsNullOrWhiteSpace(content.Heading))
+            @if (!string.IsNullOrWhiteSpace(heading))
             {
-                <h3 id="@headingId" class="backdrop-card__heading">@content.Heading</h3>
+                <h3 id="@headingId" class="backdrop-card__heading">@heading</h3>
             }
 
-            @if (!string.IsNullOrWhiteSpace(content.Text))
+            @if (!string.IsNullOrWhiteSpace(textHtml))
             {
-                <div class="backdrop-card__text">@Html.Raw(content.Text)</div>
+                <div class="backdrop-card__text">@Html.Raw(textHtml)</div>
             }
 
-            @if (content.DisplayCtaButton && !string.IsNullOrWhiteSpace(content?.CtaLink?.Url))
+            @if (displayCta && !string.IsNullOrWhiteSpace(ctaUrl))
             {
-                var ctaUrl = content.CtaLink.Url;
-                var ctaTarget = content.CtaLink.Target ?? "_self";
-                <a class="backdrop-card__cta" href="@ctaUrl" target="@ctaTarget" rel="noopener noreferrer" aria-label="@($"{linkLabel} - {content.Heading}")">
-                    @content.CtaText
+                <a class="backdrop-card__cta" href="@ctaUrl" target="@ctaTarget" rel="noopener noreferrer" aria-label="@($"{linkLabel} - {heading}")">
+                    @linkLabel
                     <span class="backdrop-card__cta-icon" aria-hidden="true"><img src="~/icons/arrow_forward.svg" alt=""/></span>
                 </a>
             }

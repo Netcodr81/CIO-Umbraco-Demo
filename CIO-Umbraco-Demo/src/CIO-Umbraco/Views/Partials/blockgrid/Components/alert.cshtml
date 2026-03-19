@@ -1,16 +1,18 @@
-﻿@using System.Diagnostics
-@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.Alert>>
+﻿
+
+@using Umbraco.Extensions
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    // Normalize alertType to a string to handle either enum or string values
-    var alertType = content.AlertType?.ToString() ?? "Info";
+    // Read values by alias to avoid compile-time dependency on generated models
+    var alertTypeObj = content.Value<object>("alertType");
+    var alertType = alertTypeObj?.ToString() ?? "Info";
 
-    // Use a switch expression to pick the background class
+    // Select CSS classes by alert type
     var backgroundClass = alertType switch
     {
         "Info" => "alert__info-background",
@@ -21,7 +23,7 @@
         _ => "alert__info-background",
     };
 
-    var iconClass =alertType switch
+    var iconClass = alertType switch
     {
         "Info" => "info-icon",
         "Warning" => "warning-icon",
@@ -38,25 +40,31 @@
     var roleAttr = ariaLive == "assertive" ? "alert" : "status";
     var headingId = "alert-heading-" + Guid.NewGuid().ToString("N").Substring(0, 8);
     var srPrefix = $"{alertType} alert";
+
+    // Field values
+    var slimAlert = content.Value<bool?>("slimAlert") == true;
+    var displayIcon = content.Value<bool?>("displayIcon") == true;
+    var heading = content.Value<string>("heading") ?? string.Empty;
+    var bodyHtml = content.Value<object?>("bodyText")?.ToString() ?? string.Empty;
 }
 
-@if (content.SlimAlert)
+@if (slimAlert)
 {
-    <div class="alert__wrapper @blockClasses" role="@roleAttr" aria-live="@ariaLive" @(!string.IsNullOrWhiteSpace(content.Heading) ? $"aria-labelledby=\"{headingId}\"" : $"aria-label=\"{srPrefix}\"")>
+    <div class="alert__wrapper @blockClasses" role="@roleAttr" aria-live="@ariaLive" @(!string.IsNullOrWhiteSpace(heading) ? $"aria-labelledby=\"{headingId}\"" : $"aria-label=\"{srPrefix}\"")>
         <section class="@backgroundClass">
-            <div class="alert__slim-body @(content.DisplayIcon ? iconClass : string.Empty)">
+            <div class="alert__slim-body @(displayIcon ? iconClass : string.Empty)">
                 <div class="alert__text">
                     @* Visually announce the alert type for screen readers *@
                     <span class="visually-hidden">@srPrefix.</span>
 
-                    @if (!string.IsNullOrWhiteSpace(content.Heading))
+                    @if (!string.IsNullOrWhiteSpace(heading))
                     {
-                        <p id="@headingId" class="alert__heading" style="font-weight:700;">@content.Heading</p>
+                        <p id="@headingId" class="alert__heading" style="font-weight:700;">@heading</p>
                     }
 
-                    @if (content.BodyText is not null)
+                    @if (!string.IsNullOrWhiteSpace(bodyHtml))
                     {
-                        @content.BodyText
+                        @Html.Raw(bodyHtml)
                     }
 
                 </div>
@@ -66,16 +74,16 @@
 }
 else
 {
-    <div class="alert__wrapper @blockClasses" role="@roleAttr" aria-live="@ariaLive" @(!string.IsNullOrWhiteSpace(content.Heading) ? $"aria-labelledby=\"{headingId}\"" : $"aria-label=\"{srPrefix}\"")>
+    <div class="alert__wrapper @blockClasses" role="@roleAttr" aria-live="@ariaLive" @(!string.IsNullOrWhiteSpace(heading) ? $"aria-labelledby=\"{headingId}\"" : $"aria-label=\"{srPrefix}\"")>
         <section class="@backgroundClass">
-            <div class="alert__body @(content.DisplayIcon ? iconClass : string.Empty)">
+            <div class="alert__body @(displayIcon ? iconClass : string.Empty)">
                 <span class="visually-hidden">@srPrefix.</span>
-                @if (!string.IsNullOrWhiteSpace(content.Heading))
+                @if (!string.IsNullOrWhiteSpace(heading))
                 {
-                    <p id="@headingId" class="alert__heading">@content.Heading</p>
+                    <p id="@headingId" class="alert__heading">@heading</p>
                 }
                 <div class="alert__text">
-                    @content.BodyText
+                    @Html.Raw(bodyHtml)
                 </div>
             </div>
         </section>

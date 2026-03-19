@@ -1,16 +1,16 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.RichTextEditor>>
+﻿@using Umbraco.Cms.Core.Strings
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var richText = content.Content;
+    var richText = content.Value<IHtmlEncodedString>("content");
 
     if (richText is null || string.IsNullOrWhiteSpace(richText.ToString())) return;
 
-    var maxWidth = string.IsNullOrWhiteSpace(content.MaxWidth) ? "full" : content.MaxWidth;
+    var maxWidth = string.IsNullOrWhiteSpace(content.Value<string>("maxWidth")) ? "full" : content.Value<string>("maxWidth");
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }

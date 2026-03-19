@@ -1,15 +1,17 @@
 ﻿@using System.Text
-@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<BasicTable>>
+@using Umbraco.Cms.Core
+@using UmbHost.Tables.Models
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var theme = Umbraco.GetCurrentTheme();
+    var siteSettings = Umbraco.AssignedContentItem?.Root()?.FirstChild<SiteSettings>();
+    var theme = siteSettings?.Theme?.ToLowerInvariant() ?? "blue";
 
-    var table = content.Table;
+    var table = content.Value<TableModel>("tableContent");
 
     var headers = new List<string>();
 
@@ -20,31 +22,72 @@
 
     var tableCSS = new StringBuilder();
 
-    if (content.StripedTable)
+    if (content.Value<bool?>("stripedTable") == true)
     {
         tableCSS.Append(" basic-table-striped");
     }
-    
-    var tableColorScheme = content?.TableColorScheme?.Color ?? "var(--theme-primary)";
+
+    var tablePicked = content.Value<Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor>("tableColorScheme");
+    var tableColorScheme = tablePicked?.Color ?? "var(--theme-primary)";
 
     var styles = $@"
         --basic-table__color-scheme: {tableColorScheme};
 	";
 
-    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+    var blockClasses = BuildBlockSettingsClasses(Model.Settings);
 
     var tableId = "basic-table-" + Guid.NewGuid().ToString("N").Substring(0, 8);
     var captionId = "basic-table-caption-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+
+    static string BuildBlockSettingsClasses(IPublishedElement? settings)
+    {
+        if (settings is null)
+        {
+            return string.Empty;
+        }
+
+        var marginTop = settings.Value<string>("marginTop");
+        var marginBottom = settings.Value<string>("marginBottom");
+        var marginRight = settings.Value<string>("marginRight");
+        var marginLeft = settings.Value<string>("marginLeft");
+
+        var paddingTop = settings.Value<string>("paddingTop");
+        var paddingBottom = settings.Value<string>("paddingBottom");
+        var paddingRight = settings.Value<string>("paddingRight");
+        var paddingLeft = settings.Value<string>("paddingLeft");
+
+        var classes = new StringBuilder();
+        classes.Append($" {MapSpacingClass(marginTop, "mt")}");
+        classes.Append($" {MapSpacingClass(marginBottom, "mb")}");
+        classes.Append($" {MapSpacingClass(marginRight, "me")}");
+        classes.Append($" {MapSpacingClass(marginLeft, "ms")}");
+        classes.Append($" {MapSpacingClass(paddingTop, "pt")}");
+        classes.Append($" {MapSpacingClass(paddingBottom, "pb")}");
+        classes.Append($" {MapSpacingClass(paddingRight, "pe")}");
+        classes.Append($" {MapSpacingClass(paddingLeft, "ps")}");
+
+        return classes.ToString();
+    }
+
+    static string MapSpacingClass(string? value, string prefix)
+        => value switch
+        {
+            "Small" => $"{prefix}-3",
+            "Medium" => $"{prefix}-4",
+            "Large" => $"{prefix}-5",
+            "XL" => $"{prefix}-6",
+            _ => $"{prefix}-0"
+        };
 }
 
 @if (table != null && table.Rows.Any())
 {
-    <table id="@tableId" class="basic-table @tableCSS.ToString() @blockClasses" style="@styles" @(string.IsNullOrWhiteSpace(content.Caption) ? string.Empty : $"aria-describedby=\"{captionId}\"")>
+    <table id="@tableId" class="basic-table @tableCSS.ToString() @blockClasses" style="@styles" @(string.IsNullOrWhiteSpace(content.Value<string>("caption")) ? string.Empty : $"aria-describedby=\"{captionId}\"")>
 
         @* Caption should be first child of table for accessibility *@
-        @if (!string.IsNullOrWhiteSpace(content.Caption))
+        @if (!string.IsNullOrWhiteSpace(content.Value<string>("caption")))
         {
-            <caption id="@captionId">@content.Caption</caption>
+            <caption id="@captionId">@Html.Raw(content.Value<string>("caption") ?? string.Empty)</caption>
         }
 
         @if (table.UseFirstRowAsHeader && table.Rows.Any())

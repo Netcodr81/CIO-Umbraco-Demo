@@ -1,20 +1,19 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.MapEmbed>>
+﻿@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var width = content.Width == 0 ? 600 : content.Width;
-    var height = content.Height == 0 ? 450 : content.Height;
+    var width = content.Value<int>("width") == 0 ? 600 : content.Value<int>("width");
+    var height = content.Value<int>("height") == 0 ? 450 : content.Value<int>("height");
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 
     // Accessibility helpers
-    var mapUrl = content.GoogleMapLink;
+    var mapUrl = content.Value<string>("googleMapLink");
     var mapTitle = !string.IsNullOrWhiteSpace(mapUrl) ? "Map location" : "Embedded map";
-    var allowFullScreenAttr = content.AllowFullScreen ? " allowfullscreen" : string.Empty;
+    var allowFullScreenAttr = content.Value<bool>("allowFullScreen") ? " allowfullscreen" : string.Empty;
 }
 
 @if (!string.IsNullOrWhiteSpace(blockClasses))

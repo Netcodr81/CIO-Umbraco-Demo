@@ -1,5 +1,7 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.Carousel>>
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Extensions
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
@@ -8,32 +10,32 @@
     var carouselId = "carousel-" + Guid.NewGuid().ToString("N").Substring(0, 8);
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+    var items = content.Value<BlockListModel>("items");
 }
 
 <div class="carousel @blockClasses" id="@carouselId" data-carousel tabindex="0">
     <div class="carousel__viewport">
         <div class="carousel__track">
-            @if (content.Items.Any())
+            @if (items?.Any() == true)
             {
                 var index = 0;
-                foreach (var item in content.Items)
+                foreach (var block in items)
                 {
-                    if (item.Content is CarouselItem)
-                    {
-                        var carouselItem = item as BlockListItem<CarouselItem>;
-                        var slideId = $"{carouselId}-slide-{index}";
-                        var slideLabel = $"Slide {index + 1} of {content.Items.Count()}";
-                        <div id="@slideId" class="carousel__slide @(index == 0 ? "carousel__slide--active" : "")" data-slide="@index" role="group" aria-roledescription="slide" aria-label="@slideLabel" aria-hidden="@(index == 0 ? "false" : "true")">
-                            @await Html.PartialAsync("carouselItem", carouselItem)
-                        </div>
-                        index++;
-                    }
+                    var itemEl = block?.Content as IPublishedElement;
+                    if (itemEl == null) continue;
+
+                    var slideId = $"{carouselId}-slide-{index}";
+                    var slideLabel = $"Slide {index + 1} of {items.Count}";
+                    <div id="@slideId" class="carousel__slide @(index == 0 ? "carousel__slide--active" : "")" data-slide="@index" role="group" aria-roledescription="slide" aria-label="@slideLabel" aria-hidden="@(index == 0 ? "false" : "true")">
+                        @await Html.PartialAsync("carouselItem", block)
+                    </div>
+                    index++;
                 }
             }
         </div>
     </div>
 
-    @if (content.Items.Any() && content.Items.Count() > 1)
+    @if (items?.Any() == true && items.Count > 1)
     {
         <div class="visually-hidden" aria-live="polite" id="@(carouselId)-status" data-carousel-status></div>
         <div class="carousel__controls">
@@ -61,7 +63,7 @@
         </div>
 
         <div class="carousel__indicators" role="tablist" aria-label="Carousel slides">
-            @for (var i = 0; i < content.Items.Count(); i++)
+            @for (var i = 0; i < (items?.Count ?? 0); i++)
             {
                 var indicatorControls = $"{carouselId}-slide-{i}";
                 <button class="carousel__indicator @(i == 0 ? "carousel__indicator--active" : "")" 

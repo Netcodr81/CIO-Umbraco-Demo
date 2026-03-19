@@ -1,16 +1,16 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.StandAloneImage>>
+﻿@using Umbraco.Cms.Core.Models
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var altText = !string.IsNullOrWhiteSpace(content.AltText) ? content.AltText : content.Image.Name;
+    var altText = !string.IsNullOrWhiteSpace(content.Value<string>("altText")) ? content.Value<string>("altText") : content.Value<MediaWithCrops>("image")?.Name;
 
     // Get user-defined dimensions (assuming these properties exist)
-    var width = content.Width > 0 ? $"{content.Width}px" : "100%";
-    var height = content.Height > 0 ? $"{content.Height}px" : "auto";
+    var width = content.Value<int>("width") > 0 ? $"{content.Value<int>("width")}px" : "100%";
+    var height = content.Value<int>("height") > 0 ? $"{content.Value<int>("height")}px" : "auto";
 
     var cssVariables = $@"
         --stand-alone-image-width: {width};
@@ -38,14 +38,14 @@
 }
 
 <figure class="stand-alone-image @blockClasses" style="@cssVariables">
-    @{ 
+    @{
         // Determine numeric width/height attributes when available to reduce layout shift
-        var imgWidthAttr = content.Width > 0 ? $"width=\"{content.Width}\"" : string.Empty;
-        var imgHeightAttr = content.Height > 0 ? $"height=\"{content.Height}\"" : string.Empty;
+        var imgWidthAttr = content.Value<int>("width") > 0 ? $"width=\"{content.Value<int>("width")}\"" : string.Empty;
+        var imgHeightAttr = content.Value<int>("height") > 0 ? $"height=\"{content.Value<int>("height")}\"" : string.Empty;
         var imgAlt = altText ?? string.Empty;
     }
 
-    <img src="@content.Image.GetCropUrl()" alt="@imgAlt" loading="lazy" decoding="async" @Html.Raw(imgWidthAttr) @Html.Raw(imgHeightAttr) class="stand-alone-image__img" />
+    <img src="@(content.Value<MediaWithCrops>("image")?.GetCropUrl())" alt="@imgAlt" loading="lazy" decoding="async" @Html.Raw(imgWidthAttr) @Html.Raw(imgHeightAttr) class="stand-alone-image__img"/>
 
     @if (!string.IsNullOrWhiteSpace(caption))
     {

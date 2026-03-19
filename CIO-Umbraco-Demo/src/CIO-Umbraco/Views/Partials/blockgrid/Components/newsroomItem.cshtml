@@ -1,14 +1,16 @@
-﻿@inherits UmbracoViewPage<BlockListItem<ContentModels.NewsroomItem>>
+﻿@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits UmbracoViewPage<BlockListItem>
 
 @{
     if (Model?.Content is null) return;
 
     var content = Model.Content;
 
-    var iconHoverColor = content?.IconHoverColor?.Color ?? "#004d66";
-    var descriptionColor = content?.DescriptionColor?.Color ?? "#000";
-    var linkColor = content?.LinkColor?.Color ?? "#00607f";
-    var linkHoverColor = content?.LinkHoverColor?.Color ?? "#004d66";
+    var iconHoverColor = content.Value<ColorPickerValueConverter.PickedColor>("iconHoverColor")?.Color ?? "#004d66";
+    var descriptionColor = content.Value<ColorPickerValueConverter.PickedColor>("descriptionColor")?.Color ?? "#000";
+    var linkColor = content.Value<ColorPickerValueConverter.PickedColor>("linkColor")?.Color ?? "#00607f";
+    var linkHoverColor = content.Value<ColorPickerValueConverter.PickedColor>("linkHoverColor")?.Color ?? "#004d66";
 
     var cssVariables = $@"
         --newsroom-icon-hover-color: {iconHoverColor};
@@ -19,25 +21,27 @@
 }
 
 @{
-    var linkUrl = content?.Link?.Url;
-    var linkTarget = string.IsNullOrWhiteSpace(content?.Link?.Target) ? "_self" : content.Link.Target;
+    var linkObj = content.Value<Link>("link");
+    var linkUrl = linkObj?.Url;
+    var linkTarget = string.IsNullOrWhiteSpace(linkObj?.Target) ? "_self" : linkObj?.Target;
     var relAttr = linkTarget == "_blank" ? " rel=\"noopener noreferrer\"" : string.Empty;
-    var linkText = !string.IsNullOrWhiteSpace(content?.Link?.Name) ? content.Link.Name : linkUrl;
-    var ariaLabel = string.IsNullOrWhiteSpace(content?.Link?.Name) ? $"News item: {linkText}" : string.Empty;
+    var linkText = !string.IsNullOrWhiteSpace(linkObj?.Name) ? linkObj?.Name : linkUrl;
+    var ariaLabel = string.IsNullOrWhiteSpace(linkObj?.Name) ? $"News item: {linkText}" : string.Empty;
     var ariaAttr = string.IsNullOrEmpty(ariaLabel) ? string.Empty : $" aria-label=\"{ariaLabel}\"";
-    var svgAriaHidden = !string.IsNullOrWhiteSpace(content?.Link?.Name) ? "true" : "false";
+    var svgAriaHidden = !string.IsNullOrWhiteSpace(linkObj?.Name) ? "true" : "false";
+    var icon = content.Value<MediaWithCrops>("icon");
 }
 
 <li class="d-flex newsroom__list-item flex-column w-100" style="@cssVariables">
     @if (!string.IsNullOrWhiteSpace(linkUrl))
     {
         <a href="@linkUrl" target="@linkTarget"@Html.Raw(relAttr + ariaAttr)>
-            @if (content?.Icon is not null)
+            @if (icon is not null)
             {
-                @if (content.IconLocation == "Prepend")
+                @if (content.Value<string>("iconLocation") == "Prepend")
                 {
                     <h3>
-                        <inline-svg media-item="@content?.Icon" height="18" width="18" fill="currentColor" aria-hidden='@svgAriaHidden'></inline-svg>
+                        <inline-svg media-item="@icon" height="18" width="18" fill="currentColor" aria-hidden='@svgAriaHidden'></inline-svg>
                         @linkText
                     </h3>
                 }
@@ -45,7 +49,7 @@
                 {
                     <h3>
                         @linkText
-                        <inline-svg media-item="@content?.Icon" height="18" width="18" fill="currentColor" aria-hidden='@svgAriaHidden'></inline-svg>
+                        <inline-svg media-item="@icon" height="18" width="18" fill="currentColor" aria-hidden='@svgAriaHidden'></inline-svg>
                     </h3>
                 }
             }
@@ -57,30 +61,30 @@
     }
     else
     {
-        @if (content?.Icon is not null)
+        @if (icon is not null)
         {
-            if (content.IconLocation == "Prepend")
+            if (content.Value<string>("iconLocation") == "Prepend")
             {
                 <h3>
-                    <inline-svg media-item="@content?.Icon" height="18" width="18" fill="currentColor" aria-hidden="true"></inline-svg>
-                    @content?.Link?.Name
+                    <inline-svg media-item="@icon" height="18" width="18" fill="currentColor" aria-hidden="true"></inline-svg>
+                    @(linkObj?.Name)
                 </h3>
             }
             else
             {
                 <h3>
-                    @content?.Link?.Name
-                    <inline-svg media-item="@content?.Icon" height="18" width="18" fill="currentColor" aria-hidden="true"></inline-svg>
+                    @(linkObj?.Name)
+                    <inline-svg media-item="@icon" height="18" width="18" fill="currentColor" aria-hidden="true"></inline-svg>
                 </h3>
             }
         }
         else
         {
-            <h3>@content?.Link?.Name</h3>
+            <h3> @(linkObj?.Name)</h3>
         }
     }
 
     <p class="newsroom__description">
-        @content?.Description
+        @Html.Raw(content.Value<string>("description"))
     </p>
 </li>

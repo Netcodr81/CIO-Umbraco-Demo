@@ -1,6 +1,8 @@
 ﻿@using System.Text
-@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.IconButtonGrid>>
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using Umbraco.Extensions
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null)
@@ -10,27 +12,30 @@
 
     var content = Model.Content;
 
-    var maxNumberOfButtonsPerRow = content.MaxNumberOfButtonsPerRow ?? "3";
+    var maxNumberOfButtonsPerRow = content.Value<string>("maxNumberOfButtonsPerRow") ?? "3";
 
     var styles = new StringBuilder();
 
-    if (content?.BackgroundColor is not null)
+    var bgPicked = content.Value<ColorPickerValueConverter.PickedColor>("backgroundColor");
+    var bgColor = bgPicked?.Color;
+    if (!string.IsNullOrWhiteSpace(bgColor))
     {
-        styles.Append($" background-color:{content?.BackgroundColor?.Color}");
+        styles.Append($" background-color:{bgColor}");
     }
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var items = content.Value<BlockListModel>("items");
 }
 
 <div class="icon-button-grid @blockClasses" data-columns="@maxNumberOfButtonsPerRow" style="@styles.ToString()" role="list">
 
 
-    @if (content.Items.Any())
+    @if (items?.Any() == true)
     {
-        @foreach (var button in content.Items)
+        @foreach (var button in items)
         {
-            var buttonToRender = button as BlockListItem<IconButtonCard>;
-            @await Html.PartialAsync("iconButtonCard", buttonToRender)
+            @await Html.PartialAsync("iconButtonCard", button)
         }
     }
 

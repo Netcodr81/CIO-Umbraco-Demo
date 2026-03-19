@@ -1,6 +1,7 @@
 ﻿@using System.Text
-@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.IconList>>
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Extensions
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
@@ -8,18 +9,18 @@
     var content = Model.Content;
 
     var styles = new StringBuilder();
-  
+
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+    var items = content.Value<BlockListModel>("listItems");
 }
 
-@if (content.ListItems.Any())
+@if (items?.Any() == true)
 {
     <ul class="icon-list__container @blockClasses">
-        @foreach (var item in content.ListItems)
+        @foreach (var item in items)
         {
-            var listItem = item as BlockListItem<ContentModels.IconListItem>;
-            @await Html.PartialAsync("iconListItem.cshtml", listItem)
+            @await Html.PartialAsync("iconListItem.cshtml", item)
         }
-        
+
     </ul>
 }

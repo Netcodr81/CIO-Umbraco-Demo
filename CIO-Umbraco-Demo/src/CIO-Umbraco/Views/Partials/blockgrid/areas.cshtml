@@ -9,10 +9,10 @@
     {
         dataAreas += area.Alias + " ";
     }
-    var layoutSettings = Model.Settings as LayoutSettings;
-    var containerStyle = layoutSettings.ContainerStyle;
+    var layoutSettings = Model.Settings as IPublishedElement;
+    var containerStyle = layoutSettings?.Value<string>("containerStyle") ?? string.Empty;
 
-    ViewData["ApplyDefaultPadding"] = layoutSettings.ApplyDefaultPadding;
+    ViewData["ApplyDefaultPadding"] = layoutSettings?.Value<bool?>("applyDefaultPadding") == true;
   
 
 }

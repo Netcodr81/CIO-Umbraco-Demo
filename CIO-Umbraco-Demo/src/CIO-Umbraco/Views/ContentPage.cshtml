@@ -1,13 +1,17 @@
-﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.ContentPage>
+﻿@using PickedColor = Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor
+@using Umbraco.Extensions
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @{
     Layout = "_Layout.cshtml";
-    var content = Model.ContentGrid;
+    var content = Model.Value<BlockGridModel>("contentGrid");
 
-    var pageStyles = Model.PageBackgroundColor?.Color != null ? $"background-color:{Model.PageBackgroundColor?.Color}" : "background-color:#f3f7fc";
+    var pageBg = Model.Value<PickedColor>("pageBackgroundColor")?.Color;
+    var pageStyles = !string.IsNullOrWhiteSpace(pageBg) ? $"background-color:{pageBg}" : "background-color:#f3f7fc";
 }
 
 <!-- START - BLOCK GRID -->
-@await Html.GetBlockGridHtmlAsync(Model.ContentGrid)
+@await Html.GetBlockGridHtmlAsync(content)
 
 <!-- END - BLOCK GRID -->

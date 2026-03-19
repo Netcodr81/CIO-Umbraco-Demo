@@ -1,6 +1,6 @@
 ﻿
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
-@using SocialLink = Umbraco.Cms.Web.Common.PublishedModels.SocialLink
+@* Avoid referencing generated published model type directly in Razor to prevent compilation issues in some build contexts *@
 
 @{
     var siteSettings = Model.Root().FirstChild<SiteSettings>();
@@ -37,11 +37,10 @@
             <ul class="cio-footer__links-list">
             @foreach (var block in footerLinks)
             {
-                if (block?.Content is SingleLink)
+                if (block?.Content is not null)
                 {
-                    var footerLink = block as BlockListItem<SingleLink>;
                     <li>
-                        @await Html.PartialAsync("blockgrid/Components/singleLink", footerLink)
+                        @await Html.PartialAsync("blockgrid/Components/singleLink", block)
                     </li>
                 }
             }
@@ -60,10 +59,9 @@
             <div class="cio-footer__social-icons" role="navigation" aria-label="Social media links">
                 @foreach (var iconLink in socialLinks)
                 {
-                    if (iconLink?.Content is SocialLink)
+                    if (iconLink?.Content is not null)
                     {
-                        var socialLink = iconLink as BlockListItem<SocialLink>;
-                        @await Html.PartialAsync("blockgrid/Components/socialLink", socialLink);
+                        @await Html.PartialAsync("blockgrid/Components/socialLink", iconLink);
                     }
                 }
             </div>

@@ -1,21 +1,22 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.Figure>>
+﻿
+@using Umbraco.Extensions
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var width = !string.IsNullOrWhiteSpace(content.Width) ? content.Width : "100%";
-    var height = !string.IsNullOrWhiteSpace(content.Height) ? content.Height : "100%";
-    var tabletWidth = !string.IsNullOrWhiteSpace(content.TabletWidth) ? content.TabletWidth : "100%";
-    var tabletHeight = !string.IsNullOrWhiteSpace(content.TabletHeight) ? content.TabletHeight : "100%";
-    var mobileWidth = !string.IsNullOrWhiteSpace(content.MobileWidth) ? content.MobileWidth : "100%";
-    var mobileHeight = !string.IsNullOrWhiteSpace(content.MobileHeight) ? content.MobileHeight : "100%";
+    var width = !string.IsNullOrWhiteSpace(content.Value<string>("width")) ? content.Value<string>("width") : "100%";
+    var height = !string.IsNullOrWhiteSpace(content.Value<string>("height")) ? content.Value<string>("height") : "100%";
+    var tabletWidth = !string.IsNullOrWhiteSpace(content.Value<string>("tabletWidth")) ? content.Value<string>("tabletWidth") : "100%";
+    var tabletHeight = !string.IsNullOrWhiteSpace(content.Value<string>("tabletHeight")) ? content.Value<string>("tabletHeight") : "100%";
+    var mobileWidth = !string.IsNullOrWhiteSpace(content.Value<string>("mobileWidth")) ? content.Value<string>("mobileWidth") : "100%";
+    var mobileHeight = !string.IsNullOrWhiteSpace(content.Value<string>("mobileHeight")) ? content.Value<string>("mobileHeight") : "100%";
 
-    var fontSize = !string.IsNullOrWhiteSpace(content.FontSize) ? content.FontSize : ".81rem";
-    var tabletFontSize = !string.IsNullOrWhiteSpace(content.FontSize) ? content.FontSize : ".80rem";
-    var mobileFontSize = !string.IsNullOrWhiteSpace(content.FontSize) ? content.FontSize : ".75rem";
+    var fontSize = !string.IsNullOrWhiteSpace(content.Value<string>("fontSize")) ? content.Value<string>("fontSize") : ".81rem";
+    var tabletFontSize = !string.IsNullOrWhiteSpace(content.Value<string>("tabletFontSize")) ? content.Value<string>("tabletFontSize") : ".80rem";
+    var mobileFontSize = !string.IsNullOrWhiteSpace(content.Value<string>("mobileFontSize")) ? content.Value<string>("mobileFontSize") : ".75rem";
 
     var styles = $@"
         --figure__width: {width};
@@ -30,13 +31,12 @@
     ";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
-}
 
-
-@{
     // Determine accessible text
-    var hasCaption = !string.IsNullOrWhiteSpace(content?.Caption);
-    var imageName = content?.Image?.Name;
+    var caption = content.Value<string>("caption");
+    var image = content.Value<IPublishedContent>("image");
+    var imageName = image?.Name;
+    var hasCaption = !string.IsNullOrWhiteSpace(caption);
     var imgAlt = string.Empty;
     if (hasCaption)
     {
@@ -56,20 +56,21 @@
 }
 
 <figure class="figure__container @blockClasses" style="@styles" @(hasCaption ? $"aria-labelledby=\"{captionId}\"" : $"aria-label=\"{imgAlt}\"")>
-    @if (content?.Image != null)
+    @if (image != null)
     {
+        var imageUrl = image.GetCropUrl();
         if (hasCaption)
         {
-            <img src="@content.Image.GetCropUrl()" alt="" aria-hidden="true" loading="lazy" decoding="async"/>
+            <img src="@imageUrl" alt="" aria-hidden="true" loading="lazy" decoding="async"/>
         }
         else
         {
-            <img src="@content.Image.GetCropUrl()" alt="@imgAlt" loading="lazy" decoding="async"/>
+            <img src="@imageUrl" alt="@imgAlt" loading="lazy" decoding="async"/>
         }
     }
 
     @if (hasCaption)
     {
-        <figcaption id="@captionId">@Html.Raw(content.Caption)</figcaption>
+        <figcaption id="@captionId">@Html.Raw(caption)</figcaption>
     }
 </figure>

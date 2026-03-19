@@ -1,25 +1,28 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockListItem<ContentModels.SingleLink>>
+﻿@using Umbraco.Cms.Core.Models
+@inherits UmbracoViewPage<BlockListItem>
 
 @{
-    if (Model is null)
+    if (Model == null)
         return;
 
+    // Accept dynamic BlockListItem model to avoid generic type binding issues
+
     var content = Model.Content;
+    var settings = Umbraco.AssignedContentItem?.Root()?.FirstChild<SiteSettings>();
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 
-    var linkUrl = content?.Link?.Url;
-    var linkTarget = string.IsNullOrWhiteSpace(content?.Link?.Target) ? "_self" : content.Link.Target;
+    var linkUrl = content?.Value<Link>("link")?.Url;
+    var linkTarget = string.IsNullOrWhiteSpace(content?.Value<Link>("link")?.Target) ? "_self" : content?.Value<Link>("link")?.Target;
     var relAttr = linkTarget == "_blank" ? " rel=\"noopener noreferrer\"" : string.Empty;
-    var accessibleName = !string.IsNullOrWhiteSpace(content?.Link?.Name) ? content.Link.Name : (linkUrl ?? "Link");
-    var ariaAttr = !string.IsNullOrWhiteSpace(content?.Link?.Name) ? string.Empty : $" aria-label=\"{accessibleName}\"";
+    var accessibleName = !string.IsNullOrWhiteSpace(content?.Value<Link>("link")?.Name) ? content?.Value<Link>("link")?.Name : (linkUrl ?? "Link");
+    var ariaAttr = !string.IsNullOrWhiteSpace(content?.Value<Link>("link")?.Name) ? string.Empty : $" aria-label=\"{accessibleName}\"";
 }
 
 @if (!string.IsNullOrWhiteSpace(linkUrl))
 {
     <a href="@linkUrl" class="cio-footer__link-item @blockClasses" target="@linkTarget"@Html.Raw(relAttr + ariaAttr)>
-        @(content?.Link?.Name ?? linkUrl)
+        @(content.Value<Link>("link")?.Name ?? linkUrl)
         @if (linkTarget == "_blank")
         {
             <span class="visually-hidden"> (opens in a new tab)</span>

@@ -1,12 +1,14 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockListItem<ContentModels.IconButtonCard>>
+﻿@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits UmbracoViewPage<BlockListItem>
 
 @{
     if (Model?.Content is null) return;
 
     var content = Model.Content;
 
-    var theme = Umbraco.GetCurrentTheme();
+    var siteSettings = Umbraco.AssignedContentItem?.Root()?.FirstChild<SiteSettings>();
+    var theme = siteSettings?.Theme?.ToLowerInvariant() ?? "blue";
 
     string defaultBackgroundColor = null;
     string defaultBackgroundHoverColor = null;
@@ -43,12 +45,12 @@
             break;
     }
 
-    var textColor = content.TextColor?.Color ?? defaultTextHoverColor!;
-    var textHoverColor = content.TextHoverColor?.Color ?? defaultTextHoverColor;
-    var backgroundColor = content.BackgroundColor?.Color ?? defaultBackgroundColor;
-    var backgroundHoverColor = content.BackgroundHoverColor?.Color ?? defaultBackgroundHoverColor;
-    var iconColor = content.IconColor?.Color ?? defaultIconColor;
-    var iconHoverColor = content.IconHoverColor?.Color ?? defaultIconHoverColor;
+    var textColor = content.Value<ColorPickerValueConverter.PickedColor>("textColor")?.Color ?? defaultTextHoverColor!;
+    var textHoverColor = content.Value<ColorPickerValueConverter.PickedColor>("textHoverColor")?.Color ?? defaultTextHoverColor;
+    var backgroundColor = content.Value<ColorPickerValueConverter.PickedColor>("backgroundColor")?.Color ?? defaultBackgroundColor;
+    var backgroundHoverColor = content.Value<ColorPickerValueConverter.PickedColor>("backgroundHoverColor")?.Color ?? defaultBackgroundHoverColor;
+    var iconColor = content.Value<ColorPickerValueConverter.PickedColor>("icon")?.Color ?? defaultIconColor;
+    var iconHoverColor = content.Value<ColorPickerValueConverter.PickedColor>("iconHoverColor")?.Color ?? defaultIconHoverColor;
 
     var cssVariables = $@"
        --icon-button-text-color: {textColor};
@@ -59,28 +61,70 @@
        --icon-button-icon-hover-color: {iconHoverColor};
     ";
 
-    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+    var blockClasses = BuildBlockSettingsClasses(Model.Settings);
 
     // Link accessibility helpers
-    var linkUrl = content?.Link?.Url;
-    var linkTarget = string.IsNullOrWhiteSpace(content?.Link?.Target) ? "_self" : content?.Link?.Target;
+    var linkUrl = content.Value<Link>("link")?.Url;
+    var linkTarget = string.IsNullOrWhiteSpace(content.Value<Link>("link")?.Target) ? "_self" : content.Value<Link>("link")?.Target;
     var relAttr = linkTarget == "_blank" ? "noopener noreferrer" : string.Empty;
 
     // If the button has no visible text, provide an accessible name from the link or icon
-    var ariaLabel = string.IsNullOrWhiteSpace(content?.Text)
-        ? (content?.Link?.Name ?? content?.Text ?? content?.Link?.Url ?? "Open link")
+    var ariaLabel = string.IsNullOrWhiteSpace(content.Value<string>("text"))
+        ? (content.Value<Link>("link")?.Name ?? content.Value<string>("text") ?? content.Value<Link>("link")?.Url ?? "Open link")
         : null;
     var ariaAttr = ariaLabel is null ? string.Empty : $"aria-label=\"{ariaLabel}\"";
-    var svgAriaHidden = string.IsNullOrWhiteSpace(content?.Text) ? "false" : "true";
+    var svgAriaHidden = string.IsNullOrWhiteSpace(content.Value<string>("text")) ? "false" : "true";
+    var iconMedia = content.Value<MediaWithCrops>("icon");
+    var buttonText = content.Value<string>("text");
+
+    static string BuildBlockSettingsClasses(IPublishedElement? settings)
+    {
+        if (settings is null)
+        {
+            return string.Empty;
+        }
+
+        var marginTop = settings.Value<string>("marginTop");
+        var marginBottom = settings.Value<string>("marginBottom");
+        var marginRight = settings.Value<string>("marginRight");
+        var marginLeft = settings.Value<string>("marginLeft");
+
+        var paddingTop = settings.Value<string>("paddingTop");
+        var paddingBottom = settings.Value<string>("paddingBottom");
+        var paddingRight = settings.Value<string>("paddingRight");
+        var paddingLeft = settings.Value<string>("paddingLeft");
+
+        var classes = new System.Text.StringBuilder();
+        classes.Append($" {MapSpacingClass(marginTop, "mt")}");
+        classes.Append($" {MapSpacingClass(marginBottom, "mb")}");
+        classes.Append($" {MapSpacingClass(marginRight, "me")}");
+        classes.Append($" {MapSpacingClass(marginLeft, "ms")}");
+        classes.Append($" {MapSpacingClass(paddingTop, "pt")}");
+        classes.Append($" {MapSpacingClass(paddingBottom, "pb")}");
+        classes.Append($" {MapSpacingClass(paddingRight, "pe")}");
+        classes.Append($" {MapSpacingClass(paddingLeft, "ps")}");
+
+        return classes.ToString();
+    }
+
+    static string MapSpacingClass(string? value, string prefix)
+        => value switch
+        {
+            "Small" => $"{prefix}-3",
+            "Medium" => $"{prefix}-4",
+            "Large" => $"{prefix}-5",
+            "XL" => $"{prefix}-6",
+            _ => $"{prefix}-0"
+        };
 }
 
 <a class="icon-button-card__container @blockClasses" href="@linkUrl" target="@linkTarget" rel="@relAttr" @Html.Raw(ariaAttr) role="listitem" style="@cssVariables">
     <div class="icon-button-card__card-body">
-        <inline-svg media-item="@content?.Icon" fill="@iconColor" width="120" height="120"  aria-hidden='@svgAriaHidden'></inline-svg>
+        <inline-svg media-item="@(content.Value<MediaWithCrops>("icon"))" fill="@iconColor" width="120" height="120"  aria-hidden='@svgAriaHidden'></inline-svg>
     </div>
     <div >
         <span class="icon-button-card__link">
-            @content?.Text
+            @Html.Raw(buttonText)
         </span>
     </div>
 </a>

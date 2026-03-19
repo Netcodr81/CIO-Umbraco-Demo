@@ -1,13 +1,12 @@
-@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.YouTubeEmbed>>
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var youtubeUrl = content.Url;
-    var altText = content.AltText ?? "YouTube Video";
+    var youtubeUrl = content.Value<string>("url");
+    var altText = content.Value<string>("altText") ?? "YouTube Video";
 
     if (string.IsNullOrWhiteSpace(youtubeUrl))
     {
@@ -57,7 +56,7 @@
     var descId = embedId + "-desc";
     var fallbackLink = $"https://www.youtube.com/watch?v={videoId}";
 
-    var width = !string.IsNullOrWhiteSpace(content.Width) ? content.Width : "100%";
+    var width = !string.IsNullOrWhiteSpace(content.Value<string>("width")) ? content.Value<string>("width") : "100%";
 
     // Try to surface optional metadata (duration, captions) if available on the content model
     string durationText = string.Empty;

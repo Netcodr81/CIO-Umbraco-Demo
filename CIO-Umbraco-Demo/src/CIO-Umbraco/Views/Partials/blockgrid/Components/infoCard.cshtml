@@ -1,14 +1,18 @@
 ﻿@using System.Text
-@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockListItem<ContentModels.InfoCard>>
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using PickedColor = Umbraco.Cms.Core.PropertyEditors.ValueConverters.ColorPickerValueConverter.PickedColor
+@using Umbraco.Extensions
+@inherits UmbracoViewPage<BlockListItem>
 
 @{
-    if (Model?.Content is null) return;
+    if (Model is null) return;
 
     var content = Model.Content;
 
-    var theme = Umbraco.GetCurrentTheme();
-   
+    var siteSettings = Umbraco.AssignedContentItem?.Root()?.FirstChild<SiteSettings>();
+    var theme = siteSettings?.Theme?.ToLowerInvariant() ?? "blue";
+
     string defaultHeaderTextColor = null;
     string defaultHeaderTextHoverColor = null;
 
@@ -26,8 +30,7 @@
 
     string defaultButtonBackgroundColor = null;
     string defaultButtonBackgroundHoverColor = null;
-    
-    
+
 
     switch (theme)
     {
@@ -45,7 +48,7 @@
             defaultButtonBackgroundColor = "#00607f";
             defaultButtonBackgroundHoverColor = "#004d66";
             break;
-        case "green" :
+        case "green":
             defaultHeaderTextColor = "#1b1b1b";
             defaultHeaderTextHoverColor = "#1b1b1b";
             defaultBodyTextColor = "#1b1b1b";
@@ -74,35 +77,35 @@
             defaultButtonBackgroundHoverColor = "#8F273E";
             break;
     }
-    
 
-    var headerTextColor = content.CardHeaderTextColor?.Color ?? defaultHeaderTextColor;
-    var headerTextHoverColor = content.CardHeaderTextHoverColor?.Color ?? defaultHeaderTextHoverColor;
-    var bodyTextColor = content.CardBodyTextColor?.Color ?? defaultBodyTextColor;
-    var bodyTextHoverColor = content.CardBodyTextHoverColor?.Color ?? defaultBodyTextHoverColor;
-    var backgroundColor = content.CardBackgroundColor?.Color ?? defaultBackgroundColor;
-    var backgroundHoverColor = content.CardBackgroundHoverColor?.Color ?? defaultBackgroundHoverColor;
-    var iconHoverColor = content.CardIconHoverColor?.Color ?? defaultIconHoverColor;
-    var buttonTextColor = content.CardButtonTextColor?.Color ?? defaultButtonTextColor;
-    var buttonTextHoverColor = content.CardButtonTextHoverColor?.Color ?? defaultButtonTextHoverColor;
-    var buttonBackgroundColor = content.CardButtonBackgroundColor?.Color ?? defaultButtonBackgroundColor;
-    var buttonBackgroundHoverColor = content.CardButtonBackgroundHoverColor?.Color ?? defaultButtonBackgroundHoverColor;
+
+    var headerTextColor = content.Value<PickedColor>("cardHeaderTextColor")?.Color ?? defaultHeaderTextColor;
+    var headerTextHoverColor = content.Value<PickedColor>("cardHeaderTextHoverColor")?.Color ?? defaultHeaderTextHoverColor;
+    var bodyTextColor = content.Value<PickedColor>("cardBodyTextColor")?.Color ?? defaultBodyTextColor;
+    var bodyTextHoverColor = content.Value<PickedColor>("cardBodyTextHoverColor")?.Color ?? defaultBodyTextHoverColor;
+    var backgroundColor = content.Value<PickedColor>("cardBackgroundColor")?.Color ?? defaultBackgroundColor;
+    var backgroundHoverColor = content.Value<PickedColor>("cardBackgroundHoverColor")?.Color ?? defaultBackgroundHoverColor;
+    var iconHoverColor = content.Value<PickedColor>("cardIconHoverColor")?.Color ?? defaultIconHoverColor;
+    var buttonTextColor = content.Value<PickedColor>("cardButtonTextColor")?.Color ?? defaultButtonTextColor;
+    var buttonTextHoverColor = content.Value<PickedColor>("cardButtonTextHoverColor")?.Color ?? defaultButtonTextHoverColor;
+    var buttonBackgroundColor = content.Value<PickedColor>("cardButtonBackgroundColor")?.Color ?? defaultButtonBackgroundColor;
+    var buttonBackgroundHoverColor = content.Value<PickedColor>("cardButtonBackgroundHoverColor")?.Color ?? defaultButtonBackgroundHoverColor;
 
     var heightVariables = new StringBuilder();
 
-    if(!string.IsNullOrWhiteSpace(content.MinHeight))
+    if (!string.IsNullOrWhiteSpace(content.Value<string>("minHeight")))
     {
-        heightVariables.Append($"min-height:{content.MinHeight}");
+        heightVariables.Append($"min-height:{content.Value<string>("minHeight")}");
     }
 
-    if (!string.IsNullOrWhiteSpace(content.MaxHeight))
+    if (!string.IsNullOrWhiteSpace(content.Value<string>("maxHeight")))
     {
-        heightVariables.Append($"max-height:{content.MaxHeight}");
+        heightVariables.Append($"max-height:{content.Value<string>("maxHeight")}");
     }
 
-    if (!string.IsNullOrWhiteSpace(content.Height))
+    if (!string.IsNullOrWhiteSpace(content.Value<string>("height")))
     {
-        heightVariables.Append($"height:{content.Height}");
+        heightVariables.Append($"height:{content.Value<string>("height")}");
     }
 
     var cssVariables = $@"
@@ -122,85 +125,97 @@
 
 @{
     // Prepare link attributes for accessibility
-    var linkUrl = content?.Link?.Url;
-    var linkTarget = string.IsNullOrWhiteSpace(content?.Link?.Target) ? "_self" : content?.Link?.Target;
+    var linkObj = content.Value<Link>("link");
+    var linkUrl = linkObj?.Url;
+    var linkTarget = string.IsNullOrWhiteSpace(linkObj?.Target) ? "_self" : linkObj?.Target;
     var relAttr = linkTarget == "_blank" ? "noopener noreferrer" : string.Empty;
 
+    // Read frequently used values into locals to avoid Razor parsing issues with generics in markup
+    var isIconCard = content.Value<bool>("isIconCard");
+    var headerText = content.Value<string>("headerText");
+    var bodyText = content.Value<string>("bodyText");
+    var buttonText = content.Value<string>("buttonText");
+    var buttonIcon = content.Value<MediaWithCrops>("buttonIcon");
+    var buttonIconLocation = content.Value<string>("buttonIconLocation");
+    var iconColor = content.Value<PickedColor>("iconColor")?.Color;
+    var headerIconColor = content.Value<PickedColor>("headerIconColor")?.Color;
+    var image = content.Value<MediaWithCrops>("image");
+
     // Accessible name for buttons/links when text is missing
-    var buttonAriaLabel = string.IsNullOrWhiteSpace(content?.ButtonText)
-        ? (content?.Link?.Name ?? content?.HeaderText ?? content?.BodyText ?? "More information")
+    var buttonAriaLabel = string.IsNullOrWhiteSpace(buttonText)
+        ? (linkObj?.Name ?? headerText ?? bodyText ?? "More information")
         : null;
 
     var buttonAriaAttr = buttonAriaLabel is null ? string.Empty : $"aria-label=\"{buttonAriaLabel}\"";
 
     // Determine whether the card image/icon should be exposed to assistive tech
-    var hasHeader = !string.IsNullOrWhiteSpace(content?.HeaderText);
-    var imageAlt = content?.Image?.Name ?? content?.HeaderText ?? string.Empty;
+    var hasHeader = !string.IsNullOrWhiteSpace(headerText);
+    var imageAlt = image?.Name ?? headerText ?? string.Empty;
 }
 
 <div class="info-card__container" style="@cssVariables @heightVariables.ToString()">
-    
-    @if (content.IsIconCard)
+
+    @if (isIconCard)
     {
         <div class="info-card__icon-image">
-            <inline-svg media-item="content.Image" fill="@content?.HeaderIconColor?.Color" width="64" height="64"></inline-svg>
+            <inline-svg media-item="@image" fill="@headerIconColor" width="64" height="64"></inline-svg>
         </div>
     }
     else
     {
         <div class="info-card__image">
-            <img src="@content?.Image?.GetCropUrl()" name="@content?.Image?.Name"/>
+            <img src="@image?.GetCropUrl()" name="@image?.Name"/>
         </div>
     }
-    
-    @if (content.IsIconCard)
+
+    @if (isIconCard)
     {
         <div class="info-card__icon-card-header">
-            <h3>@content?.HeaderText</h3>
+            <h3>@headerText</h3>
         </div>
     }
     else
     {
         <div class="info-card__header">
-            <h3>@content?.HeaderText</h3>
+            <h3>@headerText</h3>
         </div>
     }
-   
-    
-    @if (!string.IsNullOrWhiteSpace(content?.BodyText))
+
+
+    @if (!string.IsNullOrWhiteSpace(bodyText))
     {
         <div class="info-card__body">
-            @content?.BodyText
+            @Html.Raw(bodyText)
         </div>
     }
 
     <div class="info-card__footer">
-        @if (content?.Link is not null && !string.IsNullOrWhiteSpace(linkUrl))
+        @if (linkObj is not null && !string.IsNullOrWhiteSpace(linkUrl))
         {
             <a class="info-card__button" href="@linkUrl" target="@linkTarget" rel="@relAttr" @Html.Raw(buttonAriaAttr)>
-                @if (content.ButtonIcon is not null)
+                @if (buttonIcon is not null)
                 {
-                    if (content.ButtonIconLocation == "Prepend")
+                    if (content.Value<string>("buttonIconLocation") == "Prepend")
                     {
-                        <inline-svg media-item="@content.ButtonIcon" width="16" height="16" fill="@(content?.IconColor?.Color ?? defaultIconColor)" aria-hidden='@(string.IsNullOrWhiteSpace(content?.ButtonText) ? "false" : "true")'></inline-svg>
-                        @content?.ButtonText
+                        <inline-svg media-item="@buttonIcon" width="16" height="16" fill="@(iconColor ?? defaultIconColor)" aria-hidden='@(string.IsNullOrWhiteSpace(buttonText) ? "false" : "true")'></inline-svg>
+                        @buttonText
                     }
                     else
                     {
-                        @content.ButtonText
-                        <inline-svg media-item="@content.ButtonIcon" width="16" height="16" fill="@(content?.IconColor?.Color ?? defaultIconColor)" aria-hidden='@(string.IsNullOrWhiteSpace(content?.ButtonText) ? "false" : "true")'></inline-svg>
+                        @buttonText
+                        <inline-svg media-item="@buttonIcon" width="16" height="16" fill="@(iconColor ?? defaultIconColor)" aria-hidden='@(string.IsNullOrWhiteSpace(buttonText) ? "false" : "true")'></inline-svg>
                     }
                 }
                 else
                 {
-                    @content.ButtonText
+                    @buttonText
                 }
             </a>
         }
         else
         {
             // If no link is provided, render a non-interactive element styled like a button and communicate disabled state
-            <span class="info-card__button info-card__button--disabled" aria-disabled="true">@content?.ButtonText</span>
+            <span class="info-card__button info-card__button--disabled" aria-disabled="true">@buttonText</span>
         }
 
     </div>

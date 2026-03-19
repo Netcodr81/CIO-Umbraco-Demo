@@ -1,20 +1,23 @@
-﻿using System.Text;
-using Umbraco.Cms.Web.Common.PublishedModels;
+using System.Text;
+using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Extensions;
 
 namespace CIOUmbracoDemo.Extensions;
 
 public static class LayoutExtensions
 {
-    extension(LayoutSettings settings)
+    extension(IPublishedElement? settings)
     {
         public string GenerateLayoutStyles()
         {
             var layoutStyles = new StringBuilder();
 
-            // Background Color
-            if (!string.IsNullOrWhiteSpace(settings?.LayoutAreasColourPicker?.Color))
+            var layoutAreasColor = settings?.Value<string>("layoutAreasColourPicker");
+            var layoutSettingsColor = settings?.Value<string>("layoutSettingsColourPicker");
+
+            if (!string.IsNullOrWhiteSpace(layoutAreasColor))
             {
-                layoutStyles.Append($" background-color:{settings?.LayoutSettingsColourPicker?.Color}");
+                layoutStyles.Append($" background-color:{layoutSettingsColor}");
             }
 
             return layoutStyles.ToString();
@@ -24,56 +27,65 @@ public static class LayoutExtensions
         {
             var layoutClasses = new StringBuilder();
 
-            if (!string.IsNullOrWhiteSpace(settings?.ContainerStyle))
+            var containerStyle = settings?.Value<string>("containerStyle");
+            var applyDefaultPadding = settings?.Value<bool?>("applyDefaultPadding") == true;
+            var paddingTop = settings?.Value<string>("paddingTop");
+            var paddingBottom = settings?.Value<string>("paddingBottom");
+            var paddingLeft = settings?.Value<string>("paddingLeft");
+            var paddingRight = settings?.Value<string>("paddingRight");
+            var marginTop = settings?.Value<string>("marginTop");
+            var marginBottom = settings?.Value<string>("marginBottom");
+            var marginLeft = settings?.Value<string>("marginLeft");
+            var marginRight = settings?.Value<string>("marginRight");
+
+            if (!string.IsNullOrWhiteSpace(containerStyle))
             {
-                layoutClasses.Append($" {settings?.ContainerStyle}");
+                layoutClasses.Append($" {containerStyle}");
             }
 
-            if (settings is { ApplyDefaultPadding: true })
+            if (applyDefaultPadding)
             {
-                layoutClasses.Append($" p-3");
+                layoutClasses.Append(" p-3");
             }
 
-            // Paddings
-            if (!string.IsNullOrWhiteSpace(settings?.PaddingTop))
+            if (!string.IsNullOrWhiteSpace(paddingTop))
             {
-                layoutClasses.Append($" {settings?.PaddingTop}");
+                layoutClasses.Append($" {paddingTop}");
             }
 
-            if (!string.IsNullOrWhiteSpace(settings?.PaddingBottom))
+            if (!string.IsNullOrWhiteSpace(paddingBottom))
             {
-                layoutClasses.Append($" {settings?.PaddingBottom}");
+                layoutClasses.Append($" {paddingBottom}");
             }
 
-            if (!string.IsNullOrWhiteSpace(settings?.PaddingLeft))
+            if (!string.IsNullOrWhiteSpace(paddingLeft))
             {
-                layoutClasses.Append($" {settings?.PaddingLeft}");
+                layoutClasses.Append($" {paddingLeft}");
             }
 
-            if (!string.IsNullOrWhiteSpace(settings?.PaddingRight))
+            if (!string.IsNullOrWhiteSpace(paddingRight))
             {
-                layoutClasses.Append($" {settings?.PaddingRight}");
+                layoutClasses.Append($" {paddingRight}");
             }
 
-            //Margins
-            if (!string.IsNullOrWhiteSpace(settings?.MarginTop))
+            if (!string.IsNullOrWhiteSpace(marginTop))
             {
-                layoutClasses.Append($" {settings?.MarginTop}");
+                layoutClasses.Append($" {marginTop}");
             }
 
-            if (!string.IsNullOrWhiteSpace(settings?.MarginBottom))
+            if (!string.IsNullOrWhiteSpace(marginBottom))
             {
-                layoutClasses.Append($" {settings?.MarginBottom}");
+                layoutClasses.Append($" {marginBottom}");
             }
 
-            if (!string.IsNullOrWhiteSpace(settings?.MarginLeft))
+            if (!string.IsNullOrWhiteSpace(marginLeft))
             {
-                layoutClasses.Append($" {settings?.MarginLeft}");
+                layoutClasses.Append($" {marginLeft}");
             }
 
-            if (!string.IsNullOrWhiteSpace(settings?.MarginRight))
+            if (!string.IsNullOrWhiteSpace(marginRight))
             {
-                layoutClasses.Append($" {settings?.MarginRight}");
+                layoutClasses.Append($" {marginRight}");
             }
 
             return layoutClasses.ToString();

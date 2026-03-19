@@ -1,5 +1,4 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.LinkedCardGrid>>
+﻿@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null)
@@ -9,16 +8,18 @@
 
     var content = Model.Content;
 
-    var maxNumberOfCardsPerRow = content.NumberCardsPerRow ?? "3";
+    var maxNumberOfCardsPerRow = content.Value<string>("numberCardsPerRow") ?? "3";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var items = content.Value<BlockListModel>("items");
 }
 
 <ul class="linked-card-grid @blockClasses" data-columns="@maxNumberOfCardsPerRow" style="--linked-card-columns:@maxNumberOfCardsPerRow">
 
-    @if (content.Items.Any())
+    @if (items.Any())
     {
-        foreach (var item in content.Items)
+        foreach (var item in items)
         {
             <li class="linked-card-grid__item">
                 @await Html.PartialAsync("linkedCard.cshtml", item)

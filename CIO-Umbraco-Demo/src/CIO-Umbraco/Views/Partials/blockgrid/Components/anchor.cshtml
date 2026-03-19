@@ -1,21 +1,21 @@
-﻿@using CIOUmbracoDemo.Extensions
-@using Umbraco.Cms.Core
-@using Umbraco.Community.BlockPreview.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.Anchor>>
+﻿@using Umbraco.Community.BlockPreview.Extensions
+@using Umbraco.Extensions
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model?.Content is null) return;
     var content = Model.Content;
 
-    var anchorId = content.AnchorId?.Trim();
-    var anchorLabel = !string.IsNullOrWhiteSpace(content.AnchorLabel) ? content.AnchorLabel : anchorId ?? "Anchor";
+    // Read properties by alias to avoid compile-time dependency on generated models
+    var anchorId = content.Value<string>("anchorId")?.Trim();
+    var anchorLabel = !string.IsNullOrWhiteSpace(content.Value<string>("anchorLabel")) ? content.Value<string>("anchorLabel") : anchorId ?? "Anchor";
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
 
 @if (Context.Request.IsBlockPreviewRequest())
 {
-    <p>Anchor Id: @content.AnchorId (this will be hidden when rendered)</p>
+    <p>Anchor Id: @(content.Value<string>("anchorId")) (this will be hidden when rendered)</p>
 }
 else
 {

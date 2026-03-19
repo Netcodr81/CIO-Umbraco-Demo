@@ -1,34 +1,50 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<HomepageHero>>
-@using CIOUmbracoDemo.Extensions
-@using Umbraco.Extensions;
+﻿@using Umbraco.Extensions
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model?.Content is null) return;
 
     var content = Model.Content;
-    var backgroundImageUrl = content.BackgroundImage?.GetCropUrl();
+    var bg = content.Value<IPublishedContent>("backgroundImage");
+    var backgroundImageUrl = bg?.GetCropUrl();
 
-    var theme = Umbraco.GetCurrentTheme();
+    var siteRoot = Umbraco.AssignedContentItem?.Root();
+    var siteSettings = siteRoot?.Children?.FirstOrDefault(c => string.Equals(c.ContentType.Alias, "siteSettings", StringComparison.OrdinalIgnoreCase));
+    var theme = siteSettings?.Value<string>("theme")?.ToLowerInvariant() ?? "blue";
 
-    var ctaLink = content.CtaLink;
-    var ctaUrl = ctaLink?.Url;
-    var ctaTarget = string.IsNullOrWhiteSpace(ctaLink?.Target) ? "_self" : ctaLink.Target;
+    var ctaObj = content.Value<object>("ctaLink");
+    string? ctaUrl = null;
+    string? ctaTarget = null;
+    string? ctaName = null;
+    if (ctaObj != null)
+    {
+        var t = ctaObj.GetType();
+        var urlProp = t.GetProperty("Url") ?? t.GetProperty("url");
+        var targetProp = t.GetProperty("Target") ?? t.GetProperty("target");
+        var nameProp = t.GetProperty("Name") ?? t.GetProperty("name");
+        if (urlProp != null) ctaUrl = urlProp.GetValue(ctaObj)?.ToString();
+        if (targetProp != null) ctaTarget = targetProp.GetValue(ctaObj)?.ToString();
+        if (nameProp != null) ctaName = nameProp.GetValue(ctaObj)?.ToString();
+        else if (ctaObj is string s) ctaUrl = s;
+    }
 
+    ctaTarget = string.IsNullOrWhiteSpace(ctaTarget) ? "_self" : ctaTarget;
     var relAttr = ctaTarget == "_blank" ? "noopener noreferrer" : string.Empty;
-    var ariaLabel = string.IsNullOrWhiteSpace(content?.ButtonText)
-        ? (content?.CtaLink?.Name ?? content?.Header ?? content?.Subheading ?? "Call to action")
-        : null;
+
+    var buttonText = content.Value<string>("buttonText");
+    var header = content.Value<string>("header");
+    var subheading = content.Value<string>("subheading");
+    var ariaLabel = string.IsNullOrWhiteSpace(buttonText) ? (ctaName ?? header ?? subheading ?? "Call to action") : null;
     var ariaAttr = ariaLabel is null ? string.Empty : $"aria-label=\"{ariaLabel}\"";
 
     string defaultButtonBackgroundColor = "";
-
     string defaultHeadingTextColor = "";
     string defaultSubheadingColor = "";
     string defaultBackgroundColor = "";
     string defaultIconColor = "";
     string defaultCtaTextColor = "";
-    
-  
+
     switch (theme)
     {
         case "blue":
@@ -57,12 +73,18 @@
             break;
     }
 
-    string headingTextColor = content?.SubheadingColor?.Color ?? defaultHeadingTextColor;
-    string subheadingColor = content?.SubheadingColor?.Color ?? defaultSubheadingColor;
-    string backgroundColor = content?.BackgroundColor?.Color ?? defaultBackgroundColor;
-    string buttonBackgroundColor = content?.ButtonBackgroundColor?.Color ?? defaultButtonBackgroundColor;
-    var iconColor = content?.IconColor?.Color ?? defaultIconColor;
-    var ctaTextColor = content?.CtaTextColor?.Color ?? defaultCtaTextColor;
+    var headingPicked = content.Value<ColorPickerValueConverter.PickedColor>("subheadingColor");
+    string headingTextColor = headingPicked?.Color ?? defaultHeadingTextColor;
+    var subPicked = content.Value<ColorPickerValueConverter.PickedColor>("subheadingColor");
+    string subheadingColor = subPicked?.Color ?? defaultSubheadingColor;
+    var bgPicked = content.Value<ColorPickerValueConverter.PickedColor>("backgroundColor");
+    string backgroundColor = bgPicked?.Color ?? defaultBackgroundColor;
+    var btnPicked = content.Value<ColorPickerValueConverter.PickedColor>("buttonBackgroundColor");
+    string buttonBackgroundColor = btnPicked?.Color ?? defaultButtonBackgroundColor;
+    var iconPicked = content.Value<ColorPickerValueConverter.PickedColor>("iconColor");
+    var iconColor = iconPicked?.Color ?? defaultIconColor;
+    var ctaPicked = content.Value<ColorPickerValueConverter.PickedColor>("ctaTextColor");
+    var ctaTextColor = ctaPicked?.Color ?? defaultCtaTextColor;
 
     var cssVariables = $@"
         --homepage-hero-background-image: url({backgroundImageUrl});
@@ -74,43 +96,87 @@
         --homepage-hero-cta-text-color: {ctaTextColor};
     ";
 
-    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+    var blockClasses = BuildBlockSettingsClasses(Model.Settings);
+
+    static string BuildBlockSettingsClasses(IPublishedElement? settings)
+    {
+        if (settings is null)
+        {
+            return string.Empty;
+        }
+
+        var marginTop = settings.Value<string>("marginTop");
+        var marginBottom = settings.Value<string>("marginBottom");
+        var marginRight = settings.Value<string>("marginRight");
+        var marginLeft = settings.Value<string>("marginLeft");
+
+        var paddingTop = settings.Value<string>("paddingTop");
+        var paddingBottom = settings.Value<string>("paddingBottom");
+        var paddingRight = settings.Value<string>("paddingRight");
+        var paddingLeft = settings.Value<string>("paddingLeft");
+
+        var classes = new System.Text.StringBuilder();
+        classes.Append($" {MapSpacingClass(marginTop, "mt")}");
+        classes.Append($" {MapSpacingClass(marginBottom, "mb")}");
+        classes.Append($" {MapSpacingClass(marginRight, "me")}");
+        classes.Append($" {MapSpacingClass(marginLeft, "ms")}");
+        classes.Append($" {MapSpacingClass(paddingTop, "pt")}");
+        classes.Append($" {MapSpacingClass(paddingBottom, "pb")}");
+        classes.Append($" {MapSpacingClass(paddingRight, "pe")}");
+        classes.Append($" {MapSpacingClass(paddingLeft, "ps")}");
+
+        return classes.ToString();
+    }
+
+    static string MapSpacingClass(string? value, string prefix)
+        => value switch
+        {
+            "Small" => $"{prefix}-3",
+            "Medium" => $"{prefix}-4",
+            "Large" => $"{prefix}-5",
+            "XL" => $"{prefix}-6",
+            _ => $"{prefix}-0"
+        };
 }
 
 <div class="homepage-hero__wrapper @blockClasses" style="background-image: url(@backgroundImageUrl);background-color:@backgroundColor; @cssVariables">
     <div class="homepage-hero__overlay" aria-hidden="true"></div>
     <div class="homepage-hero__cta-callout container">
-        <h1 class="homepage-hero__heading">@content?.Header</h1>
-        @if (!string.IsNullOrWhiteSpace(content?.Subheading))
+        <h1 class="homepage-hero__heading">@(content.Value<string>("header"))</h1>
+        @if (!string.IsNullOrWhiteSpace(content.Value<string>("subheading")))
         {
-            <p class="homepage-hero__subheader">@content?.Subheading</p>
+            <p class="homepage-hero__subheader">@(content.Value<string>("subheading"))</p>
         }
-        @if (content?.CtaLink is not null)
+        @if (!string.IsNullOrWhiteSpace(ctaUrl))
         {
             <div class="homepage-hero__btn-container">
                 <a href="@ctaUrl" target="@ctaTarget" class="homepage-hero__btn" rel="@relAttr" @Html.Raw(ariaAttr)>
-                    @if (content?.ButtonIcon is not null)
+                    @{
+                        var buttonIcon = content.Value<IPublishedContent>("buttonIcon");
+                        var buttonIconLocation = content.Value<string>("buttonIconLocation");
+                    }
+                    @if (buttonIcon is not null)
                     {
-                        if (content.ButtonIconLocation == "Prepend")
+                        if (buttonIconLocation == "Prepend")
                         {
-                            <inline-svg media-item="content.ButtonIcon" fill="@iconColor" aria-hidden='@(string.IsNullOrWhiteSpace(content?.ButtonText) ? "false" : "true")'></inline-svg>
-                            @content.ButtonText
+                            <inline-svg media-item="@(buttonIcon)" fill="@iconColor" aria-hidden='@(string.IsNullOrWhiteSpace(buttonText) ? "false" : "true")'></inline-svg>
+                            @buttonText
                         }
                         else
                         {
-                            @content.ButtonText
-                            <inline-svg media-item="content.ButtonIcon" fill="@(iconColor)" aria-hidden='@(string.IsNullOrWhiteSpace(content?.ButtonText) ? "false" : "true")'></inline-svg>
+                            @buttonText
+                            <inline-svg media-item="@(buttonIcon)" fill="@(iconColor)" aria-hidden='@(string.IsNullOrWhiteSpace(buttonText) ? "false" : "true")'></inline-svg>
                         }
                     }
                     else
                     {
-                        @content?.ButtonText
+                        @buttonText
                     }
 
                 </a>
             </div>
         }
-      
+
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1728 103" preserveAspectRatio="none" aria-hidden="true">
         <path class="homepage-hero__svg-back" d="M1728,103.5H0v-16c214.8-7.6,389.7-21.8,511.9-33.7,203.4-19.7,272.2-34.2,428.8-35,122.8-.6,172.5,7.8,379.1,19.9,176.1,10.3,318.3,14.6,408,16.7v48h.2Z"></path>

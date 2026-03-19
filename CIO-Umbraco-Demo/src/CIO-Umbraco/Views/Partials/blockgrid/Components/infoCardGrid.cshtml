@@ -1,6 +1,6 @@
 ﻿@using System.Text
-@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.InfoCardGrid>>
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null)
@@ -10,29 +10,31 @@
 
     var content = Model.Content;
 
-    var maxNumberOfButtonsPerRow = content.MaxNumberOfCardsPerRow ?? "3";
+    var maxNumberOfButtonsPerRow = content.Value<string>("maxNumberOfCardsPerRow") ?? "3";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 
     var styles = new StringBuilder();
 
-    var backgroundColor = content?.BackgroundColor?.Color;
+    var backgroundColor = content.Value<ColorPickerValueConverter.PickedColor>("backgroundColor")?.Color;
 
     if (backgroundColor is not null)
     {
         styles.Append($"background-color: {backgroundColor}");
     }
+
+    var cards = content.Value<BlockListModel>("cards");
    
 }
 
 <div class="info-card-grid @blockClasses" data-columns="@maxNumberOfButtonsPerRow" style="@styles">
 
 
-    @if (content.Cards.Any())
+    @if (cards != null && cards.Any())
     {
-        @foreach (var button in content.Cards)
+        @foreach (var button in cards)
         {
-            var cardToRender = button as BlockListItem<InfoCard>;
+            var cardToRender = button as BlockListItem;
             @await Html.PartialAsync("infoCard", cardToRender)
         }
     }

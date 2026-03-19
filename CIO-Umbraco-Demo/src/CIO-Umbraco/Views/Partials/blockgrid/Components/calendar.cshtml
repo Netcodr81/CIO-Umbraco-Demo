@@ -1,9 +1,11 @@
-﻿@using System.Text.Json
+﻿
+@using System.Text.Json
 @using CIOUmbracoDemo.Extensions
 @using CIOUmbracoDemo.Views.Calendar.Models
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+
 @using Umbraco.Community.BlockPreview.Extensions
-@using FullCalendarEvent = CIOUmbracoDemo.Views.Calendar.Models.FullCalendarEvent
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.Calendar>>
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     // This component relies on the Full Calendar javascript package. information on the package can be found here https://fullcalendar.io/docs
@@ -12,21 +14,21 @@
     var content = Model.Content;
     var calendarEvents = new List<FullCalendarEvent>();
 
-    foreach(var @event in content.Events)
+    foreach (var @event in content.Value<BlockListModel>("events"))
     {
-        var calendarEvent = @event as BlockListItem<CalendarEvent>;
+        var calendarEvent = @event as BlockListItem<IPublishedContent>;
 
         calendarEvents.Add(new FullCalendarEvent
         {
-            Title = calendarEvent?.Content?.Title,
-            Start = calendarEvent?.Content?.Start?.ToString("yyyy-MM-ddTHH:mm:ss"),
-            End = calendarEvent?.Content?.End?.ToString("yyyy-MM-ddTHH:mm:ss"),
-            Color = calendarEvent?.Content?.EventColor?.Color ?? "#00607f",
+            Title = calendarEvent?.Content?.Value<string>("title"),
+            Start = calendarEvent?.Content?.Value<DateTime?>("start")?.ToString("yyyy-MM-ddTHH:mm:ss"),
+            End = calendarEvent?.Content?.Value<DateTime?>("end")?.ToString("yyyy-MM-ddTHH:mm:ss"),
+            Color = calendarEvent?.Content?.Value<string>("eventColor") ?? "#00607f",
             TextColor = "#ffffff",
             ExtendedProps = new EventDetails
             {
-                Description = calendarEvent?.Content?.EventDetails,
-                Location = calendarEvent?.Content?.EventLocation
+                Description = calendarEvent?.Content?.Value<string>("eventDetails"),
+                Location = calendarEvent?.Content?.Value<string>("eventLocation")
             }
         });
     }
@@ -49,7 +51,7 @@
 
     <div style="display: flex; gap: 10px;">
 
-    @foreach (var @event in content.Events)
+        @foreach (var @event in content.Value<BlockListModel>("events"))
     {
         @await Html.PartialAsync("/Views/Partials/blockgrid/Components/calendarEvent.cshtml", @event)
     }

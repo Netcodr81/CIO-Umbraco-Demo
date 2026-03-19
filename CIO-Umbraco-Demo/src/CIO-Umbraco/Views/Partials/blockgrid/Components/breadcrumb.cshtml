@@ -1,6 +1,6 @@
 ﻿@using CIOUmbracoDemo.Extensions
 @using CIOUmbracoDemo.Extensions.Breadcrumbs
-@inherits UmbracoViewPage<BlockGridItem<Breadcrumb>>
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
@@ -21,7 +21,7 @@
             x.Id == currentPage.Id
         ));
 
-    var layoutSettings = Model.Settings as LayoutSettings;
+    var layoutSettings = Model.Settings as Umbraco.Cms.Core.Models.PublishedContent.IPublishedElement;
     var layoutStyles = layoutSettings.GenerateLayoutStyles();
     var layoutClasses = layoutSettings.GenerateLayoutClasses();
 

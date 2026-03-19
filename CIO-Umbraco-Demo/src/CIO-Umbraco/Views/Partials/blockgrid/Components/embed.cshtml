@@ -1,17 +1,17 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.Embed>>
+﻿@using Umbraco.Extensions
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var width = !string.IsNullOrWhiteSpace(content.Width) ? content.Width : "100%";
-    var height = !string.IsNullOrWhiteSpace(content.Height) ? content.Height : "100%";
-    var tabletWidth = !string.IsNullOrWhiteSpace(content.TabletWidth) ? content.TabletWidth : "100%";
-    var tabletHeight = !string.IsNullOrWhiteSpace(content.TabletHeight) ? content.TabletHeight : "100%";
-    var mobileWidth = !string.IsNullOrWhiteSpace(content.MobileWidth) ? content.MobileWidth : "100%";
-    var mobileHeight = !string.IsNullOrWhiteSpace(content.MobileHeight) ? content.MobileHeight : "100%";
+    var width = !string.IsNullOrWhiteSpace(content.Value<string>("width")) ? content.Value<string>("width") : "100%";
+    var height = !string.IsNullOrWhiteSpace(content.Value<string>("height")) ? content.Value<string>("height") : "100%";
+    var tabletWidth = !string.IsNullOrWhiteSpace(content.Value<string>("tabletWidth")) ? content.Value<string>("tabletWidth") : "100%";
+    var tabletHeight = !string.IsNullOrWhiteSpace(content.Value<string>("tabletHeight")) ? content.Value<string>("tabletHeight") : "100%";
+    var mobileWidth = !string.IsNullOrWhiteSpace(content.Value<string>("mobileWidth")) ? content.Value<string>("mobileWidth") : "100%";
+    var mobileHeight = !string.IsNullOrWhiteSpace(content.Value<string>("mobileHeight")) ? content.Value<string>("mobileHeight") : "100%";
 
     var styles = $@"
         --embed__width: {width};
@@ -23,22 +23,22 @@
     ";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
-}
 
-@{
     // Determine accessible title for the iframe. Prefer an explicit Title or Caption if available.
-    var iframeTitle = !string.IsNullOrWhiteSpace(content?.Title) ? content.Title : (!string.IsNullOrWhiteSpace(content?.Caption) ? content.Caption : "Embedded content");
+    var iframeTitle = !string.IsNullOrWhiteSpace(content.Value<string>("title")) ? content.Value<string>("title") : (!string.IsNullOrWhiteSpace(content.Value<string>("caption")) ? content.Value<string>("caption") : "Embedded content");
+
+    var embedUrl = content.Value<string>("embedUrl");
 }
 
 <div class="embed__container @blockClasses" style="@styles" role="region" aria-label="@iframeTitle">
-    @if (string.IsNullOrWhiteSpace(content?.EmbedUrl))
+    @if (string.IsNullOrWhiteSpace(embedUrl))
     {
         <p class="visually-hidden">No embedded content available.</p>
     }
     else
     {
         <iframe
-            src="@content.EmbedUrl"
+            src="@embedUrl"
             title="@iframeTitle"
             loading="lazy"
             role="document"

@@ -1,11 +1,11 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.StylizedHeading>>
+﻿@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model?.Content is null) return;
 
     var content = Model.Content;
-    var textColor = content.HeaderTextColor?.Color ?? "#1b1b1b";
+    var textColor = content?.Value<ColorPickerValueConverter.PickedColor>("headerTextColor")?.Color ?? "#1b1b1b";
   
 
 
@@ -16,4 +16,8 @@
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }
 
-<h2 class="stylized-header @blockClasses" style="@cssVariables">@content.HeaderText</h2>
+@{
+    var headerText = content.Value<string>("headerText");
+}
+
+<h2 class="stylized-header @blockClasses" style="@cssVariables">@headerText</h2>

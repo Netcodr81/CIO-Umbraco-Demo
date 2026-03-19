@@ -1,15 +1,12 @@
-﻿@inherits UmbracoViewPage<BlockGridItem<ContentModels.SideNavigation>>
-
+﻿@inherits UmbracoViewPage<BlockGridItem>
 @using System.Linq
 @using System.Text
-@using CIOUmbracoDemo.Extensions
-@using Umbraco.Community.UmbNav.Core.Models
 
 @{
 	
 	if (Model?.Content is null) return;
     var content = Model.Content;
-    var navItems = content?.SideMenu?.ToList() ?? new List<UmbNavItem>();
+	var navItems = content.Value<IEnumerable< UmbNavItem>>("sideMenu")?.ToList() ?? new List<UmbNavItem>();
 
     var styles = new StringBuilder();
 

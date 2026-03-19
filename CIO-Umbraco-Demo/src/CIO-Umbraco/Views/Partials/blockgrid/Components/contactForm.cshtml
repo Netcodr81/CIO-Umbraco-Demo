@@ -1,13 +1,17 @@
 ﻿@using CIOUmbracoDemo.Extensions
 @using CIOUmbracoDemo.Views.Partials.Forms.Models
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.ContactForm>>
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var model = new ContactFormViewModel() { FormId = content.FormId!, SuccessMessage = content.SuccessMessage!};
+    var model = new ContactFormViewModel()
+    {
+        FormId = content.Value<string>("formId") ?? string.Empty,
+        SuccessMessage = content.Value<string>("successMessage") ?? string.Empty
+    };
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 }

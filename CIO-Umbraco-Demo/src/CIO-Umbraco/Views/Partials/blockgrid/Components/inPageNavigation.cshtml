@@ -1,5 +1,4 @@
-@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.InPageNavigation>>
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model?.Content is null) return;
@@ -13,9 +12,9 @@
 
 <nav class="in-page-nav @blockClasses" id="@navId" aria-label="In-page navigation">
     <div class="in-page-nav__container">
-        @if (!string.IsNullOrEmpty(content.Heading))
+        @if (!string.IsNullOrEmpty(content.Value<string>("heading")))
         {
-            <h4 class="in-page-nav__heading">@content.Heading</h4>
+            <h4 class="in-page-nav__heading">@Html.Raw(content.Value<string>("heading"))</h4>
         }
         <ul class="in-page-nav__list">
             @* Navigation items will be populated by JavaScript *@

@@ -1,5 +1,5 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockListItem<ContentModels.CarouselItem>>
+﻿@using Umbraco.Extensions
+@inherits UmbracoViewPage<BlockListItem>
 
 @{
     if (Model.Content is null) return;
@@ -8,83 +8,99 @@
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
 
-    // Determine image alt text: if a heading is present the image is decorative
+    // Image
+    var image = content.Value<IPublishedContent>("image");
+    var imageUrl = image?.GetCropUrl();
+    var imageName = image?.Name;
+
+    // Heading (link-like object) - read properties via reflection to be defensive
+    var headingObj = content.Value<object>("heading");
+    string? headingName = null;
+    string? headingUrl = null;
+    string? headingTarget = null;
+    if (headingObj != null)
+    {
+        var ht = headingObj.GetType();
+        var nameProp = ht.GetProperty("Name") ?? ht.GetProperty("name");
+        var urlProp = ht.GetProperty("Url") ?? ht.GetProperty("url");
+        var targetProp = ht.GetProperty("Target") ?? ht.GetProperty("target");
+        if (nameProp != null) headingName = nameProp.GetValue(headingObj)?.ToString();
+        if (urlProp != null) headingUrl = urlProp.GetValue(headingObj)?.ToString();
+        if (targetProp != null) headingTarget = targetProp.GetValue(headingObj)?.ToString();
+    }
+
+    // Icon
+    var icon = content.Value<IPublishedContent>("icon");
+    var iconLocation = content.Value<string>("iconLocation");
+    var imageOnly = content.Value<bool?>("imageOnly") == true;
+
+    // Determine image alt text: if heading is present the image is decorative
     var imgAlt = string.Empty;
-    if (!string.IsNullOrWhiteSpace(content.Heading?.Name))
-    {
-        imgAlt = string.Empty; // decorative when heading provides the accessible name
-    }
-    else if (!string.IsNullOrWhiteSpace(content.Image?.Name))
-    {
-        imgAlt = content.Image.Name; // use media name when no heading
-    }
-    else
-    {
-        imgAlt = "Carousel image"; // sensible fallback
-    }
+    if (!string.IsNullOrWhiteSpace(headingName)) imgAlt = string.Empty;
+    else if (!string.IsNullOrWhiteSpace(imageName)) imgAlt = imageName;
+    else imgAlt = "Carousel image";
 }
 
 <div class="carousel-item @blockClasses">
-    @if (content.Image != null)
+    @if (image != null && !string.IsNullOrWhiteSpace(imageUrl))
     {
         <div class="carousel-item__image">
-            @if (!string.IsNullOrWhiteSpace(content.Heading?.Name))
+            @if (!string.IsNullOrWhiteSpace(headingName))
             {
-                <img src="@content.Image.GetCropUrl()" alt="" aria-hidden="true" loading="lazy" />
+                <img src="@imageUrl" alt="" aria-hidden="true" loading="lazy" />
             }
             else
             {
-                <img src="@content.Image.GetCropUrl()" alt="@imgAlt" loading="lazy" />
+                <img src="@imageUrl" alt="@imgAlt" loading="lazy" />
             }
         </div>
     }
-    @if (!content.ImageOnly && content.Heading != null)
+    @if (!imageOnly && !string.IsNullOrWhiteSpace(headingName))
     {
         <div class="carousel-item__content">
             <h3 class="carousel-item__heading">
                 @* Render link only if Url present, otherwise plain heading text. Add rel for external links *@
-                @if (!string.IsNullOrWhiteSpace(content.Heading?.Url))
+                @if (!string.IsNullOrWhiteSpace(headingUrl))
                 {
-                    var linkTarget = content.Heading.Target;
-                    var relAttr = linkTarget == "_blank" ? "noopener noreferrer" : null;
-                    <a href="@content.Heading.Url" target="@(string.IsNullOrWhiteSpace(linkTarget) ? null : linkTarget)" rel="@relAttr">
-                        @if (content.Icon is not null)
+                    var relAttr = headingTarget == "_blank" ? "noopener noreferrer" : null;
+                    <a href="@headingUrl" target="@(string.IsNullOrWhiteSpace(headingTarget) ? null : headingTarget)" rel="@relAttr">
+                        @if (icon != null)
                         {
-                            if (content.IconLocation == "Prepend")
+                            if (iconLocation == "Prepend")
                             {
-                                <inline-svg media-item="content?.Icon" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
-                                @content?.Heading.Name
+                                <inline-svg media-item="@(icon)" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
+                                @headingName
                             }
                             else
                             {
-                               @content?.Heading.Name
-                               <inline-svg media-item="content?.Icon" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
+                               @headingName
+                               <inline-svg media-item="@(icon)" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
                             }
                         }
                         else
                         {
-                            @content.Heading.Name
+                            @headingName
                         }
                     </a>
                 }
                 else
                 {
-                    @if (content.Icon is not null)
+                    @if (icon != null)
                     {
-                        if (content.IconLocation == "Prepend")
+                        if (iconLocation == "Prepend")
                         {
-                            <inline-svg media-item="content?.Icon" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
-                            @content?.Heading.Name
+                            <inline-svg media-item="@(icon)" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
+                            @headingName
                         }
                         else
                         {
-                           @content?.Heading.Name
-                           <inline-svg media-item="content?.Icon" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
+                           @headingName
+                           <inline-svg media-item="@(icon)" fill="#fff" width="18" height="18" aria-hidden="true" focusable="false" />
                         }
                     }
                     else
                     {
-                        @content.Heading.Name
+                        @headingName
                     }
                 }
             </h3>

@@ -1,17 +1,17 @@
-﻿@using CIOUmbracoDemo.Extensions
-@inherits UmbracoViewPage<BlockGridItem<ContentModels.SummaryBox>>
+﻿@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits UmbracoViewPage<BlockGridItem>
 
 @{
     if (Model.Content is null) return;
 
     var content = Model.Content;
 
-    var borderColor = content?.BorderColor?.Color ?? "#004d66";
-    var backgroundColor = content?.BackgroundColor?.Color ?? "#00607f";
-    var textColor = content?.TextColor?.Color ?? "#000000";
-    var headingColor = content?.HeadingTextColor?.Color ?? "#000000";
-    var headingFontSize = !string.IsNullOrWhiteSpace(content?.HeadingFontSize) ? content?.HeadingFontSize : "1.37rem";
-    var textFontSize = !string.IsNullOrWhiteSpace(content?.TextFontSize) ? content?.TextFontSize : ".99rem";
+    var borderColor = content.Value<ColorPickerValueConverter.PickedColor>("borderColor")?.Color ?? "#004d66";
+    var backgroundColor = content.Value<ColorPickerValueConverter.PickedColor>("backgroundColor")?.Color ?? "#00607f";
+    var textColor = content.Value<ColorPickerValueConverter.PickedColor>("textColor")?.Color ?? "#000000";
+    var headingColor = content.Value<ColorPickerValueConverter.PickedColor>("headingTextColor")?.Color ?? "#000000";
+    var headingFontSize = !string.IsNullOrWhiteSpace(content.Value<string>("headingFontSize")) ? content.Value<string>("headingFontSize") : "1.37rem";
+    var textFontSize = !string.IsNullOrWhiteSpace(content.Value<string>("textFontSize")) ? content.Value<string>("textFontSize") : ".99rem";
 
     var cssVariables = $@"
         --summary-box-border-color: {borderColor};
@@ -26,21 +26,24 @@
 }
 @{
     // Accessibility: provide a region name via heading or aria-label
-    var hasHeading = !string.IsNullOrWhiteSpace(content.Heading);
+    var headingText = content.Value<string>("heading");
+    var hasHeading = !string.IsNullOrWhiteSpace(headingText);
     var headingId = hasHeading ? "summary-box-heading-" + Guid.NewGuid().ToString("N").Substring(0, 8) : null;
     var regionAttr = hasHeading
         ? $"role=\"region\" aria-labelledby=\"{headingId}\""
         : $"role=\"region\" aria-label=\"Summary\"";
+
+    var textHtml = content.Value<object>("text")?.ToString() ?? string.Empty;
 }
 
 <div class="summary-box__container @blockClasses" style="@cssVariables" @Html.Raw(regionAttr)>
-    @if (!string.IsNullOrWhiteSpace(content.Heading))
+    @if (!string.IsNullOrWhiteSpace(headingText))
     {
-        <h2 id="@headingId" class="summary-box__heading">@content.Heading</h2>
+        <h2 id="@headingId" class="summary-box__heading">@headingText</h2>
     }
 
     <div class="summary-box__text">
-        @content?.Text
+        @Html.Raw(textHtml)
     </div>
 
 </div>
