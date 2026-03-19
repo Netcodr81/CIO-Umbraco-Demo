@@ -21,7 +21,7 @@
             x.Id == currentPage.Id
         ));
 
-    var layoutSettings = Model.Settings as Umbraco.Cms.Core.Models.PublishedContent.IPublishedElement;
+    var layoutSettings = Model.Settings as LayoutSettings;
     var layoutStyles = layoutSettings.GenerateLayoutStyles();
     var layoutClasses = layoutSettings.GenerateLayoutClasses();
 
