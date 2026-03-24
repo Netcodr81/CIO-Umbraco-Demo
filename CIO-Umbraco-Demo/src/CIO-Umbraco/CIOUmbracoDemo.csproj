@@ -42,7 +42,6 @@
   <ItemGroup>
     <Folder Include="umbraco\models\" />
     <Folder Include="wwwroot\App_Plugins\BackofficeThemes\" />
-    <Folder Include="wwwroot\assets\" />
     <None Include="wwwroot\media\**\*">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</None>
@@ -60,6 +59,13 @@
     <Content Remove="C:\Users\deanl\.nuget\packages\umbraco.community.umbnav\4.0.0-beta0030\contentFiles\any\net9.0\package-lock.json" />
     <Content Remove="C:\Users\deanl\.nuget\packages\umbraco.community.umbnav\4.0.0-beta0030\contentFiles\any\net9.0\package.json" />
     <Content Remove="C:\Users\deanl\.nuget\packages\umbraco.community.umbnav\4.0.0-beta0030\contentFiles\any\net9.0\tsconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\Downloads\NEOCIO.Umbraco.Components\NEOCIO.Umbraco.Components.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\Downloads\NEOCIO.Umbraco.Core\NEOCIO.Umbraco.Core.csproj" />
+    <ProjectReference Include="..\NEOCIO.Umbraco.Components\NEOCIO.Umbraco.Components.csproj" />
+    <ProjectReference Include="..\NEOCIO.Umbraco.Core\NEOCIO.Umbraco.Core.csproj" />
   </ItemGroup>
 
 	<PropertyGroup>

@@ -1,0 +1,55 @@
+﻿@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Cms.Core.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var altText = !string.IsNullOrWhiteSpace(content.Value<string>("altText")) ? content.Value<string>("altText") : content.Value<MediaWithCrops>("image")?.Name;
+
+    // Get user-defined dimensions (assuming these properties exist)
+    var width = content.Value<int>("width") > 0 ? $"{content.Value<int>("width")}px" : "100%";
+    var height = content.Value<int>("height") > 0 ? $"{content.Value<int>("height")}px" : "auto";
+
+    var cssVariables = $@"
+        --stand-alone-image-width: {width};
+        --stand-alone-image-height: {height};
+    ";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+}
+
+@{
+    // Safely read an optional caption property if present on the content model
+    string caption = string.Empty;
+    try
+    {
+        var prop = content.GetType().GetProperty("Caption");
+        if (prop != null)
+        {
+            caption = prop.GetValue(content) as string ?? string.Empty;
+        }
+    }
+    catch
+    {
+        caption = string.Empty;
+    }
+}
+
+<figure class="stand-alone-image @blockClasses" style="@cssVariables">
+    @{
+        // Determine numeric width/height attributes when available to reduce layout shift
+        var imgWidthAttr = content.Value<int>("width") > 0 ? $"width=\"{content.Value<int>("width")}\"" : string.Empty;
+        var imgHeightAttr = content.Value<int>("height") > 0 ? $"height=\"{content.Value<int>("height")}\"" : string.Empty;
+        var imgAlt = altText ?? string.Empty;
+    }
+
+    <img src="@(content.Value<MediaWithCrops>("image")?.GetCropUrl())" alt="@imgAlt" loading="lazy" decoding="async" @Html.Raw(imgWidthAttr) @Html.Raw(imgHeightAttr) class="stand-alone-image__img"/>
+
+    @if (!string.IsNullOrWhiteSpace(caption))
+    {
+        <figcaption class="stand-alone-image__caption">@caption</figcaption>
+    }
+</figure>

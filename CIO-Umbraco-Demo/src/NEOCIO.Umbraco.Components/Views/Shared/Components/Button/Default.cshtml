@@ -1,0 +1,329 @@
+﻿@using System.Text
+@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Extensions
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    // Icon media
+    var icon = content.Value<IPublishedContent>("icon");
+    var hasIcon = icon is not null;
+
+    var styles = new StringBuilder();
+
+    var minWidth = content.Value<string>("minWidth");
+    var maxWidth = content.Value<string>("maxWidth");
+    var width = content.Value<string>("width");
+
+    if (!string.IsNullOrWhiteSpace(minWidth)) styles.Append($" min-width:{minWidth}");
+    if (!string.IsNullOrWhiteSpace(maxWidth)) styles.Append($" max-width:{maxWidth}");
+    if (!string.IsNullOrWhiteSpace(width)) styles.Append($" width:{width}");
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    // Link may be a complex object from link picker or a string
+    var link = content.Value<Link>("link");
+    
+    
+
+    var text = content.Value<string>("text");
+    var hasText = !string.IsNullOrWhiteSpace(text);
+    var accessibleName = hasText ? text : (link?.Name ?? icon?.Name ?? "Button");
+
+    var buttonStyle = content.Value<string>("buttonStyle");
+    var iconLocation = content.Value<string>("iconLocation");
+    var displayIcon = content.Value<bool?>("displayIcon") == true;
+}
+
+@switch (buttonStyle)
+{
+    case "Primary":
+        if (!string.IsNullOrWhiteSpace(link.Url))
+        {
+            <a class="btn__button btn__primary @blockClasses" style="@styles.ToString()" href="@link?.Url" target="@(string.IsNullOrWhiteSpace(link?.Target) ? null : link.Target)" rel="@(link.Target == "_blank" ? "noopener noreferrer" : null)" aria-label="@accessibleName">
+                @if (hasIcon && iconLocation == "Prepend")
+                {
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+                }
+                else if (hasIcon && iconLocation != "Prepend")
+                {
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                }
+                else
+                {
+                    @text
+                }
+            </a>
+        }
+        else
+        {
+            <button type="button" class="btn__button btn__primary @blockClasses" style="@styles.ToString()" aria-label="@accessibleName">
+                @if (hasIcon && iconLocation == "Prepend")
+                {
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+                }
+                else if (hasIcon && iconLocation != "Prepend")
+                {
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                }
+                else
+                {
+                    @text
+                }
+            </button>
+        }
+
+        break;
+    case "Secondary":
+        if (!string.IsNullOrWhiteSpace(link.Url))
+        {
+            <a class="btn__button btn__secondary @blockClasses" style="@styles.ToString()" href="@link.Url" target="@(string.IsNullOrWhiteSpace(link.Target) ? null : link.Target)" rel="@(link.Target == "_blank" ? "noopener noreferrer" : null)" aria-label="@accessibleName">
+                @if (hasIcon && iconLocation == "Prepend")
+                {
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+                }
+                else if (hasIcon && iconLocation != "Prepend")
+                {
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                }
+                else
+                {
+                    @text
+                }
+            </a>
+        }
+        else
+        {
+            <button type="button" class="btn__button btn__primary @blockClasses" style="@styles.ToString()" aria-label="@accessibleName">
+                @if (hasIcon && iconLocation == "Prepend")
+                {
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+                }
+                else if (hasIcon && iconLocation != "Prepend")
+                {
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                }
+                else
+                {
+                    @text
+                }
+            </button>
+        }
+
+        break;
+    case "Outline":
+        if (!string.IsNullOrWhiteSpace(link.Url))
+        {
+            <a class="btn__button btn__outline @blockClasses" style="@styles.ToString()" href="@link.Url" target="@(string.IsNullOrWhiteSpace(link.Target) ? null : link.Target)" rel="@(link.Target == "_blank" ? "noopener noreferrer" : null)" aria-label="@accessibleName">
+                @if (hasIcon && iconLocation == "Prepend")
+                {
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+                }
+                else if (hasIcon && iconLocation != "Prepend")
+                {
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                }
+                else
+                {
+                    @text
+                }
+            </a>
+        }
+        else
+        {
+            <button type="button" class="btn__button btn__primary @blockClasses" style="@styles.ToString()" aria-label="@accessibleName">
+                @if (hasIcon && iconLocation == "Prepend")
+                {
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+                }
+                else if (hasIcon && iconLocation != "Prepend")
+                {
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                }
+                else
+                {
+                    @text
+                }
+            </button>
+        }
+
+        break;
+    default:
+        if (!string.IsNullOrWhiteSpace(link.Url))
+        {
+            <a class="btn__button btn__primary @blockClasses" style="@styles.ToString()" href="@link.Url" target="@(string.IsNullOrWhiteSpace(link?.Target) ? null : link.Target)" rel="@(link?.Target == "_blank" ? "noopener noreferrer" : null)" aria-label="@accessibleName">
+                @if (hasIcon && iconLocation == "Prepend")
+                {
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+                }
+                else if (hasIcon && iconLocation != "Prepend")
+                {
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                }
+                else
+                {
+                    @text
+                }
+            </a>
+        }
+        else
+        {
+            <button type="button" class="btn__button btn__primary @blockClasses" style="@styles.ToString()" aria-label="@accessibleName">
+                @if (hasIcon && iconLocation == "Prepend")
+                {
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+                }
+                else if (hasIcon && iconLocation != "Prepend")
+                {
+                    @if (hasText)
+                    {
+                        @text
+                    }
+                    else
+                    {
+                        <span class="visually-hidden">@accessibleName</span>
+                    }
+
+                    <inline-svg media-item="@(icon)" height="16" width="16" aria-hidden="true"/>
+                }
+                else
+                {
+                    @text
+                }
+            </button>
+        }
+
+        break;
+}

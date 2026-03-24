@@ -1,0 +1,39 @@
+﻿@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Web.Common.PublishedModels
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+
+@{
+    if (Model == null)
+        return;
+
+    // Accept dynamic BlockListItem model to avoid generic type binding issues
+
+    var content = Model.Content;
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var linkUrl = content?.Value<Link>("link")?.Url;
+    var linkTarget = string.IsNullOrWhiteSpace(content?.Value<Link>("link")?.Target) ? "_self" : content?.Value<Link>("link")?.Target;
+    var relAttr = linkTarget == "_blank" ? " rel=\"noopener noreferrer\"" : string.Empty;
+    var accessibleName = !string.IsNullOrWhiteSpace(content?.Value<Link>("link")?.Name) ? content?.Value<Link>("link")?.Name : (linkUrl ?? "Link");
+    var ariaAttr = !string.IsNullOrWhiteSpace(content?.Value<Link>("link")?.Name) ? string.Empty : $" aria-label=\"{accessibleName}\"";
+}
+
+@if (!string.IsNullOrWhiteSpace(linkUrl))
+{
+    <a href="@linkUrl" class="cio-footer__link-item @blockClasses" target="@linkTarget"@Html.Raw(relAttr + ariaAttr)>
+        @(content.Value<Link>("link")?.Name ?? linkUrl)
+        @if (linkTarget == "_blank")
+        {
+            <span class="visually-hidden"> (opens in a new tab)</span>
+        }
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M14 3v2h3.59l-9.83 9.83l1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7Z"></path>
+        </svg>
+    </a>
+}
+else
+{
+    <span class="cio-footer__link-item @blockClasses" aria-disabled="true">@accessibleName</span>
+}

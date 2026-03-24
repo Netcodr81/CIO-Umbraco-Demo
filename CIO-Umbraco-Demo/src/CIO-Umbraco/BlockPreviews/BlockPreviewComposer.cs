@@ -15,7 +15,8 @@ public class BlockPreviewComposer : IComposer
                 Enabled = true,
                 Stylesheets = [
                     "/css/layout.css",
-                    "/css/block-preview.css"
+                    "/css/block-preview.css",
+                    "/css/component-styles.css"
                 ]
             };
             options.BlockList = new BlockTypeSettings
@@ -23,7 +24,8 @@ public class BlockPreviewComposer : IComposer
                 Enabled = true,
                 Stylesheets = [
                     "/css/layout.css",
-                    "/css/block-preview.css"
+                    "/css/block-preview.css",
+                    "/css/component-styles.css"
                 ]
             };
         });

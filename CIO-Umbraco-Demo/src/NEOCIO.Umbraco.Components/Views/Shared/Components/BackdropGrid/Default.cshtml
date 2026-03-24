@@ -1,0 +1,30 @@
+﻿@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Extensions
+@using Umbraco.Cms.Core.Models.Blocks
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockGridItem>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+    var cards = content.Value<BlockListModel>("cards");
+}
+
+<div class="backdrop-grid__container @blockClasses" role="region" aria-label="Backdrop card grid">
+    <div class="backdrop-grid__card-group" role="list">
+        @if (cards?.Any() == true)
+        {
+            @for (int i = 0; i < cards.Count; i++)
+            {
+                var card = cards[i];
+                var cardClass = i == 0 ? "backdrop-grid__card backdrop-grid__card--primary" : "backdrop-grid__card backdrop-grid__card--secondary";
+
+                <div class="@cardClass" role="listitem">
+                    @await Component.InvokeAsync("BackdropCard", new { model = card })
+                </div>
+            }
+        }
+    </div>
+</div>

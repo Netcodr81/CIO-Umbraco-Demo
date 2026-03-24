@@ -1,0 +1,55 @@
+﻿@using NEOCIO.Umbraco.Core.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var width = content.Value<int>("width") == 0 ? 600 : content.Value<int>("width");
+    var height = content.Value<int>("height") == 0 ? 450 : content.Value<int>("height");
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    // Accessibility helpers
+    var mapUrl = content.Value<string>("googleMapLink");
+    var mapTitle = !string.IsNullOrWhiteSpace(mapUrl) ? "Map location" : "Embedded map";
+    var allowFullScreenAttr = content.Value<bool>("allowFullScreen") ? " allowfullscreen" : string.Empty;
+}
+
+@if (!string.IsNullOrWhiteSpace(blockClasses))
+{
+    <div class="@blockClasses">
+        <figure class="map-embed__figure">
+            <iframe
+                src="@mapUrl"
+                width="@width"
+                height="@height"
+                title="@mapTitle"
+                aria-label="@mapTitle"
+                style="border: 0;"
+                @Html.Raw(allowFullScreenAttr)
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+            <figcaption class="visually-hidden">Map: @mapTitle. <a href="@mapUrl" target="_blank" rel="noopener noreferrer">Open location in Google Maps (opens in a new tab)</a></figcaption>
+        </figure>
+    </div>
+}
+else
+{
+    <figure class="map-embed__figure">
+        <iframe
+            src="@mapUrl"
+            width="@width"
+            height="@height"
+            title="@mapTitle"
+            aria-label="@mapTitle"
+            style="border: 0;"
+            @Html.Raw(allowFullScreenAttr)
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <figcaption class="visually-hidden">Map: @mapTitle. <a href="@mapUrl" target="_blank" rel="noopener noreferrer">Open location in Google Maps (opens in a new tab)</a></figcaption>
+    </figure>
+}

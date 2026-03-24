@@ -1,4 +1,4 @@
-﻿@using CIOUmbracoDemo.Extensions
+﻿@using NEOCIO.Umbraco.Core.Extensions
 @inherits UmbracoViewPage<BlockGridItem<ContentModels.NewsroomBlock>>
 
 @{
@@ -49,8 +49,7 @@
                 @for (int i = 0; i < content.Items.Count; i++)
                 {
                     var item = content.Items[i];
-
-                   @await Html.PartialAsync("newsroomItem", item)
+                    @await Component.InvokeAsync("NewsroomItem", new { model = item })
 
                     @if (i < content.Items.Count - 1)
                     {

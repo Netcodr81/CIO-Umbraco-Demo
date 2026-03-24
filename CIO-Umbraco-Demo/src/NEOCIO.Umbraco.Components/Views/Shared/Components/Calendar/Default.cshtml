@@ -1,0 +1,275 @@
+﻿@using System.Text.Json
+@using NEOCIO.Umbraco.Core.Extensions
+@using NEOCIO.Umbraco.Core.Models
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Community.BlockPreview.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    // This component relies on the Full Calendar javascript package. information on the package can be found here https://fullcalendar.io/docs
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+    var calendarEvents = new List<FullCalendarEvent>();
+
+    foreach (var @event in content.Value<BlockListModel>("events"))
+    {
+        var calendarEvent = @event as BlockListItem<IPublishedContent>;
+
+        calendarEvents.Add(new FullCalendarEvent
+        {
+            Title = calendarEvent?.Content?.Value<string>("title"),
+            Start = calendarEvent?.Content?.Value<DateTime?>("start")?.ToString("yyyy-MM-ddTHH:mm:ss"),
+            End = calendarEvent?.Content?.Value<DateTime?>("end")?.ToString("yyyy-MM-ddTHH:mm:ss"),
+            Color = calendarEvent?.Content?.Value<string>("eventColor") ?? "#00607f",
+            TextColor = "#ffffff",
+            ExtendedProps = new EventDetails
+            {
+                Description = calendarEvent?.Content?.Value<string>("eventDetails"),
+                Location = calendarEvent?.Content?.Value<string>("eventLocation")
+            }
+        });
+    }
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var serializerOptions = new JsonSerializerOptions
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        WriteIndented = false
+    };
+
+    var serializedEvents = JsonSerializer.Serialize(calendarEvents, serializerOptions);
+
+    var test = "";
+}
+
+@if (Context.Request.IsBlockPreviewRequest())
+{
+    <h1>Calendar Events</h1>
+
+    <div style="display: flex; gap: 10px;">
+
+        @foreach (var @event in content.Value<BlockListModel>("events"))
+        {
+            @await Component.InvokeAsync("CalendarEvent", new { model = @event })
+        }
+    </div>
+}
+else
+{
+    <div class="calendar-container @blockClasses">
+        <div id="calendar"></div>
+        <!-- Event Popover Backdrop -->
+        <div id="event-popover-backdrop" class="event-popover-backdrop" style="display: none;" aria-hidden="true"></div>
+        <!-- Event Popover (Calendar Card Style) -->
+        <div id="event-popover" class="event-popover" style="display: none;" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
+            <button class="event-popover__close" aria-label="Close popover">&times;</button>
+            <div class="event-popover__card">
+                <div class="event-popover__content">
+                    <!-- Date & Time Section -->
+                    <div class="event-popover__datetime">
+                        <div class="event-popover__date">
+                            <span class="event-popover__month"></span>
+                            <span class="event-popover__day"></span>
+                        </div>
+                        <div class="event-popover__time-range">
+                            <div class="event-popover__time">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13z"/>
+                                    <path d="M7.5 3v5l4.5 2.5.5-.9L8.5 7.5V3h-1z"/>
+                                </svg>
+                                <span class="event-popover__time-text"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="event-popover__title"></h3>
+
+                    <!-- Details -->
+                    <div class="event-popover__details">
+                        <div class="event-popover__detail-item event-popover__location">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 0a5 5 0 0 0-5 5c0 3.25 5 11 5 11s5-7.75 5-11a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                            </svg>
+                            <span class="event-popover__location-text"></span>
+                        </div>
+
+                        <div class="event-popover__detail-item event-popover__description">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M2 2h12v12H2V2zm1 1v10h10V3H3zm1 2h8v1H4V5zm0 2h8v1H4V7zm0 2h5v1H4V9z"/>
+                            </svg>
+                            <span class="event-popover__description-text"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded',
+        function() {
+
+            var calendarElement = document.getElementById('calendar');
+
+            if (calendarElement) {
+                var calendar = new FullCalendar.Calendar(calendarElement,
+                    {
+                        initialView: 'dayGridMonth',
+                        events: @Html.Raw(serializedEvents),
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        },
+                        // Event display settings
+                        displayEventTime: false, // Hide time from event display
+                        displayEventEnd: false, // Hide end time
+                        eventDisplay: 'block', // Display as blocks instead of dots
+                        // Enable date clicking
+                        dateClick: function(info) {
+                            console.log('Date clicked:', info.dateStr);
+                        },
+                        // Enable event clicking - show popover
+                        eventClick: function(info) {
+                            info.jsEvent.preventDefault(); // Prevent navigation
+
+                            var event = info.event;
+                            var popover = document.getElementById('event-popover');
+
+                            // Get event color
+                            var eventColor = event.backgroundColor || event.color || '#00607f';
+
+                            // Set date badge with event color
+                            var dateElement = popover.querySelector('.event-popover__date');
+                            if (event.start) {
+                                var startDate = new Date(event.start);
+                                popover.querySelector('.event-popover__month').textContent = startDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+                                popover.querySelector('.event-popover__day').textContent = startDate.toLocaleString('en-US', { day: '2-digit' });
+                                // Set the background color for the date badge
+                                dateElement.style.backgroundColor = eventColor;
+                            }
+
+                            // Set title
+                            popover.querySelector('.event-popover__title').textContent = event.title;
+
+                            // Format and set time
+                            var timeText = popover.querySelector('.event-popover__time-text');
+                            if (event.start) {
+                                var startTime = event.start.toLocaleString('en-US',
+                                    {
+                                        hour: event.allDay ? undefined : 'numeric',
+                                        minute: event.allDay ? undefined : '2-digit'
+                                    });
+                                var endTime = event.end
+                                    ? ' - ' +
+                                    event.end.toLocaleString('en-US',
+                                        {
+                                            hour: event.allDay ? undefined : 'numeric',
+                                            minute: event.allDay ? undefined : '2-digit'
+                                        })
+                                    : '';
+                                timeText.textContent = startTime + endTime;
+                            }
+
+                            // Set location
+                            var locationItem = popover.querySelector('.event-popover__location');
+                            var locationText = popover.querySelector('.event-popover__location-text');
+                            if (event.extendedProps && event.extendedProps.location) {
+                                locationText.textContent = event.extendedProps.location;
+                                locationItem.style.display = 'flex';
+                            } else {
+                                locationItem.style.display = 'none';
+                            }
+
+
+                            // Set description (use textContent to avoid injecting HTML)
+                            var descItem = popover.querySelector('.event-popover__description');
+                            var descText = popover.querySelector('.event-popover__description-text');
+                            if (event.extendedProps && event.extendedProps.description) {
+                                // Prefer plain text to avoid XSS; if HTML is required, ensure it's sanitized server-side
+                                descText.textContent = event.extendedProps.description;
+                                descItem.style.display = 'flex';
+                            } else {
+                                descItem.style.display = 'none';
+                            }
+
+                            // Show popover (CSS handles centering)
+                            var backdrop = document.getElementById('event-popover-backdrop');
+                            backdrop.style.display = 'block';
+                            backdrop.setAttribute('aria-hidden', 'false');
+                            popover.style.display = 'block';
+                            popover.setAttribute('aria-hidden', 'false');
+
+                            // Accessibility: save the previously focused element and move focus into the dialog
+                            var previouslyFocused = document.activeElement;
+                            // focus the popover container (tabindex=-1)
+                            try {
+                                popover.focus({ preventScroll: true });
+                            } catch (e) {
+                                popover.focus();
+                            }
+
+                            // Trap focus inside the dialog
+                            function trapFocus(e) {
+                                if (e.key === 'Tab') {
+                                    var focusable = popover.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+                                    if (!focusable.length) return;
+                                    focusable = Array.prototype.slice.call(focusable);
+                                    var first = focusable[0];
+                                    var last = focusable[focusable.length - 1];
+                                    if (e.shiftKey) {
+                                        if (document.activeElement === first) {
+                                            e.preventDefault();
+                                            last.focus();
+                                        }
+                                    } else {
+                                        if (document.activeElement === last) {
+                                            e.preventDefault();
+                                            first.focus();
+                                        }
+                                    }
+                                }
+                                if (e.key === 'Escape' || e.key === 'Esc') {
+                                    e.preventDefault();
+                                    closePopover();
+                                }
+                            }
+
+                            function closePopover() {
+                                popover.style.display = 'none';
+                                popover.setAttribute('aria-hidden', 'true');
+                                backdrop.style.display = 'none';
+                                backdrop.setAttribute('aria-hidden', 'true');
+                                document.removeEventListener('keydown', trapFocus);
+                                // restore focus
+                                try {
+                                    if (previouslyFocused) previouslyFocused.focus();
+                                } catch (e) {
+                                }
+                            }
+
+                            // Attach close handlers
+                            var closeBtn = popover.querySelector('.event-popover__close');
+                            closeBtn.addEventListener('click', closePopover);
+                            backdrop.addEventListener('click', closePopover);
+                            document.addEventListener('keydown', trapFocus);
+                        },
+                        // Styling
+                        height: 'auto',
+                        aspectRatio: 1.8
+                    });
+
+                calendar.render();
+
+                // Note: per-popover handlers are attached when opening the popover to ensure proper focus restoration
+
+                calendar.getEvents();
+            }
+        });
+</script>

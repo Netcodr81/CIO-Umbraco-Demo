@@ -1,0 +1,24 @@
+﻿@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    if (Model?.Content is null) return;
+
+    var content = Model.Content;
+    var textColor = content?.Value<ColorPickerValueConverter.PickedColor>("headerTextColor")?.Color ?? "#1b1b1b";
+  
+
+
+    var cssVariables = $@"   
+       --stylized-header-text-color: {textColor};       
+    ";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+}
+
+@{
+    var headerText = content.Value<string>("headerText");
+}
+
+<h2 class="stylized-header @blockClasses" style="@cssVariables">@headerText</h2>

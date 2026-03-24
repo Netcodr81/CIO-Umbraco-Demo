@@ -1,0 +1,27 @@
+﻿@using System.Text
+@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockGridItem>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var styles = new StringBuilder();
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+    var items = content.Value<BlockListModel>("listItems");
+}
+
+@if (items?.Any() == true)
+{
+    <ul class="icon-list__container @blockClasses">
+        @foreach (var item in items)
+        {
+            @await Component.InvokeAsync("IconListItem", new { model = item })
+        }
+
+    </ul>
+}

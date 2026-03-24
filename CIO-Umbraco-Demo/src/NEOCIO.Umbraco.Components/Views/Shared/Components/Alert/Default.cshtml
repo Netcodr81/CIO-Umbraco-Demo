@@ -1,0 +1,92 @@
+﻿
+@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    // Read values by alias to avoid compile-time dependency on generated models
+    var alertTypeObj = content.Value<object>("alertType");
+    var alertType = alertTypeObj?.ToString() ?? "Info";
+
+    // Select CSS classes by alert type
+    var backgroundClass = alertType switch
+    {
+        "Info" => "alert__info-background",
+        "Warning" => "alert__warning-background",
+        "Error" => "alert__error-background",
+        "Success" => "alert__success-background",
+        "Emergency" => "alert__emergency-background",
+        _ => "alert__info-background",
+    };
+
+    var iconClass = alertType switch
+    {
+        "Info" => "info-icon",
+        "Warning" => "warning-icon",
+        "Error" => "error-icon",
+        "Success" => "success-icon",
+        "Emergency" => "emergency-icon",
+        _ => "info-icon",
+    };
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    // Accessibility attributes
+    var ariaLive = (alertType == "Error" || alertType == "Emergency" || alertType == "Warning") ? "assertive" : "polite";
+    var roleAttr = ariaLive == "assertive" ? "alert" : "status";
+    var headingId = "alert-heading-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+    var srPrefix = $"{alertType} alert";
+
+    // Field values
+    var slimAlert = content.Value<bool?>("slimAlert") == true;
+    var displayIcon = content.Value<bool?>("displayIcon") == true;
+    var heading = content.Value<string>("heading") ?? string.Empty;
+    var bodyHtml = content.Value<object?>("bodyText")?.ToString() ?? string.Empty;
+}
+
+@if (slimAlert)
+{
+    <div class="alert__wrapper @blockClasses" role="@roleAttr" aria-live="@ariaLive" @(!string.IsNullOrWhiteSpace(heading) ? $"aria-labelledby=\"{headingId}\"" : $"aria-label=\"{srPrefix}\"")>
+        <section class="@backgroundClass">
+            <div class="alert__slim-body @(displayIcon ? iconClass : string.Empty)">
+                <div class="alert__text">
+                    @* Visually announce the alert type for screen readers *@
+                    <span class="visually-hidden">@srPrefix.</span>
+
+                    @if (!string.IsNullOrWhiteSpace(heading))
+                    {
+                        <p id="@headingId" class="alert__heading" style="font-weight:700;">@heading</p>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(bodyHtml))
+                    {
+                        @Html.Raw(bodyHtml)
+                    }
+
+                </div>
+            </div>
+        </section>
+    </div>
+}
+else
+{
+    <div class="alert__wrapper @blockClasses" role="@roleAttr" aria-live="@ariaLive" @(!string.IsNullOrWhiteSpace(heading) ? $"aria-labelledby=\"{headingId}\"" : $"aria-label=\"{srPrefix}\"")>
+        <section class="@backgroundClass">
+            <div class="alert__body @(displayIcon ? iconClass : string.Empty)">
+                <span class="visually-hidden">@srPrefix.</span>
+                @if (!string.IsNullOrWhiteSpace(heading))
+                {
+                    <p id="@headingId" class="alert__heading">@heading</p>
+                }
+                <div class="alert__text">
+                    @Html.Raw(bodyHtml)
+                </div>
+            </div>
+        </section>
+    </div>
+}
+

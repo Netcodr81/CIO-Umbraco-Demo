@@ -1,6 +1,7 @@
-﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockGridItem>
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
 @using Umbraco.Community.BlockPreview.Extensions;
 @using Umbraco.Cms.Core.PropertyEditors.ValueConverters;
+@using Umbraco.Cms.Web.Common.PublishedModels
 
 @{
     Layout = "_Layout_Layouts.cshtml";
@@ -16,8 +17,8 @@
 
     // Get site settings from the current page context
     var currentPage = Umbraco.AssignedContentItem;
-    var siteSettings = currentPage?.Root().FirstChild<SiteSettings>();
-    var theme = siteSettings?.Theme?.ToLower() ?? "blue";
+    var siteSettings = Umbraco.AssignedContentItem?.Root()?.FirstChild();
+    var theme = siteSettings?.Value<string>("theme")?.ToLowerInvariant() ?? "blue";
 }
 
 

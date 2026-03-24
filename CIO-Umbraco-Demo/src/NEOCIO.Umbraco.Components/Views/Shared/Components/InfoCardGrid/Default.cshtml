@@ -1,0 +1,44 @@
+﻿@using System.Text
+@using Microsoft.Identity.Client
+@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    if (Model.Content is null)
+    {
+        return;
+    }
+
+    var content = Model.Content;
+
+    var maxNumberOfButtonsPerRow = content.Value<string>("maxNumberOfCardsPerRow") ?? "3";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var styles = new StringBuilder();
+
+    var backgroundColor = content.Value<ColorPickerValueConverter.PickedColor>("backgroundColor")?.Color;
+
+    if (backgroundColor is not null)
+    {
+        styles.Append($"background-color: {backgroundColor}");
+    }
+
+    var cards = content.Value<BlockListModel>("cards");
+}
+
+<div class="info-card-grid @blockClasses" data-columns="@maxNumberOfButtonsPerRow" style="@styles">
+
+
+    @if (cards != null && cards.Any())
+    {
+        @foreach (var button in cards)
+        {
+            var cardToRender = button as BlockListItem;
+            @await Component.InvokeAsync("InfoCard", new { model = cardToRender })
+        }
+    }
+
+</div>

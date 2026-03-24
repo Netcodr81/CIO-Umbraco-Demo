@@ -102,6 +102,15 @@
         content: "";
     }
 
+/* Footer Links */
+.cio-footer__link-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem; /* 4px */
+    color: #565c65;
+    font-size: 0.99rem;
+}
+
 /* Hero Block */
 
 .homepage-hero__wrapper {

@@ -1,0 +1,111 @@
+﻿@using System.Text
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using Umbraco.Cms.Web.Common.PublishedModels
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+
+@{
+    if (Model.Content is null)
+    {
+        return;
+    }
+
+    var content = Model.Content;
+
+    var additionalStyles = new StringBuilder();
+
+    if (content.Value<MediaWithCrops>("backgroundImage") is not null)
+    {
+        additionalStyles.Append($"background-image:url('{@content.Value<MediaWithCrops>("backgroundImage")?.MediaUrl()}')");
+    }
+
+    var siteSettings = Umbraco.AssignedContentItem?.Root()?.FirstChild();
+    var theme = siteSettings?.Value<string>("theme")?.ToLowerInvariant() ?? "blue";
+    var defaultBorderColor = "";
+
+    switch (theme)
+    {
+        case "blue":
+            defaultBorderColor = "var(--theme-secondary)";
+            break;
+        case "green":
+            defaultBorderColor = "var(--theme-primary)";
+            break;
+        case "red":
+            defaultBorderColor = "var(--theme-primary)";
+            break;
+    }
+
+    var headingColor = content.Value<ColorPickerValueConverter.PickedColor>("headingColor")?.Color ?? "#00607f";
+    var headingHoverColor = content.Value<ColorPickerValueConverter.PickedColor>("headingHoverColor")?.Color ?? "#00607f";
+    var textColor = content.Value<ColorPickerValueConverter.PickedColor>("textColor")?.Color ?? "#00607f";
+    var textHoverColor = content.Value<ColorPickerValueConverter.PickedColor>("textHoverColor")?.Color ?? "#00607f";
+    var backgroundColor = content.Value<ColorPickerValueConverter.PickedColor>("backgroundColor")?.Color ?? "#ffffff";
+    var iconHoverColor = content.Value<ColorPickerValueConverter.PickedColor>("iconHoverColor")?.Color ?? "#00607f";
+    var borderColor = content.Value<ColorPickerValueConverter.PickedColor>("borderColor")?.Color ?? defaultBorderColor;
+
+    var cssVariables = $@"
+        --linked-card-heading-color: {headingColor};
+        --linked-card-heading-hover-color: {headingHoverColor};
+        --linked-card-text-color: {textColor};
+        --linked-card-text-hover-color: {textHoverColor};
+        --linked-card-background-color: {backgroundColor};
+        --linked-card-icon-hover-color: {iconHoverColor};
+        --linked-card-border-color: {borderColor};
+    ";
+}
+
+@{
+    // Prepare accessible link attributes
+    var linkUrl = content.Value<Link>("link")?.Url;
+    var linkTarget = string.IsNullOrWhiteSpace(content.Value<Link>("link")?.Target) ? "_self" : content.Value<Link>("link")?.Target;
+    var relAttr = linkTarget == "_blank" ? "noopener noreferrer" : string.Empty;
+
+    var headingText = content.Value<string>("heading");
+    var textHtml = content.Value<string>("text");
+    var iconMedia = content.Value<MediaWithCrops>("icon");
+
+    var hasVisibleText = !string.IsNullOrWhiteSpace(headingText) || !string.IsNullOrWhiteSpace(textHtml);
+    var ariaLabel = hasVisibleText ? null : (content.Value<Link>("link")?.Name ?? headingText ?? "Open card");
+    var ariaAttr = ariaLabel is null ? string.Empty : $"aria-label=\"{ariaLabel}\"";
+
+    var svgAriaHidden = hasVisibleText ? "true" : "false";
+}
+
+@if (!string.IsNullOrWhiteSpace(linkUrl))
+{
+    <a href="@linkUrl" target="@linkTarget" rel="@relAttr" class="linked-card__container" style="@additionalStyles.ToString() @cssVariables" @Html.Raw(ariaAttr)>
+
+        <h2 class="linked-card__heading">@headingText</h2>
+
+        @if (!string.IsNullOrWhiteSpace(textHtml))
+        {
+            <div class="linked-card__text">
+                @Html.Raw(textHtml)
+            </div>
+
+        }
+
+        <div class="linked-card__link">
+            <inline-svg media-item="@iconMedia" fill="@(content.Value<string>("iconColor"))" width="36" height="36" aria-hidden='@svgAriaHidden'></inline-svg>
+        </div>
+    </a>
+}
+else
+{
+    <div class="linked-card__container linked-card__container--disabled" style="@additionalStyles.ToString() @cssVariables" aria-disabled="true">
+        <h2 class="linked-card__heading">@(content.Value<string>("heading"))</h2>
+
+        @if (content.Value<string>("text") is not null)
+        {
+            <div class="linked-card__text">
+                @(content.Value<string>("text"))
+            </div>
+
+        }
+
+        <div class="linked-card__link">
+            <inline-svg media-item="@(content.Value<MediaWithCrops>("icon"))" fill="@(content.Value<ColorPickerValueConverter.PickedColor>("iconColor")?.Color)" width="36" height="36" aria-hidden='@svgAriaHidden'></inline-svg>
+        </div>
+    </div>
+}

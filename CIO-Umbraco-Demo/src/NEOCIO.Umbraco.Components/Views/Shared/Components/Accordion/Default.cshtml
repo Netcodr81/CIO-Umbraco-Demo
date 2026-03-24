@@ -1,0 +1,312 @@
+﻿
+@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using Umbraco.Cms.Web.Common.PublishedModels
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    if (Model?.Content is null)
+    {
+        return;
+    }
+
+    var content = Model.Content;
+
+    var siteSettings = Umbraco.AssignedContentItem?.Root()?.FirstChild();
+    var theme = siteSettings?.Value<string>("theme")?.ToLowerInvariant() ?? "blue";
+
+    var defaultTabColor = "";
+    var defaultTabHoverColor = "";
+    var defaultTitleColor = "";
+    var defaultContentColor = "";
+    var defaultIconColor = "";
+    var defaultIconBackgroundColor = "";
+
+    switch (theme)
+    {
+        case "blue":
+            defaultTabColor = "#00607f";
+            defaultTabHoverColor = "#4b4c4e";
+            defaultTitleColor = "#1b1b1b";
+            defaultContentColor = "#1b1b1b";
+            defaultIconColor = "#000000";
+            defaultIconBackgroundColor = "#ffc44d";
+            break;
+        case "green":
+            defaultTabColor = "#BABF33";
+            defaultTabHoverColor = "#4b4c4e";
+            defaultTitleColor = "#1b1b1b";
+            defaultContentColor = "#1b1b1b";
+            defaultIconColor = "#000000";
+            defaultIconBackgroundColor = "#BABF33";
+            break;
+        case "red":
+            defaultTabColor = "#B3314E";
+            defaultTabHoverColor = "#4b4c4e";
+            defaultTitleColor = "#1b1b1b";
+            defaultContentColor = "#1b1b1b";
+            defaultIconColor = "#ffffff";
+            defaultIconBackgroundColor = "#B3314E";
+            break;
+    }
+
+
+    // Generate unique ID prefix for this accordion instance
+    var uniqueId = Guid.NewGuid().ToString("N").Substring(0, 8);
+
+    var tabPicked = content.Value<ColorPickerValueConverter.PickedColor>("tabColor");
+    var tabColor = tabPicked?.Color ?? defaultTabColor;
+
+    var tabHoverPicked = content.Value<ColorPickerValueConverter.PickedColor>("tabHoverColor");
+    var tabHoverColor = tabHoverPicked?.Color ?? defaultTabHoverColor;
+
+    var titlePicked = content.Value<ColorPickerValueConverter.PickedColor>("titleColor");
+    var titleColor = titlePicked?.Color ?? defaultTitleColor;
+
+    var contentPicked = content.Value<ColorPickerValueConverter.PickedColor>("contentColor");
+    var contentColor = contentPicked?.Color ?? defaultContentColor;
+
+    var iconPicked = content.Value<ColorPickerValueConverter.PickedColor>("iconColor");
+    var iconColor = iconPicked?.Color ?? defaultIconColor;
+
+    var iconBgPicked = content.Value<ColorPickerValueConverter.PickedColor>("iconBackgroundColor");
+    var iconBackgroundColor = iconBgPicked?.Color ?? defaultIconBackgroundColor;
+
+    var cssVariables = $@"
+		--accordion-tab-color: {tabColor};
+		--accordion-tab-hover-color: {tabHoverColor};
+		--accordion-title-color: {titleColor};
+		--accordion-content-color: {contentColor};
+		--accordion-icon-color: {iconColor};
+		--accordion-icon-background-color: {iconBackgroundColor};
+	";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+    var items = content.Value<Umbraco.Cms.Core.Models.Blocks.BlockListModel>("items");
+
+}
+
+@if (content.Value<bool>("useTabAccordion"))
+{
+    <div class="accordion-tabs__container @blockClasses" style="@cssVariables" data-accordion-id="@uniqueId">
+        <div id="accordion-status-@uniqueId" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+        <div class="accordion-tabs__list" role="tablist" aria-label="Accordion tabs">
+            @for (int i = 0; i < (items?.Count ?? 0); i++)
+            {
+                var block = items[i];
+                var tabItem = block?.Content as Umbraco.Cms.Core.Models.PublishedContent.IPublishedElement;
+                if (tabItem == null) continue;
+
+                var tabId = $"tab-{uniqueId}-{i}";
+                var panelId = $"tabpanel-{uniqueId}-{i}";
+                var title = tabItem.Value<string>("drawerTitle") ?? string.Empty;
+                <button class="accordion-tabs__tab" 
+                        id="@tabId" 
+                        role="tab" 
+                        aria-selected="@(i == 0 ? "true" : "false")" 
+                        aria-controls="@panelId"
+                        tabindex="@(i == 0 ? "0" : "-1")"
+                        type="button">
+                    @title
+                </button>
+            }
+        </div>
+    <script>
+        (function(){
+            document.addEventListener('DOMContentLoaded', function(){
+                try {
+                    var container = document.querySelector('[data-accordion-id="@uniqueId"]');
+                    if(!container) return;
+
+                    var statusEl = container.querySelector('#accordion-status-@uniqueId');
+                    var tabs = Array.prototype.slice.call(container.querySelectorAll('[role="tab"]'));
+                    var panels = Array.prototype.slice.call(container.querySelectorAll('[role="tabpanel"]'));
+
+                    function focusFirstFocusable(el){
+                        if(!el) return false;
+                        var selector = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+                        var first = el.querySelector(selector);
+                        if(first){ first.focus(); return true; }
+                        return false;
+                    }
+
+                    function activateTab(tab){
+                        tabs.forEach(function(t){ t.setAttribute('aria-selected','false'); t.tabIndex = -1; });
+                        panels.forEach(function(p){ p.hidden = true; p.classList.remove('tabs__panel--active'); p.setAttribute('aria-hidden','true'); });
+
+                        tab.setAttribute('aria-selected','true');
+                        tab.tabIndex = 0;
+
+                        var panelId = tab.getAttribute('aria-controls');
+                        var panel = document.getElementById(panelId);
+                        if(panel){
+                            panel.hidden = false;
+                            panel.classList.add('tabs__panel--active');
+                            panel.removeAttribute('aria-hidden');
+
+                            // Update live region
+                            if(statusEl){ statusEl.textContent = (tab.textContent || 'Tab') + ' selected.'; }
+
+                            // Move focus into the panel if there is a focusable element, else focus the panel itself
+                            if(!focusFirstFocusable(panel)){
+                                panel.setAttribute('tabindex','-1');
+                                panel.focus();
+                            }
+                        }
+                    }
+
+                    tabs.forEach(function(tab, index){
+                        tab.addEventListener('click', function(){ activateTab(tab); });
+                        tab.addEventListener('keydown', function(e){
+                            var key = e.key;
+                            if(key === 'ArrowRight' || key === 'Right'){
+                                e.preventDefault();
+                                var next = tabs[(index + 1) % tabs.length];
+                                activateTab(next);
+                            } else if(key === 'ArrowLeft' || key === 'Left'){
+                                e.preventDefault();
+                                var prev = tabs[(index - 1 + tabs.length) % tabs.length];
+                                activateTab(prev);
+                            } else if(key === 'Home'){
+                                e.preventDefault();
+                                activateTab(tabs[0]);
+                            } else if(key === 'End'){
+                                e.preventDefault();
+                                activateTab(tabs[tabs.length - 1]);
+                            }
+                        });
+                    });
+                } catch (err) {
+                    // silent
+                }
+            });
+        })();
+    </script>
+
+        <div class="accordion-tabs__panels">
+            @for (int i = 0; i < (items?.Count ?? 0); i++)
+            {
+                var block = items[i];
+                var tabItem = block?.Content as Umbraco.Cms.Core.Models.PublishedContent.IPublishedElement;
+                if (tabItem == null) continue;
+
+                var tabId = $"tab-{uniqueId}-{i}";
+                var panelId = $"tabpanel-{uniqueId}-{i}";
+                var contentHtml = tabItem.Value<object?>("drawerContent")?.ToString() ?? string.Empty;
+                if (i == 0)
+                {
+                    <div class="accordion-tabs__panel tabs__panel--active"
+                         id="@panelId" 
+                         role="tabpanel" 
+                         aria-labelledby="@tabId"
+                         tabindex="0">
+                        <div class="accordion-tabs__content">
+                            @Html.Raw(contentHtml)
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="accordion-tabs__panel"
+                         id="@panelId" 
+                         role="tabpanel" 
+                         aria-labelledby="@tabId"
+                         tabindex="0" hidden>
+                        <div class="accordion-tabs__content">
+                            @Html.Raw(contentHtml)
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="accordion__container @blockClasses" style="@cssVariables" data-accordion-id="@uniqueId">
+        <div id="accordion-status-@uniqueId" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+        @for(int i = 0; i < (items?.Count ?? 0); i++)
+        {
+            var block = items[i];
+            var accordionItem = block?.Content as Umbraco.Cms.Core.Models.PublishedContent.IPublishedElement;
+            if (accordionItem == null) continue;
+
+            var drawerId = $"drawer-{uniqueId}-{i}";
+            var buttonId = $"accordion-button-{uniqueId}-{i}";
+            var title = accordionItem.Value<string>("drawerTitle") ?? string.Empty;
+            var contentHtml = accordionItem.Value<object?>("drawerContent")?.ToString() ?? string.Empty;
+            <div class="accordion__item">
+                <h3 class="accordion__heading">
+                    <button class="accordion__toggle" 
+                            id="@buttonId" 
+                            aria-expanded="false" 
+                            aria-controls="@drawerId"
+                            type="button">
+                        <span class="accordion__icon" aria-hidden="true"></span>
+                        <span class="accordion__title">@title</span>
+                    </button>
+                </h3>
+
+                <div class="accordion__drawer" id="@drawerId" aria-labelledby="@buttonId" hidden aria-hidden="true">
+                    <div class="accordion__content">
+                        @Html.Raw(contentHtml)
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <script>
+        (function(){
+            // Scoped script for this accordion instance
+            document.addEventListener('DOMContentLoaded', function(){
+                try {
+                    var container = document.querySelector('[data-accordion-id="@uniqueId"]');
+                    if(!container) return;
+
+                    var statusEl = container.querySelector('#accordion-status-@uniqueId');
+
+                    // Handle toggle buttons
+                    var buttons = container.querySelectorAll('.accordion__toggle');
+                    buttons.forEach(function(btn){
+                        btn.addEventListener('click', function(e){
+                            var controls = btn.getAttribute('aria-controls');
+                            if(!controls) return;
+                            var panel = document.getElementById(controls);
+                            if(!panel) return;
+
+                            var expanded = btn.getAttribute('aria-expanded') === 'true';
+                            btn.setAttribute('aria-expanded', String(!expanded));
+                            if(expanded){
+                                panel.hidden = true;
+                                panel.setAttribute('aria-hidden', 'true');
+                                if(statusEl) statusEl.textContent = (btn.textContent || 'Section') + ' collapsed.';
+                            } else {
+                                panel.hidden = false;
+                                panel.removeAttribute('aria-hidden');
+                                if(statusEl) statusEl.textContent = (btn.textContent || 'Section') + ' expanded.';
+
+                                // Move focus into the panel's first focusable element if present
+                                var selector = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+                                var first = panel.querySelector(selector);
+                                if(first){ first.focus(); }
+                                else { panel.setAttribute('tabindex','-1'); panel.focus(); }
+                            }
+                        });
+
+                        // Keyboard support: Enter/Space toggles
+                        btn.addEventListener('keydown', function(e){
+                            if(e.key === 'Enter' || e.key === ' '){
+                                e.preventDefault();
+                                btn.click();
+                            }
+                        });
+                    });
+                } catch(err){
+                    // fail silently
+                }
+            });
+        })();
+    </script>
+}
+

@@ -1,0 +1,30 @@
+﻿@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Cms.Core.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+
+@{
+    if (Model?.Content == null)
+        return;
+
+
+    var content = Model.Content;
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var linkUrl = content?.Value<Link>("link")?.Url;
+    var linkTarget = content?.Value<Link>("link")?.Target ?? "_blank";
+    var linkName = content?.Value<Link>("link")?.Name ?? content?.Value<Link>("link")?.Name ?? linkUrl ?? "Social link";
+
+    var icon = content?.Value<MediaWithCrops>("icon");
+    var fillColor = content?.Value<string>("fillColor");
+    var backgroundColor = content?.Value<string>("backgroundColor");
+}
+
+@* Only render when URL is provided *@
+@if (!string.IsNullOrWhiteSpace(linkUrl))
+{
+    <a class="social-link @blockClasses" href="@linkUrl" target="@linkTarget" rel="noopener noreferrer" aria-label="@linkName" title="@linkName">
+        <inline-svg media-item="@icon" fill="@fillColor" background-color="@backgroundColor" height="35" width="35" aria-hidden="true"></inline-svg>
+        <span class="visually-hidden">@linkName</span>
+    </a>
+}

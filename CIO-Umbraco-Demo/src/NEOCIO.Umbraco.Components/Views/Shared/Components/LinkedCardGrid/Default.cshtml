@@ -1,0 +1,31 @@
+﻿@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Cms.Core.Models.Blocks
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    if (Model.Content is null)
+    {
+        return;
+    }
+
+    var content = Model.Content;
+
+    var maxNumberOfCardsPerRow = content.Value<string>("numberCardsPerRow") ?? "3";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var items = content.Value<BlockListModel>("items");
+}
+
+<ul class="linked-card-grid @blockClasses" data-columns="@maxNumberOfCardsPerRow" style="--linked-card-columns:@maxNumberOfCardsPerRow">
+
+    @if (items.Any())
+    {
+        foreach (var item in items)
+        {
+            <li class="linked-card-grid__item">
+                @await Component.InvokeAsync("LinkedCard", new { model = item })
+            </li>
+        }
+    }
+</ul>

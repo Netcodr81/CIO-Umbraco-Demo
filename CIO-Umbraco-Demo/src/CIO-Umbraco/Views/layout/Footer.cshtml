@@ -1,5 +1,4 @@
-﻿
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @* Avoid referencing generated published model type directly in Razor to prevent compilation issues in some build contexts *@
 
 @{
@@ -35,15 +34,16 @@
     {
         <nav class="cio-footer__links" aria-label="Footer navigation">
             <ul class="cio-footer__links-list">
-            @foreach (var block in footerLinks)
-            {
-                if (block?.Content is not null)
+                @foreach (var block in footerLinks)
                 {
-                    <li>
-                        @await Html.PartialAsync("blockgrid/Components/singleLink", block)
-                    </li>
+                    if (block?.Content is not null)
+                    {
+                        <li>
+                            @await Component.InvokeAsync("SingleLink", new { model = block })
+
+                        </li>
+                    }
                 }
-            }
             </ul>
         </nav>
     }
@@ -51,7 +51,7 @@
     <section class="cio-footer__social" aria-label="Social links">
         @if (!string.IsNullOrWhiteSpace(footerLogoUrl))
         {
-            <img src="@footerLogoUrl" alt="@siteTitle" class="cio-footer__logo" />
+            <img src="@footerLogoUrl" alt="@siteTitle" class="cio-footer__logo"/>
         }
 
         @if (socialLinks?.Any() == true)
@@ -61,7 +61,7 @@
                 {
                     if (iconLink?.Content is not null)
                     {
-                        @await Html.PartialAsync("blockgrid/Components/socialLink", iconLink);
+                        @await Component.InvokeAsync("SocialLink", new { model = iconLink })
                     }
                 }
             </div>

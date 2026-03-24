@@ -1,4 +1,5 @@
 ﻿﻿@using Umbraco.Cms.Core.Models.Blocks
+@using CIOUmbracoDemo.Utilities
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IEnumerable<BlockGridItem>>
 @{
     if (Model?.Any() != true)
@@ -18,20 +19,36 @@
 <div class="@(layout ? "layout-" : "feature-")items d-flex flex-column @(layout ? "gap-0" : "gap-3") @padding">
     @foreach (var item in Model)
     {
-        var partialViewName = "blockgrid/Components/" + item.Content.ContentType.Alias;
+        var alias = item.Content.ContentType.Alias;
+        var component = alias.Capitalize();
+        var partialViewName = "blockgrid/Components/" + alias;
+
+        bool rendered = false;
         try
         {
-           
-            @await Html.PartialAsync(partialViewName, item)
+            // Try to render as View Component
+            @await Component.InvokeAsync(component, new { model = item })
+            rendered = true;
+        }
+        catch
+        {
            
         }
-        catch (InvalidOperationException)
+
+        if (!rendered)
         {
-            <p>
-                <strong>Could not render component of type: @(item.Content.ContentType.Alias)</strong>
-                <br />
-                This likely happened because the partial view <em>@partialViewName</em> could not be found.
-            </p>
+            try
+            {
+                @await Html.PartialAsync(partialViewName, item)
+            }
+            catch (InvalidOperationException)
+            {
+                <p>
+                    <strong>Could not render component of type: @alias</strong>
+                    <br/>
+                    This likely happened because neither the View Component <em>@component</em> nor the partial view <em>@partialViewName</em> could be found.
+                </p>
+            }
         }
     }
 </div>

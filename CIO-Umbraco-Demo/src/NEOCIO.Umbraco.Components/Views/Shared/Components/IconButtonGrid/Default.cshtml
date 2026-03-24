@@ -1,0 +1,43 @@
+﻿@using System.Text
+@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockGridItem>
+
+@{
+    if (Model.Content is null)
+    {
+        return;
+    }
+
+    var content = Model.Content;
+
+    var maxNumberOfButtonsPerRow = content.Value<string>("maxNumberOfButtonsPerRow") ?? "3";
+
+    var styles = new StringBuilder();
+
+    var bgPicked = content.Value<ColorPickerValueConverter.PickedColor>("backgroundColor");
+    var bgColor = bgPicked?.Color;
+    if (!string.IsNullOrWhiteSpace(bgColor))
+    {
+        styles.Append($" background-color:{bgColor}");
+    }
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var items = content.Value<BlockListModel>("items");
+}
+
+<div class="icon-button-grid @blockClasses" data-columns="@maxNumberOfButtonsPerRow" style="@styles.ToString()" role="list">
+
+
+    @if (items?.Any() == true)
+    {
+        @foreach (var button in items)
+        {
+            @await Component.InvokeAsync("IconButtonCard", new { model = button })
+        }
+    }
+
+</div>

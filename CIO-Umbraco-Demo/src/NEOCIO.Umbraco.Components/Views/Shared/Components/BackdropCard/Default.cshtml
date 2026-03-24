@@ -1,0 +1,130 @@
+﻿@using NEOCIO.Umbraco.Core.Extensions
+@using Umbraco.Extensions
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Web.Common.PublishedModels
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var bg = content.Value<IPublishedContent>("backgroundImage");
+    var bgUrl = bg?.GetCropUrl();
+
+    var siteSettings = Umbraco.AssignedContentItem?.Root()?.FirstChild();
+    var theme = siteSettings?.Value<string>("theme")?.ToLowerInvariant() ?? "blue";
+
+    var defaultMetaBackgroundColor = "";
+    var defaultMetaTextColor = "";
+    var defaultCtaBackgroundColor = "";
+    var defaultCtaTextColor = "";
+    var defaultTextColor = "";
+
+
+    switch (theme)
+    {
+        case "blue":
+            defaultMetaBackgroundColor = "#004d66";
+            defaultMetaTextColor = "#ffffff";
+            defaultCtaBackgroundColor = "#ffc44d";
+            defaultCtaTextColor = "#1b1b1b";
+            defaultTextColor = "#ffffff";
+            break;
+        case "green":
+            defaultMetaBackgroundColor = "#BABF33";
+            defaultMetaTextColor = "#1b1b1b";
+            defaultCtaBackgroundColor = "#ffc44d";
+            defaultCtaTextColor = "#1b1b1b";
+            defaultTextColor = "#ffffff";
+            break;
+        case "red":
+            defaultMetaBackgroundColor = "#B3314E";
+            defaultMetaTextColor = "#ffffff";
+            defaultCtaBackgroundColor = "#ffc44d";
+            defaultCtaTextColor = "#1b1b1b";
+            defaultTextColor = "#ffffff";
+            break;
+    }
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+
+    var textPicked = content.Value<ColorPickerValueConverter.PickedColor>("textColor");
+    var textColor = textPicked?.Color ?? defaultTextColor;
+
+    // Read common fields via alias to avoid compile-time model dependency
+    var heading = content.Value<string>("heading") ?? string.Empty;
+    var date = content.Value<string>("date");
+    var textHtml = content.Value<object?>("text")?.ToString() ?? string.Empty;
+    var displayCta = content.Value<bool?>("displayCtaButton") == true;
+    var ctaObj = content.Value<object?>("ctaLink");
+    string? ctaUrl = null;
+    string ctaTarget = "_self";
+    if (ctaObj != null)
+    {
+        var t = ctaObj.GetType();
+        var urlProp = t.GetProperty("Url") ?? t.GetProperty("url");
+        var targetProp = t.GetProperty("Target") ?? t.GetProperty("target");
+        if (urlProp != null) ctaUrl = urlProp.GetValue(ctaObj)?.ToString();
+        else if (ctaObj is string s) ctaUrl = s;
+        if (targetProp != null) { var tv = targetProp.GetValue(ctaObj)?.ToString(); if (!string.IsNullOrWhiteSpace(tv)) ctaTarget = tv; }
+    }
+
+    var styles = $@"
+        --backdrop-card__meta-background-color: {defaultMetaBackgroundColor};
+        --backdrop-card__meta-text-color: {defaultMetaTextColor};
+        --backdrop-card__cta-background-color: {defaultCtaBackgroundColor};
+        --backdrop-card__cta-text-color: {defaultCtaTextColor};
+        --backdropc-card__text-color: {textColor};
+    ";
+
+    var uniqueId = "backdropcard-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+    var headingId = uniqueId + "-heading";
+    var linkLabel = !string.IsNullOrWhiteSpace(content.Value<string>("ctaText")) ? content.Value<string>("ctaText") : "Read more";
+
+}
+
+
+<article class="backdrop-card__container @blockClasses" role="article" aria-labelledby="@headingId" style="@styles">
+    @if (!string.IsNullOrWhiteSpace(bgUrl))
+    {
+        @* If heading exists, treat the image as decorative to avoid duplicate announcement; otherwise provide alt text. *@
+        if (!string.IsNullOrWhiteSpace(heading))
+        {
+            <img class="backdrop-card__img" src="@bgUrl" alt="backdrop card image" aria-hidden="true" />
+        }
+        else
+        {
+            <img class="backdrop-card__img" src="@bgUrl" alt="@heading" />
+        }
+    }
+
+    <div class="backdrop-card__overlay">
+        <div class="backdrop-card__body-container">
+            @if (!string.IsNullOrWhiteSpace(date))
+            {
+                <div class="backdrop-card__meta" aria-hidden="false">@date</div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(heading))
+            {
+                <h3 id="@headingId" class="backdrop-card__heading">@heading</h3>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(textHtml))
+            {
+                <div class="backdrop-card__text">@Html.Raw(textHtml)</div>
+            }
+
+            @if (displayCta && !string.IsNullOrWhiteSpace(ctaUrl))
+            {
+                <a class="backdrop-card__cta" href="@ctaUrl" target="@ctaTarget" rel="noopener noreferrer" aria-label="@($"{linkLabel} - {heading}")">
+                    @linkLabel
+                    <span class="backdrop-card__cta-icon" aria-hidden="true"><img src="~/icons/arrow_forward.svg" alt=""/></span>
+                </a>
+            }
+        </div>
+    </div>
+</article>

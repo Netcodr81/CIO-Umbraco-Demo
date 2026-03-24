@@ -1,0 +1,145 @@
+@using NEOCIO.Umbraco.Core.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    if (Model.Content is null) return;
+
+    var content = Model.Content;
+
+    var youtubeUrl = content.Value<string>("url");
+    var altText = content.Value<string>("altText") ?? "YouTube Video";
+
+    if (string.IsNullOrWhiteSpace(youtubeUrl))
+    {
+        return;
+    }
+
+    // Extract video ID from various YouTube URL formats
+    string? videoId = null;
+
+    try
+    {
+        var uri = new Uri(youtubeUrl);
+
+        // Handle youtube.com/embed/VIDEO_ID format
+        if (uri.AbsolutePath.StartsWith("/embed/"))
+        {
+            videoId = uri.AbsolutePath.Replace("/embed/", "").Split('?')[0];
+        }
+        // Handle youtube.com/watch?v=VIDEO_ID format
+        else if (uri.Query.Contains("v="))
+        {
+            var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+            videoId = query["v"];
+        }
+        // Handle youtu.be/VIDEO_ID format
+        else if (uri.Host.Contains("youtu.be"))
+        {
+            videoId = uri.AbsolutePath.TrimStart('/').Split('?')[0];
+        }
+    }
+    catch
+    {
+        // Invalid URL, don't render anything
+        return;
+    }
+
+    if (string.IsNullOrWhiteSpace(videoId))
+    {
+        return;
+    }
+
+    // Construct embed URL (using youtube-nocookie.com for privacy)
+    var embedUrl = $"https://www.youtube-nocookie.com/embed/{videoId}";
+
+    // Generate unique ID for ARIA labeling
+    var embedId = $"youtube-embed-{Guid.NewGuid():N}";
+    var descId = embedId + "-desc";
+    var fallbackLink = $"https://www.youtube.com/watch?v={videoId}";
+
+    var width = !string.IsNullOrWhiteSpace(content.Value<string>("width")) ? content.Value<string>("width") : "100%";
+
+    // Try to surface optional metadata (duration, captions) if available on the content model
+    string durationText = string.Empty;
+    string captionsText = string.Empty;
+
+    try
+    {
+        var contentType = content.GetType();
+        var durationProp = contentType.GetProperty("Duration");
+        if (durationProp != null)
+        {
+            var durVal = durationProp.GetValue(content) as string;
+            if (!string.IsNullOrWhiteSpace(durVal))
+            {
+                durationText = $"Duration: {durVal}. ";
+            }
+        }
+
+        // Check a few possible caption-related property names
+        var captionsProp = contentType.GetProperty("Captions") ?? contentType.GetProperty("HasCaptions") ?? contentType.GetProperty("CaptionsAvailable");
+        if (captionsProp != null)
+        {
+            var capVal = captionsProp.GetValue(content);
+            if (capVal is bool b)
+            {
+                captionsText = b ? "Captions available. " : string.Empty;
+            }
+            else if (capVal is string s && !string.IsNullOrWhiteSpace(s))
+            {
+                // If string, assume truthy values indicate availability
+                if (!string.Equals(s, "false", StringComparison.OrdinalIgnoreCase))
+                {
+                    captionsText = "Captions available. ";
+                }
+            }
+        }
+    }
+    catch
+    {
+        // Ignore reflection failures; metadata is optional
+    }
+
+    var styles = $@"
+        --youtube-embed__container-width: {width};
+    ";
+
+    var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
+}
+
+<figure class="youtube-embed__container @blockClasses" role="region" aria-label="@altText" style="@styles">
+    <div class="youtube-embed__wrapper">
+        <iframe 
+            id="@embedId"
+            class="youtube-embed__iframe"
+            src="@embedUrl"
+            title="@altText"
+            aria-label="@altText"
+            aria-describedby="@descId"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+    </div>
+    <noscript>
+        <div class="youtube-embed__fallback">
+            <p>Your browser does not support iframes or JavaScript is disabled.</p>
+            <a href="@fallbackLink" target="_blank" rel="noopener noreferrer">
+                Watch "@altText" on YouTube
+            </a>
+        </div>
+    </noscript>
+    <div id="@descId" class="visually-hidden youtube-embed__screen-reader-only">
+        <p>
+            Embedded YouTube video: @altText. 
+            Use standard video controls to play, pause, and adjust volume. 
+            Press Tab to navigate through video controls. 
+            @Html.Raw(durationText)
+            @Html.Raw(captionsText)
+            <a href="@fallbackLink" target="_blank" rel="noopener noreferrer">
+                Watch on YouTube (opens in new window)
+            </a>
+        </p>
+    </div>
+</figure>

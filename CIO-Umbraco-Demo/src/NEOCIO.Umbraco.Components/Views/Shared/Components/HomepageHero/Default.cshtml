@@ -1,0 +1,187 @@
+﻿@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Extensions
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    if (Model?.Content is null) return;
+
+    var content = Model.Content;
+    var bg = content.Value<IPublishedContent>("backgroundImage");
+    var backgroundImageUrl = bg?.GetCropUrl();
+
+    var siteRoot = Umbraco.AssignedContentItem?.Root();
+    var siteSettings = siteRoot?.Children?.FirstOrDefault(c => string.Equals(c.ContentType.Alias, "siteSettings", StringComparison.OrdinalIgnoreCase));
+    var theme = siteSettings?.Value<string>("theme")?.ToLowerInvariant() ?? "blue";
+
+    var ctaObj = content.Value<object>("ctaLink");
+    string? ctaUrl = null;
+    string? ctaTarget = null;
+    string? ctaName = null;
+    if (ctaObj != null)
+    {
+        var t = ctaObj.GetType();
+        var urlProp = t.GetProperty("Url") ?? t.GetProperty("url");
+        var targetProp = t.GetProperty("Target") ?? t.GetProperty("target");
+        var nameProp = t.GetProperty("Name") ?? t.GetProperty("name");
+        if (urlProp != null) ctaUrl = urlProp.GetValue(ctaObj)?.ToString();
+        if (targetProp != null) ctaTarget = targetProp.GetValue(ctaObj)?.ToString();
+        if (nameProp != null) ctaName = nameProp.GetValue(ctaObj)?.ToString();
+        else if (ctaObj is string s) ctaUrl = s;
+    }
+
+    ctaTarget = string.IsNullOrWhiteSpace(ctaTarget) ? "_self" : ctaTarget;
+    var relAttr = ctaTarget == "_blank" ? "noopener noreferrer" : string.Empty;
+
+    var buttonText = content.Value<string>("buttonText");
+    var header = content.Value<string>("header");
+    var subheading = content.Value<string>("subheading");
+    var ariaLabel = string.IsNullOrWhiteSpace(buttonText) ? (ctaName ?? header ?? subheading ?? "Call to action") : null;
+    var ariaAttr = ariaLabel is null ? string.Empty : $"aria-label=\"{ariaLabel}\"";
+
+    string defaultButtonBackgroundColor = "";
+    string defaultHeadingTextColor = "";
+    string defaultSubheadingColor = "";
+    string defaultBackgroundColor = "";
+    string defaultIconColor = "";
+    string defaultCtaTextColor = "";
+
+    switch (theme)
+    {
+        case "blue":
+            defaultHeadingTextColor = "#ffffff";
+            defaultSubheadingColor = "#ffffff";
+            defaultBackgroundColor = "#00607F";
+            defaultButtonBackgroundColor = "#FFC44D";
+            defaultIconColor = "#000000";
+            defaultCtaTextColor = "#000000";
+            break;
+        case "green" :
+            defaultHeadingTextColor = "#ffffff";
+            defaultSubheadingColor = "#ffffff";
+            defaultBackgroundColor = "#BABF33";
+            defaultButtonBackgroundColor = "#949926";
+            defaultIconColor = "#1b1b1b";
+            defaultCtaTextColor = "#1b1b1b";
+            break;
+        case "red":
+            defaultHeadingTextColor = "#ffffff";
+            defaultSubheadingColor = "#ffffff";
+            defaultBackgroundColor = "#B3314E";
+            defaultButtonBackgroundColor = "#8F273E";
+            defaultIconColor = "#ffffff";
+            defaultCtaTextColor = "#ffffff";
+            break;
+    }
+
+    var headingPicked = content.Value<ColorPickerValueConverter.PickedColor>("subheadingColor");
+    string headingTextColor = headingPicked?.Color ?? defaultHeadingTextColor;
+    var subPicked = content.Value<ColorPickerValueConverter.PickedColor>("subheadingColor");
+    string subheadingColor = subPicked?.Color ?? defaultSubheadingColor;
+    var bgPicked = content.Value<ColorPickerValueConverter.PickedColor>("backgroundColor");
+    string backgroundColor = bgPicked?.Color ?? defaultBackgroundColor;
+    var btnPicked = content.Value<ColorPickerValueConverter.PickedColor>("buttonBackgroundColor");
+    string buttonBackgroundColor = btnPicked?.Color ?? defaultButtonBackgroundColor;
+    var iconPicked = content.Value<ColorPickerValueConverter.PickedColor>("iconColor");
+    var iconColor = iconPicked?.Color ?? defaultIconColor;
+    var ctaPicked = content.Value<ColorPickerValueConverter.PickedColor>("ctaTextColor");
+    var ctaTextColor = ctaPicked?.Color ?? defaultCtaTextColor;
+
+    var cssVariables = $@"
+        --homepage-hero-background-image: url({backgroundImageUrl});
+        --homepage-hero-background-color: {backgroundColor};
+        --homepage-hero-btn-color: {buttonBackgroundColor};      
+        --homepage-hero-heading-text-color: {headingTextColor};
+        --homepage-hero-subheading-text-color: {subheadingColor};  
+        --homepage-hero-icon-color: {iconColor};
+        --homepage-hero-cta-text-color: {ctaTextColor};
+    ";
+
+    var blockClasses = BuildBlockSettingsClasses(Model.Settings);
+
+    static string BuildBlockSettingsClasses(IPublishedElement? settings)
+    {
+        if (settings is null)
+        {
+            return string.Empty;
+        }
+
+        var marginTop = settings.Value<string>("marginTop");
+        var marginBottom = settings.Value<string>("marginBottom");
+        var marginRight = settings.Value<string>("marginRight");
+        var marginLeft = settings.Value<string>("marginLeft");
+
+        var paddingTop = settings.Value<string>("paddingTop");
+        var paddingBottom = settings.Value<string>("paddingBottom");
+        var paddingRight = settings.Value<string>("paddingRight");
+        var paddingLeft = settings.Value<string>("paddingLeft");
+
+        var classes = new System.Text.StringBuilder();
+        classes.Append($" {MapSpacingClass(marginTop, "mt")}");
+        classes.Append($" {MapSpacingClass(marginBottom, "mb")}");
+        classes.Append($" {MapSpacingClass(marginRight, "me")}");
+        classes.Append($" {MapSpacingClass(marginLeft, "ms")}");
+        classes.Append($" {MapSpacingClass(paddingTop, "pt")}");
+        classes.Append($" {MapSpacingClass(paddingBottom, "pb")}");
+        classes.Append($" {MapSpacingClass(paddingRight, "pe")}");
+        classes.Append($" {MapSpacingClass(paddingLeft, "ps")}");
+
+        return classes.ToString();
+    }
+
+    static string MapSpacingClass(string? value, string prefix)
+        => value switch
+        {
+            "Small" => $"{prefix}-3",
+            "Medium" => $"{prefix}-4",
+            "Large" => $"{prefix}-5",
+            "XL" => $"{prefix}-6",
+            _ => $"{prefix}-0"
+        };
+}
+
+<div class="homepage-hero__wrapper @blockClasses" style="background-image: url(@backgroundImageUrl);background-color:@backgroundColor; @cssVariables">
+    <div class="homepage-hero__overlay" aria-hidden="true"></div>
+    <div class="homepage-hero__cta-callout container">
+        <h1 class="homepage-hero__heading">@(content.Value<string>("header"))</h1>
+        @if (!string.IsNullOrWhiteSpace(content.Value<string>("subheading")))
+        {
+            <p class="homepage-hero__subheader">@(content.Value<string>("subheading"))</p>
+        }
+        @if (!string.IsNullOrWhiteSpace(ctaUrl))
+        {
+            <div class="homepage-hero__btn-container">
+                <a href="@ctaUrl" target="@ctaTarget" class="homepage-hero__btn" rel="@relAttr" @Html.Raw(ariaAttr)>
+                    @{
+                        var buttonIcon = content.Value<IPublishedContent>("buttonIcon");
+                        var buttonIconLocation = content.Value<string>("buttonIconLocation");
+                    }
+                    @if (buttonIcon is not null)
+                    {
+                        if (buttonIconLocation == "Prepend")
+                        {
+                            <inline-svg media-item="@(buttonIcon)" fill="@iconColor" aria-hidden='@(string.IsNullOrWhiteSpace(buttonText) ? "false" : "true")'></inline-svg>
+                            @buttonText
+                        }
+                        else
+                        {
+                            @buttonText
+                            <inline-svg media-item="@(buttonIcon)" fill="@(iconColor)" aria-hidden='@(string.IsNullOrWhiteSpace(buttonText) ? "false" : "true")'></inline-svg>
+                        }
+                    }
+                    else
+                    {
+                        @buttonText
+                    }
+
+                </a>
+            </div>
+        }
+
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1728 103" preserveAspectRatio="none" aria-hidden="true">
+        <path class="homepage-hero__svg-back" d="M1728,103.5H0v-16c214.8-7.6,389.7-21.8,511.9-33.7,203.4-19.7,272.2-34.2,428.8-35,122.8-.6,172.5,7.8,379.1,19.9,176.1,10.3,318.3,14.6,408,16.7v48h.2Z"></path>
+        <path class="homepage-hero__svg-mid" d="M1728,103.5v-8.5c-127.2-15.2-316.6-32.5-552-34.1-99.6-.7-106.1,2.1-184,0C707.5,53,605.9,10.3,408.1,1.1,312.2-3.3,172.5-.8,0,35.3v68.2h1728Z"></path>
+        <path class="homepage-hero__svg-fore" d="M1728,79.5v24H0v-32c142-17,257.6-18,336-16,201.7,5.2,280.5,34,480,32,123.8-1.3,162.3-13.4,288-24,144.9-12.2,356.2-18.3,624,16Z"></path>
+    </svg>
+</div>
