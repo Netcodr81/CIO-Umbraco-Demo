@@ -44,7 +44,6 @@
     <Folder Include="Views\Partials\blocklist\Components\" />
     <Folder Include="Views\Partials\blocklist\Components\" />
     <Folder Include="wwwroot\App_Plugins\BackofficeThemes\" />
-    <Folder Include="wwwroot\assets\" />
     <None Include="wwwroot\media\**\*">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</None>
