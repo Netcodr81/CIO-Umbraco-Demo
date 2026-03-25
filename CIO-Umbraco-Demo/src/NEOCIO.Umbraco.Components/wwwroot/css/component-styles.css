@@ -1635,8 +1635,6 @@ a.current { padding-left: 0 !important; }
 
 /* Carousel */
 
-﻿
-
 .carousel {
     position: relative;
     width: 100%;
@@ -1657,10 +1655,30 @@ a.current { padding-left: 0 !important; }
     width: 100%;
 }
 
+
 .carousel__slide {
     flex: 0 0 100%;
     min-width: 100%;
     transition: opacity 0.5s ease-in-out;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    min-height: 400px; /* Set your desired fixed height */
+    box-sizing: border-box;
+}
+
+.carousel-item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.carousel-item__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .carousel__slide--active { /* Active slide styling handled by transform */ }

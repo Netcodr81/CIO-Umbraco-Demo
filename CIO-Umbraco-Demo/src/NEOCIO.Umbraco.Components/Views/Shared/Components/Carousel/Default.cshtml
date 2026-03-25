@@ -14,21 +14,20 @@
     var items = content.Value<BlockListModel>("items");
 }
 
+
 <div class="carousel @blockClasses" id="@carouselId" data-carousel tabindex="0">
     <div class="carousel__viewport">
         <div class="carousel__track">
-            @if (items?.Any() == true)
+            @if (items.Any())
             {
                 var index = 0;
-                foreach (var block in items)
+                foreach (var item in items)
                 {
-                    var itemEl = block?.Content as IPublishedElement;
-                    if (itemEl == null) continue;
-
+                    var carouselItem = item;
                     var slideId = $"{carouselId}-slide-{index}";
-                    var slideLabel = $"Slide {index + 1} of {items.Count}";
+                    var slideLabel = $"Slide {index + 1} of {items.Count()}";
                     <div id="@slideId" class="carousel__slide @(index == 0 ? "carousel__slide--active" : "")" data-slide="@index" role="group" aria-roledescription="slide" aria-label="@slideLabel" aria-hidden="@(index == 0 ? "false" : "true")">
-                        @await Component.InvokeAsync("CarouselItem", new { model = block })
+                        @await Component.InvokeAsync("CarouselItem", new { model = item })
                     </div>
                     index++;
                 }
@@ -36,7 +35,7 @@
         </div>
     </div>
 
-    @if (items?.Any() == true && items.Count > 1)
+    @if (items.Any() && items.Count() > 1)
     {
         <div class="visually-hidden" aria-live="polite" id="@(carouselId)-status" data-carousel-status></div>
         <div class="carousel__controls">
@@ -64,7 +63,7 @@
         </div>
 
         <div class="carousel__indicators" role="tablist" aria-label="Carousel slides">
-            @for (var i = 0; i < (items?.Count ?? 0); i++)
+            @for (var i = 0; i < items.Count(); i++)
             {
                 var indicatorControls = $"{carouselId}-slide-{i}";
                 <button class="carousel__indicator @(i == 0 ? "carousel__indicator--active" : "")"
@@ -76,14 +75,11 @@
             }
         </div>
     }
+
 </div>
 
 <script>
     (function() {
-        // Initialize immediately and scope to the rendered carousel instance.
-
-        console.log('carousel initialized');
-        console.log('carouselId: @carouselId');
         const carousel = document.getElementById('@carouselId');
         if (!carousel) return;
 
@@ -106,45 +102,48 @@
         let autoplayInterval = null;
         const autoplayDelay = 3000;
         const initialDelay = 2000;
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function goToSlide(index) {
             slides[currentSlide].classList.remove('carousel__slide--active');
-            if (indicators[currentSlide]) {
-                indicators[currentSlide].classList.remove('carousel__indicator--active');
-                indicators[currentSlide].setAttribute('aria-pressed', 'false');
-            }
+            indicators[currentSlide].classList.remove('carousel__indicator--active');
+            indicators[currentSlide].setAttribute('aria-pressed', 'false');
 
             currentSlide = (index + slides.length) % slides.length;
 
             slides[currentSlide].classList.add('carousel__slide--active');
-            if (indicators[currentSlide]) {
-                indicators[currentSlide].classList.add('carousel__indicator--active');
-                indicators[currentSlide].setAttribute('aria-pressed', 'true');
-            }
+            indicators[currentSlide].classList.add('carousel__indicator--active');
+            indicators[currentSlide].setAttribute('aria-pressed', 'true');
 
             // update aria-hidden on slides
             slides.forEach((s, i) => s.setAttribute('aria-hidden', i === currentSlide ? 'false' : 'true'));
 
             // announce slide change
             if (statusEl) {
+                // try to find a heading inside the slide to provide context
                 const slideEl = slides[currentSlide];
                 const heading = slideEl.querySelector('h1, h2, h3, h4, h5');
                 const title = heading ? heading.textContent.trim() : '';
-                statusEl.textContent = 'Slide ' + (currentSlide + 1) + ' of ' + slides.length + (title ? ': ' + title : '');
+                statusEl.textContent = `Slide ${currentSlide + 1} of ${slides.length}` + (title ? `: ${title}` : '');
             }
 
             const offset = -currentSlide * 100;
-            if (track) track.style.transform = `translateX(${offset}%)`;
+            track.style.transform = `translateX(${offset}%)`;
         }
 
-        function nextSlide() { goToSlide(currentSlide + 1); }
-        function prevSlide() { goToSlide(currentSlide - 1); }
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
 
         function startAutoplay() {
             if (isPlaying) return;
             isPlaying = true;
-            if (playIcon) playIcon.style.display = 'none';
-            if (pauseIcon) pauseIcon.style.display = 'block';
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
             if (playPauseButton) {
                 playPauseButton.setAttribute('aria-label', 'Pause carousel');
                 playPauseButton.setAttribute('aria-pressed', 'true');
@@ -155,8 +154,8 @@
         function stopAutoplay() {
             if (!isPlaying) return;
             isPlaying = false;
-            if (playIcon) playIcon.style.display = 'block';
-            if (pauseIcon) pauseIcon.style.display = 'none';
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
             if (playPauseButton) {
                 playPauseButton.setAttribute('aria-label', 'Play carousel');
                 playPauseButton.setAttribute('aria-pressed', 'false');
@@ -165,29 +164,128 @@
             autoplayInterval = null;
         }
 
-        if (prevButton) prevButton.addEventListener('click', function() { prevSlide(); if (isPlaying && !isUserPaused) { clearInterval(autoplayInterval); autoplayInterval = setInterval(nextSlide, autoplayDelay); } });
-        if (nextButton) nextButton.addEventListener('click', function() { nextSlide(); if (isPlaying && !isUserPaused) { clearInterval(autoplayInterval); autoplayInterval = setInterval(nextSlide, autoplayDelay); } });
-        if (playPauseButton) playPauseButton.addEventListener('click', function() { if (isPlaying) { isUserPaused = true; stopAutoplay(); } else { isUserPaused = false; startAutoplay(); } });
+        prevButton.addEventListener('click',
+            function() {
+                prevSlide();
+                if (isPlaying && !isUserPaused) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = setInterval(nextSlide, autoplayDelay);
+                }
+            });
+
+        nextButton.addEventListener('click',
+            function() {
+                nextSlide();
+                if (isPlaying && !isUserPaused) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = setInterval(nextSlide, autoplayDelay);
+                }
+            });
+
+        playPauseButton.addEventListener('click',
+            function() {
+                if (isPlaying) {
+                    isUserPaused = true;
+                    stopAutoplay();
+                } else {
+                    isUserPaused = false;
+                    startAutoplay();
+                }
+            });
 
         indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', function() { goToSlide(index); if (isPlaying && !isUserPaused) { clearInterval(autoplayInterval); autoplayInterval = setInterval(nextSlide, autoplayDelay); } });
+            indicator.addEventListener('click',
+                function() {
+                    goToSlide(index);
+                    if (isPlaying && !isUserPaused) {
+                        clearInterval(autoplayInterval);
+                        autoplayInterval = setInterval(nextSlide, autoplayDelay);
+                    }
+                });
         });
 
-        carousel.addEventListener('mouseenter', function() { if (isPlaying && !isUserPaused) { clearInterval(autoplayInterval); autoplayInterval = null; } });
-        carousel.addEventListener('mouseleave', function() { if (isPlaying && !isUserPaused && autoplayInterval === null) { autoplayInterval = setInterval(nextSlide, autoplayDelay); } });
+        carousel.addEventListener('mouseenter',
+            function() {
+                if (isPlaying && !isUserPaused) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = null;
+                }
+            });
 
-        carousel.addEventListener('keydown', function(e) {
-            if (document.activeElement !== carousel) return;
-            switch (e.key) {
-                case 'ArrowRight': case 'Right': e.preventDefault(); nextSlide(); if (isPlaying && !isUserPaused) { clearInterval(autoplayInterval); autoplayInterval = setInterval(nextSlide, autoplayDelay); } break;
-                case 'ArrowLeft': case 'Left': e.preventDefault(); prevSlide(); if (isPlaying && !isUserPaused) { clearInterval(autoplayInterval); autoplayInterval = setInterval(nextSlide, autoplayDelay); } break;
-                case 'Home': e.preventDefault(); goToSlide(0); break;
-                case 'End': e.preventDefault(); goToSlide(slides.length - 1); break;
-                case ' ': case 'Spacebar': e.preventDefault(); if (playPauseButton) { if (isPlaying) { isUserPaused = true; stopAutoplay(); } else { isUserPaused = false; startAutoplay(); } } break;
-                case 'Enter': e.preventDefault(); if (playPauseButton) { if (isPlaying) { isUserPaused = true; stopAutoplay(); } else { isUserPaused = false; startAutoplay(); } } break;
-            }
-        });
+        carousel.addEventListener('mouseleave',
+            function() {
+                if (isPlaying && !isUserPaused && autoplayInterval === null) {
+                    autoplayInterval = setInterval(nextSlide, autoplayDelay);
+                }
+            });
 
-        setTimeout(function() { if (playIcon) playIcon.style.display = 'none'; if (pauseIcon) pauseIcon.style.display = 'block'; startAutoplay(); }, initialDelay);
+        // Keyboard support when the carousel container has focus
+        carousel.addEventListener('keydown',
+            function(e) {
+                // Only handle keys when the carousel container itself is focused
+                if (document.activeElement !== carousel) return;
+
+                switch (e.key) {
+                case 'ArrowRight':
+                case 'Right':
+                    e.preventDefault();
+                    nextSlide();
+                    if (isPlaying && !isUserPaused) {
+                        clearInterval(autoplayInterval);
+                        autoplayInterval = setInterval(nextSlide, autoplayDelay);
+                    }
+                    break;
+                case 'ArrowLeft':
+                case 'Left':
+                    e.preventDefault();
+                    prevSlide();
+                    if (isPlaying && !isUserPaused) {
+                        clearInterval(autoplayInterval);
+                        autoplayInterval = setInterval(nextSlide, autoplayDelay);
+                    }
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    goToSlide(0);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    goToSlide(slides.length - 1);
+                    break;
+                case ' ': // Space toggles play/pause
+                case 'Spacebar':
+                    e.preventDefault();
+                    if (playPauseButton) {
+                        if (isPlaying) {
+                            isUserPaused = true;
+                            stopAutoplay();
+                        } else {
+                            isUserPaused = false;
+                            startAutoplay();
+                        }
+                    }
+                    break;
+                case 'Enter':
+                    // Enter also toggles play/pause when focused
+                    e.preventDefault();
+                    if (playPauseButton) {
+                        if (isPlaying) {
+                            isUserPaused = true;
+                            stopAutoplay();
+                        } else {
+                            isUserPaused = false;
+                            startAutoplay();
+                        }
+                    }
+                    break;
+                }
+            });
+
+        setTimeout(function() {
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                startAutoplay();
+            },
+            initialDelay);
     })();
 </script>
