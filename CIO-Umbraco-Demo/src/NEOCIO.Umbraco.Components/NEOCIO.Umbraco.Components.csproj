@@ -3,16 +3,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>  
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    
   </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageId>NEOCIO.Umbraco.Components</PackageId>
-    <Product>NEOCIO.Umbraco.Components</Product>
-    <Title>NEOCIO.Umbraco.Components</Title>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-  </PropertyGroup>
-
   <!-- Views are included by the Razor SDK for RCLs; explicit Content packaging caused duplicates -->
 
   <ItemGroup>
@@ -42,12 +35,4 @@
   <ItemGroup>
     <ProjectReference Include="..\NEOCIO.Umbraco.Core\NEOCIO.Umbraco.Core.csproj" />
   </ItemGroup>
-  
-
-  <ItemGroup>
-    <Folder Include="wwwroot\scripts\" />
-  </ItemGroup>
-
-
-
 </Project>

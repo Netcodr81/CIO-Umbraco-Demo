@@ -62,10 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\Downloads\NEOCIO.Umbraco.Components\NEOCIO.Umbraco.Components.csproj" />
-    <ProjectReference Include="..\..\..\..\..\..\Downloads\NEOCIO.Umbraco.Core\NEOCIO.Umbraco.Core.csproj" />
-    <ProjectReference Include="..\NEOCIO.Umbraco.Components\NEOCIO.Umbraco.Components.csproj" />
-    <ProjectReference Include="..\NEOCIO.Umbraco.Core\NEOCIO.Umbraco.Core.csproj" />
+    <ProjectReference Include="..\NEOCIO.Umbraco.Components\NEOCIO.Umbraco.Components.csproj" />    
   </ItemGroup>
 
 	<PropertyGroup>
