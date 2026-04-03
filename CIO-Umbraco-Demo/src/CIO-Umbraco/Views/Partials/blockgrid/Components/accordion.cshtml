@@ -2,12 +2,12 @@
 @inherits UmbracoViewPage<BlockGridItem<Accordion>>
 
 @{
-	if (Model?.Content is null)
-	{
-		return;
-	}
+    if (Model?.Content is null)
+    {
+        return;
+    }
 
-	var content = Model.Content;
+    var content = Model.Content;
 
     var theme = Umbraco.GetCurrentTheme();
 
@@ -45,19 +45,19 @@
             defaultIconBackgroundColor = "#B3314E";
             break;
     }
-	
 
-	// Generate unique ID prefix for this accordion instance
-	var uniqueId = Guid.NewGuid().ToString("N").Substring(0, 8);
 
-	var tabColor = content?.TabColor?.Color ??defaultTabColor;
+    // Generate unique ID prefix for this accordion instance
+    var uniqueId = Guid.NewGuid().ToString("N").Substring(0, 8);
+
+    var tabColor = content?.TabColor?.Color ?? defaultTabColor;
     var tabHoverColor = content?.TabHoverColor?.Color ?? defaultTabHoverColor;
     var titleColor = content?.TitleColor?.Color ?? defaultTitleColor;
     var contentColor = content?.ContentColor?.Color ?? defaultContentColor;
     var iconColor = content?.IconColor?.Color ?? defaultIconColor;
     var iconBackgroundColor = content?.IconBackgroundColor?.Color ?? defaultIconBackgroundColor;
 
-	var cssVariables = $@"
+    var cssVariables = $@"
 		--accordion-tab-color: {tabColor};
 		--accordion-tab-hover-color: {tabHoverColor};
 		--accordion-title-color: {titleColor};
@@ -67,7 +67,6 @@
 	";
 
     var blockClasses = Model.Settings.GenerateBlockSettingsClasses();
-   
 }
 
 @if (content.UseTabAccordion)
@@ -81,10 +80,10 @@
                 {
                     var tabId = $"tab-{uniqueId}-{i}";
                     var panelId = $"tabpanel-{uniqueId}-{i}";
-                    <button class="accordion-tabs__tab" 
-                            id="@tabId" 
-                            role="tab" 
-                            aria-selected="@(i == 0 ? "true" : "false")" 
+                    <button class="accordion-tabs__tab"
+                            id="@tabId"
+                            role="tab"
+                            aria-selected="@(i == 0 ? "true" : "false")"
                             aria-controls="@panelId"
                             tabindex="@(i == 0 ? "0" : "-1")"
                             type="button">
@@ -93,77 +92,91 @@
                 }
             }
         </div>
-    <script>
-        (function(){
-            document.addEventListener('DOMContentLoaded', function(){
-                try {
-                    var container = document.querySelector('[data-accordion-id="@uniqueId"]');
-                    if(!container) return;
+        <script>
+            (function() {
+                document.addEventListener('DOMContentLoaded',
+                    function() {
+                        try {
+                            var container = document.querySelector('[data-accordion-id="@uniqueId"]');
+                            if (!container) return;
 
-                    var statusEl = container.querySelector('#accordion-status-@uniqueId');
-                    var tabs = Array.prototype.slice.call(container.querySelectorAll('[role="tab"]'));
-                    var panels = Array.prototype.slice.call(container.querySelectorAll('[role="tabpanel"]'));
+                            var statusEl = container.querySelector('#accordion-status-@uniqueId');
+                            var tabs = Array.prototype.slice.call(container.querySelectorAll('[role="tab"]'));
+                            var panels = Array.prototype.slice.call(container.querySelectorAll('[role="tabpanel"]'));
 
-                    function focusFirstFocusable(el){
-                        if(!el) return false;
-                        var selector = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
-                        var first = el.querySelector(selector);
-                        if(first){ first.focus(); return true; }
-                        return false;
-                    }
-
-                    function activateTab(tab){
-                        tabs.forEach(function(t){ t.setAttribute('aria-selected','false'); t.tabIndex = -1; });
-                        panels.forEach(function(p){ p.hidden = true; p.classList.remove('tabs__panel--active'); p.setAttribute('aria-hidden','true'); });
-
-                        tab.setAttribute('aria-selected','true');
-                        tab.tabIndex = 0;
-
-                        var panelId = tab.getAttribute('aria-controls');
-                        var panel = document.getElementById(panelId);
-                        if(panel){
-                            panel.hidden = false;
-                            panel.classList.add('tabs__panel--active');
-                            panel.removeAttribute('aria-hidden');
-
-                            // Update live region
-                            if(statusEl){ statusEl.textContent = (tab.textContent || 'Tab') + ' selected.'; }
-
-                            // Move focus into the panel if there is a focusable element, else focus the panel itself
-                            if(!focusFirstFocusable(panel)){
-                                panel.setAttribute('tabindex','-1');
-                                panel.focus();
+                            function focusFirstFocusable(el) {
+                                if (!el) return false;
+                                var selector = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+                                var first = el.querySelector(selector);
+                                if (first) {
+                                    first.focus();
+                                    return true;
+                                }
+                                return false;
                             }
+
+                            function activateTab(tab) {
+                                tabs.forEach(function(t) {
+                                    t.setAttribute('aria-selected', 'false');
+                                    t.tabIndex = -1;
+                                });
+                                panels.forEach(function(p) {
+                                    p.hidden = true;
+                                    p.classList.remove('tabs__panel--active');
+                                    p.setAttribute('aria-hidden', 'true');
+                                });
+
+                                tab.setAttribute('aria-selected', 'true');
+                                tab.tabIndex = 0;
+
+                                var panelId = tab.getAttribute('aria-controls');
+                                var panel = document.getElementById(panelId);
+                                if (panel) {
+                                    panel.hidden = false;
+                                    panel.classList.add('tabs__panel--active');
+                                    panel.removeAttribute('aria-hidden');
+
+                                    // Update live region
+                                    if (statusEl) {
+                                        statusEl.textContent = (tab.textContent || 'Tab') + ' selected.';
+                                    }
+
+                                    // Move focus into the panel if there is a focusable element, else focus the panel itself
+                                    if (!focusFirstFocusable(panel)) {
+                                        panel.setAttribute('tabindex', '-1');
+                                        panel.focus();
+                                    }
+                                }
+                            }
+
+                            tabs.forEach(function(tab, index) {
+                                tab.addEventListener('click', function() { activateTab(tab); });
+                                tab.addEventListener('keydown',
+                                    function(e) {
+                                        var key = e.key;
+                                        if (key === 'ArrowRight' || key === 'Right') {
+                                            e.preventDefault();
+                                            var next = tabs[(index + 1) % tabs.length];
+                                            activateTab(next);
+                                        } else if (key === 'ArrowLeft' || key === 'Left') {
+                                            e.preventDefault();
+                                            var prev = tabs[(index - 1 + tabs.length) % tabs.length];
+                                            activateTab(prev);
+                                        } else if (key === 'Home') {
+                                            e.preventDefault();
+                                            activateTab(tabs[0]);
+                                        } else if (key === 'End') {
+                                            e.preventDefault();
+                                            activateTab(tabs[tabs.length - 1]);
+                                        }
+                                    });
+                            });
+                        } catch (err) {
+                            // silent
                         }
-                    }
-
-                    tabs.forEach(function(tab, index){
-                        tab.addEventListener('click', function(){ activateTab(tab); });
-                        tab.addEventListener('keydown', function(e){
-                            var key = e.key;
-                            if(key === 'ArrowRight' || key === 'Right'){
-                                e.preventDefault();
-                                var next = tabs[(index + 1) % tabs.length];
-                                activateTab(next);
-                            } else if(key === 'ArrowLeft' || key === 'Left'){
-                                e.preventDefault();
-                                var prev = tabs[(index - 1 + tabs.length) % tabs.length];
-                                activateTab(prev);
-                            } else if(key === 'Home'){
-                                e.preventDefault();
-                                activateTab(tabs[0]);
-                            } else if(key === 'End'){
-                                e.preventDefault();
-                                activateTab(tabs[tabs.length - 1]);
-                            }
-                        });
                     });
-                } catch (err) {
-                    // silent
-                }
-            });
-        })();
-    </script>
+            })();
+        </script>
 
         <div class="accordion-tabs__panels">
             @for (int i = 0; i < content.Items.Count; i++)
@@ -175,8 +188,8 @@
                     if (i == 0)
                     {
                         <div class="accordion-tabs__panel tabs__panel--active"
-                             id="@panelId" 
-                             role="tabpanel" 
+                             id="@panelId"
+                             role="tabpanel"
                              aria-labelledby="@tabId"
                              tabindex="0">
                             <div class="accordion-tabs__content">
@@ -187,8 +200,8 @@
                     else
                     {
                         <div class="accordion-tabs__panel"
-                             id="@panelId" 
-                             role="tabpanel" 
+                             id="@panelId"
+                             role="tabpanel"
                              aria-labelledby="@tabId"
                              tabindex="0" hidden>
                             <div class="accordion-tabs__content">
@@ -205,17 +218,17 @@ else
 {
     <div class="accordion__container @blockClasses" style="@cssVariables" data-accordion-id="@uniqueId">
         <div id="accordion-status-@uniqueId" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
-        @for(int i = 0; i < content?.Items?.Count; i++)
+        @for (int i = 0; i < content?.Items?.Count; i++)
         {
-            if(content.Items[i].Content is AccordionItem accordionItem)
+            if (content.Items[i].Content is AccordionItem accordionItem)
             {
                 var drawerId = $"drawer-{uniqueId}-{i}";
                 var buttonId = $"accordion-button-{uniqueId}-{i}";
                 <div class="accordion__item">
                     <h3 class="accordion__heading">
-                        <button class="accordion__toggle" 
-                                id="@buttonId" 
-                                aria-expanded="false" 
+                        <button class="accordion__toggle"
+                                id="@buttonId"
+                                aria-expanded="false"
                                 aria-controls="@drawerId"
                                 type="button">
                             <span class="accordion__icon" aria-hidden="true"></span>
@@ -223,7 +236,7 @@ else
                         </button>
                     </h3>
 
-                    <div class="accordion__drawer" id="@drawerId" aria-labelledby="@buttonId" hidden aria-hidden="true">
+                    <div class="accordion__drawer" id="@drawerId" aria-labelledby="@buttonId" aria-hidden="true">
                         <div class="accordion__content">
                             @accordionItem.DrawerContent
                         </div>
@@ -234,56 +247,69 @@ else
     </div>
 
     <script>
-        (function(){
-            // Scoped script for this accordion instance
-            document.addEventListener('DOMContentLoaded', function(){
-                try {
-                    var container = document.querySelector('[data-accordion-id="@uniqueId"]');
-                    if(!container) return;
+        (function() {
+            try {
+                // Find the closest accordion container relative to this script
+                const script = document.currentScript;
+                const container = script.closest('.accordion__container');
+                if (!container) return;
 
-                    var statusEl = container.querySelector('#accordion-status-@uniqueId');
+                const statusEl = container.querySelector('[id^="accordion-status-"]');
 
-                    // Handle toggle buttons
-                    var buttons = container.querySelectorAll('.accordion__toggle');
-                    buttons.forEach(function(btn){
-                        btn.addEventListener('click', function(e){
-                            var controls = btn.getAttribute('aria-controls');
-                            if(!controls) return;
-                            var panel = document.getElementById(controls);
-                            if(!panel) return;
+                container.addEventListener('click',
+                    function(e) {
+                        const btn = e.target.closest('.accordion__toggle');
+                        if (!btn || !container.contains(btn)) return;
 
-                            var expanded = btn.getAttribute('aria-expanded') === 'true';
-                            btn.setAttribute('aria-expanded', String(!expanded));
-                            if(expanded){
-                                panel.hidden = true;
-                                panel.setAttribute('aria-hidden', 'true');
-                                if(statusEl) statusEl.textContent = (btn.textContent || 'Section') + ' collapsed.';
-                            } else {
-                                panel.hidden = false;
-                                panel.removeAttribute('aria-hidden');
-                                if(statusEl) statusEl.textContent = (btn.textContent || 'Section') + ' expanded.';
+                        const controls = btn.getAttribute('aria-controls');
+                        if (!controls) return;
 
-                                // Move focus into the panel's first focusable element if present
-                                var selector = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
-                                var first = panel.querySelector(selector);
-                                if(first){ first.focus(); }
-                                else { panel.setAttribute('tabindex','-1'); panel.focus(); }
-                            }
+                        const panel = container.querySelector('#' + controls);
+                        if (!panel) return;
+
+                        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+                        // Close all
+                        container.querySelectorAll('.accordion__toggle').forEach(b => {
+                            b.setAttribute('aria-expanded', 'false');
                         });
 
-                        // Keyboard support: Enter/Space toggles
-                        btn.addEventListener('keydown', function(e){
-                            if(e.key === 'Enter' || e.key === ' '){
-                                e.preventDefault();
-                                btn.click();
-                            }
+                        container.querySelectorAll('.accordion__drawer').forEach(p => {
+                            p.classList.remove('is-open');
+                            p.setAttribute('aria-hidden', 'true');
                         });
+
+                        // Toggle current
+                        if (!isExpanded) {
+                            btn.setAttribute('aria-expanded', 'true');
+                            panel.classList.add('is-open');
+                            panel.setAttribute('aria-hidden', 'false');
+
+                            if (statusEl) {
+                                statusEl.textContent = (btn.textContent || 'Section') + ' expanded.';
+                            }
+                        } else {
+                            if (statusEl) {
+                                statusEl.textContent = (btn.textContent || 'Section') + ' collapsed.';
+                            }
+                        }
                     });
-                } catch(err){
-                    // fail silently
-                }
-            });
+
+                // Keyboard support (delegated)
+                container.addEventListener('keydown',
+                    function(e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            const btn = e.target.closest('.accordion__toggle');
+                            if (!btn) return;
+
+                            e.preventDefault();
+                            btn.click();
+                        }
+                    });
+
+            } catch (err) {
+                console.error('Accordion error:', err);
+            }
         })();
     </script>
 }
-
